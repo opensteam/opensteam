@@ -1,0 +1,37 @@
+<% render_headline 'categories_icon', 'Property Classes', 'content-header/headline_icon.jpg' %>
+<% render_header_buttons %>
+
+<div id="grid">
+  <table id="property_table">
+    <thead>
+      <tr>
+        <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
+        <th>Name</th>
+        <th>Entries</th>
+        <th class="last"><div>&nbsp;</div></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for property in @properties %>
+        <tr>
+          <td></td>
+          <td><%= property.classify %></td>
+          <td><%= property.classify.constantize.count %></td>
+          <td><%= link_to "Show Entries", property %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<% javascript_tag do %>
+  //Ext.onReady( function() {
+  var grid = new Ext.grid.TableGrid('property_table', {
+  stripeRows: true,
+  width:'100%;',
+  border:false,
+  height:'auto' } ) ;
+  grid.render() ;
+  //}) ;
+<% end %>

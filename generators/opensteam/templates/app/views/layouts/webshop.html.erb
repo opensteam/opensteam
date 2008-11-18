@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title><%%= controller.controller_name.humanize %> - <%%= controller.action_name.humanize %></title>
+    
+    <%%= javascript_include_tag :defaults %>
+    <%%= stylesheet_link_tag 'opensteam_white' %>
+          
+  </head>
+  <body>
+    <div id="top"></div>
+    <div id="page">
+      
+      <div id="header">
+        <%%= render :partial => 'common/header', :locals => { :top_link => shop_index_path } %>
+      </div>
+      
+      <div id="menu">
+        <%%= render :partial => "common/header_flash" %>
+        <%%= render :partial => '<%= file_name %>/nav' %>
+      </div>
+      
+      <div id="content_box">
+        
+        <div class="sub_content" id="sidebar">
+          <%%= yield(:store_sidebar) || "" %>
+        </div>
+        
+        <div class="sub_content" id="content">
+          <%%= yield %>
+        </div>
+        
+        <div class="sub_content" id="cart" style="float:right;">
+          <%%= render :partial => "carts/cart" unless controller.controller_name.match(/search/) %>
+          </div>
+        
+        
+        
+      </div>
+      
+    </div>
+    <div  style="display:none;" id="indicator_center_big"><%%= image_tag('indicator_big.gif') %></div>
+  </body>
+  
+</html>

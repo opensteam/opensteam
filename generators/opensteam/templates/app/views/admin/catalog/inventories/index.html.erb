@@ -1,0 +1,27 @@
+<h1>Listing inventories</h1>
+
+<table>
+  <tr>
+    <th>Price</th>
+    <th>Storage</th>
+    <th>Active</th>
+    <th>Description</th>
+    <th>Back ordered</th>
+  </tr>
+
+<% for inventory in @inventories %>
+  <tr>
+    <td><%=h inventory.price %></td>
+    <td><%=h inventory.storage %></td>
+    <td><%=h inventory.active %></td>
+    <td><%=h inventory.description %></td>
+    <td><%=h inventory.back_ordered %></td>
+    <td><%= link_to 'Show', admin_catalog_inventory_path( inventory ) %></td>
+    <td><%= link_to 'Edit', edit_admin_catalog_inventory_path(inventory) %></td>
+    <td><%= link_to 'Destroy', admin_catalog_inventory_path( inventory ), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

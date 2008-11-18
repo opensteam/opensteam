@@ -1,0 +1,116 @@
+body {
+	margin:0px 10px 0px 10px;
+	padding:0px;
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+h2{
+	color:#6C8F3F;
+	font-size:0.8em;
+	background:white;
+}
+
+p{
+	font-size:0.7em;
+}
+
+a,a:hover,a:link{
+	color:#6C8F3F;
+	text-decoration:underline;
+	font-weight:bold;
+	background:white;
+}
+
+pre {
+	background:#f4f4f4;
+	color:black;
+	border:1px solid #ccc;
+	text-align:left;
+}
+
+ul li{
+	font-size:0.7em;
+	list-style-type:circle;
+}
+
+img{
+	border:0px;
+}
+#header{
+	height:62px;
+	background:url(../images/title.png) no-repeat;
+}
+p.validator{
+	float:left;
+}
+div#redirector{
+	position:absolute;
+	top:0px;
+	right:10px;
+	width:150px;
+}
+
+div#menu{
+	position:absolute;
+	top:0px;
+	width:400px;
+	height:30px;
+	left:50%;
+	margin-left:-200px;
+	background:url(../images/bg_menu.png) no-repeat left top;
+}
+
+div#menu ul{
+	margin:0px 0px 0px 20px;
+	padding:0px;
+}
+
+div#menu ul li{
+	display:inline;
+	list-style-type:none;
+	color:#666;
+	margin-right:3px;
+}
+
+div#menu ul li a, div#menu ul li a:visited{
+	font-weight:normal;
+	font-size:10px;
+	text-decoration:none;
+	background:none;
+}
+
+div#menu ul li a:hover{
+	text-decoration:underline;
+	font-weight:normal;
+	font-size:10px;
+}
+
+div#menu ul li a:hover{
+	text-decoration:underline;
+}
+
+table {
+	font-size:12px;
+}
+table thead td {
+	border: 1px solid #DDDDDD;
+	background-color: #EEEEEE;
+}
+table td {
+	padding: 0px;
+	vertical-align: top;
+	border: 1px solid #DDDDDD;
+	padding:0px 5px 0px 5px;
+}
+#footer{
+	font-size:0.7em;
+	color:black;
+	text-align:center;
+	background:#f4f4f4;
+	width:200px;
+	border:1px solid #ccc;
+}
+
+#footer img{
+	margin:2px;
+}

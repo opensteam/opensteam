@@ -1,0 +1,17 @@
+<h1>New inventory</h1>
+
+<%= error_messages_for :inventory %>
+
+<% form_for([:admin, @inventory]) do |f| %>
+  <%= render :partial => "admin/catalog/inventories/attribtues", :locals => { :f => f } %>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+
+<%= link_to 'Back', [:admin, @inventory.product ] %> |
+<%= link_to 'Inventory Index', admin_inventories_path %>
+
+
+

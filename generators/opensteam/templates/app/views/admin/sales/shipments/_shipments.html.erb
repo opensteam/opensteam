@@ -1,0 +1,29 @@
+<table id="shipment_table"  >
+  <thead>
+    <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
+    <th><div>ID#</div></th>
+    <th><div>Items</div></th>
+    <th><div>Address</div></th>
+    <th><div>State</div></th>
+    <th><div>Price</div></th>
+    <th><div>Comment</div></th>
+    <th><div>Created At</div></th>
+    <th><div>Updated At</div></th>
+    <th class="last not-in-context no-menu"><div>&nbsp;</div></th>
+  </thead>
+  <tbody id="orders_table_body">
+    <%= render :partial => "admin/sales/shipments/shipment", :collection => shipments %>
+  </tbody>
+</table>
+
+
+<% javascript_tag do %>
+  //Ext.onReady( function() {
+  var grid = new Ext.grid.TableGrid('shipment_table', {
+    stripeRows: true,
+    width:'100%;',
+    border:false,
+    height:'auto' } ) ;
+  grid.render() ;
+  //}) ;
+<% end %>

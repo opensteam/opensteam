@@ -1,0 +1,45 @@
+<%= error_messages_for :order %>
+<%= error_messages_for :customer %>
+
+
+<% form_for :order, @order, :url => { :action => :create }, :html => { :id => "order", :method => :post } do |f| %>
+
+  <div id="customer">
+    <%= render :partial => "customer", :object => @customer, :locals => { :f => f } %>
+  </div>
+
+  <div class="addresses">
+    <h3>Addresses</h3>
+    <div id="shipping">
+      <%= error_messages_for :shipping_address, :object => @order.shipping_address %>
+      <%= render :partial => "address", :locals => { :type => :shipping, :f => f } %>
+    </div>
+    <%= check_box_tag :same_as_shipping %><%= label_tag :same_as_shipping, "Same as Shipping Address?" %>
+    <div id="payment">
+      <%= error_messages_for :payment_address, :object => @order.payment_address %>
+      <%= render :partial => "address", :locals => { :type => :payment, :f => f } %>
+    </div>
+
+    <h3>Payment Method</h3>
+    <%= payment_types_radio_buttons f %>
+    <div id="payment_type">
+      <%- if @order.payment_type -%>
+        <%= render :partial => "payment/#{@order.payment_type}_payment", :object => @payment %>
+      <%- end -%>
+    </div>
+
+    <h3>Shipping Metthod</h3>
+
+    <div id="shipping_types_buttons">
+      <%= render :partial => "shipping_buttons", :object => @order,
+        :locals => { :f => f, :payment_type => nil, :country => Opensteam::Config[:default_country] } %>
+    </div>
+
+    <div id="shipping_types">
+    </div>
+
+  </div>
+
+  <%= submit_tag "Continue"  %>
+
+<% end %>

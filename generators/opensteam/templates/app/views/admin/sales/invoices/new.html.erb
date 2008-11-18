@@ -1,0 +1,24 @@
+<% admin_sidebar_links do %>
+  <%= admin_sidebar_link "Show Order", admin_sales_order_path( @order ) %>
+  <%= admin_sidebar_link "Show Order Shipments", admin_sales_order_shipments_path %>
+  <%= admin_sidebar_link "Show Order Invoices", admin_sales_order_invoices_path %>
+<% end %>
+
+<h2>New Invoice</h2>
+
+<%= error_messages_for :invoice %>
+<%= error_messages_for :address %>
+
+<% form_for :invoice, @invoice, :url => { :action => 'create', :controller => 'invoices' },
+  :html => { :id => "new_invoice", :method => 'post' } do |f| %>
+  <%= f.hidden_field :order_id  %>
+
+  <%= render :partial => "admin/sales/invoices/invoice_fields", :object => f %>
+
+  <%= submit_tag "save" %>
+<% end %>
+
+
+<%= observe_form :new_invoice,
+  :url => { :action => :update_price }
+%>

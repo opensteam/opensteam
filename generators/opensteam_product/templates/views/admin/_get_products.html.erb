@@ -1,0 +1,8 @@
+<%% @products.each_pair do |k,v| %>
+	<u><%%= k %></u><br />
+	<%% for product in v %>
+		<%%= product.name %> :
+		<%%= check_box_tag "<%= file_name %>[set_products][#{product.class.to_s}][#{product.id}]",1,
+		 @<%= file_name %>.products.include?( product ) %><br />
+	<%% end %>
+<%% end %>

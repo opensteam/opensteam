@@ -1,0 +1,11 @@
+<tr class="<%= cycle('odd','even') %>">
+  <td></td>
+  <td><%=h tax_group.id %></td>
+  <td><%=h tax_group.name %></td>
+  <td><%=h tax_group.inventories.size %></td>
+  <td><%=h tax_group.tax_zones.size %></td>
+  <td><%=h ordinalized_time( tax_group.created_at) %></td>
+  <td><%=h ordinalized_time( tax_group.updated_at ) %></td>
+  <td><%= link_to "edit", edit_admin_config_tax_group_path( tax_group ) %></td>
+  <td><%= link_to "del", admin_config_tax_group_path( tax_group ), :method => :delete, :confirm => "Are your sure?" %>
+</tr>

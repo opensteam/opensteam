@@ -1,0 +1,16 @@
+Hello <%= @order.customer.full_name %> ...
+<h2>Order #<%= @order.id %></h2>
+<br />
+<p>
+  <b>CreatedAt</b>: <%=h @order.created_at %><br />
+  <b>UpdatedAt</b>: <%=h @order.updated_at %>
+</p>
+<h3>Shipping Address</h3>
+<%= render :partial => "admin/system/users/address", :object => @order.shipping_address %>
+<br />
+<h3>Payment Address</h3>
+<%= render :partial => "admin/system/users/address", :object => @order.payment_address %>
+<br />
+<br />
+<h3>Order Items</h3>
+<%= render :partial => "admin/sales/order_items/items_table", :object => @order %>

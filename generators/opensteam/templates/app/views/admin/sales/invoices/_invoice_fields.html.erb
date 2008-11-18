@@ -1,0 +1,52 @@
+<% f = invoice_fields %>
+<% fields_for :address, @invoice.address do |a| %>
+  <% field_set_tag do %>
+    <p>
+      <%= a.label :street %>
+      <%= a.text_field :street %>
+    </p>
+    <p>
+      <%= a.label :postal %>
+      <%= a.text_field :postal %>
+    </p>
+    <p>
+      <%= a.label :city %>
+      <%= a.text_field :city %>
+    </p>
+    <p>
+      <%= a.label :country %>
+      <%= a.text_field :country %>
+    </p>
+  <% end %>
+<% end %>
+
+<% field_set_tag do %>
+  <p>
+    <%= f.label :comment %>
+    <%= f.text_area :comment, :rows => 5%>
+  </p>
+  <p>
+    <%= f.label :discount %>
+    <%= f.text_field :discount %>
+  </p>
+  <p>
+    <%= f.label :price %>
+    <%= f.text_field :price %> 
+  </p>
+<% end %>
+<p>Select Order Items
+  <ul>
+    <% for oi in @order.items.select { |s| s.invoice == nil } %>
+      <li>
+        <%= check_box_tag "order_items[]", oi.id %>
+        <%= label_tag "order_items[]", oi.product.name + " (#{oi.product.class})" %>
+        <%- unless oi.properties.empty? -%> | <b>Configuration:</b> <%=h oi.properties.collect(&:name).join(",") %><%- end -%>
+        | <%=h oi.quantity %> | <%=h oi.quantity * oi.price %>
+      </li>
+    <% end %>
+    <li>
+      <%= check_box_tag "shipping_rate", 1 %> <%= label_tag "shipping_rate", "Shipping Rate: #{@order.shipping_rate}" %>
+    </li>
+  </ul>		
+</p>
+<%# end %>

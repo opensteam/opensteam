@@ -1,0 +1,19 @@
+<h1>Editing <%= class_name %></h1>
+
+<%%= error_messages_for :<%= singular_name %> %>
+
+<%% form_for([:admin, :catalog, @<%= singular_name %>]) do |f| %>
+<% for attribute in attributes -%>
+  <p>
+    <b><%= attribute.column.human_name %></b><br />
+    <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
+  </p>
+
+<% end -%>
+  <p>
+    <%%= f.submit "Update" %>
+  </p>
+<%% end %>
+
+<%%= link_to 'Show', [:admin, :catalog, @<%= singular_name %>] %> |
+<%%= link_to 'Back', admin_catalog_<%= plural_name %>_path %>

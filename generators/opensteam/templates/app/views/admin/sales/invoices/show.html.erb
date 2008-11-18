@@ -1,0 +1,27 @@
+<% admin_sidebar_links do %>
+  <%= admin_sidebar_link "Show Order", admin_sales_order_path( @order ) %>
+  <%= admin_sidebar_link "Show Order Shipments", admin_sales_order_shipments_path %>
+  <%= admin_sidebar_link "Show Order Invoices", admin_sales_order_invoices_path %>
+<% end %>
+
+<h2>Invoice # <%= @invoice.id %></h2>
+<div id="invoice_information">
+  <p>
+    <b>CreatedAt</b>: <%=h @invoice.created_at %><br />
+    <b>UpdatedAt</b>: <%=h @invoice.updated_at %>
+  </p>
+  <p>
+    <b>Comment</b>: <%=h @invoice.comment %>
+  </p>
+  <p>
+    <b>Amount:</b> <%=h @invoice.price %>
+  </p>
+</div>
+<div id="billing_information">
+  <h3>Address</h3>
+  <%= render :partial => "admin/system/users/address", :object => @invoice.address %>
+</div>
+<div id="invoice_order_items">
+  <h3>Order Items</h3>
+  <%= render :partial => "admin/sales/order_items/items_table", :object => @invoice %>
+</div>

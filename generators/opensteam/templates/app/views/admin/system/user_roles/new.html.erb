@@ -1,0 +1,16 @@
+<% render_headline 'categories_icon', "New User Role", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons "Create", :form_id => 'user_role_form' %>
+
+
+<% form_for :user_role, :url => [ :admin, :system, @user_role ], :html => { :id => 'user_role_form' } do |f| %>
+  <% field_set_tag do %>
+    <p>
+      <%= f.label :name %>
+      <%= f.text_field :name, :class => "inputFields" %>
+    </p>
+  <% end %>
+
+  <%= submit_tag "Save" %>
+
+<% end %>
+

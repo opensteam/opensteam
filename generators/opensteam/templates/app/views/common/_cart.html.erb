@@ -1,0 +1,11 @@
+<b>shopping - cart ... </b>
+<br />
+<br />
+<div id="cart_content">
+<%= render :partial => "common/cart_content" %>
+</div>
+
+<% if ! @cart.items.empty?  %>
+<%= button_to "checkout" , { :action => :start_checkout }, :confirm => "checkout?" %>
+<%= button_to "empty cart" , { :controller => 'cart', :action => :empty_cart }, :confirm => "empty cart?" %>
+<% end %>

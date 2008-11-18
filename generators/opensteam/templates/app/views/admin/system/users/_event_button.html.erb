@@ -1,0 +1,3 @@
+<% form_for :user, :url => send_event_admin_system_user_path( user, :event => event_button.to_s ), :html => { :class => "grid", :method => :put } do |f| %>
+    <%= image_submit_tag( AdminHelper.user_event_images[event_button], :title => event_button.to_s.humanize ) %>
+<%- end -%>

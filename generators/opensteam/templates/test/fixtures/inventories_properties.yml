@@ -1,0 +1,127 @@
+--- 
+inventories_property_00033: 
+  updated_at: 2008-05-23 12:44:44 +02:00
+  inventory_id: 42
+  property_type: 
+  property_id: 7
+  id: 33
+  created_at: 2008-05-23 12:44:44 +02:00
+inventories_property_00044: 
+  updated_at: 2008-05-23 12:44:45 +02:00
+  inventory_id: 48
+  property_type: 
+  property_id: 5
+  id: 44
+  created_at: 2008-05-23 12:44:45 +02:00
+inventories_property_00045: 
+  updated_at: 2008-05-23 12:44:45 +02:00
+  inventory_id: 48
+  property_type: 
+  property_id: 7
+  id: 45
+  created_at: 2008-05-23 12:44:45 +02:00
+inventories_property_00034: 
+  updated_at: 2008-05-23 12:44:44 +02:00
+  inventory_id: 43
+  property_type: 
+  property_id: 3
+  id: 34
+  created_at: 2008-05-23 12:44:44 +02:00
+inventories_property_00035: 
+  updated_at: 2008-05-23 12:44:44 +02:00
+  inventory_id: 43
+  property_type: 
+  property_id: 8
+  id: 35
+  created_at: 2008-05-23 12:44:44 +02:00
+inventories_property_00046: 
+  updated_at: 2008-05-23 12:44:45 +02:00
+  inventory_id: 49
+  property_type: 
+  property_id: 5
+  id: 46
+  created_at: 2008-05-23 12:44:45 +02:00
+inventories_property_00047: 
+  updated_at: 2008-05-23 12:44:45 +02:00
+  inventory_id: 49
+  property_type: 
+  property_id: 8
+  id: 47
+  created_at: 2008-05-23 12:44:45 +02:00
+inventories_property_00036: 
+  updated_at: 2008-05-23 12:44:45 +02:00
+  inventory_id: 44
+  property_type: 
+  property_id: 4
+  id: 36
+  created_at: 2008-05-23 12:44:45 +02:00
+inventories_property_00037: 
+  updated_at: 2008-05-23 12:44:45 +02:00
+  inventory_id: 44
+  property_type: 
+  property_id: 6
+  id: 37
+  created_at: 2008-05-23 12:44:45 +02:00
+inventories_property_00038: 
+  updated_at: 2008-05-23 12:44:45 +02:00
+  inventory_id: 45
+  property_type: 
+  property_id: 4
+  id: 38
+  created_at: 2008-05-23 12:44:45 +02:00
+inventories_property_00039: 
+  updated_at: 2008-05-23 12:44:45 +02:00
+  inventory_id: 45
+  property_type: 
+  property_id: 7
+  id: 39
+  created_at: 2008-05-23 12:44:45 +02:00
+inventories_property_00040: 
+  updated_at: 2008-05-23 12:44:45 +02:00
+  inventory_id: 46
+  property_type: 
+  property_id: 4
+  id: 40
+  created_at: 2008-05-23 12:44:45 +02:00
+inventories_property_00041: 
+  updated_at: 2008-05-23 12:44:45 +02:00
+  inventory_id: 46
+  property_type: 
+  property_id: 8
+  id: 41
+  created_at: 2008-05-23 12:44:45 +02:00
+inventories_property_00030: 
+  updated_at: 2008-05-23 12:44:44 +02:00
+  inventory_id: 41
+  property_type: 
+  property_id: 3
+  id: 30
+  created_at: 2008-05-23 12:44:44 +02:00
+inventories_property_00031: 
+  updated_at: 2008-05-23 12:44:44 +02:00
+  inventory_id: 41
+  property_type: 
+  property_id: 6
+  id: 31
+  created_at: 2008-05-23 12:44:44 +02:00
+inventories_property_00042: 
+  updated_at: 2008-05-23 12:44:45 +02:00
+  inventory_id: 47
+  property_type: 
+  property_id: 5
+  id: 42
+  created_at: 2008-05-23 12:44:45 +02:00
+inventories_property_00043: 
+  updated_at: 2008-05-23 12:44:45 +02:00
+  inventory_id: 47
+  property_type: 
+  property_id: 6
+  id: 43
+  created_at: 2008-05-23 12:44:45 +02:00
+inventories_property_00032: 
+  updated_at: 2008-05-23 12:44:44 +02:00
+  inventory_id: 42
+  property_type: 
+  property_id: 3
+  id: 32
+  created_at: 2008-05-23 12:44:44 +02:00

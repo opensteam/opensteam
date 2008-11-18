@@ -1,0 +1,16 @@
+<% field_set_tag do %>
+  <p>
+    <%= f.label :country %>
+    <%= f.select :country, @countries.sort, :include_blank => "choose a country" %>
+  </p>
+  <p>
+    <%= f.label :state %>
+    <%= f.text_field :state, :class => "inputFields" %>
+  </p>
+  <p>
+    <%= f.label :rate %>  
+    <%= f.text_field :rate, :class => "inputFields" %>
+  </p>
+<% end %>
+
+<%= submit_tag button %>

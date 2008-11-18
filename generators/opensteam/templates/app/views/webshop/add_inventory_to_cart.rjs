@@ -1,0 +1,2 @@
+page.replace_html :cart, :partial => "common/cart", :object => @cart
+page.replace_html :header, :partial => "common/header"

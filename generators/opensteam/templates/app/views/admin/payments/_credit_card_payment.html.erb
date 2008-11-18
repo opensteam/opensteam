@@ -1,0 +1,26 @@
+<% payment = credit_card_payment %>
+<p>
+  <b><u>Type:</u></b> <%= payment.class.display_name %>
+</p>
+<p>
+  <b>State:</b> <%=h payment.state %><br />
+  <b>Test?:</b> <%=h payment.test %><br />
+  <b>Amount:</b> <%=h payment.amount %><br />
+  <b>Description:</b> <%=h payment.description %><br />
+  <b>Message</b> <%=h payment.message %><br />
+</p>
+<h4>CreditCard</h4>
+<b>Number:</b> <%= payment.data[:number] %><br />
+<b>Name: </b> <%= payment.data[:first_name] %> <%= payment.data[:last_name] %><br />
+
+<ul>
+  <% for transaction in payment.transactions %>
+    <li><b><u><%= transaction.action %></u></b><br />
+      <b>Amount:</b> <%= transaction.amount %><br />
+      <b>Success:</b> <%= transaction.success %><br />
+      <b>Test:</b> <%= transaction.test %><br />
+      <b>Message:</b> <%= transaction.message %><br />
+      <b>Reference:</b> <%= transaction.reference %><br />
+    </li>
+  <% end %>
+</ul>

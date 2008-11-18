@@ -1,0 +1,3 @@
+page.replace_html :cart, :partial => "carts/cart"
+page.replace_html :header, :partial => "common/header"
+page.select("#cart_item_#{@cart.index(@cart.find_item(@inventory))}").each { |e| e.visual_effect :highlight, :duration => 1, :startcolor => '#cccccc' }

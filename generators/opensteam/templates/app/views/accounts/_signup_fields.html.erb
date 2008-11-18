@@ -1,0 +1,21 @@
+<% form_for :user, :url => account_path do |f| -%>
+  <% field_set_tag do %>
+    <p>
+      <%= f.label :login %>
+      <%= f.text_field :login %>
+    </p>
+    <p>
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+    </p>
+    <p>
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+    </p>
+    <p>
+      <%= f.label :password_confirmation, 'Confirm Password' %>
+      <%= f.password_field :password_confirmation %>
+    </p>
+  <% end %>
+  <p><%= submit_tag 'Sign up' %></p>
+<% end %>

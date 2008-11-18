@@ -1,0 +1,8 @@
+<%% if attr_product_counter.modulo(2) == 0 %></tr><tr> <%% end %>
+<td class="prodtd<%%= attr_product_counter.modulo 4%>">
+<%% f.fields_for "products#{attr_product_counter}", attr_product do |prop| %>
+	<%%= render 	:partial => "#{attr_product.class.to_s.demodulize.tableize}/details",
+							:locals => { "#{attr_product.class.to_s.demodulize.downcase}" => attr_product,
+			 				:f => prop  } %>		
+<%% end %>
+</td>

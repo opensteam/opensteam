@@ -1,0 +1,19 @@
+<% form_tag :action => :update_quantity  do %>
+  <% @cart.items.each_with_index do |i,k| %>
+    <div class="cart_item" id="cart_item_<%=h k %>">
+      <%= i.product.class.to_s %> <%= link_to i.product.name, show_cart_item_path(k) %> : <%=h i.quantity -%>
+      <%= text_field_tag "quantity[#{k}]", i.quantity.to_s, :id => "quantity", :size => 5 -%>
+      <%= link_to_remote image_tag( "/images/plus.png", :border => "0" ), :url => { :action => :incr_quantity, :id => k, :type => i.product.class.to_s } -%>
+      <%= link_to_remote image_tag( "/images/minus.png", :border => "0"), :url => { :action => :decr_quantity, :id => k, :type => i.product.class.to_s } -%>
+      <%= link_to_remote image_tag( "/images/cancel.png", :border => "0"), :url => { :action => :del_item, :id => k, :type => i.product.class.to_s } %>
+      <br />
+    </div>
+  <% end %>
+  <% if ! @cart.items.empty? %>
+    <%= submit_tag "update" %> <br /> <br />
+    ------
+    <br />
+    <b>Total Price</b>: <%=h @cart.total_price %>
+  <% end %>
+<% end %>
+

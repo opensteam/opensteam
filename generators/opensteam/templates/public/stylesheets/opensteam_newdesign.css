@@ -1,0 +1,188 @@
+body {
+    background-image:url(../images/opensteam_background.jpg) ;
+    background-repeat: repeat-x ;
+    background-color: #ffffff ;
+    
+    font-family:Verdana, Arial ;
+    font-size:9pt ;
+    
+}
+
+#header {
+    margin-left:100px ;
+}
+
+#page {
+    margin-top:120px ;
+    margin-left:100px ;
+    margin-right:100px ;
+    
+}
+
+
+#logo_top {
+    float:left ;
+    margin-top:40px ;
+}
+
+#menu {
+    background-image:url(../images/menu_background.jpg) ;
+    background-repeat: repeat-x ;
+    background-color: #be0a1b ;
+    height:60px ;
+    padding-left:70% ;
+    
+}
+
+#menu a {
+    color: white ;
+    text-decoration:none ;
+    padding-top:20px ;
+    display:block ;
+    height:40px ;
+    float:left ;
+    margin-right:10px ;
+}
+
+#menu a:hover {
+    color: white ;
+    text-decoration:none ;
+    display:block ;
+    float:left ;
+    margin-right:10px ;
+    background-color:#C94753 ;
+    background-image:none ;
+}
+
+
+#menu_sub {
+    background-image:url(../images/athmo_background.jpg ) ;
+    background-repeat: repeat-x ;
+    background-color: #000000  ;
+    padding-left:70% ;
+}
+
+
+#menu_sub a {
+    color: white ;
+    text-decoration:none ;
+}
+
+
+#menu_sub a:hover {
+    color: white ;
+    text-decoration:none ;
+    background-color: #555555 ;
+}
+
+
+.content {
+    padding:1em ;
+    background-color: #fff ;
+}
+#box1 {
+    float:left ;
+    width:50%;
+}
+
+#box2 {
+    border-left: 1px solid #353535 ;
+    float:left ;
+}
+
+.header_element {
+    margin-top:-4px ;
+    background-color:#be0a1b ;
+    margin-left:50%;
+}
+
+#search_bar {
+    height:30px ;
+    padding-left:5px ;
+    width:180px ;
+    
+    float:clear; 
+    
+    -moz-border-radius-bottomleft: 6px ;
+    -moz-border-radius-bottomright: 6px ;
+}
+
+
+.listing_1_odd {
+    background-color:#eee ;
+}
+
+.listing_1_even {
+    background-color:#fff ;
+}
+
+
+table.order_table {
+    font-size:8pt;
+    border-collapse: collapse ;
+    border: 1px solid white ;
+    padding-left:5px;
+    padding-right:5px;
+}
+
+table.order_table th {
+    background-color:#ccc ;
+    border-left:1px solid black ;
+    padding-left:5px;
+    padding-right:5px;
+    
+}
+
+
+table.order_table td {
+    border-left:1px solid black ;
+    padding-left:5px;
+    padding-right:5px;
+    
+    
+}
+
+tr.order_row1 {
+    background-color:#eee;
+}
+
+
+
+.fieldWithErrors {
+    padding: 2px;
+    background-color: red;
+    display: table;
+}
+
+#errorExplanation {
+    width: 400px;
+    border: 2px solid red;
+    padding: 7px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    background-color: #c00;
+    color: #fff;
+}
+
+#errorExplanation p {
+    color: #333;
+    margin-bottom: 0;
+    padding: 5px;
+}
+
+#errorExplanation ul li {
+    font-size: 12px;
+    list-style: square;
+}
+
+
+

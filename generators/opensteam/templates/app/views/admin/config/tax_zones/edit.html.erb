@@ -1,0 +1,21 @@
+<% content_for( :headline ) do %>
+  <%= image_tag('content-header/headline_icon.jpg', :alt => '', :id => "orders_headline_link" )%>Edit Tax Zone
+  <%= draggable_element :orders_headline_link, :revert => true, :ghosting => true %>
+<% end %>
+
+<% content_for( :content_header_buttons ) do %>
+    <%= link_to "<span>#{image_tag('content-header/icon_sun.gif')} Add to quicksteam</span>", '#' %>
+    <%= link_to "<span>#{image_tag('content-header/icon_print.gif')} Print page</span>", '#' %>
+    <%= link_to_function "<span>Save</span>", "$('tax_zone_form').submit();", 'class' => 'add-button' %>
+<% end %>
+
+<%= error_messages_for :tax_zone %>
+
+
+<% form_for :tax_zone, @tax_zone, :url => { :action => 'update' }, :html => { :method => :put, :id => "tax_zone_form" } do |f| %>
+
+  <%= render :partial => "attributes", :locals => { :f => f, :button => "update", :countries => @countries} %>
+
+<% end %>
+
+<%= link_to "Back", admin_config_tax_zone_path( @tax_zone )  %>

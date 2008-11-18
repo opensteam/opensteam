@@ -1,0 +1,29 @@
+<table>
+  <tr>
+    <th>#</th>
+    <th>Configuration</th>
+    <th>Active</th>
+    <th>Price</th>
+    <th>Storage</th>
+    <th>BackOrdered</th>
+    <th>Tax Group</th>
+  </tr>
+  <% for inventory in @inventories %>
+    <tr>
+      <td><%=h inventory.id %></td>
+      <td><%=h inventory.properties.sort.collect(&:name) %></td>
+      <td><%=h inventory.active == 0 ? "false" : "true" %></td>
+      <td><%=h inventory.price %></td>
+      <td><%=h inventory.storage %></td>
+      <td><%=h inventory.back_ordered == 0 ? "false" : "true" %></td>
+      <td><%=h inventory.tax_group ? inventory.tax_group.name : '' %></td>
+    
+      <td><%= link_to "show inventory", admin_catalog_inventory_path( inventory) %></td>
+      <td><%= link_to "edit inventory", edit_admin_catalog_inventory_path( inventory ) %></td>
+    </tr>
+  <% end %>
+</table>
+<br />
+<br />
+
+

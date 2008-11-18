@@ -1,0 +1,38 @@
+<% prefix = filter_fields.new_record? ? "new_filter" : "existing_filter" %>
+
+<% fields_for "filter[#{prefix}][]", filter_fields do |ff| %>
+
+  <tr style="position:relative;" class="filter_row" >
+    <td class="rowCount">
+      <strong>
+        <%#= debug( filter_fields )  %>
+        <%= ff.hidden_field :id %>
+      </strong>
+    </td>
+    <td class="filter_key" style="width:50px;">
+      <%= ff.select :key, User.filtered_keys, { :class => "autocomplete_class" } %>
+      <%#= filter.select :key, "User".classify.constantize.filtered_keys.collect(&:to_s) , { :class => "autocomplete_class" } %>
+      <script type="text/javascript" language="JavaScript">
+        var e = $$('#dvFilterTableMainBody > tr').last() ;
+        transformComboBox( e.select('.filter_key select')[0], 200 ) ;
+      </script>
+    </td>
+    <td class="filter_op" >
+      <%= ff.select :op, ["LIKE", "=", ">", "<", "!=" ] %>
+      <script type="text/javascript" language="JavaScript">
+        var e = $$('#dvFilterTableMainBody > tr').last() ;
+        transformComboBox( e.select('.filter_op select')[0], 100 ) ;
+      </script>
+    </td>
+    <td>
+      <%= ff.text_field :val, :size => 20, :class => "inputFields filterInput" %>
+    </td>
+    <td class="tdFilterLast">
+      <div class="dv-small-button">
+        <%= link_to_function "DELETE", "$(this).up('tr').fade( { duration: 0.5, afterFinish: remove_filter } )" %>
+      </div>
+    </td>
+
+  </tr>
+
+<% end %>

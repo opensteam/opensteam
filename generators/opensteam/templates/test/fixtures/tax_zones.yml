@@ -1,0 +1,33 @@
+--- 
+tax_zone_00006: 
+  postal: "*"
+  updated_at: 2008-08-26 11:01:01 Z
+  rate: 20.0
+  country: Austria
+  id: 6
+  state: "*"
+  created_at: 2008-08-26 11:01:01 Z
+tax_zone_00007: 
+  postal: "*"
+  updated_at: 2008-08-26 11:01:12 Z
+  rate: 19.0
+  country: Germany
+  id: 7
+  state: "*"
+  created_at: 2008-08-26 11:01:12 Z
+tax_zone_00008: 
+  postal: "*"
+  updated_at: 2008-08-26 11:01:45 Z
+  rate: 7.0
+  country: Germany
+  id: 8
+  state: "*"
+  created_at: 2008-08-26 11:01:45 Z
+tax_zone_00009: 
+  postal: "*"
+  updated_at: 2008-08-26 11:02:16 Z
+  rate: 10.0
+  country: Austria
+  id: 9
+  state: "*"
+  created_at: 2008-08-26 11:02:16 Z

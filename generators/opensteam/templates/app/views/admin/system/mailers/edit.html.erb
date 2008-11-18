@@ -1,0 +1,23 @@
+<% render_headline 'categories_icon', 'Edit Mailer Config', 'content-header/headline_icon.jpg' %>
+<% render_header_buttons "Save", :form_id => 'mailer_form' %>
+
+
+
+<% form_for :mailer, :url => admin_system_mailer_path( @mailer ), :html => { :id => 'mailer_form', :method => :put } do |f| %>
+  <% field_set_tag do %>
+    <p>
+      <%= f.label :mailer_class %>
+	  <%= f.text_field :mailer_class, :disabled => true %>
+    </p>
+    <p>
+      <%= f.label :mailer_method %>
+      <%= f.text_field :mailer_method, :disabled => true %>
+    </p>
+    <p>
+      <%= f.label :active %>
+      <%= f.check_box :active %>
+    </p>
+  <% end %>
+  <%= submit_tag "SAVE" %>
+<% end %>
+

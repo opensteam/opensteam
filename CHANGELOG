@@ -1,0 +1,247 @@
+*EDGE*
+
+* removed "checkout as guest" method from checkout_controller.rb. Didn't work with new User-Model and user-roles. Customer must be logged_in or register to check out. Implement guest-checkout later. (special logic for User-Model)
+
+* now using the "echoe" gem to create packages. Updated Rakefile. Added Manifest.
+
+* heavy refactoring of generated rails application (generators/opensteam/templates)
+
+* renamed 'profile' namespace/routes to 'account' (Controller + Views + Routes)
+
+* moved user login/signup to account controller
+
+* updated test cases for new rails app
+
+* updated restful_authentication plugin (http://github.com/technoweenie/restful-authentication/tree/master)
+
+* added role_requirement plugin (http://github.com/timcharper/role_requirement/tree/master)
+
+* added aasm plugin (used for authentication state machine) (http://github.com/rubyist/aasm/tree/master)
+
+* updated generators not to "m.template" files in vendor/plugins. Just copy them.
+
+* moved opensteam specific models into own namespace Opensteam::Models. Meant to be a replacement for actual model in rails-application
+
+* updated docu
+
+* added timestamp of InitOpensteamConfig migration file. must be the last migration file.
+
+* added "include RoleRequirementSystem' to application.rb (opensteam_generator.rb)
+
+* added rspec test-cases and stories (rake spec)
+
+* added Admin::Mailer::OrderMailer (order_confirmation, order_paymetn_confirmationm, order_shipment_confirmation)
+
+* added Admin::System::Mailer, Model to configure Mailer (activate/deactivate)
+
+* added Admin::System::Mailer Views + Controller
+
+* added opensteam_extensions (included alias_method_chain for ActionMailer::Base#deliver!, to check if mailer/method is active.)
+
+* moved moved model Opensteam::OrderBase::Order from gem-lib to Admin::Sales::Order into RAILS_APP.
+
+* moved Opensteam::OrderBase::Order Logic into Opensteam::OrderBase module. Is included into Admin::Sales::Order (or any other Order Model)
+
+* adapted all Order specific Views/Controller to work with the new namespace (Admin::Sales::**)
+	TODO: maybe move Admin:: to Opensteam::, and make Admin:: an alias
+	
+* removed all config_table_helper calls from views
+
+* changed opensteam_model_tables to model_filters (used to include FilterEntry::Filter Module and to define filter_keys)
+
+* Backend Views: moved all "headline" and "header_buttons" partials into helper (render_header_buttons, render_headline)
+
+* removed dhtmlx javascript combobox in admin/filters/_filter_entries.html.erb. Implemented Ext-JS ComboBox instead.
+
+* implemented pagination links (WillPaginate) in admin/filters/filter.html.erb. (Ajax Pagination, per_page dropdown, total records)
+
+* added RemoteLinkRenderer Class to initializer/opensteam (used for ajax-pagination)
+
+* refactored filter-form to post pagination parameters
+
+* refactored AdminController and Admin::Sales::Orders Controller to work with pagination (params[:page], params[:per_page])
+
+* removed unnecessary psd files
+
+* removed some unnecessary images
+
+* changed images path in ext-js css files (ext-all.css)
+
+* added rake task opensteam:dummydata:create to create test data (orders)
+
+* new backend layout
+
+* implemented Category plugin for Opensteam Products. Categories are associated to inventories (though only products are visible).
+  Built as a plugin. Used acts_as_tree (http://github.com/rails/acts_as_tree/tree/master) and the ext-js tree control (http://extjs.com/)
+  TODO: move migration files to plugin directory, validations for category-model, ancestor/sibling/children cache, maybe acts_as_nested_set
+  
+* refactored controller and view directory structure/namespace (to match navigation of the admin-backend):
+  Admin::Sales::Orders, ::Invoices, ::Shipments
+  Admin::Catalog::Categories, ::Products, ::Properties
+  Admin::Config::TaxGroups, ::TaxZones, ::ShippingRates
+  TODO: same for profile/account namespace, same for models (move models back into rails-app and model-logic into modules)
+  
+* refactored filter-methods, FilterEntry. Moved filter-logic into filtered model. filter is not stored based on controller, not based on model.
+  TODO: remove 'configured_filter', due to join-table-condition support in Edge-Rails
+  
+* removed config_table_helper in some views. Using ext-js grid control instead. (TODO: remove all)
+
+* removed sort-logic in controller (like OrdersController, InvoicesController, ..). Sorting is done through ext-js grid control.
+
+* added plugins: will_paginate, rspec-rails, acts_as_tree
+
+* added ext-js library and stylesheets
+
+* added dhtmlx combo-box library and stylesheets (TODO: remove and change to ext-js)
+
+* moved some session-logic into a session-based model ProfileSession (filter specific stuff).
+  TODO: user_management
+  
+* updated generators 
+
+* bugfixes
+
+
+
+*0.9.3*
+
+* added a ContainerModel to hold the basic ShoppingCart Logic (add/update/delete items, increment/decrement), STI
+
+* moved Cart from session to database (into Container)
+
+* moved OrderBase into Container (same logic as ShoppingCart)
+
+* added a Tax-System (TaxZones, TaxGroups, Calculation, etc), MVC
+
+* implemented ActiveMerchant Integration. (CreditCard Payment)
+
+* added PaymentTypes and a Payment Base Class to simplify future integration of payment-methods
+
+* added ShippingRate calculation (ShippingRates, Zones, ShippingRateGroups), MVC
+
+* added shipping-rates, taxes, netto_price calculation, payment_type to OrderBase (Container)
+
+* refactored Checkout-Process and OrderBase-Model in order to work with payment_type, shipping-rate and taxes
+
+* added PDF-Export for Invoices (using the prawn-gem and prawnto-plugin http://www.cracklabs.com/prawnto )
+
+* removed state-logic from InvoiceBase (not needed)
+
+* added payment_process initializers (CreditCardPayment)
+
+* added Configuration Model (Backend), to hold simple key-value pairs
+
+* added units tests for Container::Base (Order, Cart), Payment, ProductBase and Order
+
+* refactored the "set_properties=" method in ProductBase. Now "building" the inventory-objects instead of creating.
+
+* refactored the _attributes partial for products in order to work with the new "set_properties=" method.
+
+* InventoryBase: added a named_scope called :by_properties (replaces the exists_by_properties extension-method fpr the inventories-association in ProductBase):
+  Now: Single SQL-Query instead of fetching every single property.
+
+* fixed bug in StateMachine caused by inheritance: declared 'observers' and 'inialstate' as class_inheritable_accessor
+
+* StateLogic: changed state-name from .downcase to .underscore
+
+* deleted unnecessary partials (TODO: more to delete!)
+
+* renamed cart_controller to carts_controller (ActiveRecord Model, recources!)
+
+* added a "init_opensteam_config" migration file, to create admin-uses and load fixtures (zones, tax_zones, shipping_rates, configuration)
+
+* added verification_value to credit_card_payment partials
+
+* deleted lib/cart_base.rb (not needed anymore, now Opensteam::Cart < Opensteam::Container::Base)
+
+
+
+*0.9.2*
+
+
+* fixed bug in product-controller (generators): missing "::" between "Admin" namespace and ProductController
+
+* implemented filter methods for configurable tables in admin-backend (Opensteam::Helpers::ConfigTableHelper)
+
+* added partials for "filters"
+
+* updated views + controller in admin-backend for filter + sortable table (TODO: check if the POST to index for filter is neccessary, REST )
+
+* removed uuid for Order-ids due to association problems (e.g. no order_items for an order after checkout ) (TODO: implement!)
+
+* deleted unnecessary controllers + views (administration namespace)
+
+* updated invoice controller + views (to work like shipments)
+
+* updated simple workflow (to work with invoices)
+
+* changed the find_tables-method in Opensteam::Finder from AR::B.connection.select_all("TABLES LIKE ..") to AR::B.connection.tables.include?(..), ( sqlite3 compatibility)
+
+* updated Rakefile (simple gemspec)
+
+* updated README.rdoc
+
+* added CHANGELOG
+
+
+
+*0.9.1*
+
+* added Opensteam::InvoiceBase::Invoice and Opensteam::ShipmentBase::Shipment models to simplify/clarify order-processing
+
+* added Opensteam::StateLogic Module to provide basic methods for state-modules (override all instance_methods of a state-module and call 'fire_event' instead)
+
+* added Opensteam::StateMachine Module to implement a state-pattern for the Order, Invoice and Shipment-Models (change_state, execute method (event) in current state-module)
+
+* added state-modules (pending, finished, etc) in RAILS_ROOT/lib/states/order|invoice|shipment
+
+* added Opensteam::Initializer to handle all require, after_initialize and logging methods
+
+* deleted initialize methods from lib/opensteam.rb
+
+* added observer-methods (in Opensteam::StateMachine) to be called after state-changing, to allow a simple state workflow
+
+* implemented a simple state-workflow in RAILS_ROOT/config/initializers/init_states for orders. (Set order to finished if all invoices and shipments for all OrderItems are finished )
+
+* removed the STI column in the users-table (Opensteam::UserBase::User) in favor of profiles
+
+* added profiles-table (Opensteam::UserBase::Profiles) to provide a profile-driven user-management (a user has now an association to a profile)
+
+* changed the Authentication Module and controller filter to work with the new pprofile user management
+
+* fixed bugs in the Shopping Controller and Views (TODO: refactor, DRY)
+
+* changed the admin-backend controller namespace (Module) from "administration" to "admin"
+
+* changed the routes to work with the new admin-controller-namespace
+	
+* added views + controller for users in the admin backend to crud users (admins, customers)
+
+* added a controller-namespace called "profile" (for customer specific content -> frontend)
+
+* added views + controller called "info" to the "profile"-namespace, to allow customers to view/edit their profile data (incl. password-change)
+
+* added views + controller called "orders" to the "profile"-namespace, to allow customers to view their orders (pending, finished, etc)
+
+* added a helper method to render sortable and searchable tables (for the admin-backend) (TODO: DRY)
+
+* added views + controller for orders, invoices and shipments in the admin-backend
+
+* added a search controller + views
+
+* associated searches to the logged_in customer (TODO: add views for previous searches) 
+
+* added a 'histories' table (Opensteam::History) to provide logging functionality (currently for state-changes on orders, invoices and shipments) (TODO: customer login, searches, etc )
+
+* associated :histories to :orders, :invoices and :shipments
+
+* refactored the layout-files
+
+* bugfixes
+
+
+
+
+*0.9.0*
+
+* First Public Release *

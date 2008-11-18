@@ -1,0 +1,16 @@
+<% prefix = rate.new_record? ? "new_rates" : "existing_rates" %>
+<tr class="rate">
+<% fields_for "group[#{prefix}][]", rate do |r| %>
+  <td>
+    <%= r.select :zone_id, Zone.for_select( :country_name, :id ) %>
+  </td>
+  <td>  
+    <%= r.text_field :shipping_method %>
+  </td>
+  <td>
+    <%= r.text_field :rate, :size => 3 %>
+  </td>
+  <td>
+    <%= link_to_function "del", "$(this).up('.rate').remove()"  %>
+  </td>
+<% end %>

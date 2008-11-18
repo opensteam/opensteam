@@ -1,0 +1,26 @@
+<% content_for :admin_sidebar do %>
+  <%= link_to "Tax Groups", admin_config_tax_groups_path %>
+<% end %>
+
+
+<h2>Edit Tax Group</h2>
+
+<%= error_messages_for :tax_group %>
+
+<% form_for :tax_group, @tax_group, :url => { :controller => "admin/tax_groups", :action => 'update' }, :html => { :method => :put } do |f| %>
+
+  <%= render :partial => "attributes", :locals => { :f => f, :button => "Update" } %>
+
+  <div id="tax_rules">
+    <%= render :partial => "tax_rule", :collection => @tax_group.tax_rules %>
+  </div>
+  
+  <p>
+    <%= add_tax_rule_link "Add Zone to Group" %>
+  </p>
+
+  <p>
+    <%= submit_tag "Update"  %>
+  </p>
+
+<% end %>

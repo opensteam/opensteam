@@ -1,0 +1,7 @@
+<% render_headline 'categories_icon', 'TaxGroups Index', 'content-header/headline_icon.jpg' %>
+<% render_header_buttons "Add Tax Group", :href => new_admin_config_tax_group_path %>
+
+<div id="grid">
+  <%= render :partial => "tax_groups", :object => @tax_groups %>
+</div>
+

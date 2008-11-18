@@ -1,0 +1,25 @@
+<h3>Customer</h3>
+
+
+<% field_set_tag do %>
+  <p>
+    <%= label_tag "id" %>
+    <%= @customer.id %>
+  </p>
+  <p>
+    <%= label_tag "login" %>
+    <%= @customer.login %>
+  </p>
+  <p>
+    <%= label_tag "email" %>
+    <%= @customer.email %>
+  </p>
+  <p>
+    <%= label_tag "firstname" %>
+    <%= @customer.firstname %>
+  </p>
+  <p>
+    <%= label_tag "lastname" %>
+    <%= @customer.lastname %>
+  </p>
+<% end %>

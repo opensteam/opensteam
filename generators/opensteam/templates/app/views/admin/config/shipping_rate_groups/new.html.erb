@@ -1,0 +1,73 @@
+<% content_for( :headline ) do %>
+  <%= image_tag('content-header/headline_icon.jpg', 'alt' => '', :id => "categories_icon") %>New Shipping-Rate Group
+  <%= draggable_element :categories_icon, :revert => true %>
+<% end %>
+
+<% content_for( :content_header_buttons ) do %>
+  <%= link_to "<span>#{image_tag('content-header/icon_sun.gif')} Add to quicksteam</span>", '#' %>
+  <%= link_to "<span>#{image_tag('content-header/icon_print.gif')} Print page</span>", '#' %>
+  <%= link_to_function "<span>Save</span>", "$('srgroup_form').submit(); ", :class => 'add-button' %>    
+<% end %>
+
+<%= error_messages_for :group %>
+
+<% form_for :group, @group, :url => { :action => :create }, :html => { :id => 'srgroup_form', :method => :post } do |f| %>
+
+  <% field_set_tag do %>
+	<p>
+    	<%= f.label :name, "Group Name" %>
+    	<%= f.text_field :name, :class => "inputFields" %>
+	</p>  
+  <% end %>
+
+  <br />
+  <h2>Shipping Rates</h2> 
+  <br />
+<% border_style = !@group.errors.on( :shipping_rates) ? "border:1px solid #AAA" : "border: 2px solid red" %>
+
+  <div style="<%=h border_style %>;">
+    <% field_set_tag do %>
+      <%= link_to_function "Add Rate" do |page|
+        page.insert_html :bottom, :rates, :partial => "rate", :object => Opensteam::ShipmentBase::RegionShippingRate.new, :locals => { :f => f }
+      end %>
+      <table>
+        <thead><tr><th>Region</th><th>ShippingMethod</th><th>Rate</th></tr></thead>
+        <tbody id="rates">
+          <% for rate in @group.shipping_rates %>
+            <%= render :partial => "rate", :object => rate, :locals => { :f => f } %>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+
+  <h2>Options</h2>
+  Used if no ShoppingRate Rule (above) applies.
+  <div>
+    <% field_set_tag do %>
+      <p>
+        <%= f.label :master_rate %>
+        <%= f.text_field :master_rate, :size => 3 %>
+      </p>
+      <p>
+        <%= f.label :shipping_disabled %>
+        <%= f.check_box :shipping_disabled %>
+      </p>
+    <% end %>
+  </div>
+
+  <h2>PaymentType Additions</h2>
+  <div style="border: 1px solid #AAA;">
+    <%= link_to_function "Add Payment Addition" do |page|
+      page.insert_html :bottom, :payment_additions, :partial => "payment_addition", :object => @group.payment_additions.build 
+    end %> 
+    <div id="payment_additions">
+    </div>
+  </div>
+
+
+
+
+  <%= submit_tag "Save" %>
+
+<% end %>

@@ -1,0 +1,19 @@
+<% content_for( :headline ) do %>
+  <%= image_tag('content-header/headline_icon.jpg', 'alt' => '') %>Invoices
+<% end %>
+
+<% content_for( :content_header_buttons ) do %>
+  <%= link_to "<span>#{image_tag('content-header/icon_sun.gif')} Add to quicksteam</span>", '#' %>
+  <%= link_to "<span>#{image_tag('content-header/icon_print.gif')} Print page</span>", '#' %>
+  <%= link_to "<span>Add product</span>", '#', 'class' => 'add-button' %>    
+<% end %>
+
+
+<div style="margin-bottom:30px;" id="filter">
+  <%= render :partial => "admin/filters/filter", :locals => { :id => "users_filter", :model => "Order", :records => @invoices } %>
+
+</div>
+
+<div id="grid">
+  <%= render :partial => "invoices", :locals => { :id => 'invoices_table' }, :object => @invoices %>
+</div>

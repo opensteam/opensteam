@@ -1,0 +1,179 @@
+<% @quicksteams = Opensteam::System::QuickSteam.all   %>
+
+<% for quicksteam in @quicksteams %>
+  <%= render :partial => "/admin/_header/quicksteam", :object => quicksteam %>
+<% end %>
+<div>
+</div>
+<style>
+  .tab{z-index:10;}
+</style>
+
+<%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
+
+<script>
+    var elem = '<div style="float:left;position:relative;" id="new_quicksteam"><a onclick="addQuicksteamTab();" href="#" class="new-tab"><span>Add Quicksteam</span></a></div>' ;
+    var editq = false ;
+
+    // new Insertion.After( $$('#tabs div').last(), elem ); 
+    $$('#tabs > div').last().insert( { after: elem } ) ;
+    Droppables.add( $('new_quicksteam'), { 
+        onDrop: addQuicksteam,
+        onHover: morphUp,
+        onUnhover: morphDown      } ) ;
+              
+    var scaled = false ;
+    function scaleUp() {
+        $('quicksteam_image').src = "/images/header/tabnew_active.jpg" ;
+        if(!scaled) { 
+            new Effect.Scale( $('quicksteam_image'), 200 ) ;
+            scaled = true ;
+        } 
+    }
+        
+    function morphUp() {
+        $$('#new_quicksteam span').first().morph('width:120px;', { duration: 1.0 } ) ;
+    }
+        
+    function morphDown() {
+        $$('#new_quicksteam span').first().morph('width:80px', { duration: 1.0 } ) ;
+    }
+        
+    function scaleDown() {
+
+     
+        if( scaled) {
+            new Effect.Scale( $('quicksteam_image'), 50,{ afterFinish: function() {
+                    $('quicksteam_image').src = "/images/header/tabnew.jpg" ;
+                } } ) ;
+            scaled = false ;
+        }
+    }
+        
+    function addQuicksteam() {
+        var quick = $('new_quicksteam') ;
+        var style_string = 'display:none;position:absolute;top:-5px;left:80px;' ;
+
+        var quick_new = '<div class="tab" style="display:none;float:left;">\n\
+<a href="' + window.location.href + '"><span>' + document.title + '</span></a>\n\
+<div class="edit_quicksteam" style="' + style_string + 
+            '" ><a class="editquicksteamlink" href="#" onclick="delquicksteam($(this));"><%= image_tag("cross.png") %></a></div>' ;
+        
+        quick.insert( { before: quick_new } ) ;
+        quick_new = $$('#tabs .tab').last() ;
+            
+        new Ajax.Request('/admin/quicksteams/', {
+            method: 'POST',
+            parameters: { 'quicksteam[name]': document.title,
+                'quicksteam[path]': window.location.href,
+                authenticity_token: AUTH_TOKEN }
+        });
+
+        quick.puff() ;
+        quick_new.appear( { transition: Effect.Transitions.wobble, queue: 'end', afterFinish: function(e) {
+                $('new_quicksteam').appear() ;    
+            }
+        } ) ;
+        sortel() ;
+            
+    }
+        
+    /* 
+     * Parelell 'NewQuicksteam'.fade() + 'Quicksteam'.appear()
+     * 
+        function addQuicksteam() {
+            var quick = $('new_quicksteam')
+            var quick_new = '<div class="tab" style="display:none;float:left;">\n\
+<a href="#"><span>Quicksteam 02</span></a>' ;
+        
+            quick.insert( { before: quick_new } ) ;
+            quick_new = $$('#tabs .tab').last() ;
+            
+            quick.absolutize() ;
+            new Effect.Parellel(
+            [ new Effect.Fade( quick ), new Effect.Appear( quick_new ) ],
+            { duration: 3.5 } ) ;
+        }
+     */
+    function addQuicksteamTab() {
+        var elem = $$('#tabs > div').last() ;
+        var offX = parseInt( elem.positionedOffset() ) + elem.getWidth() - 28            ;
+        
+        var style_string = 'display:none;position:absolute;top:-5px;left:' + offX + 'px;' ;
+        var n = '<div style="display:none;float:left;">\n\
+            <a href="#">\n\
+            <span>Quicksteam 02</span>\n\
+            </a>\n\
+            <div class="edit_quicksteam" style="' + style_string + '" ><a class="editquicksteamlink" href="#" onclick="delquicksteam($(this));"><%= image_tag("cross.png") %></a></div>\n\
+            </div>' ;
+        new Insertion.Before( elem, n ) ;
+          
+        new Effect.Parallel([
+            new Effect.Move(elem, { sync: true, x:elem.getWidth() - 7, y:0, mode: 'relative' }), 
+            new Effect.Appear($$('#tabs > div').last().previousSiblings().first(), { sync: true })
+        ], { 
+            duration: 1.5
+        });
+
+    }
+        
+        
+    function toggleQuicksteamEditLink() {
+
+        if( editq ) {
+            Effect.multiple( $$('.edit_quicksteam'), Effect.Fade ) ;
+            editq = false ;
+        } else {
+            Effect.multiple( $$('.edit_quicksteam'), Effect.Appear ) ;
+            editq = true ;               
+        }
+    }
+    function hideQuicksteamEditLink() {
+        Effect.multiple( $$('.edit_quicksteam'), Effect.Fade ) ;
+    }
+        
+        
+    function delquicksteam(e) {
+        var del = e.up('div').up('div') ;
+        var next = del.nextSiblings().first() ;
+            
+        del.absolutize() ;
+        next.style.margin = "0 0 0 " + del.getWidth() + "px" ;
+            
+        del.fade( { afterFinish: function() { del.remove() ; } } ) ;
+        next.morph( "margin-left:0px", { queue: 'end' } ) ;
+            
+        /*            
+            var elem = $('new_quicksteam') ;
+            new Effect.Parallel([
+                new Effect.Move(elem, { sync: true, x:-(elem.getWidth() - 7), y:0, mode: 'relative' }),
+                //new Effect.Puff( e.up('div'), { sync: true } ),
+                new Effect.Fade( e.up('div').up('div'), { sync:true } ) 
+            ], { 
+                duration: 1.5,
+                afterFinish: function() { e.up('div').up('div').remove() ;
+                    console.log($$('#tabs > div') ) ;
+                }
+            });
+         
+            if(!$('new_quicksteam').previousSiblings()){ editq = false }
+         */            
+    }
+    //     showQuicksteamEditLink() ;
+        
+        
+</script>
+
+<script>
+    function sortel() {
+        Sortable.create( 'tabs', { ghosting: false, tag: 'div', overlap: 'horizontal', only: 'tab', constraint: 'horizontal' } ) ;
+    }
+      
+    function dostuff() {
+        var elem = '<div class="tab" style="float:left;"><a href="#"><span>Quicksteam 01</span></a></div>'
+        new Insertion.Before( $$('.tab').last(), elem ) ;
+        sortel() ;
+    }
+    sortel() ;
+</script>
+

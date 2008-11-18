@@ -1,0 +1,27 @@
+<table id="tax_zones_table"  >
+  <thead>
+    <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
+    <th><div>ID#</div></th>
+    <th><div>Country</div></th>
+    <th><div>State</div></th>
+    <th><div>Rate</div></th>
+    <th><div>Updated At</div></th>
+    <th class="not-in-context no-menu"><div>&nbsp;</div></th>
+    <th class="last not-in-context no-menu"><div>&nbsp;</div></th>
+  </thead>
+  <tbody id="orders_table_body">
+    <%= render :partial => "admin/config/tax_zones/tax_zone", :collection => tax_zones %>
+  </tbody>
+</table>
+
+
+<% javascript_tag do %>
+  //Ext.onReady( function() {
+  var grid = new Ext.grid.TableGrid('tax_zones_table', {
+    stripeRows: true,
+    width:'100%;',
+    border:false,
+    height:'auto' } ) ;
+  grid.render() ;
+  //}) ;
+<% end %>

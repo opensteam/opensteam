@@ -1,0 +1,30 @@
+<% field_set_tag do %>
+  <p>
+    <%= f.label :price %>
+    <%= f.text_field :price, :class => "inputFields" %>
+  </p>
+
+  <p>
+    <%= f.label :storage %>
+    <%= f.text_field :storage, :class => "inputFields" %>
+  </p>
+
+  <p>
+    <%= f.label :active %>
+    <%= f.text_field :active, :class => "inputFields" %>
+  </p>
+
+  <p>
+    <%= f.label :description %>
+    <%= f.text_area :description, :class => "inputFields" %>
+  </p>
+
+  <p>
+    <%= f.label :back_ordered %>
+    <%= f.text_field :back_ordered, :class => "inputFields" %>
+  </p>
+  <p>
+    <%= f.label :tax_group %>
+    <%= f.select :tax_group_id, TaxGroup.all.collect { |t| [t.name, t.id] }, { :include_blank => true } %>
+  </p>
+<% end %>

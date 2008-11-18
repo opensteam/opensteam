@@ -1,0 +1,53 @@
+<div id="nav-bar">
+  <div id="nav">
+    <div class="dvNaviItem">
+      <div class="dvNaviItem_right"></div>      
+      <div class="clearer"></div>      
+    </div>
+    <div id="dvNaviItem_CATALOG" class="dvNaviItem" onmouseover="DD.navi.doCheckForSubs(this,'CATALOG','down',false);" onmouseout="DD.navi.doHideSubs(this,'CATALOG',false);">
+      <div class="dvNaviItem_left"></div>
+      <div class="dvNaviItem_main"><a href="#">Catalog</a></div>
+      <div class="dvNaviItem_right"></div>     
+      <div class="clearer"></div> 
+    </div>
+    <div id="dvNaviItem_SALES" class="dvNaviItem" onmouseover="DD.navi.doCheckForSubs(this,'SALES','down',false);" onmouseout="DD.navi.doHideSubs(this,'SALES',false);">
+      <div class="dvNaviItem_left"></div>
+      <div class="dvNaviItem_main"><a href="#">Sales</a></div>
+      <div class="dvNaviItem_right"></div>
+      <div class="clearer"></div>
+    </div>
+    <div id="dvNaviItem_NAVID4" class="dvNaviItem" onmouseover="DD.navi.doCheckForSubs(this,'NAVID4','down',false);" onmouseout="DD.navi.doHideSubs(this,'NAVID4',false);">
+      <div class="dvNaviItem_left"></div>
+      <div class="dvNaviItem_main"><a href="#">Order Config</a></div>
+      <div class="dvNaviItem_right"></div>
+      <div class="clearer"></div>
+    </div>
+    <div id="dvNaviItem_NAVID5" class="dvNaviItem" onmouseover="DD.navi.doCheckForSubs(this,'NAVID5','down',false);" onmouseout="DD.navi.doHideSubs(this,'NAVID5',false);">
+      <div class="dvNaviItem_left"></div>
+      <div class="dvNaviItem_main"><a href="#">System</a></div>
+      <div class="dvNaviItem_right"></div>
+      <div class="clearer"></div>
+    </div>
+    <div class="dvNaviItem_combined_right">
+      <div class="dvNaviItem_left"></div>      
+      <div class="clearer"></div>
+    </div>
+    <div class="clearer"></div>
+  </div>	
+  <div id="search">
+    <form action="#" method="post">
+      <input type="text" name="search_string" id="search-string" value="Global Record Search" onclick="this.value='';" />
+      <input type="image" name="search_submit" id="search-submit" src="/images/header/search_icon.gif" />			
+    </form>
+  </div>
+  <div id="subnav">
+    <a href="#">subnav1</a> | <a href="#">subnav2</a> | <a href="#">subnav3</a>			
+  </div>		
+  <a href="#" id="help-link">Get help for this page</a>
+</div>
+
+<!-- sub menu items -->
+<%= render "admin/_nav/catalog" %>    
+<%= render "admin/_nav/sales" %>
+<%= render "admin/_nav/order_config" %>
+<%= render "admin/_nav/system" %>  

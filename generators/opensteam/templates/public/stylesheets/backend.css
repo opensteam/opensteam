@@ -1,0 +1,18 @@
+
+.clearer{clear:both;}
+.inputFields{border:1px solid #b1bcbf;background-color:#f2f8c4; height:16px; text-align:center; padding-top:2px; }
+.x-form-field-wrap {
+  background: transparent url(../images/dropdown/elm_img_bg.gif) no-repeat scroll left top ;
+  padding:0px 5px 1px 9px;
+}
+.x-form-text { background: transparent ! important ; border: 0px ! important ; }
+.combo-trigger { background: transparent url(../images/dropdown/elm_img_push.gif) no-repeat scroll 0 0 ! important ; width:28px ! important ; border:0px ! important; }
+
+
+.prev_page, .next_page { position: relative; top: 4px; }
+.prev_page { padding-right: 3px ; }
+.next_page { padding-left: 3px ; }
+
+form.grid { float:left ; padding-left: 3px ; }
+
+	

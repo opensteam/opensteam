@@ -1,0 +1,42 @@
+<div id="details">
+  <% form_remote_tag :url => { :action => 'create', :controller => 'carts' }, :html => { :id => "show" } do %>
+  
+  
+    <% fields_for :product, @product do |f| %>
+      <%= render( :partial => existing_partial( "#{@product.class.to_s.demodulize.tableize}/details", "#{@product.class.superclass.to_s.demodulize.tableize}/details" ),
+        :object => @product,
+        :locals => { :f => f, :cart_details => @cart_details } ) %> 
+    <% end %>
+    
+    <br />
+  
+    <span id="indicator" style="margin-top:0px; display:none"><%= image_tag "indicator.gif" %>checking inventory...</span>
+    <div id="inventory">
+      <%- if @inventory.empty? -%>
+        <b>Please select a configuration</b>
+      <%- else -%>
+        <%= render :partial => "common/inventory_content", :collection => @inventory %>
+      <%- end -%>
+    </div>
+    <br />
+    <br />
+  
+  
+  
+  
+    <%- unless @cart_details -%><%= submit_tag "add to cart" %><%- end -%>
+  
+  <% end %>
+  
+  <%= observe_form "show",
+    :url => { :action => :inventory },
+    :loading => "Element.show('indicator')",
+    :complete => "Element.hide('indicator')"
+%>
+  
+  
+  
+  <%= link_to 'Index', shop_index_path %>
+</div>
+
+

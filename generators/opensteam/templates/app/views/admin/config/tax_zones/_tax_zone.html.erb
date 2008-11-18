@@ -1,0 +1,11 @@
+
+<tr class="<%= cycle('odd','even') %>">
+  <td></td>
+  <td><%=h tax_zone.id %></td>
+  <td><%=h tax_zone.country %></td>
+  <td><%=h tax_zone.state %></td>
+  <td><%=h tax_zone.rate %></td>
+  <td><%=h ordinalized_time( tax_zone.updated_at ) %></td>
+  <td><%= link_to "edit", edit_admin_config_tax_zone_path( tax_zone ) %></td>
+  <td><%= link_to "del", admin_config_tax_zone_path( tax_zone ), :method => :delete, :confirm => "Are your sure?" %>
+</tr>

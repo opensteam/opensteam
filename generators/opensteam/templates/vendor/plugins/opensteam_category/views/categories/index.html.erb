@@ -1,0 +1,74 @@
+<% content_for( :headline ) do %>
+  <%= image_tag('content-header/headline_icon.jpg', 'alt' => '', :id => "categories_icon") %>Categories
+  <%= draggable_element :categories_icon, :revert => true %>
+<% end %>
+
+<% content_for( :content_header_buttons ) do %>
+  <%= link_to "<span>#{image_tag('content-header/icon_sun.gif')} Add to quicksteam</span>", '#' %>
+  <%= link_to "<span>#{image_tag('content-header/icon_print.gif')} Print page</span>", '#' %>
+  <%= link_to "<span>Add Category</span>", new_admin_catalog_category_path, :class => 'add-button' %>    
+<% end %>
+
+
+<div id="category-tree" style="padding:20px; width: 200px ;"></div>
+
+
+
+<%= render :partial => "/admin/_tree/tree", :locals => { 
+  :model => "category", 
+  :render_to => "category-tree", 
+  :url => '/admin/catalog/categories/',
+  :checkable => false,
+  :expand_all => true } %>
+
+<script>
+    var mytree = configureTree( { 
+        url: '/admin/catalog/categories/',
+        baseAttrs:{}, 
+        renderTo:'category-tree',
+        baseParams:{format:'json'}
+    }, <%= @categories.to_json %> ) ;
+    
+    Ext.onReady( function() {
+        mytree.render() ;
+    }) ;
+</script>
+
+<script>
+
+    var position_old = null ;
+    var next_sibling_old = null ;
+
+    mytree.on('startdrag', function(tree, node, event) {
+    	position_old = node.parentNode.indexOf( node ) ;
+    	next_sibling_old = node.nextSibling ;
+    }) ;
+
+
+    mytree.on( 'movenode', function( tree, node, old_parent, new_parent, position ) {
+    	if ( old_parent == new_parent ) {
+    		return 0 ;
+    	} else {
+    		var params = { _method:'PUT', id: node.id, authenticity_token: AUTH_TOKEN,
+    		'category[parent_id]': new_parent.id } ;
+    	}
+
+    	tree.disable() ;
+
+    	Ext.Ajax.request( {
+    		url: '/admin/catalog/categories/' + node.id,
+    		params: params,
+    		method: 'PUT',
+    		success: function(response,request) {
+        		tree.enable() ;
+    		},
+    		failure: function(response, request) {
+        		alert('error') ;
+        		tree.enable() ;
+    		}
+        }) ;
+		return 0 ;
+	}) ;
+</script>
+
+

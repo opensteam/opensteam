@@ -1,0 +1,25 @@
+--- 
+shipping_rate_group_00009: 
+  name: Default Shipping Rate
+  updated_at: 2008-09-25 11:35:05 Z
+  shipping_disabled: false
+  id: 9
+  master_rate: 5.0
+  created_at: 2008-09-17 13:28:07 Z
+  active: 
+shipping_rate_group_00011: 
+  name: Dogs
+  updated_at: 2008-09-18 15:23:47 Z
+  shipping_disabled: false
+  id: 11
+  master_rate: 
+  created_at: 2008-09-18 15:23:47 Z
+  active: 
+shipping_rate_group_00012: 
+  name: Reptiles
+  updated_at: 2008-09-19 10:43:30 Z
+  shipping_disabled: false
+  id: 12
+  master_rate: 999.99
+  created_at: 2008-09-18 15:24:07 Z
+  active: 

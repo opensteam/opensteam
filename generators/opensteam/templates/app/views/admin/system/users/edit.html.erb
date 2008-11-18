@@ -1,0 +1,41 @@
+<% render_headline 'categories_icon', "Edit User '#{@user.login}'", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons "Save", :form_id => 'user_form' %>
+
+<% form_for :user, :html => { :method => :put, :id => 'user_form' } do |f| %>
+  <h2>State: <%= @user.state %></h2>
+  <br />
+  <h2>General Information</h2>
+  <% field_set_tag do %>
+    <p>
+      <%= f.label :login %>
+      <%= f.text_field :login, :class => "inputFields" %>
+    </p>
+
+    <p>
+      <%= f.label :email %>
+      <%= f.text_field :email, :class => "inputFields" %>
+    </p>
+
+    <p>
+      <%= f.label :firstname %>
+      <%= f.text_field :firstname, :class => "inputFields" %>
+    </p>
+    <p>
+      <%= f.label :lastname %>
+      <%= f.text_field :lastname, :class => "inputFields" %>
+    </p>
+
+  <% end %>
+
+  <h2>Roles</h2>
+  <% field_set_tag do %>
+    <% for role in UserRole.all %>
+      <p>
+        <%= label_tag "role_#{role.id}", role.name %>
+        <%= check_box_tag "roles[]", role.id, @user.has_specific_role?( role.name ), :id => "role_#{role.id}" %>
+      </p>
+    <% end %>
+  <% end %>
+
+<% end %>
+

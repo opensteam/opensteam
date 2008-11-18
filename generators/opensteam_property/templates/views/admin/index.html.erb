@@ -1,0 +1,38 @@
+<%% render_headline 'categories_icon', 'Index <%= class_name %>', 'content-header/headline_icon.jpg' %>
+<%% render_header_buttons 'Add <%= class_name %>', :href => new_admin_catalog_<%= file_name %>_path %>
+
+<div id="grid">
+  <table id="<%= table_name %>_table">
+    <thead>
+      <tr>
+        <%- for attribute in attributes -%>
+        <th><%= attribute.column.human_name %></th>
+        <%- end -%>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%% for <%= singular_name %> in @<%= plural_name %> %>
+      <tr>
+        <% for attribute in attributes -%>
+        <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
+        <% end -%>
+        <td><%%= link_to 'Edit', edit_admin_catalog_<%= singular_name %>_path(<%= singular_name %>) %></td>
+        <td><%%= link_to 'Destroy', [:admin, :catalog, <%= singular_name %>], :confirm => 'Are you sure?', :method => :delete %></td>
+      </tr>
+      <%% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<%% javascript_tag do %>
+var grid = new Ext.grid.TableGrid('<%= table_name %>_table', {
+stripeRows: true,
+width:'100%',
+border: false,
+height:'auto'
+} ) ;
+grid.render() ;
+<%% end %>

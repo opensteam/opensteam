@@ -1,0 +1,204 @@
+body {
+    background-image:url(../images/bg.jpg) ;
+    background-repeat: repeat-x ;
+    background-color: #ffffff ;
+    
+    font-family:Verdana, Arial ;
+    font-size:9pt ;
+    color:#333;
+}
+
+#menu {
+    float:right;
+}
+
+#page {
+    margin-top:30px;
+    margin-left:50px;
+    margin-right:50px;
+}
+
+
+
+#indicator_center_big {
+    position:absolute ;
+    z-index:9999;
+    top:50% ;
+    left:50% ;
+    border:1px solid #AAA ;
+    padding: 50px ;
+}
+
+
+#header {
+    padding-left:30px;
+    padding-top:30px;
+    padding-bottom:10px;
+    
+    border-bottom:1px solid black;
+}
+
+#content_box {
+    clear:both;
+}
+
+.sub_content {
+    padding:10px;
+    float:left ;
+}
+
+.addresses div {
+    border-left: 1px solid #ccc ;
+    padding:10px ;
+}
+
+
+#content_box div .fieldWithErrors {
+    clear:both;
+    padding:3px ;
+}
+
+
+
+#sidebar {
+}
+
+#content {
+    border-left: 1px solid #aaa ;
+}
+
+#footer {
+    border-top: 1px solid black;
+    clear:both;
+}
+
+#cart {
+    float:left ;
+    border-left: 1px solid #aaa;
+    padding:20px;
+    height:100%;
+    background-color:#eee;
+    width:40%;
+    font-size:11px ;
+}
+
+.cart_item {
+    clear:both;
+}
+
+
+.order_show {
+    background-color: #eee ;
+    padding:10px ;
+}
+
+
+#cart table td,th {
+    border-right: 1px solid #aaa ;
+    padding-left: 2px ;
+    padding-right: 2px ;
+    
+}
+
+
+.configured_table table {
+    border-collapse: collapse ;
+    border-spacing: 1px;
+    font-size:8pt;
+}
+
+.configured_table table th a {
+    width:100%;
+    color:black;
+    text-decoration:none;
+}
+
+.configured_table table th a:hover {
+    background-color:#eee;
+}
+
+.configured_table table td {
+    border-left:1px solid black ;
+    padding:2px ;
+}
+
+.configured_table table th {
+    border-left:1px solid black ;
+    padding:s2px ;
+}
+
+
+.even { background-color: #eee; }
+.odd { background-color: #fff; }
+
+
+
+input { 
+}
+
+fieldset {
+    border:0px ;
+}
+
+fieldset label {
+    float: left ;
+    width: 100px ;
+}
+
+
+.fieldWithErrors {
+    padding: 2px;
+    background-color: red;
+    display: table;
+}
+
+#errorExplanation {
+    width: 400px;
+    border: 1px solid red;
+    padding: 7px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    background-color: #c00;
+    color: #fff;
+}
+
+#errorExplanation p {
+    color: #333;
+    margin-bottom: 0;
+    padding: 5px;
+}
+
+#errorExplanation ul li {
+    font-size: 12px;
+    list-style: square;
+}
+
+div.uploadStatus {
+    margin: 5px;
+}
+
+div.progressBar {
+    margin: 5px;
+}
+
+div.progressBar div.border {
+    background-color: #fff;
+    border: 1px solid gray;
+    width: 100%;
+}
+
+div.progressBar div.background {
+    background-color: #333;
+    height: 18px;
+    width: 0%;
+}
+

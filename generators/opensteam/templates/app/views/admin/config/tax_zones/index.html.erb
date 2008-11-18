@@ -1,0 +1,7 @@
+<% render_headline 'categories_icon', 'Taxzones Index', 'content-header/headline_icon.jpg' %>
+<% render_header_buttons "Add Tax Zone", :href => new_admin_config_tax_zone_path %>
+
+<div id="grid">
+  <%= render :partial => "tax_zones", :object => @tax_zones %>
+</div>
+

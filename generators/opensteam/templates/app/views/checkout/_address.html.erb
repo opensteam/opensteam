@@ -1,0 +1,42 @@
+
+<%- unless @addresses.empty? -%>
+  <b>Select saved <%= type %> address:</b>
+  <ul>
+    <% for address in @addresses %>
+      <li>
+        <%= fill_address_link "order_#{type}_address", address %>
+      </li>
+    <% end %>
+  </ul>
+<%- end -%>
+
+<b>Enter <%= type.to_s.humanize %> Address </b>
+<% f.fields_for "#{type}_address", @order.send( "#{type}_address" ) do |a|  %>
+  <% field_set_tag do %>
+    <p>
+      <%= a.label :firstname %>
+      <%= a.text_field :firstname %>
+    </p>
+    <p>
+      <%= a.label :lastname %>
+      <%= a.text_field :lastname %>
+    </p>
+    <p>
+      <%= a.label :country %>
+      <%= a.select :country, @countries %>
+    </p>
+    <p>
+      <%= a.label :postal %>
+      <%= a.text_field :postal %>
+    </p>
+    <p>
+      <%= a.label :city %>
+      <%= a.text_field :city %>
+    </p>
+    <p>
+      <%= a.label :street %>
+      <%= a.text_field :street %>
+    </p>
+  <% end %>
+<% end %>
+

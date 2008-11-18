@@ -1,0 +1,63 @@
+<h1>Edit Group of ShippingRates #<%=h @group.id %> </h1>
+
+<%= error_messages_for :group %>
+
+<% form_for :group, @group, :url => { :action => :update }, :html => { :method => :put } do |f| %>
+
+  <% field_set_tag do %>
+    <%= f.label :name, "Group Name" %>
+    <%= f.text_field :name %>
+  <% end %>
+
+
+  <h2>Shipping Rates</h2> 
+  <% border_style = !@group.errors.on( :shipping_rates) ? "border:1px solid #AAA" : "border: 2px solid red" %>
+  <div style="<%=h border_style %>;">
+    <% field_set_tag do %>
+      <%= link_to_function "Add Rate" do |page|
+        page.insert_html :bottom, :rates, :partial => "rate", :object => Opensteam::ShipmentBase::RegionShippingRate.new, :locals => { :f => f }
+      end %>
+      <table>
+        <thead><tr><th>Region</th><th>ShippingMethod</th><th>Rate</th></tr></thead>
+        <tbody id="rates">
+          <% for rate in @group.shipping_rates %>
+            <%= render :partial => "rate", :object => rate, :locals => { :f => f } %>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+
+  <h2>Options</h2>
+  Used if no ShoppingRate Rule (above) applies.
+  <div>
+    <% field_set_tag do %>
+      <p>
+        <%= f.label :master_rate %>
+        <%= f.text_field :master_rate, :size => 3 %>
+      </p>
+      <p>
+        <%= f.label :shipping_disabled %>
+        <%= f.check_box :shipping_disabled %>
+      </p>
+    <% end %>
+  </div>
+
+  <h2>PaymentType Additions</h2>
+  <div style="border: 1px solid #AAA;">
+    <%= link_to_function "Add Payment Addition" do |page|
+      page.insert_html :bottom, :payment_additions, :partial => "payment_addition", :object => Opensteam::ShipmentBase::ShippingPaymentAddition.new 
+    end %> 
+    <div id="payment_additions">
+      <% for pa in @group.payment_additions %>
+        <%= render :partial => "payment_addition", :object => pa %>
+      <% end %>
+    </div>
+  </div>
+
+
+
+
+  <%= submit_tag "Save" %>
+
+<% end %>

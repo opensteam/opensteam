@@ -1,0 +1,15 @@
+
+<%% content_for :sub_nav do %>
+  <%%= link_to "<%= class_name.pluralize %> Index", admin_<%= table_name %>_path %> ||
+  <%%= link_to "Edit Current", edit_admin_<%= file_name %>_path( @<%= file_name %> ) %>
+<%% end %>
+<% for attribute in attributes -%>
+<p>
+  <b><%= attribute.column.human_name %>:</b>
+  <%%=h @<%= singular_name %>.<%= attribute.name %> %>
+</p>
+
+<% end -%>
+
+<%%= render :partial => "inventories" %>
+

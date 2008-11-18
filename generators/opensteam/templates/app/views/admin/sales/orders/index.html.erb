@@ -1,0 +1,21 @@
+<% render_headline 'categories_icon', 'Orders - Index', 'content-header/headline_icon.jpg' %>
+<% render_header_buttons %>
+
+
+<div style="margin-bottom:30px;" id="filter">
+  <%= render :partial => "admin/filters/filter", :locals => { :id => "users_filter", :model => "Order", :records => @orders } %>
+
+</div>
+
+<div id="grid">
+  <%= render :partial => "orders", :locals => { :id => 'orders_table' }, :object => @orders %>
+</div>
+
+
+<script>
+  function show_headline_link( i ) {
+    $('orders_headline').select('.headline_link').first().show() ;
+  }
+  function hide_headline_link( i ) {
+  }
+</script>

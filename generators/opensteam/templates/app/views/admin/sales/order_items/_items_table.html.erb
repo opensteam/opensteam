@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name (Class)</th>
+      <th>Information</th>
+      <th>Price</th>
+      <th>Tax</th>
+      <th>Quantity</th>
+      <th>Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => "admin/sales/order_items/item_entry", :collection => items_table.items %>
+  </tbody>
+</table>

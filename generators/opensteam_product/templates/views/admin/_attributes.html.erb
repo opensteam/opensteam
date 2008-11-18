@@ -1,0 +1,13 @@
+<div id="general_information">
+  <h2>General Information</h2>
+  <%% field_set_tag do %>
+<% for attribute in attributes -%>
+    <p>
+      <%%= f.label :<%= attribute.name %> %>
+      <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
+    </p>
+
+<% end -%>
+  <%% end %>
+
+</div>

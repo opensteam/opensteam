@@ -1,0 +1,39 @@
+<%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
+
+<style>
+  .x-tree-node-leaf img.tree-folder-icon { background-image:url(/images/ext/core/default/tree/folder.gif) }
+</style>
+
+<script>
+    function configureTree( options,data  ) {
+
+        var root = new Ext.tree.AsyncTreeNode( {
+            text: 'invisibleRoot',
+            id: '0',
+            loader: new Ext.tree.TreeLoader({
+                url:options.url,
+                baseParams:options.baseParams,
+                requestMethod:'GET'
+            }),
+            preloadChildren: true
+        }) ;
+
+        var tree = new Ext.tree.TreePanel( {
+            loader: new Ext.tree.TreeLoader( options.treeLoaderOptions ),
+            renderTo: options.renderTo,
+            root: root,
+            rootVisible: false,
+            enableDD: true
+        }) ;
+
+        return tree ;
+    }
+</script>
+
+
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+<% content_for( :headline ) do %>
+  <%= image_tag('content-header/headline_icon.jpg', 'alt' => '', :id => "categories_icon") %>Inventory for <%=h @inventory.product.class %> '<%=h @inventory.product.name %>'
+  <%= draggable_element :categories_icon, :revert => true %>
+<% end %>
+
+<% content_for( :content_header_buttons ) do %>
+  <%= link_to "<span>#{image_tag('content-header/icon_sun.gif')} Add to quicksteam</span>", '#' %>
+  <%= link_to "<span>#{image_tag('content-header/icon_print.gif')} Print page</span>", '#' %>
+<% end %>
+
+<h2>Configuration: <%=h @inventory.properties.collect(&:name) * "," %></h2>
+
+<p>
+  <b>Price:</b>
+  <%=h @inventory.price %>
+</p>
+
+<p>
+  <b>Storage:</b>
+  <%=h @inventory.storage %>
+</p>
+
+<p>
+  <b>Active:</b>
+  <%=h @inventory.active == 1 ? "true" : "false"%>
+</p>
+
+<p>
+  <b>Back ordered:</b>
+  <%=h @inventory.back_ordered == 1 ? "true" : "false" %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @inventory.description %>
+</p>
+<p>
+  <b>Tax Group:</b>
+  <%=h @inventory.tax_group ? @inventory.tax_group.name : '' %>
+</p>
+
+
+
+
+<%= link_to 'Edit', edit_admin_catalog_inventory_path(@inventory) %> |
+<%= link_to 'Back', [:admin, :catalog, @inventory.product ] %> |
+<%= link_to 'Inventory Index', admin_catalog_inventories_path %>

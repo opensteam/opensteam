@@ -1,0 +1,11 @@
+<h2>Properties</h2>
+<%% field_set_tag do %>
+  <%% @properties.each_pair do |prop_name,prop_array| %>
+    <u><%%=h prop_name %></u><br />
+    <%% for property in prop_array %>
+      <%%=h property.name %> <%%= check_box_tag "<%= file_name %>[set_properties][#{prop_name}][]", property.id,
+        @<%= file_name %>.properties.include?(property) %> |
+    <%% end %>
+    <br /><br />
+  <%% end %>
+<%% end %>

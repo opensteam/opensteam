@@ -1,0 +1,53 @@
+<% admin_sidebar_links do %>
+  <%= admin_sidebar_link "Show Order", admin_sales_order_path( @order ) %>
+  <%= admin_sidebar_link "Show Order Shipments", admin_sales_order_shipments_path %>
+  <%= admin_sidebar_link "Show Order Invoices", admin_sales_order_invoices_path %>
+<% end %>
+
+<h2>Shipment # <%= @shipment.id %></h2>
+<div id="shipment_information">
+  
+  <p>
+    <b>State</b>:
+<%- form_for :shipment, @shipment, :url => { :action => 'update', :controller => 'shipments' }, :html => { :method => 'put' } do |f| -%>
+<%= f.select :state, Shipment.available_states.collect(&:name).collect(&:to_s) %>
+<%= submit_tag "update" %>
+<%- end -%>
+  </p>
+  <p>
+    <b>CreatedAt</b>: <%=h @shipment.created_at %>
+  </p>
+  <p>
+    <b>UpdatedAt</b>: <%=h @shipment.updated_at %>
+  </p>
+  <p>
+    <b>Sent to:</b><br />
+    <%= render :partial => "admin/system/users/address", :object => @shipment.address %>
+  </p>
+  <p>
+    <b>Comment</b>: <%=h @shipment.comment %>
+  </p>
+</div>
+<div id="shipment_order_items">
+  <p>
+    <b>OrderItems</b>
+    <br />
+    <ul>
+      <% for oi in @shipment.order_items %>
+        <li> <%=h oi.product.name %> (<%=h oi.product.class %>)
+          | <%- unless oi.properties.empty? -%><b>Configuration:</b> <%=h oi.properties.collect(&:name) * "," %><%- end -%>
+        | <%=h oi.quantity %> | <%=h oi.quantity * oi.price %></li>
+      <% end %>
+    </ul>
+  </p>
+</div>		
+
+<div id="shipment_history" class="sub_content_box" style="">
+  <h3>History</h3>
+  <ul>
+    <% for h in @shipment.history %>
+      <li><%=h h.message %> (<%=h ordinalized_time( h.created_at ) %>)</li>
+    <% end %>
+  </ul>
+  
+</div>
