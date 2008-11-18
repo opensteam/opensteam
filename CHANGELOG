@@ -1,5 +1,7 @@
 *EDGE*
 
+* added plugins in 'generators/opensteam/templates/vendor/plugins' as git submodules
+
 * removed "checkout as guest" method from checkout_controller.rb. Didn't work with new User-Model and user-roles. Customer must be logged_in or register to check out. Implement guest-checkout later. (special logic for User-Model)
 
 * now using the "echoe" gem to create packages. Updated Rakefile. Added Manifest.
