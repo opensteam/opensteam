@@ -1,69 +1,69 @@
 = opensteam v0.9.3
 
 * http://www.opensteam.net
+* http://github.com/shm/opensteam
 * http://rubyforge.org/projects/opensteam
 * http://blog.opensteam.net
 * http://www.diamonddogs.cc
-
 
 
 = AUTHOR:
 
 Michael Schaerfer @ DiamondDogs Webconsulting
 
-
 == DESCRIPTION:
 
-An eCommerce Framework for RubyOnRails
+An eCommerce Framework for Ruby on Rails
+
 
 == CHANGELOG
 
 see CHANGELOG File
 
+
+== INSTALL:
+
+	sudo gem install opensteam
+
+
 == FEATURES
 
 === General Features
 
-* Product Listing
-* Details-Page for Products
-* ShoppingCart (add/update/delete items, increment/decrement quantity, checkout)
-* CheckoutProcess
-* AdminBackend
+* generate/implement product and property models
+* ShoppingCart
+* Checkout Process
+* Administration Backend
 * ActiveMerchant Integration
-* ShippingRates
-* Taxes
-* ProfilePage for Customers
+* ShippingRates, Taxes, PaymentTypes
 * Overview and process Orders, Shipments and Invoices
 
 
 === Generators
 
-openSteam offers three new generators (to use with script/generate):
+opensteam provides three new generators (script/generate):
 
-* create a new webshop in no-time with 
-	script/generate opensteam WebShopName
-* create new products (like scaffold for models products) 
-	script/generate opensteam_product ProductName [column:type]
-* create new properties for products (like "color" for "Shirt") with 
-	script/generate opensteam_property PropertyName [column:type] 
-
+* create a new webshop:
+  script/generate opensteam <webshop_name>
+* create a new product model (like scaffold):
+  script/generate opensteam_product ProductName [column:type]
+* create a new property model for products (like 'Color' for a 'Shirt'):
+  script/generate opensteam_property PropertyName [column:type]
 
 
 === Flexibility in Products
-	
-* create new Product-Models with a generator
-* associate Products to Properties (a "Shirt" has_many "Colors")
-* give the Product a price and a storage-quantity
-* give specific configurations a price and a storage-quantity (a "blue-Shirt" is more expensive than a "yellow-Shirt")
-* mark specific configurations as "Not-Active" or "Back-Ordered"
+
+With the product/property generators you can easily implement your own product model.
+Each product entry is associated with an inventory-item, giving it a price, a storage, etc.
+Each product-property association (a blue-shirt, a green-shirt, etc) gets its own inventory-item.
 
 
 == SYNOPSIS:
 
-Create an empty Rails Application
+Create an empty Rails application
 	rails name_of_rails_application
 	
-Create the openSteam Framework
+Create the openSteam framework
 	script/generate opensteam WebshopName
 	
 Create product models
@@ -73,35 +73,39 @@ Create property models
 	script/generate opensteam_property PropertyName [column:type]
 	
 Goto /admin and configure your products
-	usr: admin@host.com
+	usr: admin
 	pwd: opensteam
 	
 
 
 == REQUIREMENTS:
 
-* rails (of course)
+* rails (..of course)
 
-* prawnto-plugin (used for pdf-export)
-  http://www.cracklabs.com/prawnto
+* prawnto gem (used for pdf-export) http://www.cracklabs.com/prawnto
+	sudo gem install prawn
 
-* ActiveMerchant gem (used for credit_card payment)
-  http://www.activemerchant.org/
+* ActiveMerchant gem (used for credit_card payment) http://www.activemerchant.org/
+  sudo gem install activemerchant
 
+* plugins in 'vendor/plugins' or 'generators/opensteam/templates/vendor/plugins'
   
-== INSTALL:
 
-	sudo gem install opensteam
-	
+== CREDITS:
+All plugins in 'generators/opensteam/templates/vendor/plugins', (or 'vendor/plugins' in the generated webshop) belong to their respective owner. See their LICENSE files for more information.
+
+The admin-backend uses the Ext-JS Framework http://extjs.com/ (Grid, Combobox, Tree, Icons). See their License file for more information.
+
+Some of the icons by famfamfam http://www.famfamfam.com/lab/icons/silk/ .Licensed under a Creative Commons Attribution 2.5 License, http://creativecommons.org/licenses/by/2.5/
+
+
+
 	
 == LICENSE:
 Copyright (C) DiamondDogs Webconsulting
-openSteam is licensed under the GNU General Public License (GPL) version 2
+opensteam is licensed under the GNU General Public License (GPL) version 2
 see the LICENSE file for more information.
 
-All plugins in "vendor/plugins" belong to their respective owner. See their License files for more information.
-
-The admin-backend uses the Ext-JS Framework http://extjs.com/ (Grid, ComboBox, Tree). See their License file for more information.
 
 
 
