@@ -1,0 +1,21 @@
+[submodule "generators/opensteam/templates/vendor/plugins/aasm"]
+	path = generators/opensteam/templates/vendor/plugins/aasm
+	url = git://github.com/rubyist/aasm.git
+[submodule "generators/opensteam/templates/vendor/plugins/restful-authentication"]
+	path = generators/opensteam/templates/vendor/plugins/restful-authentication
+	url = git://github.com/technoweenie/restful-authentication.git
+[submodule "generators/opensteam/templates/vendor/plugins/acts_as_tree"]
+	path = generators/opensteam/templates/vendor/plugins/acts_as_tree
+	url = git://github.com/rails/acts_as_tree.git
+[submodule "generators/opensteam/templates/vendor/plugins/prawnto"]
+	path = generators/opensteam/templates/vendor/plugins/prawnto
+	url = git://github.com/thorny-sun/prawnto.git
+[submodule "generators/opensteam/templates/vendor/plugins/role_requirement"]
+	path = generators/opensteam/templates/vendor/plugins/role_requirement
+	url = git://github.com/timcharper/role_requirement.git
+[submodule "generators/opensteam/templates/vendor/plugins/rspec-rails"]
+	path = generators/opensteam/templates/vendor/plugins/rspec-rails
+	url = git://github.com/dchelimsky/rspec-rails.git
+[submodule "generators/opensteam/templates/vendor/plugins/will_paginate"]
+	path = generators/opensteam/templates/vendor/plugins/will_paginate
+	url = git://github.com/mislav/will_paginate.git
