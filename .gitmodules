@@ -1,9 +1,6 @@
 [submodule "generators/opensteam/templates/vendor/plugins/aasm"]
 	path = generators/opensteam/templates/vendor/plugins/aasm
 	url = git://github.com/rubyist/aasm.git
-[submodule "generators/opensteam/templates/vendor/plugins/restful-authentication"]
-	path = generators/opensteam/templates/vendor/plugins/restful-authentication
-	url = git://github.com/technoweenie/restful-authentication.git
 [submodule "generators/opensteam/templates/vendor/plugins/acts_as_tree"]
 	path = generators/opensteam/templates/vendor/plugins/acts_as_tree
 	url = git://github.com/rails/acts_as_tree.git
