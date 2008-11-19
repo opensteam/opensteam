@@ -16,3 +16,6 @@
 [submodule "generators/opensteam/templates/vendor/plugins/will_paginate"]
 	path = generators/opensteam/templates/vendor/plugins/will_paginate
 	url = git://github.com/mislav/will_paginate.git
+[submodule "generators/opensteam/templates/vendor/plugins/restful_authentication"]
+	path = generators/opensteam/templates/vendor/plugins/restful_authentication
+	url = git://github.com/technoweenie/restful-authentication.git
