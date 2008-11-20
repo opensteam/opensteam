@@ -40,6 +40,15 @@ module Opensteam
 
         _logger "loaded!"
       end
+
+
+      def load_sub_controller
+        ActionController::Routing.controller_paths.each do |dir|
+          Dir.glob( File.join( dir, "*_controller.rb" ) ).each do |file|
+            require file
+          end
+        end
+      end
       
       
     
@@ -69,9 +78,11 @@ module Opensteam
           after_initialize_without_opensteam_initialize
           
           Opensteam::Initializer.require_opensteam_after_initialize
-          
-          Opensteam::ExtensionBase.init_extensions( :backend )
-          Opensteam::ExtensionBase.verify_extensions
+
+
+
+#          Opensteam::ExtensionBase.init_extensions( :backend )
+#          Opensteam::ExtensionBase.verify_extensions
           
         end
       
@@ -106,6 +117,8 @@ module Opensteam
       require 'opensteam/state_logic'
       require 'opensteam/extension_base'
       require 'opensteam/models'
+
+      require 'opensteam/backend/base'
       
       # require all payment types
       Dir.glob( File.join( File.dirname(__FILE__), "payment", "*.rb" ) ) { |f| 
