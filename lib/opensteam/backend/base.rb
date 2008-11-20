@@ -27,19 +27,23 @@ module Opensteam
       module ClassMethods
 
         # try to find all subcontroller
+        # 
+        # Example:
+        #   class AdminController < ApplicationController ; end
+        #   class Admin::SystemController < AdminController ; end
+        #   class Admin::UsersController  < AdminController ; end
+        # 
+        #   AdminController.subcontroller # => [Admin::SystemController, Admin::UsersController]
         #
-        # Admin::SystemController.subcontroller will check if module Admin::System is defined.
-        # If it is, it will return all constants of this module, that are inherited from ActionController::Base
-        #
-        # given Admin::SystemController:
-        # - smod = System
-        # - pmod = Admin
-        # - mod = Admin::System
+        # "AdminController.subcontroller" will check if module Admin is defined.
+        # If it is, it will return all constants/classes of this module that inherit from ActionController,
+        # thus being a controller class.
+        # If module Admin is not defined, it returns an empty array -> no subcontroller found.
         def subcontroller
           self.to_s =~/^(.+)Controller$/
           return [] unless $1
-          mod = $1
-          smod = $1.demodulize
+          mod = $1 # module of namespaced controller "Admin::SystemController" => "Admin::System"
+          smod = $1.demodulize # "System"
           if( pmod = self.parent ).const_defined?(:"#{smod}")
             return ( mod = mod.constantize ).constants.reject { |r| !( mod.const_get( r ) < ActionController::Base ) }
           end
@@ -48,8 +52,7 @@ module Opensteam
 
 
         # try to find all subcontroller
-        #
-        # using Object.subclasses_of (cycle through ObjectSpace)
+        # same as "subcontroller", but using Object.subclasses_of (cycle through ObjectSpace, .. slower)
         def subcontroller2
           Object.subclasses_of( self )
         end
