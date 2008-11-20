@@ -42,15 +42,20 @@ module Opensteam
       end
 
 
-      def load_sub_controller
+      def add_controller_paths c
+        c.controller_paths.push(
+          "#{RAILS_ROOT}/app/controllers/admin/",
+          "#{RAILS_ROOT}/app/controllers/admin/system",
+          "#{RAILS_ROOT}/app/controllers/admin/catalog",
+          "#{RAILS_ROOT}/app/controllers/admin/config"
+        )
+      end
+
+      def load_controller
         ActionController::Routing.controller_paths.each do |dir|
-          Dir.glob( File.join( dir, "*_controller.rb" ) ).each do |file|
-            require file
-          end
+          Dir[ File.join( dir, "*_controller.rb" ) ].each { |file| load( file ) }
         end
       end
-      
-      
     
     end
     
@@ -76,16 +81,9 @@ module Opensteam
       Rails::Initializer.class_eval do
         def after_initialize_with_opensteam_initialize
           after_initialize_without_opensteam_initialize
-          
           Opensteam::Initializer.require_opensteam_after_initialize
-
-
-
-#          Opensteam::ExtensionBase.init_extensions( :backend )
-#          Opensteam::ExtensionBase.verify_extensions
-          
+          Opensteam::Initializer.add_controller_paths( configuration )
         end
-      
         alias_method_chain :after_initialize, :opensteam_initialize
       end
       
@@ -148,6 +146,8 @@ module Opensteam
   
   
   class Configuration #:nodoc:
+
+
     
     def say_something
     
