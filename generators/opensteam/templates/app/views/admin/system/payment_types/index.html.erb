@@ -1,43 +1,34 @@
 <% render_headline 'categories_icon', 'Payment Types', 'content-header/headline_icon.jpg' %>
 <% render_header_buttons %>
 
-<div id="grid">
-   <table id="payment_types_table">
-    <thead>
-      <tr>
-		<th class="first no-menu no-sort not-in-context no-resize"><div>&nbps;</div></th>
-		<th>ID#</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Class</th>
-        <th class="last">Active?</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% for payment_type in @payment_types %>
+<div id="grid-wrapper">
+  <div id="grid">
+    <% grid_table do %>
+      <thead>
         <tr>
-					<td></td>
-          <td><%=h payment_type.id %></td>
-          <td><%=h payment_type.name %></td>
-          <td><%=h payment_type.klass.classify.constantize.display_name %></td>
-          <td><%=h payment_type.klass %></td>
-          <td>
-          <% form_tag toggle_admin_payment_type_path( payment_type ) do %>  
-            <%= image_submit_tag( payment_type.active? ? "tick.png" : "cross.png" ) %>
-          <% end %> 
+          <th class="first no-menu no-sort not-in-context no-resize"><div>&nbps;</div></th>
+          <th>ID#</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Class</th>
+          <th class="last">Active?</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table> 
+      </thead>
+      <tbody>
+        <% for payment_type in @payment_types %>
+          <tr>
+            <td></td>
+            <td><%=h payment_type.id %></td>
+            <td><%=h payment_type.name %></td>
+            <td><%=h payment_type.klass.classify.constantize.display_name %></td>
+            <td><%=h payment_type.klass %></td>
+            <td>
+              <%= link_to image_submit_tag( payment_type.active? ? 'tick.png' : 'cross.png' ), toggle_admin_payment_type_path( payment_type ) , :method => :post %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    <% end %>
+  </div>
 </div>
 
-<% javascript_tag do %>
-  //Ext.onReady( function() {
-  var grid = new Ext.grid.TableGrid('payment_types_table', {
-    stripeRows: true,
-    width:'100%;',
-    border:false,
-    height:'auto' } ) ;
-  grid.render() ;
-  //}) ;
-<% end %>

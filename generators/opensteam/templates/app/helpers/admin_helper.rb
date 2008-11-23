@@ -1,7 +1,36 @@
 # Methods added to this helper will be available to all templates in the application.
 ## TEMPLATE ##
 module AdminHelper
-  
+
+  def grid_table id = "the-table", &block
+    raise ArgumentError unless block_given?
+
+    concat(
+      content_tag:table, capture( &block ), { :cellpadding => "0", :cellspacing => "0", :id => id },
+      block.binding
+    )
+  end
+
+
+  def admin_nav_item c
+    cname = c.controller_name.upcase
+    content_tag :div, {
+      :id => "dvNaviItem_#{c.controller_name.upcase}",
+      :class => "dvNaviItem"
+#      :onmouseover => "DD.navi.doCheckForSubs(this,'#{cname}','down',false);",
+#      :onmouseout  => "DD.navi.doHideSubs(this,'#{cname}',false);"
+    } do
+      content_tag( :div, "", { :class => "dvNaviItem_left" } ) +
+        content_tag( :div, link_to( cname, { :controller => c.controller_path, :action => 'index' } ),
+          { :class => "dvNaviItem_main",
+            :onmouseover => "DD.navi.doCheckForSubs( this.parentNode, '#{cname}', 'down', false ); ",
+            :onmouseout  => "DD.navi.doHideSubs( this.parentNode, '#{cname}', false ) ; "
+          } ) +
+        content_tag( :div, "", { :class => "dvNaviItem_right" } ) +
+        content_tag( :div, "", { :class => "clearer" } )
+    end
+  end
+
   
   def button_to_with_image( image, args )
     form_tag :action => args[:action], :id => args[:id] do

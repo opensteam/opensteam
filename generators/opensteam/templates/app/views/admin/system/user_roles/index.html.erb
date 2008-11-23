@@ -2,43 +2,31 @@
 <% render_header_buttons "Add Role", :href => new_admin_system_user_role_path %>
 
 
-<div id="grid">
-  <table id="user_roles_table"  >
-    <thead>
-      <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
-      <th><div>ID#</div></th>
-      <th><div>Name</div></th>
-      <th><div>Users</div></th>
-      <th class="not-in-context no-menu"><div>&nbsp;</div></th>
-      <th class="last not-in-context no-menu"><div>&nbsp;</div></th>
-    </thead>
-    <tbody id="orders_table_body">
-      <% for user_role in @user_roles %>
+<div id="grid-wrapper">
+  <div id="grid">
+    <% grid_table do %>
+      <thead>
         <tr>
-          <td></td>
-          <td><%= user_role.id %></td>
-          <td><%= user_role.name %></td>
-          <td><%= user_role.users.size %>
-          <td><%= link_to "show", admin_system_user_role_path( user_role ) %> </td>
-          <td><%= link_to "delete", admin_system_user_role_path( user_role ), :method => 'delete', :confirm => "Are you sure?" %>
-
-          </td>
+          <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
+          <th><div>ID#</div></th>
+          <th><div>Name</div></th>
+          <th><div>Users</div></th>
+          <th class="not-in-context no-menu"><div>&nbsp;</div></th>
+          <th class="last not-in-context no-menu"><div>&nbsp;</div></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-
-  <% javascript_tag do %>
-    //Ext.onReady( function() {
-    var grid = new Ext.grid.TableGrid('user_roles_table', {
-    stripeRows: true,
- //   width:'100%;',
-    border:false,
-    height:'auto' } ) ;
-    grid.render() ;
-    //}) ;
-  <% end %>
-
-
+      </thead>
+      <tbody id="orders_table_body">
+        <% for user_role in @user_roles %>
+          <tr>
+            <td></td>
+            <td><%= user_role.id %></td>
+            <td><%= user_role.name %></td>
+            <td><%= user_role.users.size %></td>
+            <td><%= link_to "show", admin_system_user_role_path( user_role ) %> </td>
+            <td><%= link_to "delete", admin_system_user_role_path( user_role ), :method => 'delete', :confirm => "Are you sure?" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    <% end %>
+  </div>
 </div>

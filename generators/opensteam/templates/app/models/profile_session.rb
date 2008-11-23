@@ -16,17 +16,17 @@ class ProfileSession
     active_filter( controller ).each do |i|
       attributes = ids[:existing_filter][ i.to_s ]
       if attributes
-        f = FilterEntry.find( i )
+        f = Opensteam::System::FilterEntry.find( i )
         f.update_attributes( attributes ) if f
       else
-        f = FilterEntry.find( i )
+        f = Opensteam::System::FilterEntry.find( i )
         f.destroy if f
         active_filter( controller ).delete( i )
       end
     end
 
     ids["new_filter"] ||= []
-    b = ids["new_filter"].collect { |f| FilterEntry.create( f ).id }
+    b = ids["new_filter"].collect { |f| Opensteam::System::FilterEntry.create( f ).id }
     puts "**" * 10
     puts b
     

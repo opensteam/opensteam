@@ -177,7 +177,7 @@ END_OPENSTEAM_ROUTES
       ### Patch application.rb ###
       sentinel = 'class ApplicationController < ActionController::Base'
       app_contr = 'app/controllers/application.rb'
-      incl = "layout '#{file_name}'\n\n  public :render_to_string\n  include AuthenticatedSystem\n  include RoleRequirementSystem\n  helper :all\n"
+      incl = "layout '#{file_name}'\n\n  public :render_to_string\n  include AuthenticatedSystem\n  include RoleRequirementSystem\n\n"
       gsub_file app_contr, /(#{Regexp.escape(sentinel)})/mi do |match|
         "#{match}\n  #{incl}"
       end

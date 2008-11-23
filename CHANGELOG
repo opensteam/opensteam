@@ -1,5 +1,15 @@
 *EDGE*
 
+* added "admin_nav_item" helper to render navigation items in the admin-backend (AdminHelper)
+
+* added "add_controller_paths" method to Opensteam::Initializer, to add all controller-subdirectories to the controller_paths
+
+* added "load_controller" method to Opensteam::Initializer, to load all controller-files in controller_paths (to make the "subcontroller" method work)
+
+* added opensteam/backend/base for backend-controller
+
+* implemented "AdminController::Base#subcontroller" method to get all sub-controller for a (namespaced) controller
+
 * added plugins in 'generators/opensteam/templates/vendor/plugins' as git submodules
 
 * removed "checkout as guest" method from checkout_controller.rb. Didn't work with new User-Model and user-roles. Customer must be logged_in or register to check out. Implement guest-checkout later. (special logic for User-Model)

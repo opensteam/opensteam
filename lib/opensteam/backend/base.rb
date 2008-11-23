@@ -16,15 +16,85 @@
 
 module Opensteam
   module Backend
+
+    mattr_accessor :controller_paths
+    self.controller_paths = []
+
+    mattr_accessor :loaded_controller
+    self.loaded_controller = false
+
+    def self.load_controller( cpath = self.controller_paths)
+      return if self.controller_loaded? && RAILS_ENV != "development"
+      cpath.each do |dir|
+        Dir[ File.join( dir, "*_controller.rb") ].each { |file| puts file ; load(file) }
+      end
+      self.loaded_controller = true
+    end
+
+    def self.reset_controller_load!
+      self.loaded_controller = false
+    end
+
+    def self.controller_loaded?
+      self.loaded_controller
+    end
+
+    
     module Base
 
 
+      mattr_accessor :backend_controller
+      self.backend_controller = {}
+
       def self.included(base)
         base.send( :extend, ClassMethods )
+        Opensteam::Backend.load_controller
       end
 
 
+
       module ClassMethods
+
+        # save the inherited controller class into Opensteam::Backend::Base.backend_controller hash
+        def inherited(sub)
+          super
+          Opensteam::Backend::Base.backend_controller[ sub.superclass.to_s ] ||= []
+          Opensteam::Backend::Base.backend_controller[ sub.superclass.to_s ] << sub.to_s
+        end
+
+
+        # returns the sub_controller specified in Opensteam::Backend::Base
+        # Opensteam::Backend::Base.backend_controller is hash containing all backend_controller with superclass
+        # 
+        # Example:
+        #   { AdminController => [ Admin::SystemController ],
+        #     Admin::SystemController => [ Admin::System::UsersController ]
+        #   }
+        #
+        def sub_controller
+          Opensteam::Backend::Base.backend_controller[ self.to_s ]
+        end
+
+        
+        # returns the sub_controller_tree as a hash:
+        #   AdminController.sub_controller_tree
+        #   # => { AdminController => { Admin::SystemController => { Admin::System::UsersController => [] } } }
+        #
+        # use +method+ to change the hash key:
+        #   AdminController.sub_controller_tree :to_s
+        #   # => { "AdminController" => { "Admin::SystemController" => { "Admin::System::UsersController" => [] } } }
+        #   
+        # or:
+        #   AdminController.sub_controller_tree :to_s
+        #   # => { "admin" => { "admin/system" => { "admin/system/users" => [] } } }
+        #
+        # use +empty+ to specify what to return if no sub_controller exist, default is []
+        #
+        def sub_controller_tree method = nil, empty = []
+          return empty unless sub_controller
+          sub_controller.inject({}) { |r,v| r[ method ? v.send(method) : v ] = v.sub_controller_tree( method ); r }
+        end
+
 
         # try to find all subcontroller
         # 
@@ -45,17 +115,23 @@ module Opensteam
           mod = $1 # module of namespaced controller "Admin::SystemController" => "Admin::System"
           smod = $1.demodulize # "System"
           if( pmod = self.parent ).const_defined?(:"#{smod}")
-            return ( mod = mod.constantize ).constants.reject { |r| !( mod.const_get( r ) < ActionController::Base ) }
+            return ( mod = mod.constantize ).constants.reject { |r|
+              !( mod.const_get( r ) < ActionController::Base )
+            }.collect { |r| mod.const_get( r ) }
           end
           return []
         end
-
 
         # try to find all subcontroller
         # same as "subcontroller", but using Object.subclasses_of (cycle through ObjectSpace, .. slower)
         def subcontroller2
           Object.subclasses_of( self )
         end
+
+
+
+
+
 
 
       end

@@ -1,12 +1,8 @@
 <% render_headline 'categories_icon', 'Mailer Config', 'content-header/headline_icon.jpg' %>
 <% render_header_buttons  %>
 
-
-
-<div style="margin-bottom:30px;" id="filter">
-  <%#= render :partial => "admin/filters/filter", :locals => { :id => "users_filter", :model => "Admin::Config::Mailer", :records => @mailers } %>
-</div>
-
-<div id="grid">
-  <%= render :partial => "mailers", :locals => { :id => 'mailers_table' }, :object => @mailers %>
+<div id="grid-wrapper">
+  <div id="grid">
+    <%= render :partial => "mailers", :locals => { :id => 'mailers_table' }, :object => @mailers %>
+  </div>
 </div>

@@ -1,5 +1,7 @@
 <div id="user-wrapper">
-  <div class="outter"><div class="middle"><div class="inner">
+  <div class="outter">
+    <div class="middle">
+      <div class="inner">
         <div id="user-container" style="display:none;">
           <div>Welcome to the Opensteam Admin Backend...<br >
             <br />
@@ -8,22 +10,26 @@
             <strong>ruby:</strong>      v<%= "#{RUBY_VERSION}" + " (#{RUBY_PLATFORM})" %><br />
             <strong>environment:</strong> <%= RAILS_ENV %><br />
             <strong>database adapter:</strong> <%= ActiveRecord::Base.configurations[RAILS_ENV]['adapter'] %><br />
-            <strong>database schema:</strong> <%=  ActiveRecord::Migrator.current_version %><br />
-            <br />
-          Settings | Messages | <a href="#" onclick="toggleUserContainer() ; toggleQuicksteamEditLink() ; ">Edit Quicksteam Tabs</a></div>
-        </div>		
-        <div id="user-bar">
-          logged in as <strong><%= link_to_current_user :content_method => :email %></strong> (<%= current_user.user_roles.collect(&:name).join(",") %>) | <%= link_to "Log Out", logout_path %>  |
-          <a href="#" onclick="toggleUserContainer();" >
-            <%= image_tag('plus.png', :class => "user_bar_toggle_image", :style => "vertical-align:bottom;") %>
-            <%= image_tag("minus.png", :class => "user_bar_toggle_image", :style => "vertical-align:bottom;display:none;") %>
-          </a>				
+            <strong>database schema:</strong> <%=  ActiveRecord::Migrator.current_version %><br /><br />
+            Settings | Messages | <a href="#" onclick="toggleUserContainer() ; toggleQuicksteamEditLink() ; ">Edit Quicksteam Tabs</a>
+          </div>
         </div>
-  </div></div></div>
+        <div id="user-bar">
+          <strong><%= link_to_current_user :content_method => :email %></strong> | <%= link_to "log out", logout_path %> |
+          <a href="#" onclick="toggleUserContainer();">
+            <%= image_tag('plus.png', :class => "user_bar_toggle_image", :style => "vertical-align:bottom" ) %>
+            <%= image_tag('minus.png', :class => "user_bar_toggle_image", :style => "vertical-align:bottom;display:none") %>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
 <% javascript_tag do %>
   function toggleUserContainer() {
-  $('user-bar').select('.user_bar_toggle_image').each(function(item) { item.toggle() ; } ) ;
-  Effect.toggle( $('user-container'), 'slide', { delay: 0.2 } ) ;
+    $('user-bar').select('.user_bar_toggle_image').each( function( item ) { item.toggle() ; } ) ;
+    Effect.toggle( $('user-container'), 'slide', { delay: 0.2 } ) ;
   }
 <% end %>
