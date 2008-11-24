@@ -94,4 +94,8 @@ module UsersHelper
     end
   end
 
+  def link_to_backend_user
+    link_to h( current_user.login ), admin_system_user_path( current_user ), :title => current_user.email
+  end
+
 end

@@ -6,45 +6,37 @@
 <% content_for( :content_header_buttons ) do %>
   <%= link_to "<span>#{image_tag('content-header/icon_sun.gif')} Add to quicksteam</span>", '#' %>
   <%= link_to "<span>#{image_tag('content-header/icon_print.gif')} Print page</span>", '#' %>
-  <%= link_to "<span>Add Shipping-Rate Group</span>", new_admin_config_shipping_rate_group_path, :class => 'add-button' %>    
+  <%= link_to "<span>Add Shipping-Rate Group</span>", new_admin_config_shipping_rate_group_path, :class => 'add-button' %>
 <% end %>
 
 
-<div id="grid">
-	<table id="shipping_rate_groups_table"  >
-	  <thead>
-	    <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
-	    <th><div>ID</div></th>
-	    <th><div>Name</div></th>
-	    <th><div>Shipping Rates</div></th>
-	    <th><div>Updated At</div></th>
-	    <th class="not-in-context no-menu"><div>&nbsp;</div></th>
-	    <th class="not-in-context no-menu"><div>&nbsp;</div></th>
-	  </thead>
-	  <tbody id="orders_table_body">
-	    <% for group in @groups %>
-			<tr>
-				<td></td>
-				<td><%=h group.id %></td>
-				<td><%=h group.name %></td>
-				<td><%= group.shipping_rates.size %></td>
-				<td><%=h group.updated_at %></td>
-				<td><%= link_to "edit", edit_admin_config_shipping_rate_group_path( group ) %></td>
-				<td><%= link_to "delete", admin_config_shipping_rate_group_path( group ), :method => :delete, :confirm => 'Are you sure?' %></td>
-			</tr>
-		<% end %>
-	  </tbody>
-	</table>
+<div id="grid-wrapper">
+  <div id="grid">
+    <table id="the-table"  >
+      <thead>
+        <tr>
+        <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
+        <th><div>ID</div></th>
+        <th><div>Name</div></th>
+        <th><div>Shipping Rates</div></th>
+        <th><div>Updated At</div></th>
+        <th class="not-in-context no-menu"><div>&nbsp;</div></th>
+        <th class="not-in-context no-menu"><div>&nbsp;</div></th>
+        <tr>
+      </thead>
+      <tbody id="orders_table_body">
+        <% for group in @groups %>
+          <tr>
+            <td></td>
+            <td><%=h group.id %></td>
+            <td><%=h group.name %></td>
+            <td><%= group.shipping_rates.size %></td>
+            <td><%=h group.updated_at %></td>
+            <td><%= link_to "edit", edit_admin_config_shipping_rate_group_path( group ) %></td>
+            <td><%= link_to "delete", admin_config_shipping_rate_group_path( group ), :method => :delete, :confirm => 'Are you sure?' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
-
-<% javascript_tag do %>
-  //Ext.onReady( function() {
-  var grid = new Ext.grid.TableGrid('shipping_rate_groups_table', {
-    stripeRows: true,
-    width:'100%;',
-    border:false,
-    height:'auto' } ) ;
-  grid.render() ;
-  //}) ;
-<% end %>
-

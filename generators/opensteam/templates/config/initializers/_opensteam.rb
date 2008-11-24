@@ -59,6 +59,20 @@ class RemoteLinkRenderer < WillPaginate::LinkRenderer
 end
 
 
+module Prawnto
+  module TemplateHandler
+    class Base < ActionView::TemplateHandler
+      def self.compilable?
+        false
+      end
+
+      def compile(template)
+      end
+    end
+  end
+end
+
+
 require 'opensteam_extensions'
 
 #module ActionView # :nodoc:

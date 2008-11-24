@@ -2,39 +2,43 @@ var tblHdrObjs=Array();
 var tblHdrTimer=false;
 		
 Ext.onReady(function() {
-    var grid = new Ext.grid.TableGrid("the-table", {
-        stripeRows: true,
-        frame: false,
-        width: "auto",
-        height:"auto",
-        remove:true,
-        collapsible: true,
-        animCollapse: true,
-        minWidth:35,
-        renderTo: $("grid")
-    });
-    grid.render();
-			
-    var divElems=document.getElementsByTagName("DIV");
-    for(var i=0;i < divElems.length;i++){
-        if(divElems[i].className=="x-grid3-header"){
-            tblHdrObjs[tblHdrObjs.length]=divElems[i];
-            var hdrTbl=divElems[i].getElementsByTagName("TABLE")[0];
-            hdrTbl.rows[0].cells[hdrTbl.rows[0].cells.length-1].style.borderRight="none";
-        }
-    }
-    if(tblHdrObjs.length > 0){
-        tblHdrTimer=setInterval("checkTblHdrWidth()",1);
-    }
-			
-    var converted = new Ext.form.ComboBox({
-        typeAhead: true,
-        triggerAction: 'all',
-        transform:'paging_itemsPerPage',
-        width:58,
-        readOnly: true,
-        forceSelection:true
-    });
+	if( $('the-table') ) {
+	    var grid = new Ext.grid.TableGrid("the-table", {
+	        stripeRows: true,
+	        frame: false,
+	        width: "auto",
+	        height:"auto",
+	        remove:true,
+	        collapsible: true,
+	        animCollapse: true,
+	        minWidth:35,
+	        renderTo: $("grid")
+	    });
+	    grid.render();
+
+	    var divElems=document.getElementsByTagName("DIV");
+	    for(var i=0;i < divElems.length;i++){
+	        if(divElems[i].className=="x-grid3-header"){
+	            tblHdrObjs[tblHdrObjs.length]=divElems[i];
+	            var hdrTbl=divElems[i].getElementsByTagName("TABLE")[0];
+	            hdrTbl.rows[0].cells[hdrTbl.rows[0].cells.length-1].style.borderRight="none";
+	        }
+	    }
+	    if(tblHdrObjs.length > 0){
+	        tblHdrTimer=setInterval("checkTblHdrWidth()",1);
+	    }
+		if( $('paging_itemsPerPage' ) ) {
+	    	var converted = new Ext.form.ComboBox({
+	        	typeAhead: true,
+	        	triggerAction: 'all',
+	        	transform:'paging_itemsPerPage',
+	        	width:58,
+	        	readOnly: true,
+	        	forceSelection:true
+	    	});
+		}
+		
+	}
 			
     var aTags=document.getElementsByTagName("A");
     for(var aI=0;aI < aTags.length;aI++){
@@ -49,6 +53,8 @@ Ext.onReady(function() {
             }
         }
     }
+
+
 });
 var hdrThCell=false;
 function checkTblHdrWidth(){

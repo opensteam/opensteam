@@ -1,4 +1,4 @@
-<table id="tax_groups_table"  >
+<table id="the-table"  >
   <thead>
     <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
     <th><div>ID#</div></th>
@@ -14,15 +14,3 @@
     <%= render :partial => "admin/config/tax_groups/tax_group", :collection => tax_groups %>
   </tbody>
 </table>
-
-
-<% javascript_tag do %>
-  //Ext.onReady( function() {
-  var grid = new Ext.grid.TableGrid('tax_groups_table', {
-    stripeRows: true,
-    width:'100%;',
-    border:false,
-    height:'auto' } ) ;
-  grid.render() ;
-  //}) ;
-<% end %>

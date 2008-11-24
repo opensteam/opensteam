@@ -24,13 +24,13 @@ describe Mailer::OrderMailer do
       o.real_payment_address  = @payment_address
     end
 
-    @cart = Cart.create
-    @cart.push( inventories( :inventory_00042 ) )
-
-    @cart.items.each do |i|
-      i.container = @new_order
-      i.save
-    end
+#    @cart = Cart.create
+#    @cart.push( inventories( :inventory_00042 ) )
+#
+#    @cart.items.each do |i|
+#      i.container = @new_order
+#      i.save
+#    end
 
     Opensteam::System::Mailer.mailer_class("Mailer::OrderMailer" ).mailer_method("order_confirmation").first.update_attributes( :messages_sent => 0 ) ;
     

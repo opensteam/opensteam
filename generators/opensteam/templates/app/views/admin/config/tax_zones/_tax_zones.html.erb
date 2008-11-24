@@ -1,4 +1,4 @@
-<table id="tax_zones_table"  >
+<table id="the-table"  >
   <thead>
     <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
     <th><div>ID#</div></th>
@@ -13,15 +13,3 @@
     <%= render :partial => "admin/config/tax_zones/tax_zone", :collection => tax_zones %>
   </tbody>
 </table>
-
-
-<% javascript_tag do %>
-  //Ext.onReady( function() {
-  var grid = new Ext.grid.TableGrid('tax_zones_table', {
-    stripeRows: true,
-    width:'100%;',
-    border:false,
-    height:'auto' } ) ;
-  grid.render() ;
-  //}) ;
-<% end %>

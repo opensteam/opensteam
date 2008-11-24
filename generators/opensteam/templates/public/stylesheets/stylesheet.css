@@ -19,7 +19,7 @@ img, table{border:0;}
 		#user-wrapper .outter{background:transparent url(../images/header/user_bar_left.png) bottom left no-repeat;}
 			#user-wrapper .middle{background:transparent url(../images/header/user_bar_right.png) bottom right no-repeat;}
 				#user-wrapper .inner{background:transparent url(../images/header/user_bar_bg.png) bottom left repeat-x;margin:0 6px;}			
-					#user-container{background-color:#c33038;display:none;padding:0 5px;}
+					#user-container{background-color:#c33038;padding:0 5px;}
 					#user-bar{height:24px;padding:0 5px;}
 
 /*** header **/

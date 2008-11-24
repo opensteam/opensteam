@@ -10,7 +10,7 @@
     </td>
     <td class="filter_key">
       <div class="dvStatic">
-        <%= ff.select :key, User.filtered_keys, :id => "boing" %>
+        <%= ff.select :key, model.filtered_keys %>
         <% javascript_tag do %>
           transform2ComboBox( "boing" ) ; // $$('#dvFilterTableMainBody > tr').last().select('.filter_key select')[0] ) ;
         <% end %>

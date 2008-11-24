@@ -11,9 +11,7 @@ class User < ActiveRecord::Base
   include Opensteam::UserBase::UserLogic
 
   include Opensteam::System::FilterEntry::Filter
-  filter_keys [ :id, :profile, :email, :firstname, :lastname, :orders, :created_at, :updated_at ]
-
-
+  
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40

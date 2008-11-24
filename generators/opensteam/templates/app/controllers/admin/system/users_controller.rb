@@ -11,6 +11,7 @@ class Admin::System::UsersController < Admin::SystemController
     @users = User.filter( @filters )
     
     @users = @users.paginate( :page => params[:page],
+      :include => :user_roles,
       :per_page => params[:per_page] || 20, :order => "users.id" )
 
   end

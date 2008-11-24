@@ -1,51 +1,42 @@
 <%% render_headline 'categories_icon', 'Index <%= class_name %>', 'content-header/headline_icon.jpg' %>
 <%% render_header_buttons 'Add <%= class_name %>', :href => new_admin_catalog_<%= file_name %>_path %>
 
-
-<div id="grid">
-  <table id="<%= table_name %>_table" >
-    <thead>
-      <tr>
-      <%- for attribute in attributes -%>
-        <th><%= attribute.column.human_name %></th>
-      <%- end -%>
-        <th>Inventories</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-      </tr>
-    </thead>
-  <tbody>
-    <%% for <%= file_name %> in @<%= table_name %> %>
-      <tr>
-      <% for attribute in attributes -%>
-      <% if attribute.type.to_s == "references" -%>
-        <td><%% if <%= file_name %>.<%= attribute.name %> -%>
-          <%%=h <%= file_name %>.<%= attribute.name %>.name %>
-          <%% else -%>-<%% end -%>
-        </td>
-      <% else -%> 
-        <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
-      <% end -%>
-      <% end -%>
-        <td><%%= <%= file_name %>.inventories.size %></td>
-        <td><%%= link_to 'Edit', [:edit, :admin, :catalog, <%= file_name %>] %></td>
-        <td><%%= link_to 'Destroy', [:admin, :catalog, <%= file_name %>], :confirm => 'Are you sure?', :method => :delete %></td>
-      </tr>
-    <%% end %>
-  </tbody>
- </table>
+<div id="grid-wrapper">
+  <div id="grid">
+    <table id="the-table" >
+      <thead>
+        <tr>
+          <th class="first"><div>&nbsp;</div></th>
+        <%- for attribute in attributes -%>
+          <th><div><%= attribute.column.human_name %></div></th>
+        <%- end -%>
+          <th><div>Inventories</div></th>
+          <th>&nbsp;</th>
+          <th class="last">&nbsp;</th>
+        </tr>
+      </thead>
+    <tbody>
+      <%% for <%= file_name %> in @<%= table_name %> %>
+        <tr>
+        <%- for attribute in attributes -%>
+        <%- if attribute.type.to_s == "references" -%>
+          <td><%% if <%= file_name %>.<%= attribute.name %> -%>
+            <%%=h <%= file_name %>.<%= attribute.name %>.name %>
+            <%% else -%>-<%% end -%>
+          </td>
+        <%- else -%>
+          <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
+        <%- end -%>
+        <%- end -%>
+          <td><%%= <%= file_name %>.inventories.size %></td>
+          <td><%%= link_to 'Edit', [:edit, :admin, :catalog, <%= file_name %>] %></td>
+          <td><%%= link_to 'Destroy', [:admin, :catalog, <%= file_name %>], :confirm => 'Are you sure?', :method => :delete %></td>
+        </tr>
+      <%% end %>
+    </tbody>
+   </table>
+  </div>
 </div>
-
-<%% javascript_tag do %>
-  var grid = new Ext.grid.TableGrid('animals_table', {
-    stripeRows: true,
-    width:'100%',
-    border: false,
-    height:'auto'
-  } ) ;
-  grid.render() ;
-<%% end %>
-
 <br />
 
 <%%= link_to 'New <%= class_name %>', new_admin_catalog_<%= file_name %>_path %>

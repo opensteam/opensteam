@@ -1,107 +1,54 @@
-<% render_headline 'categories_icon', 'Users Index', 'content-header/headline_icon.jpg' %>
+<% render_headline 'categories_icon', 'Users', 'content-header/headline_icon.jpg' %>
 <% render_header_buttons "Add User", :href => new_admin_system_user_path %>
 
 
 <div style="margin-bottom:30px;" id="filter">
   <%= render :partial => "admin/filters/filter",
-    :locals => { :id => "users_filter", :model => "System::User", :filter_keys => User.filtered_keys, :records => @users } %>
+    :locals => { :id => "users_filter", :model => User, :filter_keys => User.filtered_keys, :records => @users } %>
 </div>
 
-
-<div id="grid">
-  <table id="users_table"  >
-    <thead>
-      <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
-      <th><div>ID#</div></th>
-      <th><div>Name</div></th>
-      <th><div>Email</div></th>
-
-      <th><div>Roles</div></th>
-      <th><div>Activated At</div></th>
-      <th><div>Deleted At</div></th>
-      <th><div>Created At</div></th>
-      <th><div>Updated At</div></th>
-      <th><div>State</div></th>
-      <th class="not-in-context no-menu"><div>&nbsp;</div></th>
-      <th class="last not-in-context no-menu"><div>&nbsp;</div></th>
-    </thead>
-    <tbody id="orders_table_body">
-      <% for user in @users %>
+<div id="grid-wrapper">
+  <div id="grid">
+    <table id="the-table"  >
+      <thead>
         <tr>
-          <td></td>
-          <td><%= user.id %></td>
-          <td><%= user.name %></td>
-          <td><%= user.email %></td>
-
-          <td><%= user.user_roles.collect(&:name).join(", ") %></td>
-          <td><%= user.activated_at %></td>
-          <td><%= user.deleted_at %></td>
-          <td><%= user.created_at %></td>
-          <td><%= user.updated_at %></td>
-          <td><%= user.state %></td>
-          <td><%= link_to "show", admin_system_user_path( user ) %> </td>
-          <td>
-            <%= render :partial => "event_button",
-              :collection => user.aasm_events_for_current_state.reject { |r| r == :register }.sort ,
-              :locals => { :user => user } -%>
-            <div class="clearer" />
-          </td>
+          <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
+          <th><div>ID#</div></th>
+          <th><div>Name</div></th>
+          <th><div>Email</div></th>
+          <th><div>Roles</div></th>
+          <th><div>Activated At</div></th>
+          <th><div>Deleted At</div></th>
+          <th><div>Created At</div></th>
+          <th><div>Updated At</div></th>
+          <th><div>State</div></th>
+          <th class="not-in-context no-menu"><div>&nbsp;</div></th>
+          <th class="last not-in-context no-menu"><div>&nbsp;</div></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody id="orders_table_body">
+        <% for user in @users %>
+          <tr class="<%= cycle('odd', 'even') %>">
+            <td class="first"></td>
+            <td><%= user.id %></td>
+            <td><%= user.name %></td>
+            <td><%= user.email %></td>
 
-
-  <% javascript_tag do %>
-
-    Ext.override(Ext.grid.GridView, {
-	layout : function(){
-		if(!this.mainBody){
-			return;         }
-		var g = this.grid;
-		var c = g.getGridEl();
-		var csize = c.getSize(true);
-		var vw = csize.width;
-		if(vw < 20 || csize.height < 20){
-			return;
-		}
-		if(g.autoHeight){
-			this.scroller.dom.style.overflow = 'visible';
-			this.scroller.dom.style.position = 'static';
-		}else{
-			this.el.setSize(csize.width, csize.height);
-			var hdHeight = this.mainHd.getHeight();
-			var vh = csize.height - (hdHeight);
-			this.scroller.setSize(vw, vh);
-			if(this.innerHd){
-				this.innerHd.style.width = (vw)+'px';
-			}
-		}
-		if(this.forceFit){
-			if(this.lastViewWidth != vw){
-				this.fitColumns(false, false);
-				this.lastViewWidth = vw;
-			}
-		}else {
-			this.autoExpand();
-			this.syncHeaderScroll();
-		}
-		this.onLayout(vw, vh);
-	}
-});
-
-    //Ext.onReady( function() {
-    var grid = new Ext.grid.TableGrid('users_table', {
-    stripeRows: true,
-    width:'100%;',
-    border:false,
-    height:'auto' } ) ;
-    grid.render() ;
-    //}) ;
-
-
-
-  <% end %>
-
-
+            <td><%= user.user_roles.collect(&:name).join(", ") %></td>
+            <td><%= user.activated_at %></td>
+            <td><%= user.deleted_at %></td>
+            <td><%= user.created_at %></td>
+            <td><%= user.updated_at %></td>
+            <td><%= user.state %></td>
+            <td><%= link_to "show", admin_system_user_path( user ) %> </td>
+            <td class="last">
+              <%= render :partial => "event_button",
+                :collection => user.aasm_events_for_current_state.reject { |r| r == :register }.sort ,
+                :locals => { :user => user } -%>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
