@@ -20,7 +20,7 @@ Ext.grid.TableGrid = function(table, config) {
     cols.push(Ext.applyIf(ch[i] || {}, {
       'header': text,
       'dataIndex': name,
-      'width': h.offsetWidth,
+      'width': ((h.offsetWidth >= 35) ? h.offsetWidth : ((h.className.indexOf("no-resize",0)!=-1) ? h.offsetWidth : 35 ) ),
       'tooltip': h.title,
 			'hideable' : ((h.className.indexOf("not-in-context",0)!=-1) ? false : true),
 			'resizable': ((h.className.indexOf("no-resize",0)!=-1) ? false : true),
@@ -54,7 +54,7 @@ Ext.grid.TableGrid = function(table, config) {
     'cm': cm,
     'sm': new Ext.grid.RowSelectionModel(),
     autoHeight: true,
-    autoWidth: false
+    autoWidth: true
   });
   Ext.grid.TableGrid.superclass.constructor.call(this, ct, {});
 };

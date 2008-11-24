@@ -31,20 +31,17 @@ function getElementsByClassName(classname, node) {
 
 function remove_filter(e) {
     e.element.remove() ;
-    if($$('#dvFilterTableMainBody tr').length == 0 ) {
-        $('dvFilterTableMain' ).hide() ;
-    }
 }
 
 
-function transformComboBox( el, width ) {
+function transform2ComboBox( el ) {
 	if( typeof(el) == 'string')el=$(el)
-	new Ext.form.ComboBox({
-		typeAhead: true,
-		triggerAction: 'all',
-		transform: el,
-		forceSelection: true,
-		triggerClass:'combo-trigger',
-		width: width
-	}) ;
+    new Ext.form.ComboBox({
+        typeAhead: true,
+        triggerAction: 'all',
+        transform: el,
+        readonly: true,
+        forceSelection: false,
+        selectOnFocus: true
+    }) ;
 }

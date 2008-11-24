@@ -1,4 +1,4 @@
-
+/*
 .clearer{clear:both;}
 .inputFields{border:1px solid #b1bcbf;background-color:#f2f8c4; height:16px; text-align:center; padding-top:2px; }
 .x-form-field-wrap {
@@ -9,10 +9,17 @@
 .combo-trigger { background: transparent url(../images/dropdown/elm_img_push.gif) no-repeat scroll 0 0 ! important ; width:28px ! important ; border:0px ! important; }
 
 
-.prev_page, .next_page { position: relative; top: 4px; }
+
 .prev_page { padding-right: 3px ; }
 .next_page { padding-left: 3px ; }
 
 form.grid { float:left ; padding-left: 3px ; }
+*/
 
-	
+.hideme { display:none; }
+
+/* filter menu align middle*/
+.dv-filter-list-paging { padding-top: 4px ;}
+.dv-filter-menu-buttons { padding-top: 6px; }
+.prev_page, .next_page { position: relative; top: 2px; }
+#pageing_currentPage { position: relative; top: -2px; }

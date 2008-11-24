@@ -15,20 +15,23 @@
 							td1.className="rowCount";
 							td1.innerHTML="<strong>" + (trCnt + 1) + ".</strong>";
 						var td2=tr.insertCell(tr.cells.length);
-							var z=new dhtmlXCombo(td2,"Filter_Option",((_isIE)? 130 : 126),null,null,"Filter_Option_" + trCnt);
-							z.loadXML("dynamicData.xml");
-							z.readonly(true);
+							td2.innerHTML="<div class=\"dvStatic\"><input type=\"text\" name=\"Filter_Option_" + trCnt + "\" id=\"Filter_Option_" + trCnt + "\"></div>";
 						var td3=tr.insertCell(tr.cells.length);
-							var z=new dhtmlXCombo(td3,"Filter_Option_details",((_isIE)? 130 : 126),null,null,"Filter_Option_" + trCnt + "_details");
-							z.loadXML("dynamicData.xml");
-							z.readonly(true);
+							td3.innerHTML="<div class=\"dvStatic\"><input type=\"text\" name=\"Filter_Option_" + trCnt + "_details\" id=\"Filter_Option_" + trCnt + "_details\"></div>";
 						var td4=tr.insertCell(tr.cells.length);
-							td4.innerHTML="<input type=\"text\" name=\"Filter_Option_text\" id=\"Filter_Option_" + trCnt + "_text\" class=\"inputFields\" style=\"width:243px;\">";
+							td4.innerHTML="<div class=\"dvStatic\"><input type=\"text\" name=\"Filter_Option_text\" id=\"Filter_Option_" + trCnt + "_text\" class=\"inputFields\" style=\"width:243px;\"></div>";
 						var td5=tr.insertCell(tr.cells.length);
 							td5.className="tdFilterLast";
 							td5.innerHTML="<table cellpadding=\"0\" cellspacing=\"0\" align=\"right\"><tbody><tr><td><div class=\"dv-small-button\"><a href=\"#\" onfocus=\"blur();\" onclick=\"DD.filter.deleteFilter(this,'" + targetObjId + "');return false;\">DELETE</a></div></td></tr></tbody></table>";
+						if(dvObj.style.display!="block"){
+							dvObj.style.display="block";
+						}
 						
-						dvObj.style.display="block";
+						
+						var remXmlData = new Ext.data.Store({url: '/dynamicData.php', method: "GET", fields: ['value', 'text'], reader: new Ext.data.XmlReader({record: 'Item'}, [{name:'value',type:'string'},{name:'text', type:'string'}]) });
+						var comboField = new Ext.form.ComboBox({store: remXmlData, hiddenName:'Filter_Option', valueField: 'value', displayField:'text', emptyText:'--select--',  applyTo: document.getElementById('Filter_Option_' + trCnt), typeAhead: true, forceSelection: false, triggerAction: 'all', selectOnFocus:true, mode: 'remote', autoload: true, editable : false, allowBlank:false});
+						var remXmlDetData = new Ext.data.Store({url: '/dynamicData.php', method: "GET", fields: ['value', 'text'], reader: new Ext.data.XmlReader({record: 'Item'}, [{name:'value',type:'string'},{name:'text', type:'string'}]) });
+						var comboFieldDet = new Ext.form.ComboBox({store: remXmlDetData, hiddenName:'Filter_Option_details', valueField: 'value', displayField:'text', emptyText:'--select--',  applyTo: document.getElementById('Filter_Option_' + trCnt + '_details'), typeAhead: true, forceSelection: false, triggerAction: 'all', selectOnFocus:true, mode: 'remote', autoload: true, editable : false, allowBlank:false});
 				}
 				
 				DD.filter.deleteFilter=function(callObj,targetObjId){
