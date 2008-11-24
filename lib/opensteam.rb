@@ -15,7 +15,7 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 require 'active_record'
-require 'active_merchant'
+#require 'active_merchant'
 
 
 =begin rdoc
