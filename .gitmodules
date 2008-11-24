@@ -19,3 +19,6 @@
 [submodule "generators/opensteam/templates/vendor/plugins/restful_authentication"]
 	path = generators/opensteam/templates/vendor/plugins/restful_authentication
 	url = git://github.com/technoweenie/restful-authentication.git
+[submodule "generators/opensteam/templates/vendor/plugins/active_merchant"]
+	path = generators/opensteam/templates/vendor/plugins/active_merchant
+	url = git://github.com/Shopify/active_merchant.git
