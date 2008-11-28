@@ -39,6 +39,7 @@ Used for the Property Base Class (STI)
       # save all subclasses in the properties-variable
       def inherited(property)
         properties << property.to_s
+        super
       end
       
     end

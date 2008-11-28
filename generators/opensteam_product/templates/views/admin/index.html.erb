@@ -18,6 +18,7 @@
     <tbody>
       <%% for <%= file_name %> in @<%= table_name %> %>
         <tr>
+          <td class="first"></td>
         <%- for attribute in attributes -%>
         <%- if attribute.type.to_s == "references" -%>
           <td><%% if <%= file_name %>.<%= attribute.name %> -%>
@@ -30,7 +31,7 @@
         <%- end -%>
           <td><%%= <%= file_name %>.inventories.size %></td>
           <td><%%= link_to 'Edit', [:edit, :admin, :catalog, <%= file_name %>] %></td>
-          <td><%%= link_to 'Destroy', [:admin, :catalog, <%= file_name %>], :confirm => 'Are you sure?', :method => :delete %></td>
+          <td class="last"><%%= link_to 'Destroy', [:admin, :catalog, <%= file_name %>], :confirm => 'Are you sure?', :method => :delete %></td>
         </tr>
       <%% end %>
     </tbody>

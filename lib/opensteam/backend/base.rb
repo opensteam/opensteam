@@ -23,6 +23,9 @@ module Opensteam
     mattr_accessor :loaded_controller
     self.loaded_controller = false
 
+
+    # load all *_controller.rb files in Opensteam::Backend.controller_paths
+    # if controller are not loaded yet and Rails is in development environment
     def self.load_controller( cpath = self.controller_paths)
       return if self.controller_loaded? && RAILS_ENV != "development"
       cpath.each do |dir|
@@ -31,10 +34,13 @@ module Opensteam
       self.loaded_controller = true
     end
 
+    # set Opensteam::Backend.loaded_controller to false
+    # reloads controller on next request
     def self.reset_controller_load!
       self.loaded_controller = false
     end
 
+    # check if controller are loaded
     def self.controller_loaded?
       self.loaded_controller
     end

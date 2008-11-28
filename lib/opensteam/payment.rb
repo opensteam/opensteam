@@ -165,6 +165,7 @@ module Opensteam
       class << self
         
         def inherited(sub) #:nodoc:
+          super
           @@payment_types << sub
         end
         

@@ -1,4 +1,4 @@
-class Account::OrdersController < AccountController
+class Account::OrdersController < AccountsController
 
   include AuthenticatedSystem
   

@@ -31,8 +31,8 @@ module Opensteam
       base.send( :include, InstanceMethods )
       
       base.class_eval do
-        belongs_to :order, :class_name => 'Admin::Sales::Order'
-        belongs_to :customer, :class_name => 'Opensteam::UserBase::User'
+        belongs_to :order, :class_name => 'Opensteam::Models::Order'
+        belongs_to :customer, :class_name => 'User'
         belongs_to :address, :class_name => 'Opensteam::UserBase::Address'
 
         has_many :order_items, :class_name => 'Opensteam::Container::Item'
@@ -65,6 +65,9 @@ module Opensteam
       # returns the order items
       def items ; order_items ; end
 
+
+      # returns the order-id
+      def order_id ; self.order ? self.order.id : nil ; end
     end
 
 

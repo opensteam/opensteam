@@ -46,9 +46,11 @@ module Opensteam
             #        class << self ; attr_accessor :filtered_keys ; end
           end
 
+          # returns the filtered results using anonymous scopes for every filter-entry
+          #
           def filter(entries)
             entries = Array( entries ).first.is_a?( FilterEntry ) ? Array( entries ) : FilterEntry.find( entries )
-            return entries.inject( self ) { |r,v| r = r.scoped( :conditions => v.conditions( self ) ) }
+            return entries.inject( self ) { |r,v| r = r.scoped( :conditions => v.conditions( self ), :include => v.includes ) }
           end
 
         end
@@ -56,7 +58,8 @@ module Opensteam
 
 
 
-
+      def includes ; @includes ; end
+      
       # generate condition array/hash from key/op/val paris for *model*
       # checks if operator is allowed
       # tries to get column-name of an association by calling reflect_on_association or checking configured_filter (default)
@@ -112,7 +115,7 @@ module Opensteam
       # checks if operator is allowed, if not an ArgumentError is raised
       def check_operator( op )
         return op if self.class.allowed_operators.include?( op )
-        raise ArgumentError, "Operator No Allowed '#{op}'"
+        raise ArgumentError, "Operator Not Allowed '#{op}'"
       end
 
     end

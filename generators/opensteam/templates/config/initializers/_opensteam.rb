@@ -30,10 +30,6 @@ Inventory.define_property_accessors
 Opensteam::Payment::Types.register_payment_types!if ActiveRecord::Base.connection.table_exists?( "payment_types" )
 
 
-## Constants for restful_authenticated
-REST_AUTH_SITE_KEY         = '7de2207fa03b2d0c4405a096632f1be0076fad0f'
-REST_AUTH_DIGEST_STRETCHES = 10
-
 
 Order = Opensteam::Models::Order
 Zone = Opensteam::System::Zone

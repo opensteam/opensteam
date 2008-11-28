@@ -79,11 +79,12 @@ module Opensteam
       base.class_eval do
         include Opensteam::StateMachine
       
-        belongs_to :order, :class_name => 'Admin::Sales::Order'
-        belongs_to :customer, :class_name => 'Opensteam::UserBase::User'
+        belongs_to :order, :class_name => 'Opensteam::Models::Order'
+        belongs_to :customer, :class_name => 'User'
         belongs_to :address, :class_name => 'Opensteam::UserBase::Address'
       
         has_many :order_items, :class_name => 'Opensteam::Container::Item'
+        alias :items :order_items
             
         named_scope :by_order, lambda { |order_id| { :include => :order, :conditions => { :order_id => order_id } } }
         named_scope :order_by, lambda { |by| { :include => Shipment.osteam_configtable.default_include, :order => Array(by).join(",") , :conditions => "addresses.id = addresses.id" } }
@@ -117,6 +118,7 @@ module Opensteam
         :dependent => :destroy
   
       has_many :zones,
+        :class_name => 'Opensteam::System::Zone',
         :through => :shipping_rates
   
       has_many :payment_additions,
@@ -133,9 +135,13 @@ module Opensteam
   
   
       def rate_for( attr = {} )
-        conditions = {}
-        conditions["zones.country_name"] = attr[:country] || Opensteam::Config[:default_country]
-        conditions["shipping_method"] = attr[:shipping_method] || Opensteam::Config[:shipping_method_default]
+        conditions = {
+          "zones.country_name" => attr[:country] || Opensteam::Config[:default_country],
+          "region_shipping_rates.shipping_method" => attr[:shipping_method] || Opensteam::Config[:shipping_method_default]
+        }
+        #        conditions = {}
+        #        conditions["zones.country_name"] = attr[:country] || Opensteam::Config[:default_country]
+        #        conditions["region_shipping_rates.shipping_method"] = attr[:shipping_method] || Opensteam::Config[:shipping_method_default]
     
         srate = shipping_rates.find( :first, :include => :zone, :conditions => conditions )
  
@@ -236,7 +242,7 @@ module Opensteam
         :class_name => 'Opensteam::ShipmentBase::ShippingRateGroup'
   
       belongs_to :zone,
-        :class_name => 'Zone'
+        :class_name => 'Opensteam::System::Zone'
   
   
       ## named scopes

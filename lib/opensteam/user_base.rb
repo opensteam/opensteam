@@ -45,12 +45,14 @@ module Opensteam
       
       def land ; country ; end
       def land=(l) ; country = l ; end
-      
-      def to_a ; [ firstname + " " + lastname, street, zip + " " + city, country ] ; end
-      
-      def full_address ; to_a * (",") ; end
+
+      def to_a; [ firstname, lastname, street, zip, city, country ] ; end
+      def full_address ; to_a * (", ") ; end
+
+      def full s = "\n" ; to_a * s ; end
       
       alias :to_s :full_address
+      
       
 
       

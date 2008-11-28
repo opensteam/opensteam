@@ -6,7 +6,7 @@ module AdminHelper
     raise ArgumentError unless block_given?
 
     concat(
-      content_tag:table, capture( &block ), { :cellpadding => "0", :cellspacing => "0", :id => id },
+      content_tag :table, capture( &block ), { :cellpadding => "0", :cellspacing => "0", :id => id },
       block.binding
     )
   end
