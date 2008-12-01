@@ -1,64 +1,46 @@
-<% admin_sidebar_links do %>
-  <%= admin_sidebar_link "Show Order", admin_sales_order_path( @order ) %>
-  <%= admin_sidebar_link "Show Order Shipments", admin_sales_order_shipments_path %>
-  <%= admin_sidebar_link "Show Order Invoices", admin_sales_order_invoices_path %>
-<% end %>
-
-<h2>New Shipment</h2>
+<% render_headline 'categories_icon', "Order ##{@order.id} - New Shipment", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons 'Save', :form_id => "shipment_form", :class => 'save-button' %>
 
 <%= error_messages_for :shipment %>
 <%= error_messages_for :address %>
 
+<div id="editor-wrapper">
+	<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="200">
+				<%= order_navigation( @order, :active => :shipments ) %>
+			</td>
+			<td width="20"><br /></td>
+			<td width="100%" id="editor_content">
+				<div id="dvEditorTabContainer">
+					<div id="general_tab" class="x-hide-display" title="Information">
+						<% form_for :shipment, :url => admin_sales_order_shipments_path( @order ), :html => { :id => :shipment_form, :method => :post } do |f| %>
+  						<%= render :partial => "admin/sales/shipments/shipment_fields", :object => @shipment, :locals => { :f => f } %>
+						<% end %>
+					</div>
+				</div>
+				<div id="dvEditorTabFooter">
+					<div id="dvEditorTabFooter-inner">
+						<div id="dvEditorTabFooterLeft">&nbsp;</div>
+						<div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
 
 
-<% form_for :shipment, @shipment, :url => { :action => 'create', :controller => 'shipments' }, :html => { :method => 'post' } do |f| %>
+<%= observe_form :invoice_form, :url => { :action => :update_price } %>
 
-  <% fields_for :address, @shipment.address do |a| %>
+<% javascript_tag do %>
 
-    <% field_set_tag do %>
-      <p>
-        <%= a.label :street %>
-        <%= a.text_field :street %>
-      </p>
-      <p>
-        <%= a.label :postal %>
-        <%= a.text_field :postal %>
-      </p>
-      <p>
-        <%= a.label :city %>
-        <%= a.text_field :city %>
-      </p>
-      <p>
-        <%= a.label :country %>
-        <%= a.text_field :country %>
-      </p>
-    <% end %>
-  <% end %>
-
-  <% field_set_tag do %>
-    <p>
-      <%= f.label :shipping_rate %>
-      <%= f.text_field :shipping_rate, :size => 5 %>
-    </p>
-    <p>
-      <%= f.label :comment %>
-      <%= f.text_area :comment, :rows => 5%>
-    </p>
-  <% end %>
-
-  <% fields_for :order_items, nil do |a| %>
-    <p>Select Order Items
-      <ul>
-        <% for oi in @order.items.select { |s| s.shipment == nil } %>
-          <li>  <%= a.check_box "#{oi.id}", {} , 1, 0 %> <%= a.label oi.id, oi.product.name %> (<%=h oi.product.class %>)
-            | <%- unless oi.properties.empty? -%><b>Configuration:</b> <%=h oi.properties.collect(&:name) * "," %><%- end -%>
-          | <%=h oi.quantity %> | <%=h oi.quantity * oi.price %></li>
-        <% end %>
-      </ul>		
-    </p>
-  <% end %>
-
-
-
-  <%= submit_tag "save" %>
+build_tabs( 'dvEditorTabContainer', [
+{ contentEl: 'general_tab', title: Ext.get('general_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+button: {
+	left: 	{ title: "cancel", url: '<%= admin_sales_order_shipments_path( @order ) %>' },
+	right: 	{ title: "save", clickEvent: "$('shipment_form').submit(); return false;" }
+}
+}
+] ) ;
 <% end %>

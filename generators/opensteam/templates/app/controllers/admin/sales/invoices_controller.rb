@@ -19,29 +19,23 @@ class Admin::Sales::InvoicesController < Admin::SalesController
      :order => 'invoices.id' )
     
     respond_to do |format|
-      format.html
+      format.html { @order ? render( :action => :index_order ) : render( :action => :index ) }
       format.xml { render :xml => @invoices.to_xml( :root => 'invoices' ) }
-      format.js {  render :update do |page|
-          #page.replace_html :grid, :partial => 'invoices', :object => @invoices 
-          #page.replace_html :filter, :partial => 'admin/filters/filter', :locals => {�:records => @invoices, :model => 'Invoice' }
-        end
-      }
-      
     end
     
   end
 
   
   def show
-    @order = Order.find( params[:order_id] )
     @invoice ||= Opensteam::Models::Invoice.find( params[:id] )
+    @order = @invoice.order
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @invoice.to_xml( :root => 'invoice' ) }
-      format.pdf { 
+      format.html
+      format.xml { render :xml => @invoice.to_xml( :root => 'invoice') }
+      format.pdf {
         render :layout => false
-        prawnto( :filename => "order_#{@order.id}_invoice_#{@invoice.id}", :prawn => { :page_size => 'A4' } )            
+        prawnto( :filename => "order_#{@order.id}_invoice_#{@invoice.id}", :prawn => { :page_size => 'A4' } )
       }
     end
   end
@@ -49,14 +43,16 @@ class Admin::Sales::InvoicesController < Admin::SalesController
   
   def new
     @order = Order.find( params[:order_id] )
-    @invoice = @order.invoices.new
-    
+
     if @order.items.all_invoiced?
       flash[:error] = "Cannot create invoice :  All order-items have an invoice!"
-      redirect_to admin_order_path( @order )
+      redirect_to request.referer
     end
 
+    @invoice = @order.invoices.new
   end
+  
+  
   
   
   
@@ -67,8 +63,8 @@ class Admin::Sales::InvoicesController < Admin::SalesController
       return 
     end
     
-    
-    @order = Order.find( params[:order_id] )
+ #   params[:invoice][:discount] || "0"
+    @order = Order.find( params[:invoice].delete( :order_id ) )
     @invoice = @order.invoices.new( params[:invoice] )
     @address = @invoice.address
     
@@ -94,21 +90,6 @@ class Admin::Sales::InvoicesController < Admin::SalesController
     
   end
   
-  def update
-    @invoice = Opensteam::InvoiceBase::Invoice.find( params[:id] )
-
-    respond_to do |format|
-      if @invoice.update_attributes( params[:invoice] )
-        format.html { redirect_to( admin_sales_order_path( @invoice.order ) ) }
-        format.xml { head :ok }
-      else
-        format.html { render :action => "show" }
-        format.xml { render :xml => @invoice.errors, :status => :unprocessable_entity }
-      end
-    end
- 
-  end
- 
 
   def update_price
   
@@ -123,6 +104,7 @@ class Admin::Sales::InvoicesController < Admin::SalesController
     price += BigDecimal.new( params[:shipping_rate] ? @order.shipping_rate.to_s : "0.0" )
     
     render :update do |page|
+      page["invoice_price"].highlight( :startcolor => '#D8E668' )
       page["invoice_price"].value = price
     end
     

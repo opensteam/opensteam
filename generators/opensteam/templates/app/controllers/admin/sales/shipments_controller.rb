@@ -8,7 +8,7 @@ class Admin::Sales::ShipmentsController < Admin::SalesController
     @shipments = Opensteam::Models::Shipment.filter( @filters )
     
     if params[:order_id]
-      @order = Opensteam::Models::Shipment.find( params[:order_id] )
+      @order = Opensteam::Models::Order.find( params[:order_id] )
       @shipments = ( @shipments || Opensteam::Models::Shipment ).by_order( params[:order_id] )
     end
     
@@ -19,25 +19,19 @@ class Admin::Sales::ShipmentsController < Admin::SalesController
      :order => 'shipments.id' )
     
     respond_to do |format|
-      format.html
-      format.xml { render :xml => @shipments.to_xml( :root => 'shipments' ) }
-      format.js {  render :update do |page|
-       #   page.replace_html :grid, :partial => 'invoices', :object => @invoices 
-        #  page.replace_html :filter, :partial => 'admin/filters/filter', :locals => { :records => @invoices, :model => 'Invoice' }
-        end
-      }
-      
+      format.html { @order ? render( :action => :index_order )  : render( :action => :index ) }
+      format.xml  { render :xml => @shipments.to_xml( :root => 'shipments' ) }
     end
     
   end
   
   def show
-    @order = Order.find( params[:order_id] )
-    @shipment ||= Opensteam::Models::Shipment.find( params[:id] )
+    @shipment = Opensteam::Models::Shipment.find( params[:id], :include => :order )
+    @order = @shipment.order
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @shipments }
+      format.xml  { render :xml => @shipment.to_xml( :root => 'shipment') }
     end
   end
   
@@ -50,8 +44,8 @@ class Admin::Sales::ShipmentsController < Admin::SalesController
     end
     
     if @order.items.all_shipped?
-      flash[:error] = "Cannot create shipment :  All order items have been shipped!!"
-      redirect_to admin_order_path( @order )
+      flash[:error] = "Cannot create shipment :  All order-items have been shipped!!"
+      redirect_to request.referer
     end
 
   end
@@ -59,28 +53,27 @@ class Admin::Sales::ShipmentsController < Admin::SalesController
   
   
   def create
-    @order = Order.find( params[:order_id] )
+    @order = Opensteam::Models::Order.find( params[:shipment].delete( :order_id) )
     @shipment = @order.shipments.new( params[:shipment] )
     @address = @shipment.address
     
-    @order_items = @order.items.select { |o|
-      params[:order_items].keys.include?( o.id.to_s ) && params[:order_items][ o.id.to_s ] == "1"
-    }
+    unless params[:order_items]
+      flash[:error] = "You have to select order-items first!"
+      redirect_to :action => :new
+      return
+    end
+  
+    @shipment.order_items << @order.items.find( params[:order_items] )
 
-    @shipment.order_items << @order_items
-    
-    ret = @address.update_attributes( params[:address] ) &&
-      @shipment.save
-    
-    
-    
+    ret = @address.update_attributes( params[:address] ) && @shipment.save
+
     respond_to do |format|
       if ret
         flash[:notice] = 'Shipment was successfully created.'
-        format.html { redirect_to( admin_sales_order_path( @order ) ) }
+        format.html { redirect_to( admin_sales_order_invoices_path( @order ) ) }
         format.xml  { render :xml => @shipment, :status => :created, :location => @shipment }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => :new }
         format.xml  { render :xml => @shipment.errors, :status => :unprocessable_entity }
       end
     end

@@ -32,6 +32,11 @@ Opensteam::Models::Invoice.class_eval do
   filter_keys [ :id, :order_items, :address, :state, :comment, :price, :created_at, :updated_at ]
 end
 
+Opensteam::Models::Inventory.class_eval do
+  include Opensteam::System::FilterEntry::Filter
+  filter_keys [ :id, :configuration, :active, :price, :storage, :back_ordered, :tax_group ]
+end
+
 
 
 

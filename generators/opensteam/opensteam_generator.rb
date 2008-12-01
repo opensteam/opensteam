@@ -106,9 +106,9 @@ class OpensteamGenerator < Rails::Generator::NamedBase
 
     # /admin/catalog
     admin.namespace :catalog do |catalog|
-      catalog.resources :products
-      catalog.resources :properties
-      catalog.resources :inventories
+      catalog.resources :products,    :only => [ :index ]
+      catalog.resources :properties,  :only => [ :index ]
+      catalog.resources :inventories, :only => [ :index, :edit, :update ]
       catalog.resources :categories
 
       # dynamic products/properties resources
@@ -121,7 +121,10 @@ class OpensteamGenerator < Rails::Generator::NamedBase
           end
         end
 
-        catalog.resources m
+        catalog.resources m do |p|
+          p.resources :inventories, :requirements => { :product_type => m, :product_id => :id }
+#          :has_many => :inventories, :requirements => { :product_type => m }
+        end
       end
 
       Opensteam::Find.find_property_tables.collect(&:to_sym).each do |m|

@@ -1,4 +1,4 @@
-<table id="the-table"  >
+<% grid_table do %>
   <thead>
     <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
     <th><div>ID#</div></th>
@@ -12,4 +12,4 @@
   <tbody id="orders_table_body">
     <%= render :partial => "admin/config/tax_zones/tax_zone", :collection => tax_zones %>
   </tbody>
-</table>
+<% end %>

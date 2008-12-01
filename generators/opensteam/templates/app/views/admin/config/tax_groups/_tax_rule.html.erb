@@ -1,14 +1,17 @@
 <div class="rule">
-  <% new = tax_rule.new_record? ? 'new' : 'existing' %>
-  <% prefix =  "tax_group[#{new}_tax_rule_attributes][]" %>
-  
-  <% fields_for prefix, tax_rule do |tax_rule_form| %>
-    <% field_set_tag do %>
-      <p>
-        TaxRule: 
-        <%= tax_rule_form.select :tax_zone_id, @tax_zones.collect { |z| ["#{z.country} - #{z.rate}", z.id] } %>
-        <%= link_to_function "remove", "$(this).up('.rule').remove()" %>
-      </p>
-    <% end %>
-  <% end %>
+	<% new = tax_rule.new_record? ? 'new' : 'existing' %>
+	<% prefix =  "tax_group[#{new}_tax_rule_attributes][]" %>
+	<% fields_for prefix, tax_rule do |tax_rule_form| %>
+	<table cellspacing="0" cellpadding="0" class="editor-form">
+		<tr>
+			<td class="label">Tax Rule:</td>
+			<td style="width:200px;" class="content"><%= tax_rule_form.select :tax_zone_id, @tax_zones.collect { |z| ["#{z.country} - #{z.rate}", z.id] } %>
+				<% javascript_tag do %>
+					transform2ComboBox( $$('.rule table select').last(), { listWidth: 200 } ) ;
+				<% end %>
+				</td>
+			<td><%= link_to_function "<span>Remove</span>", "$(this).up('.rule').remove(); return false; ", :class => "green-button" %></td>
+		</tr>
+	</table>
+	<% end %>
 </div>

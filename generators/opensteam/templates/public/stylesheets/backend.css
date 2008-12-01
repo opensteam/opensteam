@@ -23,3 +23,27 @@ form.grid { float:left ; padding-left: 3px ; }
 .dv-filter-menu-buttons { padding-top: 6px; }
 .prev_page, .next_page { position: relative; top: 2px; }
 #pageing_currentPage { position: relative; top: -2px; }
+
+/* editor content: form elements alignment */
+#editor-wrapper fieldset label { float: left; width:100px; text-decoration: underline; }
+
+#editor-wrapper fieldset p { margin-top: 10px; }
+.tab-content { padding-left: 20px; padding-bottom: 10px; }
+
+
+
+/* editor forms */
+table.editor-form td { padding: 5px ; }
+	table.editor-form td.label { width: 100px; }
+		table.editor-form td textarea {border:1px solid #b1bcbf;background-color:#f2f8c4;}
+		table.editor-form td select.bool { width: 50px; }
+table.order-editor { width:auto ! important;}
+	table.order-editor td { padding: 2px ; line-height:19px; }
+		table.order-editor td.label { width: 100px; }
+		table.order-editor td.content { font-weight: bold;}
+table.order-editor a { float:left;}
+div.actions-left { float:left; }
+div.actions-right { float:right; }
+.x-tab-panel-body { background-color:#F7FAE0; }
+
+.editor-actions div { padding: 3px; }

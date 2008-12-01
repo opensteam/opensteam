@@ -1,4 +1,4 @@
-class CreateShippingRateGroups < ActiveRecord::Migration
+ class CreateShippingRateGroups < ActiveRecord::Migration
   def self.up
     create_table :shipping_rate_groups do |t|
       t.string :name

@@ -12,7 +12,7 @@
       <div class="dvStatic">
         <%= ff.select :key, model.filtered_keys %>
         <% javascript_tag do %>
-          transform2ComboBox( "boing" ) ; // $$('#dvFilterTableMainBody > tr').last().select('.filter_key select')[0] ) ;
+          transform2ComboBox( $$('#dvFilterTableMainBody > tr').last().select('.filter_key select')[0], {} ) ;
         <% end %>
       </div>
     </td>
@@ -20,7 +20,7 @@
       <div class="dvStatic">
         <%= ff.select :op, ["LIKE", "=", ">", "<", "!=" ] %>
         <% javascript_tag do %>
-          transform2ComboBox( $$('#dvFilterTableMainBody > tr').last().select('.filter_op select')[0] ) ;
+          transform2ComboBox( $$('#dvFilterTableMainBody > tr').last().select('.filter_op select')[0], {} ) ;
         <% end %>
       </div>
     </td>

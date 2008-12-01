@@ -1,74 +1,65 @@
+<% render_headline 'categories_icon', "#{t :order} ##{@order.id}", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons %>
 
-<% admin_sidebar_links do %>
-  <%= admin_sidebar_link "Information", "#", :function => "toggle_admin_display('order_customer');"  %>
-  <%= admin_sidebar_link "Payment", "#", :function => "toggle_admin_display('order_payment');" %>
-  <%= admin_sidebar_link "Shipments", "#", :function => "toggle_admin_display('order_shipments');" %>
-  <%= admin_sidebar_link "Order Items", "#", :function => "toggle_admin_display('order_order_items');" %>
-  <%= admin_sidebar_link "History", "#", :function => "toggle_admin_display('order_history');" %>
-<% end%>
+<div id="editor-wrapper">
+	<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="200">
+				<%= order_navigation( @order, :active => :general ) %>
+			</td>
+			<td width="20"><br /></td>
+			<td width="100%" id="editor_content">
+				<div id="dvEditorTabContainer">
+					<div id="general_tab" class="x-hide-display" title="Information">
+						<%= render :partial => "admin/sales/orders/information", :object => @order %>
+					</div>
+					<div id="customer_tab" class="x-hide-display" title="Customer">
+						<%= render :partial => "admin/sales/orders/customer", :object => @order.customer %>
+					</div>
+					<div id="order_items_tab" class="x-hide-display" title="Order Items">
+						<%= render :partial => "admin/sales/order_items/items_table", :object => @order %>
+					</div>
+					<div id="history_tab" class="x-hide-display" title="History">
+						<%= render :partial => "admin/sales/orders/history", :object => @order.history %>
+					</div>		
+				</div>
+				<div id="dvEditorTabFooter">
+					<div id="dvEditorTabFooter-inner">
+						<div id="dvEditorTabFooterLeft">&nbsp;</div>
+						<div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
 
-<h2>Order # <%= @order.id %></h2>
-<b>State:</b> <%=h @order.state %><br />
-<b>Payment State:</b> <%= @order.payments.first.state unless @order.payments.empty? %><br />
-<b>Shipments States:</b> <%= @order.shipments.collect(&:state).join(", ") %><br />
+<% javascript_tag do %>
 
-<% @order.events.select { |s| s =~ /^view_link_to_/ }.each do |o| %>
-  <% o =~ /^view_link_to_(.+)$/ %>
-  <%= link_to $1 ? $1.humanize : o , @order.__send__( o ) %>
+build_tabs( 'dvEditorTabContainer', [
+{ contentEl: 'general_tab', title: Ext.get('general_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+button: {
+	left: 	{ title: "cancel", url: '<%= admin_sales_order_path( @order ) %>' },
+	right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(1); return false;' }
+}
+},
+{ contentEl: 'customer_tab', title: Ext.get('customer_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+button: {
+	left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(0); return false;' },
+	right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(2); return false;' }
+}
+},
+{ contentEl: 'order_items_tab', title: Ext.get('order_items_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+button: {
+	left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(1); return false;' },
+	right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(3); return false;' }
+}
+},
+{ contentEl: 'history_tab', title: Ext.get('history_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+button: {
+	left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(2); return false;' },
+	right: 	{ title: "index", url: '<%= admin_sales_order_path( @order ) %>' }
+}
+}
+] ) ;
 <% end %>
-
-
-<div id="order_customer" class="sub_content_box">
-  <h3>Customer <%= link_to "show", admin_system_user_path( @order.customer ) %></h3>
-  <%#= render :partial => "account/infos/customer", :object => @order.customer %>
-</div>
-
-<div id="order_shipments" class="sub_content_box" style="display:none;">
-  <h3>Shipments</h3>
-  <b>Shipping Type:</b> <%= @order.shipping_type %><br />
-  <b>Shipping Rate:</b> <%= @order.shipping_rate %><br />
-  <br />
-  <%= render :partial => "admin/sales/shipments/shipments", :object => @order.shipments, 
-    :locals => { :id => "order_shipments_table" } %> 
-</div>
-
-<div id="order_invoices" class="sub_content_box" style="display:none;">
-  <h3>Invoices</h3>
-  <%= render :partial => "admin/sales/invoices/invoices", :object => @order.invoices,
-    :locals => { :id => "order_invoices_table" } %>
-</div>
-
-<div id="order_payment" style="display:none;" class="sub_content_box" >
-  <h3>Payment</h3>
-  
-  <h4>Information</h4>
-  <%- unless @order.payments.empty? -%>  
-    <%= render :partial => "admin/payments/#{@order.payments.first.class.payment_id}_payment", :object => @order.payments.first %>
-  <%- end -%>
-  <h4>Invoices</h4>
-  <%= render :partial => "admin/sales/invoices/invoices", :object => @order.invoices,
-    :locals => { :id => "order_invoices_table" } %>
-    
-</div>
-
-<div id="order_order_items" class="sub_content_box" style="display:none;">
-  <h3>Order Items</h3>
-  <b>Total Price</b>: <%=h @order.total_price %>
-  <div id="order_items_table">
-    <%= render :partial => "admin/sales/order_items/items_table", :object => @order %>
-  </div>
-</div>
-
-<div id="order_history" class="sub_content_box" style="display:none;">
-  <h3>History</h3>
-  <ul>
-    <% for h in @order.history %>
-      <li><%=h h.message %> (<%=h ordinalized_time( h.created_at )%>)</li>
-    <% end %>
-  </ul>
-  
-</div>
-
-
-
-

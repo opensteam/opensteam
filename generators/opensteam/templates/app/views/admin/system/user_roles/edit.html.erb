@@ -1,16 +1,28 @@
 <% render_headline 'categories_icon', "Edit User Role '#{@user_role.name}'", 'content-header/headline_icon.jpg' %>
 <% render_header_buttons "Save", :form_id => 'user_role_form' %>
 
-
 <% form_for :user_role, :url => [ :admin, :system, @user_role ], :html => { :method => :put, :id => 'user_role_form' } do |f| %>
-  <% field_set_tag do %>
-    <p>
-      <%= f.label :name %>
-      <%= f.text_field :name, :class => "inputFields" %>
-    </p>
-  <% end %>
-
-  <%= submit_tag "Save" %>
-
+<div id="dvEditorTabContainer">
+	<div id="general_tab" class="x-hide-display" title="Tax Zone">
+		<%= render :partial => "attributes", :object => f %>
+	</div>
+</div>
+<div id="dvEditorTabFooter">
+	<div id="dvEditorTabFooter-inner">
+		<div id="dvEditorTabFooterLeft">&nbsp;</div>
+		<div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+	</div>
+</div>
 <% end %>
 
+<% javascript_tag do %>
+
+build_tabs( 'dvEditorTabContainer', [
+{ contentEl: 'general_tab', title: Ext.get('general_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+button: {
+	left: 	{ title: "index", url: '<%= admin_system_user_roles_path %>' },
+	right: 	{ title: "save", clickEvent: "$('user_role_form').submit(); return false;" }
+}
+}
+] ) ;
+<% end %>

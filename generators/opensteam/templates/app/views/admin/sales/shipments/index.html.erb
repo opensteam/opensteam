@@ -1,12 +1,13 @@
-<% render_headline 'categories_icon', 'Invoices - Index', 'content-header/headline_icon.jpg' %>
+<% render_headline 'categories_icon', 'Invoices', 'content-header/headline_icon.jpg' %>
 <% render_header_buttons %>
 
-<div style="margin-bottom:30px;" id="filter">
-  <%= render :partial => "admin/filters/filter", :locals => { :id => "users_filter", :model => "Order", :records => @shipments } %>
+
+<div id="filter">
+	<%= render :partial => "admin/filters/filter", :locals => { :id => "users_filter", :model => Shipment, :records => @shipments } %>
 </div>
 
-<div id="grid-wrapper">
-  <div id="grid">
-    <%= render :partial => "shipments", :locals => { :id => 'shipments_table' }, :object => @shipments %>
-  </div>
-</div>
+<%= render :partial => "admin/sales/shipments/shipments", :object => @shipments %>
+
+
+
+

@@ -1,34 +1,53 @@
 <%% render_headline 'categories_icon', 'New <%= class_name %>', 'content-header/headline_icon.jpg' %>
-
-<%% render_header_buttons 'Save', :form_id => '<%= file_name %>_form' %>
-
-
-<h1>New <%= class_name %></h1>
+<%% render_header_buttons 'Create', :form_id => '<%= file_name %>_form', :class => 'save-button' %>
 
 <%%= error_messages_for :<%= file_name %> %>
 
 
-<div id="category-tree" style="padding:20px; width: 200px ;"></div>
+<div id="editor-wrapper">
+  <table cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="200">
+        <%%= product_navigation( @<%= file_name %>, :active => :general ) %>
+      </td>
+      <td width="20"><br /></td>
+      <td width="100%" id="editor_content">
+        <%% form_for :<%= file_name %>, @<%= file_name %>, :url => { :action => :create }, :html => { :id => "<%= file_name %>_form", :method => :post } do |f| %>
+          <div id="dvEditorTabContainer">
+            <div id="general_tab" class="x-hide-display" >
+              <%%= render :partial => "admin/catalog/<%= table_name %>/attributes", :locals => { :button_name => "Update", :f => f } %>
+            </div>
+            <div id="properties_tab" class="x-hide-display" >
+              <%%= render :partial => "admin/catalog/<%= table_name %>/properties", :locals => { :f => f } %>
+            </div>
+          </div>
+          <div id="dvEditorTabFooter">
+            <div id="dvEditorTabFooter-inner">
+              <div id="dvEditorTabFooterLeft">&nbsp;</div>
+              <div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+            </div>
+          </div>
+        <%% end %>
+      </td>
+    </tr>
+  </table>
+</div>
 
-<%%= render :partial => "/admin/_tree/tree", :locals => {
-  :model => "category", 
-  :render_to => "category-tree", 
-  :url => '/admin/catalog/categories/',
-  :checkable => true,
-  :expand_all => true } %>
 
-<script>
-    Ext.onReady(function(){
-        tree.on('checkchange', function(e,b) { alert( e + " + " + b ) ; } ) ;
-    }) ;
-</script>
+<%% javascript_tag do %>
+  build_tabs( 'dvEditorTabContainer', [
+  { contentEl: 'general_tab', title: 'Attributes', listeners: { activate: checkTab_setFooterButtons },
+  button: {
+  left: 	{ title: "cancel", url: '<%= url_for([:admin, :catalog, @<%= file_name %>] )%>' },
+  right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(1); return false;' }
+  }
+  },
+  { contentEl: 'properties_tab', title: 'Properties', listeners: { activate: checkTab_setFooterButtons },
+  button: {
+  left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(0); return false; ' },
+  right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(0); return false;' }
+  }
+  }
 
-
-<%% form_for :<%= file_name %>, @<%= file_name %>, :url => { :action => :create }, :html => { :id => '<%= file_name %>_form', :method => "post" } do |f| %>
-  <%%= render :partial => "admin/catalog/<%= table_name %>/attributes", :locals => { :button_name => "Create", :f => f }%>
-  <%%= submit_tag "SAVE" %>
+  ] ) ;
 <%% end %>
-
-
-
-<%%= link_to 'Back', admin_catalog_<%= table_name %>_path %>

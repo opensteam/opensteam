@@ -1,53 +1,98 @@
-<% admin_sidebar_links do %>
-  <%= admin_sidebar_link "Show Order", admin_sales_order_path( @order ) %>
-  <%= admin_sidebar_link "Show Order Shipments", admin_sales_order_shipments_path %>
-  <%= admin_sidebar_link "Show Order Invoices", admin_sales_order_invoices_path %>
+<% render_headline 'categories_icon', "Order ##{@order.id} - Shipment ##{@shipment.id}", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons 'Save', :form_id => "shipment_form", :class => 'save-button' %>
+
+
+<div id="editor-wrapper">
+	<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="200">
+				<%= order_navigation( @order, :active => :shipments ) %>
+			</td>
+			<td width="20"><br /></td>
+			<td width="100%" id="editor_content">
+				<div id="dvEditorTabContainer">
+					<div id="general_tab" class="x-hide-display">
+						<table cellspacing="0" cellpadding="0" id="order_information" class="order-editor">
+							<tr>
+								<td class="label"><strong>State</strong></td>
+								<td class="content">
+									<%- form_for :shipment, :url => admin_sales_shipment_path( @shipment ), :html => { :id => "shipment_form", :method => :put } do |f| %>
+										<%= f.select :state, Shipment.available_states.collect(&:name).collect(&:to_s) %>
+									<%- end -%>
+									<%= javascript_tag( "transform2ComboBox('shipment_state', { width:100 }); ") %>
+								</td>
+								<td><%= link_to_function "<span>Save</span>", "$('shipment_form').submit(); return false;", :class => "green-button" %><br /><br /></td>
+							</tr>
+							<tr>
+								<td class="label">Created At</td>
+								<td class="content"><%=h @shipment.created_at %></td>
+							</tr>
+							<tr>
+								<td class="label">Updated At</td>
+								<td class="content"><%=h @shipment.updated_at %></td>
+							</tr>
+							<tr>
+								<td class="label">Comment</td>
+								<td class="content"><%=h @shipment.comment %></td>
+							</tr>
+							<tr>
+								<td class="label">Shipping Rate</td>
+								<td class="content"><%=h @shipment.shipping_rate %></td>
+							</tr>
+							<tr>
+								<td class="label">Shipping Method</td>
+								<td class="content"><%=h @order.shipping_type %></td>
+							</tr>
+							<tr>
+								<td class="label">Address</td>
+								<td class="content"><%= @shipment.address.firstname %> <%= @shipment.address.lastname %><br /><%= @shipment.address.postal %> <%= @shipment.address.city %><br /><%= @shipment.address.country %></td>
+							</tr>
+						</table>
+					</div>
+					<div id="order_items_tab" class="x-hide-display">
+						<%= render :partial => "admin/sales/order_items/items_table", :object => @shipment %>
+					</div>
+					<div id="history_tab" class="x-hide-display">
+						<%= render :partial => "admin/sales/orders/history", :object => @shipment.history %>
+					</div>
+				</div>
+				<div id="dvEditorTabFooter">
+					<div id="dvEditorTabFooter-inner">
+						<div id="dvEditorTabFooterLeft">&nbsp;</div>
+						<div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+
+
+<% javascript_tag do %>
+build_tabs( 'dvEditorTabContainer', [
+	{ contentEl: 'general_tab', title: 'Invoice #<%=h @shipment.id %> Information', listeners: { activate: checkTab_setFooterButtons },
+		button: {
+			left: 	{ title: "index", url: '<%= admin_sales_order_shipments_path( @order ) %>' },
+			right: 	{ title: 'next', clickEvent: 'tabs.setActiveTab(1); return false; ' }
+		}
+	},
+	{ contentEl: 'order_items_tab', title: 'Invoice #<%=h @shipment.id %> Order Items', listeners: { activate: checkTab_setFooterButtons },
+		button: {
+			left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(0); return false;' },
+			right: 	{ title: 'next', clickEvent: 'tabs.setActiveTab(1); return false; ' }
+		}
+	},
+	{ contentEl: 'history_tab', title: 'Shipment #<%=h @shipment.id %> History', listeners: { activate: checkTab_setFooterButtons },
+		button: {
+			left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(1); return false;' },
+			right: 	false
+		}
+	}
+] ) ;
 <% end %>
 
-<h2>Shipment # <%= @shipment.id %></h2>
-<div id="shipment_information">
-  
-  <p>
-    <b>State</b>:
-<%- form_for :shipment, @shipment, :url => { :action => 'update', :controller => 'shipments' }, :html => { :method => 'put' } do |f| -%>
-<%= f.select :state, Shipment.available_states.collect(&:name).collect(&:to_s) %>
-<%= submit_tag "update" %>
-<%- end -%>
-  </p>
-  <p>
-    <b>CreatedAt</b>: <%=h @shipment.created_at %>
-  </p>
-  <p>
-    <b>UpdatedAt</b>: <%=h @shipment.updated_at %>
-  </p>
-  <p>
-    <b>Sent to:</b><br />
-    <%= render :partial => "admin/system/users/address", :object => @shipment.address %>
-  </p>
-  <p>
-    <b>Comment</b>: <%=h @shipment.comment %>
-  </p>
-</div>
-<div id="shipment_order_items">
-  <p>
-    <b>OrderItems</b>
-    <br />
-    <ul>
-      <% for oi in @shipment.order_items %>
-        <li> <%=h oi.product.name %> (<%=h oi.product.class %>)
-          | <%- unless oi.properties.empty? -%><b>Configuration:</b> <%=h oi.properties.collect(&:name) * "," %><%- end -%>
-        | <%=h oi.quantity %> | <%=h oi.quantity * oi.price %></li>
-      <% end %>
-    </ul>
-  </p>
-</div>		
 
-<div id="shipment_history" class="sub_content_box" style="">
-  <h3>History</h3>
-  <ul>
-    <% for h in @shipment.history %>
-      <li><%=h h.message %> (<%=h ordinalized_time( h.created_at ) %>)</li>
-    <% end %>
-  </ul>
-  
-</div>
+
+
+
+

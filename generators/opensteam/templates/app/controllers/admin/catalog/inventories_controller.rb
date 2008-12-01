@@ -1,88 +1,73 @@
 class Admin::Catalog::InventoriesController < Admin::CatalogController
-  # GET /inventories
-  # GET /inventories.xml
-  
+
   Inventory = Opensteam::Models::Inventory
-  
+
+  before_filter :set_product, :only => :index
+  before_filter :set_filter
+
+  # GET /admin/catalog/:product_type/:product_id/inventories
+  # GET /admin/catalog/:product_type/:product_id/inventories?format=xml
   def index
-    @inventories = Inventory.find(:all)
+    @product = context
+    @inventories = @product.inventories #.new_search.all #filter( @filters ).paginate( :page => params[:page], :per_page => params[:per_page] || 20 )
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @inventories }
+      format.html {}
+      format.js   { render :partial => "inventories", :object => @inventories, :layout => false }
+      format.xml  { render :xml => @inventories.to_xml( :root => "inventories" ) }
     end
   end
 
-  # GET /inventories/1
-  # GET /inventories/1.xml
-  def show
-    @inventory = Inventory.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @inventory }
-    end
-  end
-
-  # GET /inventories/new
-  # GET /inventories/new.xml
-  def new
-    @inventory = Inventory.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @inventory }
-    end
-  end
-
-  # GET /inventories/1/edit
+  # GET /admin/catalog/:product_type/:product_id/inventories/:id/edit
   def edit
-    @inventory = Inventory.find(params[:id])
+    @inventory = Inventory.find( params[:id], :include => :product )
+    @product = @inventory.product
   end
 
-  # POST /inventories
-  # POST /inventories.xml
-  def create
-    @inventory = Inventory.new(params[:inventory])
 
-    respond_to do |format|
-      if @inventory.save
-        flash[:notice] = 'Inventory was successfully created.'
-        format.html { redirect_to( admin_catalog_inventory_path( @inventory )  ) }
-        format.xml  { render :xml => @inventory, :status => :created, :location => @inventory }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @inventory.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /inventories/1
-  # PUT /inventories/1.xml
+  # PUT /admin/catalog/:product_type/:product_id/inventories/:id
   def update
-    @inventory = Inventory.find(params[:id])
-    
+    @inventory = Inventory.find( params[:id], :include => :product )
+    @product = @inventory.product
+
     respond_to do |format|
-      if @inventory.update_attributes(params[:inventory])
-        flash[:notice] = 'Inventory was successfully updated.'
-        format.html { redirect_to( admin_catalog_inventory_path( @inventory ) ) }
+      if @inventory.update_attributes( params[:inventory] )
+        flash[:notice] = 'Inventory was successfully updated!'
+        format.html { redirect_to( [:admin, :catalog, @inventory.product, :inventories] ) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => :edit }
         format.xml  { render :xml => @inventory.errors, :status => :unprocessable_entity }
       end
     end
+
   end
 
-  # DELETE /inventories/1
-  # DELETE /inventories/1.xml
-  def destroy
-    @inventory = Inventory.find(params[:id])
-    @inventory.destroy
+  private
 
-    respond_to do |format|
-      format.html { redirect_to(admin_catalog_inventories_url) }
-      format.xml  { head :ok }
-    end
+  # returns the product_id
+  # /:product_type/:product_id/inventories
+  def context_id
+    params[:product_type] && params["#{ params[:product_type].to_s.singularize }_id"]
   end
+
+  # returns the product model
+  # /:product_type/:product_id/inventories
+  # # => ProductType
+  def context_model
+    params[:product_type] && params[:product_type].to_s.classify.constantize
+  end
+
+  # returns the product
+  def context *finder_options
+    context_model.find( context_id, *finder_options )
+  end
+
+  # set @product instance variable
+  def set_product
+    @product = context( :include => :inventories )
+  end
+
+
 end

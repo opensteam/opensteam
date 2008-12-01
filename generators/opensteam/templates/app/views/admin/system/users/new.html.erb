@@ -1,52 +1,57 @@
 <% render_headline 'categories_icon', "New User", 'content-header/headline_icon.jpg' %>
-<% render_header_buttons "Create", :form_id => 'user_form' %>
+<% render_header_buttons "Save", :form_id => 'user_form' %>
 
-<% form_for :user, :html => { :id => 'user_form' } do |f| %>
-  <h2>General Information</h2>
-  <% field_set_tag do %>
-    <p>
-      <%= f.label :login %>
-      <%= f.text_field :login, :class => "inputFields" %>
-    </p>
 
-    <p>
-      <%= f.label :email %>
-      <%= f.text_field :email, :class => "inputFields" %>
-    </p>
+<%= error_messages_for :user %>
+<% form_for :user, :html => { :method => :post, :id => 'user_form' } do |f| %>
 
-    <p>
-      <%= f.label :firstname %>
-      <%= f.text_field :firstname, :class => "inputFields" %>
-    </p>
-    <p>
-      <%= f.label :lastname %>
-      <%= f.text_field :lastname, :class => "inputFields" %>
-    </p>
-
-  <% end %>
-  <h2>Password</h2>
-  <% field_set_tag do %>
-    <p>
-      <%= f.label :password %>
-      <%= f.password_field :password, :class => "inputFields" %>
-    </p>
-
-    <p>
-      <%= f.label :password_confirmation, "Confirm Password" %>
-      <%= f.password_field :password_confirmation, :class => "inputFields" %>
-    </p>
-  <% end %>
-  
-
-  <h2>Roles</h2>
-  <% field_set_tag do %>
-    <% for role in UserRole.all %>
+<div id="dvEditorTabContainer">
+	<div id="general_tab" class="x-hide-display" >
+		<%= render :partial => "attributes", :object => f %>
+		<br /><br />
+		<table cellpadding="0" cellspacing="0" class="editor-form">
+			<tr>
+				<td class="label"><%= f.label :password %></td>
+				<td class="content"><%= f.password_field :password, :class => "inputFields" %></td>
+			</tr>
+			<tr>
+				<td class="label"><%= f.label :password_confirmation, "Confirm Password" %></td>
+				<td class="content"><%= f.password_field :password_confirmation, :class => "inputFields" %></td>
+			</tr>
+		</table>
+	</div>
+	<div id="roles_tab" class="x-hide-display">
+		<% for role in UserRole.all %>
       <p>
         <%= label_tag "role_#{role.id}", role.name %>
         <%= check_box_tag "roles[]", role.id, @user.has_specific_role?( role.name ), :id => "role_#{role.id}" %>
       </p>
     <% end %>
-  <% end %>
-
+	</div>
+</div>
+<div id="dvEditorTabFooter">
+	<div id="dvEditorTabFooter-inner">
+		<div id="dvEditorTabFooterLeft">&nbsp;</div>
+		<div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+	</div>
+</div>
 <% end %>
+
+<% javascript_tag do %>
+
+build_tabs( 'dvEditorTabContainer', [
+{ contentEl: 'general_tab', title: 'User Information', listeners: { activate: checkTab_setFooterButtons },
+button: {
+	left: 	{ title: "index", url: '<%= admin_system_users_path %>' },
+	right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(1); return false;'  }
+}
+},
+{ contentEl: 'roles_tab', title: 'User Roles', listeners: { activate: checkTab_setFooterButtons },
+button: {
+	left: 	{ title: "index", clickEvent: 'tabs.setActiveTab(0); return false; ' },
+	right: 	{ title: "save", clickEvent: "$('user_form').submit(); return false;" }
+}
+}
+] ) ;
+<% end%>
 

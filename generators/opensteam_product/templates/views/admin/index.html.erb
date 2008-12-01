@@ -3,7 +3,7 @@
 
 <div id="grid-wrapper">
   <div id="grid">
-    <table id="the-table" >
+    <%% grid_table do %>
       <thead>
         <tr>
           <th class="first"><div>&nbsp;</div></th>
@@ -35,9 +35,7 @@
         </tr>
       <%% end %>
     </tbody>
-   </table>
+   <%% end %>
   </div>
 </div>
 <br />
-
-<%%= link_to 'New <%= class_name %>', new_admin_catalog_<%= file_name %>_path %>

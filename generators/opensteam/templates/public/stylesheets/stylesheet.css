@@ -19,7 +19,7 @@ img, table{border:0;}
 		#user-wrapper .outter{background:transparent url(../images/header/user_bar_left.png) bottom left no-repeat;}
 			#user-wrapper .middle{background:transparent url(../images/header/user_bar_right.png) bottom right no-repeat;}
 				#user-wrapper .inner{background:transparent url(../images/header/user_bar_bg.png) bottom left repeat-x;margin:0 6px;}			
-					#user-container{background-color:#c33038;padding:0 5px;}
+					#user-container{background-color:#c33038;display:none;padding:0 5px;}
 					#user-bar{height:24px;padding:0 5px;}
 
 /*** header **/
@@ -30,7 +30,12 @@ img, table{border:0;}
 		#tabs a{background:transparent url(../images/header/tab_left.jpg) top left no-repeat;display:block;color:#303538;float:left;height:27px;line-height:27px;margin-right:5px;}
 			#tabs a span{background:transparent url(../images/header/tab_right.jpg) top right no-repeat;display:block;padding:0 10px;}
 		#tabs a.new-tab{background-image:url(../images/header/tabnew_left.jpg);color:#61696e;}
-			#tabs a.new-tab span{background-image:url(../images/header/tabnew_right.jpg);}
+			#tabs a.new-tab span.text{background-image:url(../images/header/tabnew_right.jpg);}
+			#tabs a.new-tab span.text-over{display:none;}
+		#tabs a.new-tab-over{background-image:url(/images/header/tabnew-over_left.jpg) ! important; color:#8f4a0d ! important ;}
+			#tabs a.new-tab-over span.text-over{background-image:url(/images/header/tabnew-over_right.jpg);}
+			#tabs a.new-tab-over span.text{display:none;}
+			
 	#header-buttons{position:absolute;right:10px;top:32px;}
 		#header-buttons a{background:transparent url(../images/header/headerbtn_left.jpg) top left no-repeat;color:#eceeed;display:block;float:left;font-weight:bold;height:27px;line-height:24px;margin-left:7px;}
 			#header-buttons a span{background:transparent url(../images/header/headerbtn_right.jpg) top right no-repeat;display:block;padding:0 10px;}
@@ -66,7 +71,7 @@ a#help-link{background:transparent url(../images/header/icon_help.gif) 0 0 no-re
 
 /*** content wrapper **/
 #content-wrapper{background:transparent url(/images/content-header/content_bg_top.gif) top left repeat-x;position:relative;padding:0 10px;}
-	#content-wrapper h1{border-bottom:3px solid #c3c6c8;font-size:16px;font-weight:bold;line-height:24px;margin-bottom:13px;overflow:visible;padding-bottom:5px;padding-left:69px;padding-top:21px;position:relative;text-transform:uppercase;}
+	#content-wrapper h1{border-bottom:3px solid #c3c6c8;font-size:16px;font-weight:bold;line-height:24px;margin-bottom:13px;overflow:visible;padding-bottom:5px;padding-left:69px;padding-top:21px;position:relative;/*text-transform:uppercase;*/}
 		#content-wrapper h1 img{left:10px;position:absolute;bottom:-6px;}
 		.ext-ie7 #content-wrapper h1 img{bottom:-3px;}
 		.ext-ie6 #content-wrapper h1 img{bottom:-6px;}
@@ -74,8 +79,9 @@ a#help-link{background:transparent url(../images/header/icon_help.gif) 0 0 no-re
 		#content-header-buttons a{background:transparent url(../images/content-header/content_headerbtn_left.gif) top left no-repeat;color:#394249;display:block;float:left;font-size:12px;font-weight:bold;height:34px;line-height:34px;margin-left:7px;text-transform:uppercase;}
 			#content-header-buttons a span{background:transparent url(../images/content-header/content_headerbtn_right.gif) top right no-repeat;display:block;padding:0 10px;}
 				#content-header-buttons a span img{display:block;float:left;padding-right:10px;padding-top:9px;}
-			#content-header-buttons a.add-button{background:transparent url(../images/content-header/addbtn_right.gif) top right no-repeat;height:36px;}
+			#content-header-buttons a.add-button, #content-header-buttons a.save-button{background:transparent url(../images/content-header/addbtn_right.gif) top right no-repeat;height:36px;overflow:hidden;}
 				#content-header-buttons a.add-button span{background:transparent url(../images/content-header/addbtn_left.gif) top left no-repeat;padding-left:48px;}
+				#content-header-buttons a.save-button span{background:transparent url(../images/content-header/savebtn_left.gif) top left no-repeat;padding-left:48px;}
 	
 /*** filter **/
 #filter{position:relative;margin-bottom:10px;clear:both;}
@@ -93,7 +99,7 @@ a#help-link{background:transparent url(../images/header/icon_help.gif) 0 0 no-re
 			
 			
 	
-	.dv-filter-table{position:relative;margin-top:-7px;clear:both;background-color:#FFF;border:solid #cbcfd2;border-width:1px 1px 0px;}
+	.dv-filter-table{position:relative;margin-top:-3px;clear:both;background-color:#FFF;border:solid #cbcfd2;border-width:1px 1px 0px;}
 		.tblFilter{width:100%;border-collapse:collapse;}
 		.tblFilter tr td{padding:2px 5px;border-bottom:1px solid #cbcfd2;}
 			.tblFilter tr td.rowCount{border-right:1px solid #cbcfd2;}
@@ -108,7 +114,29 @@ a#help-link{background:transparent url(../images/header/icon_help.gif) 0 0 no-re
 		#grid table#the-table{width:95.35%;}
 		.ext-gecko #grid table#the-table{width:95.16%;}
 		#grid .first{width:25px;}
+#editor-wrapper{position:relative;}
+	#editor-wrapper table {table-layout:fixed;width:100%;border:0;}
+		#editor-wrapper table td{vertical-align:top;}
+			.dvEditorNaviHeadline{padding:10px;color:#dbddde;font-weight:bold;background:transparent url(/images/editor/bg-navi-hdr.gif) left top no-repeat;}
+			.dvEditorNaviItems{border-bottom:1px solid #cbcfd2;}
+				a.editor-navi-item,a.editor-navi-item-active{display:block;padding:9px 10px 9px 28px;line-height:10px;font-size:10px;height:10px;overflow:hidden;white-space:nowrap;background:transparent url(/images/editor/bg-navi-item.gif) left -28px no-repeat;color:#313639;}
+					a.editor-navi-item:hover{background-position: left -56px;}
+					a.editor-navi-item-active{background-position: left top;color:#586400;font-weight:bold;}
+				
 
+
+#dvEditorTabFooter{position:static;height:30px;overflow:hidden;}
+	#dvEditorTabFooter-inner{position:relative;height:30px;overflow:hidden;background: transparent url(/images/footer/bg-editor-footer.gif) left top repeat-x;}
+		#dvEditorTabFooterLeft{position:relative;height:21px;overflow:hidden;float:left;background:transparent url(/images/footer/bg-editor-footer-left.gif) left top no-repeat;padding:4px 5px 5px 11px;}
+		#dvEditorTabFooterRight{position:relative;height:21px;overflow:hidden;float:right;background:transparent url(/images/footer/bg-editor-footer-right.gif) right top no-repeat;padding:4px 11px 5px 5px;}
+
+		
+/*--------buttons ----------------*/
+.grey-button, .green-button{display:block;background:url(/images/filter-menu/elm-button-grey-left.gif) left top no-repeat;padding-left:11px;height:21px;overflow:hidden;text-decoration:none;text-transform:uppercase;}
+				.grey-button span, .green-button span{display:block;font:9px/10px Helvetica,Verdana,Arial,sans-serif;color:#6f767b;padding:6px 11px 6px 0px;background:url(/images/filter-menu/elm-button-grey-right.gif) right top no-repeat;}
+			.green-button{background-image:url(/images/filter-menu/elm-button-green-left.gif);}
+				.green-button span{color:#384148;background-image:url(/images/filter-menu/elm-button-green-right.gif);}
+	.ext-ie6 .grey-button, .ext-ie6 .green-button{display:inline-block;}
 /** content footer **/
 #content-footer{margin-top:14px;overflow:auto;width:100%;}
 #content-footer *{color:#9ca0a4;}

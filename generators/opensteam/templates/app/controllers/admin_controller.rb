@@ -7,6 +7,12 @@ class AdminController < ApplicationController
 
   require_role :admin
 
+  before_filter :set_locale
+  
+  def set_locale
+    I18n.locale = params[:locale] if params[:locale]
+  end
+  
   
   def profile_session
     @profile_session ||= ProfileSession.new( session )

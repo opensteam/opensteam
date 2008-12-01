@@ -1,0 +1,34 @@
+<div id="grid-wrapper">
+	<div id="grid">
+		<% grid_table do %>
+			<thead>
+				<tr>
+					<th class="first no-sort no-menu"><div>&nbsp;</div></th>
+					<th><div>#</div></th>
+					<th><div>Configuration</div></th>
+					<th><div>Active</div></th>
+					<th><div>Price</div></th>
+					<th><div>Storage</div></th>
+					<th><div>BackOrdered</div></th>
+					<th><div>Tax Group</div></th>
+					<th class="last no-sort no-menu"><div></div></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% for inventory in inventories %>
+				<tr class="<%= cycle('odd','even') %>">
+					<td class="first"></td>
+					<td><%=h inventory.id %></td>
+					<td><%=h inventory.properties.sort.collect(&:name) %></td>
+					<td><%=h inventory.active == 0 ? "false" : "true" %></td>
+					<td><%=h inventory.price %></td>
+					<td><%=h inventory.storage %></td>
+					<td><%=h inventory.back_ordered == 0 ? "false" : "true" %></td>
+					<td><%=h inventory.tax_group ? inventory.tax_group.name : '' %></td>
+					<td class="last"><%= link_to "edit", edit_admin_catalog_inventory_path( inventory ) %></td>
+					</tr>
+				<% end %>
+			</tbody>
+		<% end %>
+	</div>
+</div>

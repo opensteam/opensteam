@@ -1,27 +1,37 @@
-<% content_for :admin_sidebar do %>
-  <%= link_to "Tax Groups", admin_config_tax_groups_path %>
-<% end %>
-
-
-<h2>Create Tax Group</h2>
+<% render_headline 'categories_icon', "New TaxGroup ##{@tax_group.id}", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons 'Save', :form_id => 'tax_group_form', :class => 'save-button' %>
 
 <%= error_messages_for :tax_group %>
 
-<% form_for :tax_group, @tax_group, :url => { :controller => "admin/tax_groups", :action => 'create' } do |f| %>
+<div id="dvEditorTabContainer">
+	<div id="general_tab" class="x-hide-display" title="Tax Zone">
+		<% form_for :tax_group, :url => admin_config_tax_groups_path, :html => { :method => :post, :id => "tax_group_form" } do |f| %>
+		<%= render :partial => "attributes", :object => f %>
+		<br />
+		<%= add_tax_rule_link "Add Zone to Group" %>
+		<br clear="all" />
+		<div id="tax_rules">
+			<%= render :partial => "tax_rule", :collection => @tax_group.tax_rules %>
+		</div>
+		<% end %>
+	</div>
+</div>
+<div id="dvEditorTabFooter">
+	<div id="dvEditorTabFooter-inner">
+		<div id="dvEditorTabFooterLeft">&nbsp;</div>
+		<div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+	</div>
+</div>
 
-  <%= render :partial => "attributes", :locals => { :f => f, :button => "Create" } %>
+<% javascript_tag do %>
 
-  <div id="tax_rules">
-    <%= render :partial => "tax_rule", :collection => @tax_group.tax_rules %>
-  </div>
-  <p>
-    <%= add_tax_rule_link "Add Zone to Group" %>
-  </p>
-
-
-
-  <p>
-    <%= submit_tag "Create"  %>
-  </p>
-
+build_tabs( 'dvEditorTabContainer', [
+{ contentEl: 'general_tab', title: Ext.get('general_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+button: {
+	left: 	{ title: "index", url: '<%= admin_config_tax_groups_path %>' },
+	right: 	{ title: "save", clickEvent: "$('tax_group_form').submit(); return false;" }
+}
+}
+] ) ;
 <% end %>
+

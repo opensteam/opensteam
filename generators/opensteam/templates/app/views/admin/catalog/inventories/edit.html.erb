@@ -1,26 +1,49 @@
-<% content_for( :headline ) do %>
-  <%= image_tag('content-header/headline_icon.jpg', 'alt' => '', :id => "categories_icon") %>Edit Inventory for <%=h @inventory.product.class %> '<%=h @inventory.product.name %>'
-  <%= draggable_element :categories_icon, :revert => true %>
+<% render_headline 'categories_icon', "Inventory for #{@product.class} '#{@product.name}' - '#{@inventory.properties.collect(&:name).join(",")}", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons 'Save', :form_id => 'inventory_form', :class => 'save-button' %>
+
+<div id="editor-wrapper">
+	<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="200">
+				<%= product_navigation( @product, :active => :inventories ) %>
+			</td>
+			<td width="20"><br /></td>
+			<td width="100%">
+				<% form_for :inventory, @inventory, :url => { :action => :update }, :html => { :id => "inventory_form", :method => "put" } do |f| %>
+				<div id="dvEditorTabContainer">
+					<div id="general_tab" class="x-hide-display" title="Inventory Information">
+						<%= render :partial => "admin/catalog/inventories/attributes", :locals => { :f => f } %>
+					</div>
+					<div id="tax_tab" class="x-hide-display" title="Tax Information">
+						<%= render :partial => "admin/catalog/inventories/tax", :locals => { :f => f } %>
+					</div>
+				</div>
+				<div id="dvEditorTabFooter">
+					<div id="dvEditorTabFooter-inner">
+						<div id="dvEditorTabFooterLeft">&nbsp;</div>
+						<div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+					</div>
+				</div>
+				<% end %>
+			</td>
+		</tr>
+	</table>
+</div>	
+
+<% javascript_tag do %>
+
+build_tabs( 'dvEditorTabContainer', [
+{ contentEl: 'general_tab', title: Ext.get('general_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+button: {
+	left: 	{ title: "cancel", url: '/' },
+	right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(1); return false;' }
+}
+},
+{ contentEl: 'tax_tab', title: Ext.get('tax_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+button: {
+	left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(0); return false;' },
+	right: 	{ title: "save", clickEvent: "$('inventory_form').submit(); return false;" }
+}
+}
+] ) ;
 <% end %>
-
-<% content_for( :content_header_buttons ) do %>
-  <%= link_to "<span>#{image_tag('content-header/icon_sun.gif')} Add to quicksteam</span>", '#' %>
-  <%= link_to "<span>#{image_tag('content-header/icon_print.gif')} Print page</span>", '#' %>
-<% end %>
-
-
-<h2>Configuration: <%=h @inventory.properties.collect(&:name) * "," %></h2>
-
-
-<%= error_messages_for :inventory %>
-
-<% form_for :inventory, @inventory, :url => { :controller => "inventories", :action => :update }, :html => { :method => "put" } do |f| %>
-
-  <%= render :partial => "admin/catalog/inventories/attributes", :locals => { :f => f } %>
-  <p>
-    <%= f.submit "Update" %>
-  </p>
-<% end %>
-
-<%= link_to 'Show', admin_catalog_inventory_path( @inventory )%> |
-<%= link_to 'Back', [:admin, :catalog, @inventory.product ] %> |

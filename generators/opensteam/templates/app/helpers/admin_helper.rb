@@ -2,11 +2,43 @@
 ## TEMPLATE ##
 module AdminHelper
 
+  
+  def nav_link_class( active, current )
+    ( active.to_sym == current.to_sym ) ? "editor-navi-item-active" : "editor-navi-item"
+  end
+  
+  
+  def product_navigation( product, opts = {} )
+    active = opts[:active] || :general
+    content_tag( :div, "Product Configuration", { :class => "dvEditorNaviHeadline" } ) +
+    content_tag( :div, { :class => "dvEditorNaviItems" } ) do
+    	link_to( "General Information", [:admin, :catalog, product ], :id => "general", :class => nav_link_class(active, :general) ) +
+    	( product.new_record? ?
+    	link_to_function("Inventories", "alert('Save your product first!'); return false;", :class => nav_link_class(active, :inventories ) ) :
+    	link_to( "Inventories", [:admin, :catalog, product, :inventories ], :id => "inventories", :class => nav_link_class(active, :inventories ) ) )
+    	# +
+    	#link_to( "Categories", [:admin, :catalog, product, :categories ], :id => "categories", :class => nav_link_class( active, :categories ) )
+    end
+  end
+  
+  
+  def order_navigation( order, opts = {} )
+    active = opts[:active] || :general
+    content_tag( :div, t(:order) + " Information", { :class => "dvEditorNaviHeadline" } ) +
+    content_tag( :div, { :class => "dvEditorNaviItems" } ) do
+    	link_to( t(:general_information), admin_sales_order_path( order ), :id => "general", :class => nav_link_class(active, :general) ) +
+    	link_to( t(:invoices), admin_sales_order_invoices_path( order ), :class => nav_link_class(active, :invoices ) ) +
+    	link_to( t(:shipments), admin_sales_order_shipments_path( order ), :class => nav_link_class(active, :shipments ) )
+    end
+  end
+  
+
   def grid_table id = "the-table", &block
     raise ArgumentError unless block_given?
 
     concat(
-      content_tag :table, capture( &block ), { :cellpadding => "0", :cellspacing => "0", :id => id },
+      content_tag( :table, capture( &block ), { :cellpadding => "0", :cellspacing => "0", :id => id } ) +
+      javascript_tag("transformTable2Grid('#{id}', 'grid');"),
       block.binding
     )
   end
@@ -17,8 +49,6 @@ module AdminHelper
     content_tag :div, {
       :id => "dvNaviItem_#{c.controller_name.upcase}",
       :class => "dvNaviItem"
-#      :onmouseover => "DD.navi.doCheckForSubs(this,'#{cname}','down',false);",
-#      :onmouseout  => "DD.navi.doHideSubs(this,'#{cname}',false);"
     } do
       content_tag( :div, "", { :class => "dvNaviItem_left" } ) +
         content_tag( :div, link_to( cname, { :controller => c.controller_path, :action => 'index' } ),
@@ -67,7 +97,7 @@ module AdminHelper
   end
   
   def add_tax_rule_link(name)
-    link_to_function name do |page|
+    link_to_function "<span>#{name}</span>", :class => 'green-button', :style => "float:left;" do |page|
       page.insert_html :bottom, :tax_rules, :partial => 'tax_rule', :object => Opensteam::Money::Tax::TaxRule.new
     end
   end
@@ -89,15 +119,16 @@ module AdminHelper
   end
   
   def render_header_buttons title = nil, options = {}
+    options[:class] ||= 'add-button'
     content_for( :content_header_buttons ) do
       link_to( content_tag( :span, image_tag( 'content-header/icon_sun.gif') + "Add to quicksteam" ), '#' ) +
         link_to( content_tag( :span, image_tag( 'content-header/icon_print.gif') + "Print page" ), '#' ) +
-        if title.nil?
+      if title.nil?
         ""
       elsif options[:href]
-        link_to( content_tag( :span, title ), options[:href], :class => 'add-button' )
+        link_to( content_tag( :span, title ), options[:href], :class => options[:class] )
       elsif options[:form_id]
-        link_to_function( content_tag( :span, title ), "$('#{options[:form_id]}').submit();", :class => 'add-button')
+        link_to_function( content_tag( :span, title ), "$('#{options[:form_id]}').submit();", :class => options[:class] )
       end
     end
   end
