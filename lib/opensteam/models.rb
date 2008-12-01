@@ -36,6 +36,20 @@ module Opensteam
 
       # get orders by given user
       named_scope :by_user, lambda { |user_id| { :include => [:customer ], :conditions => { :user_id => user_id } } }
+
+
+
+      def to_ext_xml options = {}
+        options[:indent] ||= 2
+        xml = options[:builder] || Builder::XmlMarkup.new( :indent => options[:indent] )
+        xml.instruct! unless options[:skip_instruct]
+        
+        xml.tag! :id, self.id
+        xml.tag! :customer, self.customer.email
+        xml.tag! :order_items, self.items.size
+
+      end
+
     end
 
 
