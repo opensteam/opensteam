@@ -137,43 +137,7 @@ module Opensteam
           }
         end
 
-        # parses the given filter-entry hash and returns a corresponding hash to use with the +searchlogic+ plugin
-        # looks up the filter-keys in the +Model+.+configured_grid+ hash definition
-        # example:
-        #   Model.configure_grid :customer => { :customer => :email }
-        #   Model.parse_filter_params( :key => "customer", :val => "foo", :op => "LIKE" )
-        #   # => { :customer => { :email_like => "foo" } }
-        # or:
-        #   Model.configure_grid :address => { :address => [:firstname, :lastname, :street, :city ] }
-        #   Model.parse_filter_params( :key => "address", :val => "foo", :op => "LIKE" )
-        #   # => { :address => {  :street_like => "foo",
-        #                         :city_like => "foo",
-        #                         :firstname_like => "foo",
-        #                         :lastname_like => "foo" } }
-        #
-        def parse_filter_params( p = {} )
-          lit_operator = Opensteam::Helpers::Grid.filter_operator[ p[:op].to_s ]
-          raise "Operator not permitted, use #{Opensteam::Helpers::Grid.filter_operator.keys}" unless lit_operator
-          keys = self.configured_grid[ p[:key].to_sym ]
-          
-          
-          if keys.is_a?( Symbol )
-            return { :"#{keys}#{lit_operator}" => p[:val] }
-          else
-            return {
-              p[:key].to_sym => self.configured_grid[ p[:key].to_sym ].inject({}) { |hash,val|
-                hash[ val.first] =
-                  if( val.last.is_a?( Array ) )
-                  { :group => val.last.inject({}) { |r,v| r[ "or_#{v}#{lit_operator}" ] = p[:val] ; r } }
-                else
-                  { :"#{val.last}#{lit_operator}" => p[:val] }
-                end
-              }
-            }
-          end
-          
-          
-        end
+
       end
 
 
