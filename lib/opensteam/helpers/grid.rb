@@ -31,6 +31,7 @@ module Opensteam
         
 
       def self.order_direction(dir) #:nodoc:
+        
         raise "direction no valid" unless ["ASC", "DESC", "asc", "desc"].include?( dir )
         dir
       end
@@ -50,6 +51,12 @@ module Opensteam
       
       module ClassMethods
 
+
+        def filter filters
+          Array(filters).inject(self) { |r,v| r.send( :"filter_#{v.key}", v.op, v.val ) }
+        end
+
+
         # configure a grid for the admin backend
         #
         #   Model.configure_grid(
@@ -62,12 +69,57 @@ module Opensteam
           @configured_grid = opts
           class << self ; attr_accessor :configured_grid ; end
           self.send( :filter_named_scopes, self.configured_grid )
+
+          self.class_eval do 
+            named_scope :order_by, lambda { |column, *dir|
+              { :order => Array( self.grid_column_to_sql( column || :id ) ).collect { |s| "#{s} #{Opensteam::Helpers::Grid.order_direction(dir.first) || 'asc'}" }.join(","),
+                :include => self.grid_column_includes( column || :id )
+              }
+            }
+          end
+
+          
+
         end
 
 
+
+        # created for every configured_grid entry a named scope for filtering and ordering
+        # depending on the configured_grid hash the sql-query is built.
+        #
+        #   Modelconfigure_grid(
+        #     :scope_id => { :association_name => :column_name }
+        #   )
+        #
+        #   Model.configure_grid(
+        #     :id => :id,
+        #     :customer => { :customer => :email },
+        #     :shipping_address => { :shipping_address => [ :street, :city ] )
+        #
+        #
+        #
+        # NamedScopes:
+        #   Model.filter_id
+        #   Model.filter_customer
+        #   Model.filter_shipping_addres
+        #   Model.order_by_id
+        #   Model.order_by_customer
+        #   Model.order_by_shipping_address
+        #
+        # Depending on the parameters for the filter-scopes the sql_query is built:
+        #   Model.filter_id( "=", 1 ) # => :conditions => { :id => 1 }
+        #   Model.filter_id( ">", 1 ) # => :conditions => [ "'id' > :id", { :id => 1 } ]
+        #   Model.filter_customer("LIKE", "booh") # => :conditions => [ "customers.email LIKE :customers_email", { :customers_email => "%buh%" } ]
+        #   Model.filter_shipping_address("LIKE", "booh" )
+        #   # => :conditions => [ "addresses.street LIKE :addresses_street OR addresses.city LIKE :addresses_city",
+        #          { :addresses_city => "%booh%", :addresses_street => "%booh%" }
+        #
+        # If the association_name (in configure_grid() ) doesnt match the association-table_name, refelct_on_assocation( association_name ) is
+        # used to determine the table_name.
+        #
         def filter_named_scopes( h = {}, table_name = self.table_name, incl = false, scope_id = nil ) #:nodoc:
           includes = incl ? h.keys.collect(&:to_sym) : []
-          
+
           h.each_pair do |id, fconfig|
             case fconfig
             when Symbol
@@ -122,8 +174,27 @@ module Opensteam
 
        
         def grid_column( id = :id ) #:nodoc:
+          puts "-------------------------------------------------"
+          puts id
           self.configured_grid[ id.to_sym ]
         end
+
+        def grid_column_to_sql( id = :id ) #:nodoc:
+          if( gc = grid_column( id ) ).is_a?( Symbol )
+            return "\"#{self.table_name}\".\"#{gc}\""
+          else
+            if gc.values.first.is_a?( Array )
+              gc.values.first.collect { |s| "\"#{self.reflect_on_association(gc.keys.first.to_sym).table_name}\".\"#{s}\"" }
+            else
+              return "\"#{self.reflect_on_association(gc.keys.first.to_sym).table_name}\".\"#{gc.values.first}\""
+            end
+          end
+        end
+
+        def grid_column_includes( id = :id ) #:nodoc:
+          grid_column( id ).is_a?( Symbol ) ? [] : [ id ] ;
+        end
+
 
         # returns the +configured_grid+.+keys+
         def filtered_keys

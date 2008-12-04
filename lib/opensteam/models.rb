@@ -44,18 +44,38 @@ module Opensteam
         options[:root] = "Item"
         options[:skip_instruct] = true
         options[:dasherize] = false
-        {
-          :id => self.id,
-          :customer => self.customer.email,
-          :order_items => self.items.size,
-          :shipping_address => self.shipping_address.full_address,
-          :payment_address => self.payment_address.full_address,
-          :state => self.state.to_s,
-          :created_at => self.created_at,
-          :updated_at => self.updated_at,
-          :editor_url => "/admin/sales/orders/#{self.id}"
-        }.to_xml( options )
 
+        self.class.configured_grid.inject({}) { |r,v|
+          r[ v.first ] = self.configured_grid_value( self, v.last )
+          r
+        }.to_xml( options )
+#
+#                {
+#                  :id => self.id,
+#                  :customer => self.customer.email,
+#                  :order_items => self.items.size,
+#                  :shipping_address => self.shipping_address.full_address,
+#                  :payment_address => self.payment_address.full_address,
+#                  :state => self.state.to_s,
+#                  :created_at => self.created_at,
+#                 :updated_at => self.updated_at,
+#                  :editor_url => "/admin/sales/orders/#{self.id}"
+#                }.to_xml( options )
+
+      end
+
+      def configured_grid_value o,v
+        puts o.inspect
+        puts v.inspect
+
+        case v
+        when Symbol
+          o.send( v )
+        when Hash
+          self.configured_grid_value( o.send( v.keys.first ), *v.values )
+        when Array
+          v.collect { |s| o.send(s) }.join(",")
+        end
       end
 
     end
