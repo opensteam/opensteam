@@ -38,7 +38,7 @@
   build_tabs( 'dvEditorTabContainer', [
   { contentEl: 'general_tab', title: 'Attributes', listeners: { activate: checkTab_setFooterButtons },
   button: {
-  left: 	{ title: "cancel", url: '<%= url_for([:admin, :catalog, @<%= file_name %>] )%>' },
+  left: 	{ title: "cancel", url: '<%%= url_for([:admin, :catalog, @<%= file_name %>] )%>' },
   right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(1); return false;' }
   }
   },

@@ -105,6 +105,7 @@ module Opensteam
       require 'opensteam/container'
       require 'opensteam/user_base'
       require 'opensteam/system'
+      require 'opensteam/helpers/grid'
       
       require 'opensteam/security'
       require 'opensteam/payment'

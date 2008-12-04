@@ -23,7 +23,7 @@ class Admin::Catalog::<%= class_name.pluralize %>Controller < AdminController
   # GET /<%= table_name %>/1.xml
   def show
     @<%= file_name %> = <%= class_name %>.find(params[:id], :include => { :inventories => :properties } )
-        @properties = <%= class_name %>.get_has_property
+    @properties = <%= class_name %>.get_has_property
     @inventories = @<%= file_name %>.inventories
     respond_to do |format|
       format.html { render :action => :edit }

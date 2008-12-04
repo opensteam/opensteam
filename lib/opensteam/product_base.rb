@@ -139,7 +139,7 @@ with the opensteam core:
         
         include Opensteam::Base::Helper
         include Opensteam::Finder
-        include Opensteam::System::FilterEntry::Filter
+  #      include Opensteam::System::FilterEntry::Filter
   
         has_many :properties, :class_name => "Opensteam::Base::PropertyBase",
           :finder_sql => 'SELECT properties.* FROM properties ' +

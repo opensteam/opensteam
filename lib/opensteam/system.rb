@@ -4,7 +4,7 @@ module Opensteam
 
 
 
-    class FilterEntry < ActiveRecord::Base
+    class FilterEntry2 < ActiveRecord::Base
 
 
       attr_accessor :model
@@ -38,6 +38,15 @@ module Opensteam
           def configure_filter( opts )
             @configured_filter = opts
             class << self ; attr_accessor :configured_filter ; end
+          end
+
+          def configure_grid( opts )
+            @configured_grid = opts
+            class << self ; attr_accessor :configured_grid ; end
+          end
+
+          def grid_column( id = :id )
+            self.configured_grid[ id.to_sym ]
           end
 
           def filter_keys( opts )
@@ -149,7 +158,7 @@ module Opensteam
 
     class Mailer < ActiveRecord::Base
       self.table_name = "config_mails"
-      include Opensteam::System::FilterEntry::Filter
+      #include Opensteam::System::FilterEntry::Filter
 
       named_scope :mailer_class, lambda { |mailer_class| { :conditions => { :mailer_class => mailer_class } } }
       named_scope :mailer_method, lambda { |mailer_method| { :conditions => { :mailer_method => mailer_method } } }
