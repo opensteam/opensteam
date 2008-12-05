@@ -31,52 +31,14 @@ module Opensteam
     # see Opensteam::OrderBase for more information
     class Order < Opensteam::Container::Base
       include Opensteam::OrderBase
-      # order collection by given column (e.g. "containers.id" )
-      named_scope :order_by, lambda { |by| { :include => Order.osteam_configtable.default_include, :order => Array(by).join(",") , :conditions => "users.id = users.id" } }
-
+     
       # get orders by given user
       named_scope :by_user, lambda { |user_id| { :include => [:customer ], :conditions => { :user_id => user_id } } }
 
 
-      def to_ext_xml options = {}
-        options[:indent] ||= 2
-        options[:builder] || Builder::XmlMarkup.new( :indent => options[:indent] )
-        options[:root] = "Item"
-        options[:skip_instruct] = true
-        options[:dasherize] = false
 
-        self.class.configured_grid.inject({}) { |r,v|
-          r[ v.first ] = self.configured_grid_value( self, v.last )
-          r
-        }.to_xml( options )
-#
-#                {
-#                  :id => self.id,
-#                  :customer => self.customer.email,
-#                  :order_items => self.items.size,
-#                  :shipping_address => self.shipping_address.full_address,
-#                  :payment_address => self.payment_address.full_address,
-#                  :state => self.state.to_s,
-#                  :created_at => self.created_at,
-#                 :updated_at => self.updated_at,
-#                  :editor_url => "/admin/sales/orders/#{self.id}"
-#                }.to_xml( options )
 
-      end
 
-      def configured_grid_value o,v
-        puts o.inspect
-        puts v.inspect
-
-        case v
-        when Symbol
-          o.send( v )
-        when Hash
-          self.configured_grid_value( o.send( v.keys.first ), *v.values )
-        when Array
-          v.collect { |s| o.send(s) }.join(",")
-        end
-      end
 
     end
 

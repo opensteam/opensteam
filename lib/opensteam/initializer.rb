@@ -82,7 +82,7 @@ module Opensteam
         def after_initialize_with_opensteam_initialize
           after_initialize_without_opensteam_initialize
           Opensteam::Initializer.require_opensteam_after_initialize
-         # Opensteam::Initializer.add_controller_paths( configuration )
+          # Opensteam::Initializer.add_controller_paths( configuration )
         end
         alias_method_chain :after_initialize, :opensteam_initialize
       end
@@ -105,7 +105,10 @@ module Opensteam
       require 'opensteam/container'
       require 'opensteam/user_base'
       require 'opensteam/system'
+      require 'opensteam/helpers/filter'
       require 'opensteam/helpers/grid'
+
+
       
       require 'opensteam/security'
       require 'opensteam/payment'
