@@ -54,13 +54,6 @@ module Opensteam
         include Opensteam::StateMachine
         #   include Opensteam::UUIDHelper
 
-#        # order collection by given column (e.g. "containers.id" )
-#        named_scope :order_by, lambda { |by| { :include => Order.osteam_configtable.default_include, :order => Array(by).join(",") , :conditions => "users.id = users.id" } }
-#
-#        # get orders by given user
-#        named_scope :by_user, lambda { |user_id| { :include => [:customer ], :conditions => { :user_id => user_id } } }
-
-
         #== ASSOCIATIONS
         has_many :items,
           :class_name => "Opensteam::Container::Item",

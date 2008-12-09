@@ -70,7 +70,7 @@ module Opensteam
         base.send( :include, InstanceMethods )
 
         base.class_eval do
-          belongs_to :profile, :class_name => 'Opensteam::UserBase::Profile'
+          # belongs_to :profile, :class_name => 'Opensteam::UserBase::Profile'
 
           has_many :orders, :class_name => 'Admin::Sales::Order', :foreign_key => "user_id"
           has_many :addresses, :class_name => 'Opensteam::UserBase::Address', :foreign_key => 'user_id'

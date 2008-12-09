@@ -145,8 +145,8 @@ module Opensteam
       belongs_to :item, :polymorphic => true
   
       
-      belongs_to :invoice, :class_name => 'Opensteam::Models::Invoice'
-      belongs_to :shipment, :class_name => 'Opensteam::Models::Shipment'
+      belongs_to :invoice, :class_name => 'Opensteam::Models::Invoice', :counter_cache => "items_count"
+      belongs_to :shipment, :class_name => 'Opensteam::Models::Shipment', :counter_cache => "items_count"
       
       
       # increment quantity

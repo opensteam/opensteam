@@ -81,7 +81,11 @@ with the opensteam core:
     end
     
     module ClassMethods #:nodoc:
-      
+
+
+      def configured_grid
+        self.columns.collect(&:name).inject({}) { |r,v| r.merge({ v.to_sym => v.to_sym }) }.merge( { :inventories => { :inventories => :count } } )
+      end
       
       # get the table_prefix for all Opensteam Products
       # per default all product tables are prefixed with "product_"
@@ -139,7 +143,6 @@ with the opensteam core:
         
         include Opensteam::Base::Helper
         include Opensteam::Finder
-  #      include Opensteam::System::FilterEntry::Filter
   
         has_many :properties, :class_name => "Opensteam::Base::PropertyBase",
           :finder_sql => 'SELECT properties.* FROM properties ' +
@@ -172,9 +175,9 @@ with the opensteam core:
         alias_method :real_inventories, :inventories
 
         def inventories( a = [] ) 
-          #puts "********* IIIIIIINNNNNVENTORRRIEEEEEEEESSS ***********  "
           a.empty? ? real_inventories : real_inventories.collect { |x| (x.properties.sort - a.sort).empty? ? x : nil }.compact ;
         end
+
 
       end
 
@@ -326,7 +329,7 @@ with the opensteam core:
         end
       end
     end
-    
+
 
   end
   

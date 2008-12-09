@@ -35,7 +35,7 @@ module Opensteam
         belongs_to :customer, :class_name => 'User'
         belongs_to :address, :class_name => 'Opensteam::UserBase::Address'
 
-        has_many :order_items, :class_name => 'Opensteam::Container::Item'
+        has_many :items, :class_name => 'Opensteam::Container::Item'
       
         named_scope :by_order, lambda { |order_id| { :include => :order, :conditions => { :order_id => order_id } } }
         named_scope :order_by, lambda { |by| { :include => Invoice.osteam_configtable.default_include, :order => Array(by).join(",") , :conditions => "addresses.id = addresses.id" } }
@@ -63,7 +63,7 @@ module Opensteam
       end
 
       # returns the order items
-      def items ; order_items ; end
+      def order_items ; items ; end
 
 
       # returns the order-id

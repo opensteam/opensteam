@@ -141,6 +141,7 @@ module Opensteam
       #   require 'opensteam/tax'
     
       require 'opensteam/money'
+      Opensteam::ProductBase.extend_product Opensteam::Helpers::Grid
     
     end
     
