@@ -84,7 +84,11 @@ with the opensteam core:
 
 
       def configured_grid
-        self.columns.collect(&:name).inject({}) { |r,v| r.merge({ v.to_sym => v.to_sym }) }.merge( { :inventories => { :inventories => :count } } )
+        self.columns.collect(&:name).inject({}) { |r,v| r.merge({ v.to_sym => v.to_sym }) }.merge( 
+          { :editor_url => :editor_url,
+            :inventories => { :inventories => :count }
+          }
+        )
       end
       
       # get the table_prefix for all Opensteam Products
@@ -154,7 +158,7 @@ with the opensteam core:
         
         # inventory association
         has_many :inventories, :as => :product,
-          :extend => Opensteam::Base::ExistByPropertiesExtension,
+          :extend => [ Opensteam::Base::ExistByPropertiesExtension, Opensteam::Helpers::Grid::ClassMethods ],
           :class_name => "Opensteam::Models::Inventory"
 
         has_many :inventories_properties, :through => :inventories, :include => :property
@@ -185,7 +189,7 @@ with the opensteam core:
     
     module InstanceMethods
       
-      
+      def editor_url ; "#{self.class.to_s.tableize}/#{self.id}" ; end
       
       def selected_inventory() @selected_inventories ||= nil ; end
       def selected_inventory=(i) @selected_inventories = i ; end 

@@ -6,7 +6,7 @@ module Opensteam
 
     module Grid
 
-      
+
       def self.included(base) #:nodoc:
         base.send( :extend,  ClassMethods )
         base.send( :include, InstanceMethods )
@@ -34,7 +34,8 @@ module Opensteam
 
 
       module InstanceMethods
-        
+
+        def editor_url ; "#{self.class.to_s.demodulize.underscore.singularize}/#{self.id}" ; end
 
         def configured_grid_value object, method
           case method

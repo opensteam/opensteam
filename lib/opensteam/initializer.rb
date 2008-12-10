@@ -95,6 +95,8 @@ module Opensteam
       require 'opensteam/config'
       require 'opensteam/system'
       require 'opensteam/finder'
+            require 'opensteam/helpers/filter'
+      require 'opensteam/helpers/grid'
       require 'opensteam/product_base'
       require 'opensteam/property_base'
       require 'opensteam/base'
