@@ -1,5 +1,19 @@
 *EDGE*
 
+* added lib/opensteam/extension.rb to provide an opensteam-extension/plugin mechanism (see the opensteam_category plugin in vendor/plugins for more information on how to build a plugin)
+
+* added the "filter" method as association-extension method to the "inventories" association for products. (otherwise "filter" is always called on the model and not on the association-proxy)
+
+* implemented/refactored lib/opensteam/helpers/filter.rb: building dynamic conditions- and sorting-hash based on Model.configured_grid (see lib/opensteam/helpers/grid.rb for more information)
+and based on model associations (using reflect_on_association).
+Model.filter and Model.order_by now return named_scopes (in order to chain multiple filters, orders)
+
+* implemented/refactored lib/opensteam/helpers/grid.rb: implements methods to configure grid columns (used for ExtJS grid, filter-entries, sorting, etc)
+
+* implemented remote-proxy for ExtJS GridPanel (for Orders, Shipments, Invoices, Users, Products)
+
+* heavy refactoring of Admin-Backend views (ExtJS: GridPanel, TabbedContent), controller (filters)
+
 * added "admin_nav_item" helper to render navigation items in the admin-backend (AdminHelper)
 
 * added "add_controller_paths" method to Opensteam::Initializer, to add all controller-subdirectories to the controller_paths
