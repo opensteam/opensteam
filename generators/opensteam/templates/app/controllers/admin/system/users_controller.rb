@@ -1,19 +1,16 @@
 class Admin::System::UsersController < Admin::SystemController
 
   before_filter :set_filter
-
-
-
-  require_role :customer, :except => [:new]
+   require_role :customer, :except => [:new]
 
   def index
-
-    @users = User.filter( @filters )
+    @users = User.filter( @filters ).order_by( _s.sort, _s.dir ).paginate( :page => _s.page, :per_page => _s.per_page, :include => :user_roles )
+    @total_entries = @users.total_entries
     
-    @users = @users.paginate( :page => params[:page],
-      :include => :user_roles,
-      :per_page => params[:per_page] || 20, :order => "users.id" )
-
+    respond_to do |format|
+      format.html { }
+      format.xml # { render :action => :index, :layout => false }
+    end
   end
 
 
@@ -22,8 +19,10 @@ class Admin::System::UsersController < Admin::SystemController
     @user = User.new
   end
 
+
+
   def create
-    @user = User.new
+    @user = User.new( params[:user] )
 
     params[:roles] ||= []
 
@@ -37,6 +36,7 @@ class Admin::System::UsersController < Admin::SystemController
         format.xml { head :ok }
       else
         flash[:error] = "Error: Could not save User"
+        puts @user.errors.inspect
         format.html { render :action => :new }
         format.xml { }
       end
@@ -72,7 +72,7 @@ class Admin::System::UsersController < Admin::SystemController
       @user.send( "#{params[:event]}!" )
     end
 
-    redirect_to :action => :index
+    redirect_to request.referer
   end
 
   def show

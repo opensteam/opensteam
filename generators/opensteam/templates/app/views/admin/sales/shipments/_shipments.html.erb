@@ -1,21 +1,19 @@
+<% url = @order ? admin_sales_order_shipments_path( @order, :format => :xml ) : admin_sales_shipments_path( :format => :xml ) %>
+
 <div id="grid">
-<% grid_table do %>
+<% grid_table "the-table", url, Opensteam::Models::Shipment.filtered_keys do %>
 <thead>
 	<tr>
 		<th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
-		<th><div>ID#</div></th>
-		<th><div>Items</div></th>
-		<th><div>Address</div></th>
-		<th><div>State</div></th>
-		<th><div>Rate</div></th>
-		<th><div>Comment</div></th>
-		<th><div>Created At</div></th>
-		<th><div>Updated At</div></th>
-		<th class="last not-in-context no-menu"><div>&nbsp;</div></th>
+		<th title="id"><div>ID#</div></th>
+		<th title="address"><div>Address</div></th>
+		<th title="state"><div>State</div></th>
+		<th title="rate"><div>Rate</div></th>
+		<th title="comment"><div>Comment</div></th>
+		<th title="created_at"><div>Created At</div></th>
+		<th title="updated_at"><div>Updated At</div></th>
+		<th title="editor_url" class="last not-in-context no-menu"><div>Actions</div></th>
 	</tr>
 </thead>
-<tbody id="orders_table_body">
-	<%= render :partial => "admin/sales/shipments/shipment", :collection => shipments %>
-</tbody>
 <% end %>
 </div>

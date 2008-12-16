@@ -8,7 +8,7 @@ class Admin::System::UserRolesController < Admin::SystemController
       :include => "users" )
 
     respond_to do |format|
-      format.html
+      format.html  
       format.xml { render :xml => @user_roles }
     end
   end

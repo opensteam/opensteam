@@ -63,3 +63,36 @@
 						dvObj.style.display="none";
 					}
 				}
+				
+				function doResetPageItems(callObj){
+					prepareGridLoadingStatus(grid);
+					if(tblHdrTimer){clearInterval(tblHdrTimer);}
+					Ext.get('paging_currentPage').dom.value=1;
+					gridStore.load({params:{page:1, per_page:callObj.value,sort: ((gridStore.sortInfo) ? gridStore.sortInfo.field || '' : '' ),dir:((gridStore.sortInfo) ? gridStore.sortInfo.direction || '' : '')},callback: checkHeaders});
+				}
+				
+				function doLeafToPreviousPage(){
+					var prevPage = (Number(Ext.get('paging_currentPage').dom.value) - 1);
+					if(prevPage < 0 ){return;}
+					prepareGridLoadingStatus(grid);
+					if(tblHdrTimer){clearInterval(tblHdrTimer);}
+					Ext.get('paging_currentPage').dom.value=(prevPage + 1);
+					gridStore.load({params:{page:prevPage, per_page:Ext.get('paging_itemsPerPage').dom.value,sort: ((gridStore.sortInfo) ? gridStore.sortInfo.field || '' : '' ),dir:((gridStore.sortInfo) ? gridStore.sortInfo.direction || '' : '')},callback: checkHeaders});
+				}
+				
+				function doLeafToNextPage(){
+					var nextPage = (Number(Ext.get('paging_currentPage').dom.value) + 1 );
+					if((nextPage) > Number(Ext.get('paging_totalPages').dom.value)){return;}
+					prepareGridLoadingStatus(grid);
+					if(tblHdrTimer){clearInterval(tblHdrTimer);}
+					Ext.get('paging_currentPage').dom.value=(nextPage );
+					gridStore.load({params:{page:nextPage, items:Ext.get('paging_itemsPerPage').dom.value,sort: ((gridStore.sortInfo) ? gridStore.sortInfo.field || '' : '' ),dir:((gridStore.sortInfo) ? gridStore.sortInfo.direction || '' : '')},callback: checkHeaders});
+				}
+				
+				function doLeafToThePage(callObj){
+					callObj.value=Number(callObj.value.replace(/[a-z]/gi,""));
+					if( (callObj.value - 1) < 1){callObj.value=1;}
+					if( (callObj.value) > Number(Ext.get('paging_totalPages').dom.value)){callObj.value=Number(Ext.get('paging_totalPages').dom.value);}
+					gridStore.load({params:{page:(callObj.value), items:Ext.get('paging_itemsPerPage').dom.value,sort: ((gridStore.sortInfo) ? gridStore.sortInfo.field || '' : '' ),dir:((gridStore.sortInfo) ? gridStore.sortInfo.direction || '' : '')},callback: checkHeaders});
+				}
+				

@@ -22,3 +22,22 @@ class ActionMailer::Base
   alias_method_chain :deliver!, :active_mailer_check
 
 end
+class Array
+  def to_ext_xml options = {}
+    raise "Not all elements respond to to_xml" unless all? { |e| e.respond_to? :to_xml }
+    
+    options[:indent] ||= 2
+    options[:builder] ||= Builder::XmlMarkup.new( :indent => options[:indent] )
+    options[:builder].instruct! unless options.delete( :skip_instruct )
+
+    opts = options.merge( { :skip_instruct => true, :root => "Item" } )
+
+    options[:builder].tag!( "Items") {
+      options[:builder].tag!( "type", self.first.class.to_s.demodulize.tableize )
+      options[:builder].tag!( "TotalResults", options[:total_entries] )
+      options[:builder].Request { options[:builder].tag!( "IsValid", true ) }
+      each { |e| e.to_ext_xml( opts ) }
+    }
+
+  end
+end

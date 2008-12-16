@@ -45,7 +45,7 @@ class OpensteamProductGenerator < Rails::Generator::NamedBase
       ### Views ###
       m.directory( File.join('app/views', 'admin', 'catalog', table_name ) )
       # app/views/admin/<product>/* #
-      %w( _categories _properties _attributes edit new index ).each { |f|
+      %w( _properties _attributes edit new index ).each { |f|
         m.template("views/admin/#{f}.html.erb", "app/views/admin/catalog/#{table_name}/#{f}.html.erb")
       }
 

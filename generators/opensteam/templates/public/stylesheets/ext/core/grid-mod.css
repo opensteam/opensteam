@@ -4,7 +4,7 @@
 .x-grid3-hd {height:31px;border:solid #d8d8d8;border-width:0 1px;}
 	.x-grid3-hd-inner{position:relative;height:29px;border:none;padding:0px;}
 	.ext-ie .x-grid3-hd-inner{padding-right:3px;}
-		.x-grid3-hd-inner div{float:left;padding:7px 3px 6px 5px; font-size:12px; color:#555; font-weight:bold;}
+		.x-grid3-hd-inner div{float:left;padding:7px 3px 6px 5px;}
 		.ext-ie6 .x-grid3-hd-inner div {position:static;}
 			td.x-grid3-hd-over .x-grid3-hd-inner div, td.sort-desc .x-grid3-hd-inner div, td.sort-asc .x-grid3-hd-inner div, td.x-grid3-hd-menu-open .x-grid3-hd-inner div{background:url(/images/grid/th_active_left.gif) left top no-repeat !important;}
 	td.x-grid3-hd-over, td.sort-desc, td.sort-asc, td.x-grid3-hd-menu-open {border-left:none;border-right:1px solid #d8d8d8;padding:0px;}

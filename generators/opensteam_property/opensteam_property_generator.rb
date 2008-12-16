@@ -49,7 +49,7 @@ class OpensteamPropertyGenerator < Rails::Generator::NamedBase
       ### Views ###
       # app/views/administratino/<property>/* #
       m.directory( File.join('app/views', 'admin', 'catalog', table_name ) )
-      %w( edit index new ).each { |f|
+      %w( _attributes edit index new ).each { |f|
         m.template("views/admin/#{f}.html.erb", "app/views/admin/catalog/#{table_name}/#{f}.html.erb")
       }
 

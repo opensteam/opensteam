@@ -1,15 +1,6 @@
 
 module CheckoutHelper
 
-  #
-  #  def shipping_types_radio_buttons country = nil
-  #    RegionShippingRate.all.collect(&:shipping_method).uniq.collect do |t|
-  #      radio_button_tag( :order_shipping_type, t ) +
-  #        label( "order_shipping_type_#{t}", t ) + " - " +
-  #        ShippingRateGroup.find_by_name( Opensteam::Config[:shipping_rate_group_default] ).rate_for(
-  #        :shipping_method => t ).to_s
-  #    end.join('<br />')
-  #  end
   include Opensteam::Money::Helper
   
   def fill_address_link id, address
@@ -21,7 +12,6 @@ module CheckoutHelper
       
     end
   end
-
 
   def payment_types_radio_buttons f
     Opensteam::Payment::Types.active.collect do |t|

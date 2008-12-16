@@ -3,22 +3,11 @@ class Admin::System::MailersController < Admin::ConfigController
   before_filter :set_filter
   
   def index
-    #@filter_entries = FilterEntry.find( profile_session.active_filter( self ) )
-    @orders = Opensteam::System::Mailer.filter( @filters )
-
-    @mailers = ( @mailers || Opensteam::System::Mailer ).paginate( :page => params[:page],
-      :per_page => params[:per_page] || 20
-    ) ;
+    @mailers = Opensteam::System::Mailer.all
 
     respond_to do |format|
       format.html
       format.xml { render :xml => @mailers.to_xml( :root => "mailers" ) }
-      format.js {
-        render :update do |page|
-          page.replace_html :grid, :partial => "mailers", :object => @orders
-          page.replace_html :filter, :partial => "admin/filters/filter", :locals => { :records => @mailers, :model => "Admin::Config::Mailer" }
-        end
-      }
     end
 
 

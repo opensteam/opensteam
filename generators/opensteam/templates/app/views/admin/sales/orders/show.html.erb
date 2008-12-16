@@ -35,6 +35,8 @@
 </div>
 
 <% javascript_tag do %>
+var cb=function(tab){checkTab_setFooterButtons(tab);createLocalGrid('the-table');}
+
 
 build_tabs( 'dvEditorTabContainer', [
 { contentEl: 'general_tab', title: Ext.get('general_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
@@ -49,7 +51,7 @@ button: {
 	right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(2); return false;' }
 }
 },
-{ contentEl: 'order_items_tab', title: Ext.get('order_items_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+{ contentEl: 'order_items_tab', title: Ext.get('order_items_tab').dom.title, listeners: { activate: cb },
 button: {
 	left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(1); return false;' },
 	right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(3); return false;' }
@@ -62,4 +64,4 @@ button: {
 }
 }
 ] ) ;
-<% end %>
+<% end %>checkHeaders

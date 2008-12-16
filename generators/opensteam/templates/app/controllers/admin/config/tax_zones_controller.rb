@@ -1,15 +1,15 @@
 class Admin::Config::TaxZonesController < Admin::ConfigController
-  
+
+  before_filter :set_filter
+
 
   def index
-    @tax_zones = TaxZone.paginate( :page => params[:page],
-      :per_page => params[:per_page] || 20,
-      :order => 'tax_zones.id'
-    )
-    
+    @tax_zones = TaxZone.filter( @filters ).order_by( _s.sort, _s.dir ).paginate( :page => _s.page, :per_page => _s.per_page )
+    @total_entries = @tax_zones.total_entries 
+
     respond_to do |format|
       format.html
-      format.xml { render :xml => @tax_zones.to_xml( :root => "tax_zones") }
+      format.xml { render :xml => @tax_zones.to_ext_xml( :total_entries => @total_entries ) }
       format.js { render :partial => "admin/tax_zones/tax_zone_row", :collection => @tax_zones }
     end
     

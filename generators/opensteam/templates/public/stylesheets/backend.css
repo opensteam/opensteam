@@ -18,6 +18,12 @@ form.grid { float:left ; padding-left: 3px ; }
 
 .hideme { display:none; }
 
+/* grid */
+.x-grid3-hd-inner div { font-size:12px; color:#555; font-weight:bold;}
+
+
+
+
 /* filter menu align middle*/
 .dv-filter-list-paging { padding-top: 4px ;}
 .dv-filter-menu-buttons { padding-top: 6px; }
@@ -30,6 +36,8 @@ form.grid { float:left ; padding-left: 3px ; }
 #editor-wrapper fieldset p { margin-top: 10px; }
 .tab-content { padding-left: 20px; padding-bottom: 10px; }
 
+/* quicksteams */
+.draggable_path {width:auto;z-index:9999;font: 11px lucida grande;color:#ddd;font-weight:normal;background-color:#333;padding:4px;position:absolute;}
 
 
 /* editor forms */

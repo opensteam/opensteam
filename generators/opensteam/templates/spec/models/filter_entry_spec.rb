@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Opensteam::System::FilterEntry do
-  FilterEntry = Opensteam::System::FilterEntry
+describe Opensteam::Helpers::Grid do
+  FilterEntry = Opensteam::Helpers::Grid::FilterEntry
   before(:each) do
     @valid_attributes = {
       :key => "id",
@@ -25,54 +25,12 @@ describe Opensteam::System::FilterEntry do
     filter.should_not be_valid
   end
 
-  it "should create valid conditions from valid attributes" do
+  
+  it "model should get configured column name" do
+    @model.configure_grid( :id => :buh )
     filter = FilterEntry.new( @valid_attributes )
-    filter.conditions( @model ).class.should be(Array)
+    @model.grid_column( filter.key ).should eql( :buh )
   end
-  
-  it "should get column name" do
-    @model.configure_filter( {} )
-    filter = FilterEntry.new( @valid_attributes )
-    filter.model = @model
-    filter.send( :parse_column, filter.key ).should eql( "#{@model.table_name}.id" )
-  end
-  
-  it "should get configured column name" do
-    @model.configure_filter( :id => "tests.id" )
-    filter = FilterEntry.new( @valid_attributes )
-    filter.model = @model
-    filter.send( :parse_column, filter.key ).should eql( "tests.id" )
-  end
-  
-  it "should get configured column names" do
-    @model.configure_filter( :id => [ "tests.id", "tests.id2" ] )
-    filter = FilterEntry.new( @valid_attributes )
-    filter.model = @model
-    filter.send( :parse_column, filter.key ).should eql [ "tests.id", "tests.id2" ]
-  end
-  
-  it "should get associated column name" do
-    filter = FilterEntry.new( @valid_attributes.merge( :key => "customer" ) )
-    filter.model = @model
-    filter.send( :parse_column, filter.key ).should eql( "users.customer" ) 
-  end
-  
-  
-  it "should return a scope" do
-    filter = FilterEntry.new( @valid_attributes )
-    filter.scope_for( @model ).class.should be( ActiveRecord::NamedScope::Scope )
-  end
-
-  it "should receive parse_column" do
-    filter = FilterEntry.new( @valid_attributes.merge( { :key => "created_at", :op => ">", :val => 0 } ) )
-    filter.should_receive( :parse_column ).once
-    filter.conditions( @model )
-  end
-
-  it "should receive parse_column" do
-    filter = FilterEntry.new( @valid_attributes.merge( { :key => "created_at", :op => ">", :val => 0 } ) )
-    filter.should_receive( :check_operator ).with( filter.op ).once
-    filter.conditions( @model )
-  end
+    
 
 end

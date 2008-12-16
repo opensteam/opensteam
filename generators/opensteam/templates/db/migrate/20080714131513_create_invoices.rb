@@ -10,6 +10,7 @@ class CreateInvoices < ActiveRecord::Migration
       t.references :address
       
       t.string :state
+      t.integer :items_count, :default => 0, :null => false
 
       t.timestamps
     end

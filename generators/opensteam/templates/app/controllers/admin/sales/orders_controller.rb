@@ -2,6 +2,8 @@ class Admin::Sales::OrdersController < Admin::SalesController
   helper :all
   before_filter :set_per_page
   before_filter :set_filter
+  
+  
 
 
 
@@ -13,14 +15,12 @@ class Admin::Sales::OrdersController < Admin::SalesController
       @orders = @orders.by_user( @customer.id ) if @customer
     end
 
-    @orders = @orders.paginate( :page => params[:page],
-      :per_page => params[:per_page] || 20,
-      :include => [ :customer, :shipping_address, :payment_address ],
-      :order => "containers.id" )
-      
+    @orders = @orders.order_by( _s.sort, _s.dir ).paginate( :per_page => _s.per_page, :page => _s.page )
+    @total_entries = @orders.total_entries
+    
     respond_to do |format|
       format.html
-      format.xml { render :xml => @orders.to_xml( :root => "orders" ) }
+      format.xml { render :xml => @orders.to_ext_xml( :total_entries => @total_entries ) }
       format.js { render :update do |page|
           page.replace_html :grid, :partial => "orders", :object => @orders
           page.replace_html :filter, :partial => "admin/filters/filter", :locals => { :records => @orders, :model => "Order" }

@@ -6,22 +6,20 @@ class CategoriesController < Admin::CatalogController
   # GET /admin/catalog/categories.xml
   # GET /admin/catalog/categories.json
   def index
-    if params[:node].to_i == 0
-      @categories = Category.root_nodes.collect(&:to_hash)
-    else
-      @categories = Category.find_children( params[:node] )
-    end
-
-    if params[:product_class] && params[:product_id]
-      @product = Opensteam::Find.find_product_by_id( params[:product_class], params[:product_id] )
+    
+    if product_context?
+      @product = context
       @categories = Category.root_nodes.collect { |c| c.to_hash( @product ) }
+    else
+      @categories = params[:node].to_i == 0 ? Category.root_nodes.collect(&:to_hash) : Category.find_children( params[:node] )
     end
-
+    
     respond_to do |format|
-      format.html
+      format.html { product_context? ? render( :action => :index_product ) : render( :action => :index ) }
       format.xml { render :xml => @categories }
-      format.json { render :json => @categories  } #root_nodes.collect(&:to_hash2) }
+      format.json { render :json => @categories }
     end
+    
   end
 
 

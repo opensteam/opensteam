@@ -1,19 +1,46 @@
 ## INIT opensteam_categories PLUGIN
 
 require 'opensteam'
-
-# include controller (LOAD_PATH, Dependencies and config)
-controller_path = File.join( File.dirname(__FILE__), 'controller' )
-$LOAD_PATH << controller_path
-ActiveSupport::Dependencies.load_paths << controller_path
-config.controller_paths << controller_path
-
-
-#include views
-ActionController::Base.append_view_path File.join( File.dirname(__FILE__), "views" )
+# 
+# # include controller (LOAD_PATH, Dependencies and config)
+# controller_path = File.join( File.dirname(__FILE__), 'controller' )
+# $LOAD_PATH << controller_path
+# ActiveSupport::Dependencies.load_paths << controller_path
+# config.controller_paths << controller_path
+# 
+# 
+# #include views
+# ActionController::Base.append_view_path File.join( File.dirname(__FILE__), "views" )
 
 require File.join( File.dirname(__FILE__), 'lib', 'categories_inventory' )
 require File.join( File.dirname(__FILE__), 'lib', 'category' )
 
+require File.join( File.dirname(__FILE__), 'lib', 'category_plugin' )
 
 
+Opensteam::Extension.register "Opensteam Categories" do
+  
+  # describe you plugin/extension
+  description "categorize products"
+  
+  # specify the view path for the plugin 
+  view_path File.join( File.dirname(__FILE__), "views" )
+  
+  # specify the controller path for the plugin
+  controller_path File.join( File.dirname(__FILE__), "controller" )
+  
+  # custom routes for you plugin
+  plugin_routes do |map|
+    map.namespace :admin do |admin|
+      map.namespace :catalog do |catalog|
+        map.resource :categories
+      end
+    end
+  end
+  
+  # extend product routes?
+  # created nested resources for products
+  product_extension :categories # => /admin/catalog/:product_type/:product_id/categories/:id
+  
+  
+end

@@ -1,13 +1,12 @@
-<% grid_table do %>
+<% grid_table_static do %>
   <thead>
     <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
-    <th><div>ID#</div></th>
-    <th><div>Country</div></th>
-    <th><div>State</div></th>
-    <th><div>Rate</div></th>
-    <th><div>Updated At</div></th>
-    <th class="not-in-context no-menu"><div>&nbsp;</div></th>
-    <th class="last not-in-context no-menu"><div>&nbsp;</div></th>
+    <th title="id"><div>ID#</div></th>
+    <th title="country"><div>Country</div></th>
+    <th title="state"><div>State</div></th>
+    <th title="rate"><div>Rate</div></th>
+    <th title="updated_at"><div>Updated At</div></th>
+    <th title="editor_url" class="not-in-context no-menu"><div>Actions</div></th>
   </thead>
   <tbody id="orders_table_body">
     <%= render :partial => "admin/config/tax_zones/tax_zone", :collection => tax_zones %>

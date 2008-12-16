@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   include Opensteam::UserBase::UserLogic
 
-  include Opensteam::System::FilterEntry::Filter
+  #include Opensteam::System::FilterEntry::Filter
   
 
   validates_presence_of     :login

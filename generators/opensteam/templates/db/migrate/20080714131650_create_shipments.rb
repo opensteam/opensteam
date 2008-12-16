@@ -10,6 +10,7 @@ class CreateShipments < ActiveRecord::Migration
       t.references :customer
       
       t.decimal :shipping_rate, :decimal, :scale => 2, :precision => 8
+      t.integer :items_count, :default => 0, :null => false
       
       t.timestamps
     end

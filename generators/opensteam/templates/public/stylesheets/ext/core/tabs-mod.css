@@ -1,4 +1,4 @@
-.x-tab-panel-header{border-width:0;background-color:#d8e668;padding-bottom:3px;z-index:57;}
+.x-tab-panel-header{border-width:0;background-color:#d8e668;padding-bottom:3px;z-index:22;}
 	.x-tab-strip-wrap{background-color:#FFF;}
 		ul.x-tab-strip-top{background:transparent none;border-bottom-color:#cbcfd2;}
 			ul.x-tab-strip li{margin-left:0;}
@@ -16,6 +16,7 @@
 						.x-tab-strip-top .x-tab-strip-over .x-tab-strip-inner {background-position:0 -150px;}
 							.x-tab-strip-over span.x-tab-strip-text {color:#687604;}
 
-.x-tab-panel-bwrap{margin-top:0px;z-index:0;z-index:22;}
+.x-tab-panel-bwrap{margin-top:-3px;z-index:25;}
 	.x-tab-panel-body{border-color:#cbcfd2;padding:8px 5px 5px;background:transparent none;}
 					
+.x-tree-selected { background-color: #F2F8C4 ! important }

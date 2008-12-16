@@ -9,13 +9,14 @@ class Admin::Catalog::<%= class_name.pluralize %>Controller < AdminController
   # GET /<%= table_name %>.xml
   def index
     @<%= table_name %> = <%= class_name %>.filter( @filters )
-    @<%= table_name %> = @<%= table_name %>.paginate( :page => params[:page],
-      :per_page => params[:per_page] || 20, :order => 'id' )
+    @<%= table_name %> = @<%= table_name %>.paginate( :page => _s.page,
+      :per_page => _s.per_page )
 
+    @total_entries = @<%= table_name %>.total_entries
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @<%= table_name %> }
+      format.xml  { render :xml => @<%= table_name %>.to_ext_xml( :total_entries => @total_entries ) }
     end
   end
 

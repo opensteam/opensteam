@@ -1,20 +1,22 @@
+
 <div id="grid-wrapper">
 	<div id="grid">
-		<% grid_table do %>
+		<% grid_table "the-table", admin_catalog_product_inventories_path( @product, :format => :xml), Inventory.filtered_keys + [:editor_url] do %>
 			<thead>
 				<tr>
 					<th class="first no-sort no-menu"><div>&nbsp;</div></th>
-					<th><div>#</div></th>
-					<th><div>Configuration</div></th>
-					<th><div>Active</div></th>
-					<th><div>Price</div></th>
-					<th><div>Storage</div></th>
-					<th><div>BackOrdered</div></th>
-					<th><div>Tax Group</div></th>
-					<th class="last no-sort no-menu"><div></div></th>
+					<th title="id"><div>#</div></th>
+					<th title="configuration"><div>Configuration</div></th>
+					<th title="active"><div>Active</div></th>
+					<th title="price"><div>Price</div></th>
+					<th title="storage"><div>Storage</div></th>
+					<th title="back_ordered"><div>BackOrdered</div></th>
+					<th title="tax_group"><div>Tax Group</div></th>
+					<th title="editor_url" class="last no-sort no-menu"><div>Actions</div></th>
 				</tr>
 			</thead>
 			<tbody>
+				<!--
 				<% for inventory in inventories %>
 				<tr class="<%= cycle('odd','even') %>">
 					<td class="first"></td>
@@ -28,6 +30,7 @@
 					<td class="last"><%= link_to "edit", edit_admin_catalog_inventory_path( inventory ) %></td>
 					</tr>
 				<% end %>
+			-->
 			</tbody>
 		<% end %>
 	</div>

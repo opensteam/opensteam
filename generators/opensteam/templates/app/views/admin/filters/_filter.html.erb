@@ -9,7 +9,7 @@
             page.insert_html :bottom,
               :dvFilterTableMainBody,
               :partial => "admin/filters/filter_fields",
-              :object => Opensteam::System::FilterEntry.new,
+              :object => Opensteam::Helpers::Grid::FilterEntry.new, #Opensteam::System::FilterEntry.new,
               :locals => { :model => model }
           end %>
         </div>
@@ -23,30 +23,27 @@
       </div>
 
       <div class="dv-filter-list-paging">
-        <table>
+        <table style="table-layout:auto;">
           <tr>
-            <td><%= page_entries_info records, :entry_name => model.to_s %> <!-- Total <strong>103</strong> records found --></td>
-            <td>&nbsp;|&nbsp;</td>
-            <td>view&nbsp;</td>
+            <td>Total <strong id="pagingNumOfTotalResults">103</strong> records found</td>
+						<td>&nbsp;|&nbsp;</td>
+						<td>view&nbsp;</td>
             <td>
               <div class="dvStatic" >
-                <%= select_tag :paging_itemsPerPage, options_for_select([5, 10, 20, 30, 40, ['all', records.total_entries ]], params[:per_page].to_i ), :name => "per_page" %>
+                <%= select_tag :paging_itemsPerPage, options_for_select([5, 10, 20, 30, 40, ['all', @total_entries ]], _s.per_page ), :name => "paging_itemsPerPage" %>
               </div>
             </td>
-            <td>&nbsp;per page</td>
-            <td>&nbsp;|&nbsp;</td>
-            <td>Page&nbsp;</td>
-            <td></td>
-            <td>
-              <%= will_paginate records, :page_links => false, :next_label => image_tag('filter-menu/ico-page-leaf-next.gif'), :previous_label => image_tag('filter-menu/ico-page-leaf-prev.gif'), :separator => text_field_tag( :pageing_currentPage, "#{params[:page] || 1 }", :class => "inputFields", :name => "page" ) %>
-            </td>
-            <td></td>
-            <td>&nbsp;of <%= records.total_pages %> pages</td>
+						<td>&nbsp;per page</td>
+						<td>&nbsp;|&nbsp;</td>
+						<td>Page&nbsp;</td>
+						<td><a href="#" onfocus="blur();" onclick="doLeafToPreviousPage();return false;"><img src="/images/filter-menu/ico-page-leaf-prev.gif" width="21" height="21" alt="" border="0" /></a></td>
+						<td><input type="text" value="<%= _s.page %>" name="paging_currentPage" id="paging_currentPage" class="inputFields" onchange="doLeafToThePage(this);" /><input type="hidden" name="paging_totalPages" id="paging_totalPages" value="#" /></td>
+						<td><a href="#" onfocus="blur();" onclick="doLeafToNextPage();return false;"><img src="/images/filter-menu/ico-page-leaf-next.gif" width="21" height="21" alt="" border="0" /></a></td>
+						<td>&nbsp;of <span id="pagingNumOfTotalPages">#</span> pages</td>
           </tr>
         </table>
       </div>
-
-      <div style="clear:both;"></div>
+			<div style="clear:both;"></div>
     </div>
     <div id="dvFilterTableMain" style="display:block;" class="dv-filter-table">
       <table cellpadding="0" cellspacing="0" class="tblFilter">

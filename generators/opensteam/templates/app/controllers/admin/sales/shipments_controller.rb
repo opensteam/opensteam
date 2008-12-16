@@ -12,15 +12,12 @@ class Admin::Sales::ShipmentsController < Admin::SalesController
       @shipments = ( @shipments || Opensteam::Models::Shipment ).by_order( params[:order_id] )
     end
     
-    @shipments = ( @shipments || Opensteam::Models::Shipment ).paginate(
-     :page => params[:page],
-     :per_page => params[:per_page] || 20,
-     :include => [ :order ],
-     :order => 'shipments.id' )
+    @shipments = @shipments.order_by( _s.sort, _s.dir ).paginate( :page => _s.page, :per_page => _s.per_page, :include => :order )  
+    @total_entries = @shipments.total_entries
     
     respond_to do |format|
       format.html { @order ? render( :action => :index_order )  : render( :action => :index ) }
-      format.xml  { render :xml => @shipments.to_xml( :root => 'shipments' ) }
+      format.xml  { render :xml => @shipments.to_ext_xml( :total_entries => @total_entries ) }
     end
     
   end
@@ -63,14 +60,14 @@ class Admin::Sales::ShipmentsController < Admin::SalesController
       return
     end
   
-    @shipment.order_items << @order.items.find( params[:order_items] )
+    @shipment.items << @order.items.find( params[:order_items] )
 
     ret = @address.update_attributes( params[:address] ) && @shipment.save
 
     respond_to do |format|
       if ret
         flash[:notice] = 'Shipment was successfully created.'
-        format.html { redirect_to( admin_sales_order_invoices_path( @order ) ) }
+        format.html { redirect_to( admin_sales_order_shipments_path( @order ) ) }
         format.xml  { render :xml => @shipment, :status => :created, :location => @shipment }
       else
         format.html { render :action => :new }

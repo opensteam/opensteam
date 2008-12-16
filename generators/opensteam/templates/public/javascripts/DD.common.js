@@ -11,7 +11,7 @@
 		if (obj.offsetParent){while (obj.offsetParent){curtop += obj.offsetTop;obj = obj.offsetParent;};}else if (obj.y){curtop += obj.y;}
 		return curtop;
 	}
-	
+/*	
 	if(typeof($)=="undefined"){
 		function $() {
 			var elements = new Array();
@@ -26,6 +26,7 @@
 			return elements;
 		}
 	}
+*/
 	DD.anchorTooltip = new Object();
 	var currAnchorTooltip=false;
 	DD.anchorTooltip.show=function(e){

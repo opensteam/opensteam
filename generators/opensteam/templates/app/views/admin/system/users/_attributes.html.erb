@@ -1,18 +1,45 @@
-<table cellpadding="0" cellspacing="0" class="editor-form">
-	<tr>
-		<td class="label"><%= attributes.label :login %></td>
-		<td class="content"><%= attributes.text_field :login, :class => "inputFields" %></td>
-	</tr>
-	<tr>
-		<td class="label"><%= attributes.label :email %></td>
-		<td class="content"><%= attributes.text_field :email, :class => "inputFields" %></td>
-	</tr>
-	<tr>
-		<td class="label"><%= attributes.label :firstname %></td>
-		<td class="content"><%= attributes.text_field :firstname, :class => "inputFields" %></td>
-	</tr>
-	<tr>
-		<td class="label"><%= attributes.label :lastname %></td>
-		<td class="content"><%= attributes.text_field :lastname, :class => "inputFields" %></td>
-	</tr>
-</table>
+<div style="float:left;">
+	<table cellpadding="0" cellspacing="0" class="editor-form">
+		<tr>
+			<td class="label">State</td>
+			<td class="content" style="font-weight:bold;"><%=h @user.state %></td>
+		</tr>
+		<tr>
+			<td class="label">Created At</td>
+			<td class="content" style="font-weight:bold;"><%=h @user.created_at %></td>
+		</tr>
+		<tr>
+			<td class="label">Activated At</td>
+			<td class="content" style="font-weight:bold;"><%=h @user.activated_at %></td>
+		</tr>
+		<tr>
+			<td class="label">Deleted At</td>
+			<td class="content" style="font-weight:bold;"><%=h @user.deleted_at %></td>
+		</tr>
+
+		<tr>
+			<td class="label"></td>
+			<td class="content" style="font-weight:bold;"></td>
+		</tr>
+		<tr>
+			<td class="label"><%= attributes.label :login %></td>
+			<td class="content"><%= attributes.text_field :login, :class => "inputFields" %></td>
+		</tr>
+		<tr>
+			<td class="label"><%= attributes.label :email %></td>
+			<td class="content"><%= attributes.text_field :email, :class => "inputFields" %></td>
+		</tr>
+		<tr>
+			<td class="label"><%= attributes.label :firstname %></td>
+			<td class="content"><%= attributes.text_field :firstname, :class => "inputFields" %></td>
+		</tr>
+		<tr>
+			<td class="label"><%= attributes.label :lastname %></td>
+			<td class="content"><%= attributes.text_field :lastname, :class => "inputFields" %></td>
+		</tr>
+	</table>
+</div>
+<div style="float:right;">
+	<%= render :partial => "event_button", :collection => @user.aasm_events_for_current_state.reject { |s| s == :register }.sort, :locals => { :user => @user } %>
+</div>
+<br clear="all" />

@@ -9,11 +9,11 @@
 	</tr>
 	<tr>
 		<td class="label"><%= f.label :active %></td>
-		<td><%= f.select :active, [true, false], {}, :class => 'bool' %> <%= javascript_tag("transform2ComboBox('inventory_active', { width: 50 });" ) %></td>
+		<td><%= f.check_box :active %></td>
 	</tr>
 	<tr>
 		<td class="label"><%= f.label :back_ordered %></td>
-		<td><%= f.select :back_ordered, [true, false], {}, :class => 'bool' %><%= javascript_tag("transform2ComboBox('inventory_back_ordered', { width: 50 });" ) %></td>
+		<td><%= f.check_box :back_ordered %></td>
 	</tr>
 	<tr>
 		<td class="label"><%= f.label :description %></td>

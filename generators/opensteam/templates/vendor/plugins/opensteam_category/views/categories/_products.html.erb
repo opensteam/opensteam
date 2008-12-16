@@ -1,24 +1,24 @@
+<div id="grid">
+<% grid_table_local do %>
+<thead>
 
-<style>
-  .products_categories_table td {
-    padding-left: 3px;
-    padding-right: 3px ;
-  }
-</style>
+	<tr>
+		<th style="width:30px;"><div>Associate?</div></th>
+		<th><div>Class</div></th>
+		<th><div>ID</div></th>
+		<th><div>Name</div></th>
+	</tr>
+</thead>
+<tbody>  
+<% for product in products %>
+<tr>
+	<td><%= check_box_tag "category[products][#{product.class}][]", product.id, product.categories.include?( @category ) %></td>
+	<td><%= product.class %></td>
+	<td><%= product.id %></td>
+	<td><%= link_to product.name, [:edit, :admin, :catalog, product ] %></td>
+</tr>
+<% end %>
+</tbody>
 
-<table class="products_categories_table">
-  <tr>
-    <th></th>
-    <th>Class</th>
-    <th>ID</th>
-    <th>Name</th>
-  </tr>
-  <% for product in products %>
-    <tr>
-      <td><%= check_box_tag "category[products][#{product.class}][]", product.id, product.categories.include?( @category ) %></td>
-      <td><%= product.class %></td>
-      <td><%= product.id %></td>
-      <td><%= link_to product.name, [:edit, :admin, :catalog, product ] %></td>
-    </tr>
-  <% end %>
-</table>
+<% end %>
+</div>

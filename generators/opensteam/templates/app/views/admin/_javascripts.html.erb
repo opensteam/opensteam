@@ -4,13 +4,14 @@
 <%= javascript_include_tag "ext/ext-base.js" %>
 <%= javascript_include_tag "ext/ext-all.js" %>
 <%= javascript_include_tag "ext/core/grid/from-markup.js" %>
-<%= javascript_include_tag "ext/core/grid/grouping-from-markup.js" %>
 
 <%= javascript_include_tag "ext/ext-override.js" %>
 <%= javascript_include_tag "ext/ext-editor-onready-jobs.js" %>
 <%= javascript_include_tag "ext/ext-onready-jobs.js" %>
 <% javascript_tag do %>
   Ext.BLANK_IMAGE_URL = '<%= image_path('shim.gif') %>' ; //)  'http://0.0.0.0:3000/images/shim.gif';
+	Ext.Ajax.extraParams = { authenticity_token: "<%= form_authenticity_token %>" };
+
 <% end %>
 
 <!-- DD / opensteam -->

@@ -1,7 +1,0 @@
-<%  content_for :admin_sidebar do %>
-<% admin_sidebar_links do %>
-	<% for property in @properties %>
-		<%= admin_sidebar_link property, property.to_s.tableize %>
-	<% end %>
-	<% end %>
-<%  end %>

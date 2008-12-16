@@ -2,11 +2,11 @@
 <% render_header_buttons "Save", :form_id => 'user_form' %>
 
 
-<%= error_messages_for :user %>
-<% form_for :user, :html => { :method => :post, :id => 'user_form' } do |f| %>
+<% form_for :user, @user, :url => admin_system_users_path, :html => { :method => :post, :id => 'user_form' } do |f| %>
 
 <div id="dvEditorTabContainer">
 	<div id="general_tab" class="x-hide-display" >
+		<%= error_messages_for :user %>
 		<%= render :partial => "attributes", :object => f %>
 		<br /><br />
 		<table cellpadding="0" cellspacing="0" class="editor-form">
@@ -53,5 +53,5 @@ button: {
 }
 }
 ] ) ;
-<% end%>
+<% end %>
 

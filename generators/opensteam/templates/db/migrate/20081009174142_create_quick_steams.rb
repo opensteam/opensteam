@@ -3,6 +3,9 @@ class CreateQuickSteams < ActiveRecord::Migration
     create_table :quick_steams do |t|
       t.string :name
       t.string :path
+      t.integer :position
+            
+      t.references :user
 
       t.timestamps
     end

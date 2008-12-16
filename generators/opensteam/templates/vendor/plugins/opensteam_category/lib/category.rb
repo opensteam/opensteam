@@ -3,7 +3,7 @@ class Category < ActiveRecord::Base
 
   has_many :categories_inventories
   has_many :inventories, :through => :categories_inventories
-
+  
   # returns all assigned inventories with preloading associated products
   def inventories_includes_products
     returning( self.inventories ) do |i|
@@ -12,9 +12,9 @@ class Category < ActiveRecord::Base
   end
 
   # returns all assigned products through inventories (uniq)
-  def products
-    self.inventories_includes_products.collect(&:product).uniq
-  end
+#  def products
+#    self.inventories_includes_products.collect(&:product).uniq
+#  end
 
 
 
@@ -27,15 +27,9 @@ class Category < ActiveRecord::Base
     return nil unless p.is_a?( Hash )
 
     self.inventories.delete_all
-
-    transaction do
-
-      self.inventories << p.collect { |prod|
-        prod.first.classify.constantize.find( prod.last, :include => :inventories ).collect(&:inventories)
-      }.flatten.uniq
-
-    end
-
+    self.inventories << p.collect { |prod|
+      prod.first.classify.constantize.find( prod.last, :include => :inventories ).collect(&:inventories)
+    }.flatten.uniq
   end
 
   def push_products(p)

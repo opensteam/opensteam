@@ -1,16 +1,25 @@
-<% content_for( :headline ) do %>
-  <%= image_tag('content-header/headline_icon.jpg', 'alt' => '', :id => "categories_icon") %>Categories
-  <%= draggable_element :categories_icon, :revert => true %>
-<% end %>
-
-<% content_for( :content_header_buttons ) do %>
-  <%= link_to "<span>#{image_tag('content-header/icon_sun.gif')} Add to quicksteam</span>", '#' %>
-  <%= link_to "<span>#{image_tag('content-header/icon_print.gif')} Print page</span>", '#' %>
-  <%= link_to "<span>Add Category</span>", new_admin_catalog_category_path, :class => 'add-button' %>    
-<% end %>
+<% render_headline 'categories_icon', "Categories", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons %>
 
 
-<div id="category-tree" style="padding:20px; width: 200px ;"></div>
+<div id="editor-wrapper">
+	<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="200">
+				<div class="dvEditorNaviHeadline">Categories</div>
+				<div id="category-tree" style="width: 200px ;"></div>
+			</td>
+			<td width="20"><br /></td>
+			<td width="100%">
+				<div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>	
+
+
+
 
 
 

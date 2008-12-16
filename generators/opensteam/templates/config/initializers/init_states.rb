@@ -12,12 +12,10 @@ Order.class_eval do
   include OrderStates::Processing
   
   named_scope :open, :conditions => ["orders.state is not ?", :finished]
-  
-  
+
   initial_state :created
   
   observe do |record|
-
     if record.shipments.all_finished? && record.items.all_shipped? && record.payments.all_captured?
       record.state = :finished unless record.state.to_sym == :finished
     end

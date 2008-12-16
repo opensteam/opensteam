@@ -108,7 +108,7 @@ class OpensteamGenerator < Rails::Generator::NamedBase
     admin.namespace :catalog do |catalog|
       catalog.resources :products,    :only => [ :index ]
       catalog.resources :properties,  :only => [ :index ]
-      catalog.resources :inventories, :only => [ :index, :edit, :update ]
+      catalog.resources :inventories
       catalog.resources :categories
 
       # dynamic products/properties resources
@@ -123,6 +123,9 @@ class OpensteamGenerator < Rails::Generator::NamedBase
 
         catalog.resources m do |p|
           p.resources :inventories, :requirements => { :product_type => m, :product_id => :id }
+          Opensteam::Extension.product_extensions.each do |ext|
+            p.resources ext, :requirements => { :product_type => m, :product_id => :id }
+          end
 #          :has_many => :inventories, :requirements => { :product_type => m }
         end
       end
@@ -159,7 +162,7 @@ class OpensteamGenerator < Rails::Generator::NamedBase
       system.resources :user_roles
       system.resources :mailers
       system.resources :configurations
-      system.resources :quicksteams
+      system.resources :quicksteams, :collection => { :order => :post }
     end
 
     admin.payment_types "payment_types", :controller => "admin", :action => 'payment_types'
@@ -196,6 +199,7 @@ END_OPENSTEAM_ROUTES
       
       incl = "
   config.after_initialize do
+    Opensteam::Extension.initialize_extensions(config)
     ActiveMerchant::Billing::Base.mode = :test
   end"
       gsub_file 'config/environment.rb', /(#{Regexp.escape(sentinel)})/mi do |match|

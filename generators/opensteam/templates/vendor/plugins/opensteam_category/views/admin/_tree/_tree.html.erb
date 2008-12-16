@@ -1,4 +1,5 @@
 <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
+<%= stylesheet_link_tag "ext/core/tree.css"%>
 
 <style>
   .x-tree-node-leaf img.tree-folder-icon { background-image:url(/images/ext/core/default/tree/folder.gif) }
@@ -28,6 +29,45 @@
 
         return tree ;
     }
+
+
+
+  var position_old = null ;
+  var next_sibling_old = null ;
+
+	function initTreeDD( mytree ) {
+		
+  	mytree.on('startdrag', function(tree, node, event) {
+	    	position_old = node.parentNode.indexOf( node ) ;
+	    	next_sibling_old = node.nextSibling ;
+	    }) ;
+
+
+			mytree.on( 'movenode', function( tree, node, old_parent, new_parent, position ) {
+	    	if ( old_parent == new_parent ) {
+	    		return 0 ;
+	    	} else {
+	    		var params = { _method:'PUT', id: node.id, authenticity_token: AUTH_TOKEN,
+	    		'category[parent_id]': new_parent.id } ;
+	    	}
+
+	    	tree.disable() ;
+
+	    	Ext.Ajax.request( {
+	    		url: '/admin/catalog/categories/' + node.id,
+	    		params: params,
+	    		method: 'PUT',
+	    		success: function(response,request) {
+	        		tree.enable() ;
+	    		},
+	    		failure: function(response, request) {
+	        		alert('error') ;
+	        		tree.enable() ;
+	    		}
+	        }) ;
+			return 0 ;
+		}) ;
+	}
 </script>
 
 

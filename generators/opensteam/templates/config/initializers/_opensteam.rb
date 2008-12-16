@@ -36,7 +36,6 @@ Zone = Opensteam::System::Zone
 Opensteam::UserBase::User = User
 
 
-Opensteam::System::Mailer.send( :include, Opensteam::System::FilterEntry::Filter )
 
 
 

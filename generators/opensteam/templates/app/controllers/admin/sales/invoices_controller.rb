@@ -2,29 +2,24 @@ class Admin::Sales::InvoicesController < Admin::SalesController
 
 
   before_filter :set_filter
-    
-    
+
   def index
     @invoices = Opensteam::Models::Invoice.filter( @filters )
-    
+
     if params[:order_id]
       @order = Order.find( params[:order_id] )
-      @invoices = ( @invoices || Opensteam::Models::Invoice ).by_order( params[:order_id] )
+      @invoices = @order.invoices
     end
     
-    @invoices = ( @invoices || Opensteam::Models::Invoice ).paginate(
-     :page => params[:page],
-     :per_page => params[:per_page] || 20,
-     :include => [ :order ],
-     :order => 'invoices.id' )
+    @invoices = @invoices.order_by( _s.sort, _s.dir ).paginate( :per_page => _s.per_page, :page => _s.page )
+    @total_entries = @invoices.total_entries
     
     respond_to do |format|
       format.html { @order ? render( :action => :index_order ) : render( :action => :index ) }
-      format.xml { render :xml => @invoices.to_xml( :root => 'invoices' ) }
+      format.xml  { render :xml => @invoices.to_ext_xml( :total_entries => @total_entries ) }
     end
-    
   end
-
+  
   
   def show
     @invoice ||= Opensteam::Models::Invoice.find( params[:id] )
@@ -63,24 +58,17 @@ class Admin::Sales::InvoicesController < Admin::SalesController
       return 
     end
     
- #   params[:invoice][:discount] || "0"
     @order = Order.find( params[:invoice].delete( :order_id ) )
     @invoice = @order.invoices.new( params[:invoice] )
     @address = @invoice.address
-    
-    @order_items = @order.items.find( params[:order_items] )
+    @invoice.items << @order.items.find( params[:order_items] )
 
-    @invoice.order_items << @order_items
-    
-    ret = @address.update_attributes( params[:address] ) &&
-      @invoice.save
-    
-    
-    
+    ret = @address.update_attributes( params[:address] ) && @invoice.save
+
     respond_to do |format|
       if ret
         flash[:notice] = 'Invoice was successfully created.'
-        format.html { redirect_to( admin_sales_order_path( @order ) ) }
+        format.html { redirect_to( admin_sales_order_invoices_path( @order ) ) }
         format.xml  { render :xml => @invoice.to_xml( :root => 'invoice') , :status => :created, :location => @invoice }
       else
         format.html { render :action => "new" }

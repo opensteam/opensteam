@@ -2,53 +2,29 @@
 <% render_header_buttons "Add User", :href => new_admin_system_user_path %>
 
 
-<div style="margin-bottom:30px;" id="filter">
-  <%= render :partial => "admin/filters/filter",
-    :locals => { :id => "users_filter", :model => User, :filter_keys => User.filtered_keys, :records => @users } %>
+<div id="filter">
+  <%= render :partial => "admin/filters/filter", :locals => { :id => "users_filter", :model => User, :records => @users } %>
 </div>
 
 <div id="grid-wrapper">
   <div id="grid">
-    <% grid_table do %>
+    <% grid_table "the-table", admin_system_users_path( :format => :xml ), User.filtered_keys + [ :editor_url, :events ] do %>
       <thead>
         <tr>
           <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
-          <th><div>ID#</div></th>
-          <th><div>Name</div></th>
-          <th><div>Email</div></th>
-          <th><div>Roles</div></th>
-          <th><div>Activated At</div></th>
-          <th><div>Deleted At</div></th>
-          <th><div>Created At</div></th>
-          <th><div>Updated At</div></th>
-          <th><div>State</div></th>
-          <th class="not-in-context no-menu"><div>&nbsp;</div></th>
+          <th title="id"><div>ID#</div></th>
+          <th title="name"><div>Name</div></th>
+          <th title="email"><div>Email</div></th>
+          <th title="roles"><div>Roles</div></th>
+          <th title="activated_at"><div>Activated At</div></th>
+          <th title="deleted_at"><div>Deleted At</div></th>
+          <th title="created_at"><div>Created At</div></th>
+          <th title="updated_at"h><div>Updated At</div></th>
+          <th title="state"><div>State</div></th>
+          <th title="events" class="no-sort"><div>Events</div></th>
           <th class="last not-in-context no-menu"><div>&nbsp;</div></th>
         </tr>
       </thead>
-      <tbody id="orders_table_body">
-        <% for user in @users %>
-          <tr class="<%= cycle('odd', 'even') %>">
-            <td class="first"></td>
-            <td><%= user.id %></td>
-            <td><%= user.name %></td>
-            <td><%= user.email %></td>
-
-            <td><%= user.user_roles.collect(&:name).join(", ") %></td>
-            <td><%= user.activated_at %></td>
-            <td><%= user.deleted_at %></td>
-            <td><%= user.created_at %></td>
-            <td><%= user.updated_at %></td>
-            <td><%= user.state %></td>
-            <td><%= link_to "show", admin_system_user_path( user ) %> </td>
-            <td class="last">
-              <%= render :partial => "event_button",
-                :collection => user.aasm_events_for_current_state.reject { |r| r == :register }.sort ,
-                :locals => { :user => user } -%>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
     <% end %>
   </div>
 </div>

@@ -4,31 +4,11 @@
       <div class="dvNaviItem_right"></div>      
       <div class="clearer"></div>      
     </div>
-    <div id="dvNaviItem_CATALOG" class="dvNaviItem" onmouseover="DD.navi.doCheckForSubs(this,'CATALOG','down',false);" onmouseout="DD.navi.doHideSubs(this,'CATALOG',false);">
-      <div class="dvNaviItem_left"></div>
-      <div class="dvNaviItem_main"><a href="#">Catalog</a></div>
-      <div class="dvNaviItem_right"></div>     
-      <div class="clearer"></div> 
-    </div>
-    <div id="dvNaviItem_SALES" class="dvNaviItem" onmouseover="DD.navi.doCheckForSubs(this,'SALES','down',false);" onmouseout="DD.navi.doHideSubs(this,'SALES',false);">
-      <div class="dvNaviItem_left"></div>
-      <div class="dvNaviItem_main"><a href="#">Sales</a></div>
-      <div class="dvNaviItem_right"></div>
-      <div class="clearer"></div>
-    </div>
-    <div id="dvNaviItem_NAVID4" class="dvNaviItem" onmouseover="DD.navi.doCheckForSubs(this,'NAVID4','down',false);" onmouseout="DD.navi.doHideSubs(this,'NAVID4',false);">
-      <div class="dvNaviItem_left"></div>
-      <div class="dvNaviItem_main"><a href="#">Order Config</a></div>
-      <div class="dvNaviItem_right"></div>
-      <div class="clearer"></div>
-    </div>
-    <div id="dvNaviItem_NAVID5" class="dvNaviItem" onmouseover="DD.navi.doCheckForSubs(this,'NAVID5','down',false);" onmouseout="DD.navi.doHideSubs(this,'NAVID5',false);">
-      <div class="dvNaviItem_left"></div>
-      <div class="dvNaviItem_main"><a href="#">System</a></div>
-      <div class="dvNaviItem_right"></div>
-      <div class="clearer"></div>
-    </div>
-    <div class="dvNaviItem_combined_right">
+		<%= admin_nav_item Admin::CatalogController %>
+		<%= admin_nav_item Admin::SalesController %>
+		<%= admin_nav_item Admin::ConfigController %>
+		<%= admin_nav_item Admin::SystemController %>
+<div class="dvNaviItem_combined_right">
       <div class="dvNaviItem_left"></div>      
       <div class="clearer"></div>
     </div>

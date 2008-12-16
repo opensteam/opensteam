@@ -1,4 +1,4 @@
-function toggle_admin_display(name) {
+/*function toggle_admin_display(name) {
 	var els = getElementsByClassName("sub_content_box") ;
 
 	for(var i=0;i< els.length ; i++)
@@ -34,6 +34,22 @@ function remove_filter(e) {
 }
 
 
+*/
+
+
+function showDivPath(e) {
+	var element = e.element ;
+	var path_div = $(element.identify() + "_path" )
+	$(path_div).appear() ;
+}
+
+function hideDivPath(e) {
+	$(e.element.identify() + "_path").fade() ;
+}
+
+function positionDivPath(e) {
+	Element.clonePosition( $(e.element.identify() + "_path"), e.element, { setWidth: false, setHeight: false,offsetLeft: 50, offsetTop:30}) ;
+}
 
 function transform2ComboBox( el, options) {
 	stdOptions = {

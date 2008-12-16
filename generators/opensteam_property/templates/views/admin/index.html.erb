@@ -2,14 +2,13 @@
 <%% render_header_buttons 'Add <%= class_name %>', :href => new_admin_catalog_<%= file_name %>_path %>
 
 <div id="grid">
-  <table id="<%= table_name %>_table">
+  <%% grid_table_static do %>
     <thead>
       <tr>
         <%- for attribute in attributes -%>
-        <th><%= attribute.column.human_name %></th>
+        <th><div><%= attribute.column.human_name %></div></th>
         <%- end -%>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
+        <th><div>Actions</div></th>
       </tr>
     </thead>
     <tbody>
@@ -18,21 +17,10 @@
         <% for attribute in attributes -%>
         <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
         <% end -%>
-        <td><%%= link_to 'Edit', edit_admin_catalog_<%= singular_name %>_path(<%= singular_name %>) %></td>
-        <td><%%= link_to 'Destroy', [:admin, :catalog, <%= singular_name %>], :confirm => 'Are you sure?', :method => :delete %></td>
+        <td><%%= link_to 'Edit', edit_admin_catalog_<%= singular_name %>_path(<%= singular_name %>) %> |
+        <%%= link_to 'Destroy', [:admin, :catalog, <%= singular_name %>], :confirm => 'Are you sure?', :method => :delete %></td>
       </tr>
       <%% end %>
     </tbody>
-  </table>
+  <%% end %>
 </div>
-
-
-<%% javascript_tag do %>
-var grid = new Ext.grid.TableGrid('<%= table_name %>_table', {
-stripeRows: true,
-width:'100%',
-border: false,
-height:'auto'
-} ) ;
-grid.render() ;
-<%% end %>

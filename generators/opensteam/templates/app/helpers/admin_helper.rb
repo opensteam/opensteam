@@ -1,13 +1,30 @@
-# Methods added to this helper will be available to all templates in the application.
-## TEMPLATE ##
 module AdminHelper
 
+  ##### NAVIGATION #####
   
+  # returns the right class for an active sidebar navigation link
   def nav_link_class( active, current )
     ( active.to_sym == current.to_sym ) ? "editor-navi-item-active" : "editor-navi-item"
   end
   
+  # renders property navigation sidebar
+  def property_navigation( property, opts = {} )
+    active = opts[:active] || :general
+    content_tag( :div, "Property Configuration", { :class => "dvEditorNaviHeadline" } ) +
+    content_tag( :div, { :class => "dvEditorNaviItems" } ) do
+    	link_to( "General Information", [:admin, :catalog, property ], :id => "general", :class => nav_link_class(active, :general) )
+    end
+  end
   
+  # renders a link for product-extensions (sidebar in product-pages)
+  # used for product-plugins, like 'categories'
+  def product_extension_links( product, active )
+    Opensteam::Extension.product_extensions.collect do |ext|
+      link_to( ext.to_s.humanize, [:admin, :catalog, product, ext ], :id => ext.to_s, :class => nav_link_class( active, ext ) )
+    end.join(" ")
+  end
+  
+  # renders product navigation sidebar
   def product_navigation( product, opts = {} )
     active = opts[:active] || :general
     content_tag( :div, "Product Configuration", { :class => "dvEditorNaviHeadline" } ) +
@@ -15,35 +32,12 @@ module AdminHelper
     	link_to( "General Information", [:admin, :catalog, product ], :id => "general", :class => nav_link_class(active, :general) ) +
     	( product.new_record? ?
     	link_to_function("Inventories", "alert('Save your product first!'); return false;", :class => nav_link_class(active, :inventories ) ) :
-    	link_to( "Inventories", [:admin, :catalog, product, :inventories ], :id => "inventories", :class => nav_link_class(active, :inventories ) ) )
-    	# +
-    	#link_to( "Categories", [:admin, :catalog, product, :categories ], :id => "categories", :class => nav_link_class( active, :categories ) )
+    	link_to( "Inventories", [:admin, :catalog, product, :inventories ], :id => "inventories", :class => nav_link_class(active, :inventories ) ) ) +
+    	product_extension_links( product, active )
     end
   end
   
-  
-  def order_navigation( order, opts = {} )
-    active = opts[:active] || :general
-    content_tag( :div, t(:order) + " Information", { :class => "dvEditorNaviHeadline" } ) +
-    content_tag( :div, { :class => "dvEditorNaviItems" } ) do
-    	link_to( t(:general_information), admin_sales_order_path( order ), :id => "general", :class => nav_link_class(active, :general) ) +
-    	link_to( t(:invoices), admin_sales_order_invoices_path( order ), :class => nav_link_class(active, :invoices ) ) +
-    	link_to( t(:shipments), admin_sales_order_shipments_path( order ), :class => nav_link_class(active, :shipments ) )
-    end
-  end
-  
-
-  def grid_table id = "the-table", &block
-    raise ArgumentError unless block_given?
-
-    concat(
-      content_tag( :table, capture( &block ), { :cellpadding => "0", :cellspacing => "0", :id => id } ) +
-      javascript_tag("transformTable2Grid('#{id}', 'grid');"),
-      block.binding
-    )
-  end
-
-
+  # navigation item
   def admin_nav_item c
     cname = c.controller_name.upcase
     content_tag :div, {
@@ -60,69 +54,64 @@ module AdminHelper
         content_tag( :div, "", { :class => "clearer" } )
     end
   end
-
   
-  def button_to_with_image( image, args )
-    form_tag :action => args[:action], :id => args[:id] do
-      image_submit_tag( image )
+  
+  
+  # sidebar navigation for orders
+  def order_navigation( order, opts = {} )
+    active = opts[:active] || :general
+    content_tag( :div, t(:order) + " Information", { :class => "dvEditorNaviHeadline" } ) +
+    content_tag( :div, { :class => "dvEditorNaviItems" } ) do
+    	link_to( t(:general_information), admin_sales_order_path( order ), :id => "general", :class => nav_link_class(active, :general) ) +
+    	link_to( t(:invoices), admin_sales_order_invoices_path( order ), :class => nav_link_class(active, :invoices ) ) +
+    	link_to( t(:shipments), admin_sales_order_shipments_path( order ), :class => nav_link_class(active, :shipments ) )
     end
   end
   
-  def submit_tag_with_image( text, image, args = { :confirm => "Are Your Sure?" } )
-    args[:name] = text
-    args[:type] = 'image'
-    args[:src] = image_path( image )
-    submit_tag(text, args )
-  end
+  
+  ##### HEADLINE  #########
   
   
-  def admin_sidebar_links(opts = { :html => { :class => "sub_menu" } }, &block )
-    html_options = opts[:html]
-    content = capture( &block )
-    concat(
-      content_tag(:ul, html_options) do
-        content
-      end,
-      block.binding
-    )
-  end
-  
-  def admin_sidebar_link( name, path, opts = {} )
-    html_options = opts[:html]
-    
-    content_tag(:li, html_options ) do
-      opts[:function] ? link_to_function(name, opts[:function] ) : link_to( name, path )
-    end
-    
-  end
-  
-  def add_tax_rule_link(name)
-    link_to_function "<span>#{name}</span>", :class => 'green-button', :style => "float:left;" do |page|
-      page.insert_html :bottom, :tax_rules, :partial => 'tax_rule', :object => Opensteam::Money::Tax::TaxRule.new
-    end
-  end
-  
-  def header_with_links( name, *links )
-    content_tag( :div, { :class => "header_with_links" } ) do
-      content_tag( :h3, name, {} ) + links.join("")
-    end
-  end
-  
-  def mailer_classes
-    Opensteam::Mailer.constants.map { |c| c.constantize < ActionMailer::Base ? c.to_s : nil }.compact
-  end
-
+  # renders the headline and an image (along with path information for quicksteam dragndrop)
   def render_headline id, title, img
     content_for( :headline ) do
-      image_tag( img, :alt => '', :id => id ) + title
+      image_tag( img, :alt => '', :id => id, :title => "buh") + content_tag(:span, title, :id => "#{id}_title" ) +
+      content_tag(:div, request.request_uri, :class => "draggable_path", :style => "display:none;", :id => "#{id}_path") +
+      draggable_element( id, :revert => true, :onDrag => "positionDivPath", :onStart => "showDivPath", :onEnd => "hideDivPath" )
     end
   end
   
+  
+  # render "add to quicksteam" link
+  # per default: Ajax call to admin_system_quicksteams_path with name and path as defined in "render_headline"
+  # quicksteam-list update is handled through quicksteams_controller + rjs
+  def add_quicksteam_link( opts = {} )
+    opts[:icon] ||= 'content-header/icon_sun.gif'
+    opts[:text] ||= 'Add to quicksteam'
+    opts[:context_id] ||= 'categories'
+    opts[:url] ||= admin_system_quicksteams_path
+    if opts[:quicksteam_name] && opts[:quicksteam_path]
+      opts[:with] = "'quicksteam[path]=#{opts[:quicksteam_path]}&quicksteam[name]=#{opts[:quicksteam_name]}'"
+    else
+      opts[:with] ||= "'quicksteam[path]=' + $('#{opts[:context_id]}_icon_path').innerHTML + '&quicksteam[name]=' + $('#{opts[:context_id]}_icon_title').innerHTML"
+    end
+    
+    link_to_remote( content_tag( :span, image_tag( opts[:icon] ) + opts[:text] ),
+      :url => opts[:url],
+      :method => :post,
+      :with => opts[:with] )
+  end
+  
+  
+  # render header buttons for a page
+  # + "add to quicksteam"
+  # + "print page"
+  # + "Save" or "New" or no button
   def render_header_buttons title = nil, options = {}
     options[:class] ||= 'add-button'
     content_for( :content_header_buttons ) do
-      link_to( content_tag( :span, image_tag( 'content-header/icon_sun.gif') + "Add to quicksteam" ), '#' ) +
-        link_to( content_tag( :span, image_tag( 'content-header/icon_print.gif') + "Print page" ), '#' ) +
+      add_quicksteam_link +
+      link_to( content_tag( :span, image_tag( 'content-header/icon_print.gif') + "Print page" ), '#' ) +
       if title.nil?
         ""
       elsif options[:href]
@@ -132,26 +121,78 @@ module AdminHelper
       end
     end
   end
+  
+  
+  
+  
+  #### PATH HELPER for polymorphic PRODUCTS ######
+  
+  # path helper for products
+  def admin_catalog_product_inventories_path( product, options = {} )
+    instance_eval( "admin_catalog_#{product.class.to_s.underscore.singularize}_inventories_path( product, options )" )
+  end
+  
+  # another path helper for products
+  def admin_catalog_product_x_path( product, x, options = {} )
+    instance_eval( "admin_catalog_#{product.class.to_s.underscore.singularize}_#{x}_path( product, options ) " )
+  end
+  
+  
+  
+  
+  
+  
+  
+  #### EXT JS GRID ######
+  
+  # render a grid table (Ext JS)
+  def grid_table id = "the-table", url = nil, fields = [], filter_fields = nil, &block
+    raise ArgumentError unless block_given?
+    filter_fields ||= fields
+    concat(
+      content_tag( :table, capture( &block ), { :cellpadding => "0", :cellspacing => "0", :id => id } ) +
+      javascript_tag("createGrid('#{id}','#{url}', #{fields.collect(&:to_s).to_json});")
+    )
+  end
+  
+  
+  # render a local grid table (ExtJs but without remote xml)
+  # and without javascript call (used for grid-tables in ExtJs tabbed view -> transform to ExtJs grid if tab is activated)
+  def grid_table_local id = "the-table", &block
+    raise ArgumentError unless block_given?
+    concat( 
+      content_tag( :table, capture(&block), { :cellpadding => "0", :cellspacing => "0", :id => id, :style => "width:100%;"} )
+    )
+  end
+  
+  # render a local grid table (ExtJs but without remote xml)
+  # transforms an existing <table> into an ExtJs grid.
+  def grid_table_static id = "the-table", &block
+    raise ArgumentError unless block_given?
+    concat(
+      content_tag( :table, capture(&block), { :cellpadding => "0", :cellspacing => "0", :id => id } ) +
+      javascript_tag("createLocalGrid('#{id}', null);")
+    )
+  end
+  
 
-  def button_image_to( _erbout, name, image, args = {} )
-    form_tag args do
-      concat( image_submit_tag( image ), binding )
+  
+  ##### DIV #####
+  
+  # renders a link to add new tax_rules
+  def add_tax_rule_link(name)
+    link_to_function "<span>#{name}</span>", :class => 'green-button', :style => "float:left;" do |page|
+      page.insert_html :bottom, :tax_rules, :partial => 'tax_rule', :object => Opensteam::Money::Tax::TaxRule.new
     end
   end
 
 
+
+
+  # images for user events
   def self.user_event_images
     { :suspend => "error.png", :delete => "cross.png", :register => "", :unsuspend => "tick.png", :activate => "tick.png" }
   end
-
-  def event_buttons_for(_erbout,  user )
-    user.aasm_events_for_current_state.reject { |r| r == "register" }.collect do |event|
-      button_image_to( _erbout, event.to_s,
-        AdminHelper.user_event_images[event],
-        :action => 'update', :method => 'put', :event => event.to_s )
-    end.join("")
-  end
-
 
   
 end
