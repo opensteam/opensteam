@@ -153,6 +153,17 @@ module Opensteam
 
     # Quicksteams (Header Tabs in the Admin-Backend
     class QuickSteam < ActiveRecord::Base
+     belongs_to :user
+
+      def to_html( opts = {} )
+        style = opts[:style] ? "style='#{opts[:style]}'" : ""
+        "<a class='quicksteam_tab' id='quicksteam_#{self.id}' #{style} href='#{self.path}'><span>#{self.name}</span></a>"
+      end
+
+      def <=>(o)
+        self.position <=> o.position
+      end
+
     end
 
 

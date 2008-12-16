@@ -147,7 +147,8 @@ with the opensteam core:
         
         include Opensteam::Base::Helper
         include Opensteam::Finder
-  
+
+
         has_many :properties, :class_name => "Opensteam::Base::PropertyBase",
           :finder_sql => 'SELECT properties.* FROM properties ' +
           'INNER JOIN inventories_properties ON inventories_properties.property_id = properties.id ' +
@@ -161,9 +162,9 @@ with the opensteam core:
           :extend => [ Opensteam::Base::ExistByPropertiesExtension, Opensteam::Helpers::Grid::ClassMethods ],
           :class_name => "Opensteam::Models::Inventory"
 
-        has_many :inventories_properties, :through => :inventories, :include => :property
+        has_many :inventories_properties, :through => :inventories #, :include => :property
         
-  
+
         # holds the properties the product is allowed to have
         # used for view
         class_inheritable_accessor :_has_property

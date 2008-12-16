@@ -75,6 +75,8 @@ module Opensteam
           has_many :orders, :class_name => 'Admin::Sales::Order', :foreign_key => "user_id"
           has_many :addresses, :class_name => 'Opensteam::UserBase::Address', :foreign_key => 'user_id'
 
+          has_many :quick_steams, :class_name => "Opensteam::System::QuickSteam", :foreign_key => "user_id"
+
           def full_name ; [ firstname, lastname ] * " " ; end
           alias :to_s :full_name
 

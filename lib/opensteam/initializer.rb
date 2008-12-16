@@ -82,7 +82,6 @@ module Opensteam
         def after_initialize_with_opensteam_initialize
           after_initialize_without_opensteam_initialize
           Opensteam::Initializer.require_opensteam_after_initialize
-          # Opensteam::Initializer.add_controller_paths( configuration )
         end
         alias_method_chain :after_initialize, :opensteam_initialize
       end
@@ -95,7 +94,7 @@ module Opensteam
       require 'opensteam/config'
       require 'opensteam/system'
       require 'opensteam/finder'
-            require 'opensteam/helpers/filter'
+      require 'opensteam/helpers/filter'
       require 'opensteam/helpers/grid'
       require 'opensteam/product_base'
       require 'opensteam/property_base'
@@ -123,6 +122,7 @@ module Opensteam
       require 'opensteam/models'
 
       require 'opensteam/backend/base'
+      require 'opensteam/extension'
       
       # require all payment types
       Dir.glob( File.join( File.dirname(__FILE__), "payment", "*.rb" ) ) { |f| 
@@ -143,6 +143,7 @@ module Opensteam
       #   require 'opensteam/tax'
     
       require 'opensteam/money'
+
       Opensteam::ProductBase.extend_product Opensteam::Helpers::Grid
     
     end

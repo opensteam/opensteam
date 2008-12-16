@@ -35,6 +35,13 @@ Used for the Property Base Class (STI)
       def properties
         @properties ||= []
       end
+
+      def configured_grid
+        self.columns.collect(&:name).inject({}) { |r,v| r.merge({ v.to_sym => v.to_sym }) }.merge(
+          { :editor_url => :editor_url
+          }
+        )
+      end
       
       # save all subclasses in the properties-variable
       def inherited(property)
@@ -43,10 +50,14 @@ Used for the Property Base Class (STI)
       end
       
     end
+
+    module InstanceMethods
+    end
   
   
     def self.included(base)
-      base.extend ClassMethods
+      base.send( :extend,  ClassMethods )
+      base.send( :include, InstanceMethods )
         
       base.class_eval do
         include Opensteam::Base::Helper

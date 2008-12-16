@@ -14,13 +14,12 @@ module Opensteam
 
         base.class_eval do
           named_scope :filter_scope, lambda { |keys, operator, value|
-            Opensteam::Helpers::Filter.filter_scope( self, keys, operator, value )
+            Opensteam::Helpers::Filter.filter_scope( self, self.grid_column(keys), operator, value )
           }
 
           named_scope :order_by, lambda { |key, *dir|
-            Opensteam::Helpers::Filter.orderby_hash( self, key, dir.first )
+            Opensteam::Helpers::Filter.orderby_hash( self, self.grid_column(key), dir.first )
           }
-
         end
 
 
@@ -38,6 +37,8 @@ module Opensteam
         def editor_url ; "#{self.class.to_s.demodulize.underscore.singularize}/#{self.id}" ; end
 
         def configured_grid_value object, method
+          return nil if object.nil?
+
           case method
           when Hash
             self.configured_grid_value( object.send( method.keys.first ), *method.values )
@@ -45,7 +46,12 @@ module Opensteam
             if method == :count
               object.send( :size )
             else
-              Array(object).collect { |s| Array(method).collect { |m| s.send( m ) }.join(",") }.join(",")
+              if object.is_a?( Array )
+                Array(object).collect { |o| Array(method).collect { |m| o.send( m ) }.join(", ") }.join(",") ;
+              else
+                Array(method).collect { |m| object.send( m ) }.join(", ")
+              end
+              #              Array(object).collect { |s| Array(method).collect { |m| s.send( m ) }.join(",") }.join(",")
             end
           end
         end
