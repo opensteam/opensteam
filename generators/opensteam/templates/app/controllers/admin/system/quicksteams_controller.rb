@@ -29,7 +29,7 @@ class Admin::System::QuicksteamsController < Admin::SystemController
   def create
     @quicksteam = Opensteam::System::QuickSteam.new( params[:quicksteam] )
     @quicksteam.user = current_user
-    @quicksteam.position = current_user.quick_steams.sort.last.position + 1
+    @cuicksteam.position = current_user.quick_steams.empty? ? 1 : current_user.quick_steams.sort.last.position + 1
     
     respond_to do |format|
       if @quicksteam.save

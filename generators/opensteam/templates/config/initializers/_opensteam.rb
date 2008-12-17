@@ -18,11 +18,21 @@ class Class
   end
 end
 
+
+
+unless :symbol.respond_to?( :<=> )
+  class Symbol
+    def <=>(a)
+      self.to_s <=> a.to_s
+    end
+  end
+end
+
+
+
 require 'opensteam/inventory_base'
 Inventory = Opensteam::Models::Inventory
 
-# require all models
-Dir.glob("#{RAILS_ROOT}/app/models/*.rb").collect { |f| require f }
 
 # define property_accessors for Inventory-objects
 Inventory.define_property_accessors
@@ -35,23 +45,6 @@ Order = Opensteam::Models::Order
 Zone = Opensteam::System::Zone
 Opensteam::UserBase::User = User
 
-
-
-
-
-# RemoteLink Renderer Class for WillPaginate
-# used for ajax pagination
-class RemoteLinkRenderer < WillPaginate::LinkRenderer
-  def prepare(collection, options, template)
-    @remote = options.delete(:remote) || {}
-    super
-  end
-
-  protected
-  def page_link(page, text, attributes = {})
-    @template.link_to_remote(text, {:url => url_for(page), :method => :get}.merge(@remote))
-  end
-end
 
 
 module Prawnto
@@ -70,45 +63,6 @@ end
 
 require 'opensteam_extensions'
 
-#module ActionView # :nodoc:
-#  require 'pdf/writer'
-#  class PDFRender
-#    PAPER = 'A4'
-#    include ApplicationHelper
-#    include ActionView::Helpers::AssetTagHelper
-#    include ActionView::Helpers::TextHelper      
-#    include ActionView::Helpers::TagHelper
-#    include ActionView::Helpers::UrlHelper
-# 
-#    def initialize(action_view)
-#      @action_view = action_view
-#    end
-# 
-#    # Render the PDF
-#    def render(template, local_assigns = {})
-#      @action_view.controller.headers["Content-Type"] ||= 'application/pdf'
-# 
-#      # Retrieve controller variables
-#      @action_view.controller.instance_variables.each do |v|
-#        instance_variable_set(v, @action_view.controller.instance_variable_get(v))
-#      end
-# 
-#      pdf = ::PDF::Writer.new( :paper => PAPER )
-#      pdf.compressed = true if RAILS_ENV != 'development'
-#      eval template.source, nil, "#{@action_view.base_path}/#{@action_view.first_render}.#{@action_view.finder.pick_template_extension(@action_view.first_render)}" 
-# 
-#      pdf.render
-#    end
-# 
-#    def self.compilable?
-#      false
-#    end
-# 
-#    def compilable?
-#      self.class.compilable?
-#    end
-#  end
-#end
 
 
 
