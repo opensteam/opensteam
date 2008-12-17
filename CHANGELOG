@@ -1,4 +1,9 @@
 *EDGE*
+* removed a "require all models" method call in initializers/_opensteam.rb: not needed anymore, and caused a "stack level too deep" exception with rub
+
+* added sort-method for symbols in initializers/_opensteam.rb (for ruby1.8.7)
+
+* fixed bug in quicksteams_controller.rb: if current_user has no associated quicksteams, set position of new quicksteam to 1 (otherwise nil-exception)
 
 * added lib/opensteam/extension.rb to provide an opensteam-extension/plugin mechanism (see the opensteam_category plugin in vendor/plugins for more information on how to build a plugin)
 
