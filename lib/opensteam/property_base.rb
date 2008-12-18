@@ -30,11 +30,8 @@ Used for the Property Base Class (STI)
   
     module ClassMethods #:nodoc:
 
-      def table_name() "properties" ; end
+      def table_name ; "properties" ; end
       
-      def properties
-        @properties ||= []
-      end
 
       def configured_grid
         self.columns.collect(&:name).inject({}) { |r,v| r.merge({ v.to_sym => v.to_sym }) }.merge(
@@ -45,7 +42,7 @@ Used for the Property Base Class (STI)
       
       # save all subclasses in the properties-variable
       def inherited(property)
-        properties << property.to_s
+        self.properties << property.to_s
         super
       end
       
@@ -62,6 +59,8 @@ Used for the Property Base Class (STI)
       base.class_eval do
         include Opensteam::Base::Helper
         include Opensteam::Finder
+        cattr_accessor :properties
+        self.properties = []
 
         has_many :inventories_properties,
           :class_name => "Opensteam::InventoryBase::InventoriesProperty",

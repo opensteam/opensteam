@@ -11,29 +11,32 @@ module AdminHelper
   def property_navigation( property, opts = {} )
     active = opts[:active] || :general
     content_tag( :div, "Property Configuration", { :class => "dvEditorNaviHeadline" } ) +
-    content_tag( :div, { :class => "dvEditorNaviItems" } ) do
+      content_tag( :div, { :class => "dvEditorNaviItems" } ) do
     	link_to( "General Information", [:admin, :catalog, property ], :id => "general", :class => nav_link_class(active, :general) )
     end
   end
   
   # renders a link for product-extensions (sidebar in product-pages)
   # used for product-plugins, like 'categories'
-  def product_extension_links( product, active )
+  def product_extension_links( product, active, disabled = false )
     Opensteam::Extension.product_extensions.collect do |ext|
-      link_to( ext.to_s.humanize, [:admin, :catalog, product, ext ], :id => ext.to_s, :class => nav_link_class( active, ext ) )
+      disabled ?
+        link_to_function( ext.to_s.humanize, "alert('Save your product first!'); return false; ", :id => ext.to_s, :class => nav_link_class( active, ext ) ) :
+        link_to( ext.to_s.humanize, [:admin, :catalog, product, ext ], :id => ext.to_s, :class => nav_link_class( active, ext ) )
     end.join(" ")
   end
-  
+
   # renders product navigation sidebar
   def product_navigation( product, opts = {} )
     active = opts[:active] || :general
     content_tag( :div, "Product Configuration", { :class => "dvEditorNaviHeadline" } ) +
-    content_tag( :div, { :class => "dvEditorNaviItems" } ) do
+      content_tag( :div, { :class => "dvEditorNaviItems" } ) do
     	link_to( "General Information", [:admin, :catalog, product ], :id => "general", :class => nav_link_class(active, :general) ) +
-    	( product.new_record? ?
-    	link_to_function("Inventories", "alert('Save your product first!'); return false;", :class => nav_link_class(active, :inventories ) ) :
-    	link_to( "Inventories", [:admin, :catalog, product, :inventories ], :id => "inventories", :class => nav_link_class(active, :inventories ) ) ) +
-    	product_extension_links( product, active )
+        ( product.new_record? ?
+          link_to_function("Inventories", "alert('Save your product first!'); return false;", :class => nav_link_class(active, :inventories ) ) +
+          product_extension_links( product, active, true ) :
+          link_to( "Inventories", [:admin, :catalog, product, :inventories ], :id => "inventories", :class => nav_link_class(active, :inventories ) ) +
+          product_extension_links( product, active ) )
     end
   end
   
@@ -46,10 +49,10 @@ module AdminHelper
     } do
       content_tag( :div, "", { :class => "dvNaviItem_left" } ) +
         content_tag( :div, link_to( cname, { :controller => c.controller_path, :action => 'index' } ),
-          { :class => "dvNaviItem_main",
-            :onmouseover => "DD.navi.doCheckForSubs( this.parentNode, '#{cname}', 'down', false ); ",
-            :onmouseout  => "DD.navi.doHideSubs( this.parentNode, '#{cname}', false ) ; "
-          } ) +
+        { :class => "dvNaviItem_main",
+          :onmouseover => "DD.navi.doCheckForSubs( this.parentNode, '#{cname}', 'down', false ); ",
+          :onmouseout  => "DD.navi.doHideSubs( this.parentNode, '#{cname}', false ) ; "
+        } ) +
         content_tag( :div, "", { :class => "dvNaviItem_right" } ) +
         content_tag( :div, "", { :class => "clearer" } )
     end
@@ -61,10 +64,10 @@ module AdminHelper
   def order_navigation( order, opts = {} )
     active = opts[:active] || :general
     content_tag( :div, t(:order) + " Information", { :class => "dvEditorNaviHeadline" } ) +
-    content_tag( :div, { :class => "dvEditorNaviItems" } ) do
+      content_tag( :div, { :class => "dvEditorNaviItems" } ) do
     	link_to( t(:general_information), admin_sales_order_path( order ), :id => "general", :class => nav_link_class(active, :general) ) +
-    	link_to( t(:invoices), admin_sales_order_invoices_path( order ), :class => nav_link_class(active, :invoices ) ) +
-    	link_to( t(:shipments), admin_sales_order_shipments_path( order ), :class => nav_link_class(active, :shipments ) )
+        link_to( t(:invoices), admin_sales_order_invoices_path( order ), :class => nav_link_class(active, :invoices ) ) +
+        link_to( t(:shipments), admin_sales_order_shipments_path( order ), :class => nav_link_class(active, :shipments ) )
     end
   end
   
@@ -76,8 +79,8 @@ module AdminHelper
   def render_headline id, title, img
     content_for( :headline ) do
       image_tag( img, :alt => '', :id => id, :title => "buh") + content_tag(:span, title, :id => "#{id}_title" ) +
-      content_tag(:div, request.request_uri, :class => "draggable_path", :style => "display:none;", :id => "#{id}_path") +
-      draggable_element( id, :revert => true, :onDrag => "positionDivPath", :onStart => "showDivPath", :onEnd => "hideDivPath" )
+        content_tag(:div, request.request_uri, :class => "draggable_path", :style => "display:none;", :id => "#{id}_path") +
+        draggable_element( id, :revert => true, :onDrag => "positionDivPath", :onStart => "showDivPath", :onEnd => "hideDivPath" )
     end
   end
   
@@ -111,8 +114,8 @@ module AdminHelper
     options[:class] ||= 'add-button'
     content_for( :content_header_buttons ) do
       add_quicksteam_link +
-      link_to( content_tag( :span, image_tag( 'content-header/icon_print.gif') + "Print page" ), '#' ) +
-      if title.nil?
+        link_to( content_tag( :span, image_tag( 'content-header/icon_print.gif') + "Print page" ), '#' ) +
+        if title.nil?
         ""
       elsif options[:href]
         link_to( content_tag( :span, title ), options[:href], :class => options[:class] )
@@ -151,7 +154,7 @@ module AdminHelper
     filter_fields ||= fields
     concat(
       content_tag( :table, capture( &block ), { :cellpadding => "0", :cellspacing => "0", :id => id } ) +
-      javascript_tag("createGrid('#{id}','#{url}', #{fields.collect(&:to_s).to_json});")
+        javascript_tag("createGrid('#{id}','#{url}', #{fields.collect(&:to_s).to_json});")
     )
   end
   
@@ -171,7 +174,7 @@ module AdminHelper
     raise ArgumentError unless block_given?
     concat(
       content_tag( :table, capture(&block), { :cellpadding => "0", :cellspacing => "0", :id => id } ) +
-      javascript_tag("createLocalGrid('#{id}', null);")
+        javascript_tag("createLocalGrid('#{id}', null);")
     )
   end
   

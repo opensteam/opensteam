@@ -32,7 +32,7 @@ end
 
 require 'opensteam/inventory_base'
 Inventory = Opensteam::Models::Inventory
-
+Dir.glob("#{RAILS_ROOT}/app/models/*.rb").each { |f| require f }
 
 # define property_accessors for Inventory-objects
 Inventory.define_property_accessors

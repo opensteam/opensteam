@@ -63,7 +63,7 @@ module Opensteam
             :group => "inventories.id HAVING COUNT( inventories.id ) = #{properties.size}" } }
 
         # delegate name and descipription method calls to the associated product
-        [:name, :description ].each { |m| delegate m, :to => :product }
+        [:name].each { |m| delegate m, :to => :product }
 
       end
 

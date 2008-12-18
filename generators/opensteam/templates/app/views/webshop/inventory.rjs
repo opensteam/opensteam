@@ -1,2 +1,2 @@
-page.replace_html :inventory, :partial => "inventory_content", :collection => @inventory
+page.replace_html :inventory, :partial => "common/inventory_content", :collection => @inventory
 page.replace_html :header, :partial => "common/header"
