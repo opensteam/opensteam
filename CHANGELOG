@@ -1,5 +1,4 @@
 *EDGE*
-* removed a "require all models" method call in initializers/_opensteam.rb: not needed anymore, and caused a "stack level too deep" exception with rub
 
 * added sort-method for symbols in initializers/_opensteam.rb (for ruby1.8.7)
 

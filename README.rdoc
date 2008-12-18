@@ -1,4 +1,4 @@
-= opensteam v0.9.3
+= opensteam v0.9.4 / v1.0.0 RC1
 
 * http://www.opensteam.net
 * http://github.com/shm/opensteam
