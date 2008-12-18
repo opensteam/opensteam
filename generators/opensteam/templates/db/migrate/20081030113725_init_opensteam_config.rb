@@ -23,28 +23,17 @@ class InitOpensteamConfig < ActiveRecord::Migration
     u.activate!
 
 
-
-
-    # load zones
-    Fixtures.create_fixtures('test/fixtures', "zones" )
-
-    # load tax_groups, tax_zones, tax_rules
-    [ 'tax_groups', 'tax_zones', 'tax_rules' ].each do |fixture_file|
-      Fixtures.create_fixtures( 'text/fixtures', fixture_file )
-    end
-
-    # load shipping rate fixtures
-    [ 'region_shipping_rates', 'shipping_payment_additions', 'shipping_rate_groups' ].each do |fixture_file|
-      Fixtures.create_fixtures( 'text/fixtures', fixture_file )
-    end
-
-    # init configuration
+    # init config
     Opensteam::Config[ :shipping_strategy ] = 'per_order'
     Opensteam::Config[ :shipping_rate_group_default] = 'Default Shipping Rate'
     Opensteam::Config[ :product_shipping_rate_group_default] = 'Default Shipping Rate'
     Opensteam::Config[ :default_country ] = 'Austria'
 
-
+    # init fixtures
+    ENV['FIXTURES'] = "region_shipping_rates,shipping_payment_additions,shipping_rate_groups,tax_groups,tax_rules,tax_zones,zones"
+    ENV['FIXTURES'].split(/,/).each do |fixture_file|
+      Fixtures.create_fixtures('test/fixtures', File.basename(fixture_file, '.*'))
+    end
 
 
   end

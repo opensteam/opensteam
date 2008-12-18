@@ -12,7 +12,7 @@ end
 class ActionMailer::Base
 
   def deliver_with_active_mailer_check!(mail = @mail )
-    active_mailer = Opensteam::System::Mailer.mailer_class( self.class.to_s ).mailer_method( @template ).active
+    active_mailer = Opensteam::System::Mailer.mailer_class( self.class.to_s ).mailer_method( @action_name ).active
     return nil if active_mailer.empty?
     ret = deliver_without_active_mailer_check!(mail)
     active_mailer.collect(&:increment_messages)

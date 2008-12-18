@@ -186,12 +186,10 @@ module AdminHelper
     end
   end
 
-
-
-
+  
   # images for user events
   def self.user_event_images
-    { :suspend => "error.png", :delete => "cross.png", :register => "", :unsuspend => "tick.png", :activate => "tick.png" }
+    { :suspend => "user_blocked.png", :delete => "user_delete.png", :register => "", :unsuspend => "user_go.png", :activate => "user_go.png" }
   end
 
   

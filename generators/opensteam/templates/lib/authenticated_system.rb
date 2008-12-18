@@ -94,6 +94,10 @@ module AuthenticatedSystem
     #   after_filter :store_location, :only => [:index, :new, :show, :edit]
     # for any controller you want to be bounce-backable.
     def redirect_back_or_default(default)
+      if current_user && is_admin?
+        redirect_to admin_path
+        return
+      end
       redirect_to(session[:return_to] || default)
       session[:return_to] = nil
     end

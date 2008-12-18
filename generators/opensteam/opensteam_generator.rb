@@ -94,6 +94,7 @@ class OpensteamGenerator < Rails::Generator::NamedBase
   map.administration "admin", :controller => 'admin', :action => 'index'
   map.admin_products "/admin/products", :controller => "admin", :action => "products"
   map.admin_properties "/admin/properties", :controller => "admin", :action => "properties"
+  map.admin_payment_types "/admin/payment_types", :controller => "admin", :action => "payment_types"
   map.toggle_admin_payment_type "/admin/toggle_payment_type/:id", :controller => "admin", :action => "toggle_payment_type"
 
 
@@ -116,7 +117,7 @@ class OpensteamGenerator < Rails::Generator::NamedBase
         p = m.to_s.classify.constantize
 
         if p.column_names.include? p.inheritance_column
-          p.find(:all).collect(&:type).collect(&:tableize).uniq.collect(&:to_sym).each do |mm|
+          p.find(:all).collect(&:class).collect(&:to_s).collect(&:tableize).uniq.collect(&:to_sym).each do |mm|
             catalog.resources mm, :controller => m
           end
         end

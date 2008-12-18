@@ -43,13 +43,11 @@ class User < ActiveRecord::Base
   
 
   def send_signup_notification
-    mail = Mailer::UserMailer.create_signup_notification( self )
-    Mailer::UserMailer.deliver( mail )
+    Mailer::UserMailer.deliver_signup_notification( self )
   end
 
   def send_create_activation
-    mail = Mailer::UserMailer.create_activation( self ) if self.recently_activated?
-    Mailer::UserMailer.deliver( mail )
+    Mailer::UserMailer.deliver_activation( self ) if self.recently_activated?
   end
 
 
