@@ -67,7 +67,7 @@ class OpensteamGenerator < Rails::Generator::NamedBase
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'accounts', :action => 'create'
   map.signup '/signup', :controller => 'accounts', :action => 'new'
-  map.activate '/activate/:activation_code', :controller => 'account', :action => 'activate'
+  map.activate '/activate/:activation_code', :controller => 'accounts', :action => 'activate'
   map.resource :session
   map.resource :account, :member => {
     :edit_password => :get,
