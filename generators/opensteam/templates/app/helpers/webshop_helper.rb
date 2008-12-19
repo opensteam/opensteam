@@ -2,7 +2,6 @@
 ## TEMPLATE ##
 module <%= class_name %>Helper
   
-  include Opensteam::Helpers::ConfigTableHelper::HelperMethods
   include Opensteam::Money::Helper
 
   # return first partial-file that exist in *a

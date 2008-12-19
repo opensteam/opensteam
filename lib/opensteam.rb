@@ -30,7 +30,6 @@ platforms.
 
 
 module Opensteam #:nodoc:
-  def self._logger(*args) ; Opensteam::Initializer._logger( *args ) ; end
 
 
   class Product
@@ -59,27 +58,4 @@ module Opensteam #:nodoc:
 
 end
 
-
-
-
 require 'opensteam/initializer'
-
-Opensteam::Initializer.run do |config|
-end
-
-
-
-
-
-#Order = Opensteam::OrderBase::Order
-Invoice = Opensteam::Models::Invoice
-Shipment = Opensteam::Models::Shipment
-
-OrderStates = Opensteam::OrderBase::States
-InvoiceStates = Opensteam::InvoiceBase::States
-ShipmentStates = Opensteam::ShipmentBase::States
-
-
-
-
-

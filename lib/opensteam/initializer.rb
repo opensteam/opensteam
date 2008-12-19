@@ -1,173 +1,175 @@
-#	openSteam - http://www.opensteam.net
-#  Copyright (C) 2008  DiamondDogs Webconsulting
-#
-#  This program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; version 2 of the License.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License along
-#  with this program; if not, write to the Free Software Foundation, Inc.,
-#  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
 module Opensteam
-  
-  class Initializer #:nodoc:
-    
-    class << self ;
-      def _logger(args)
-        logger = ( defined? RAILS_DEFAULT_LOGGER) ? RAILS_DEFAULT_LOGGER : Logger.new("#{RAILS_ROOT}/log/#{RAILS_ENV}.log")
-        logger.info "** [openSteam] #{args}"
-      end
-    
-    
-      def run( command = :process, config = Configuration.new )
-        yield config if block_given?
-    
-        init = new config
-        init.__send__( command )
-      end
-      
-      
-      def require_opensteam_after_initialize
-        require 'opensteam/user_base' ## AuthenticatedMethods include !!!
-        
-        require 'opensteam/helpers/config_table_helper'
 
-        _logger "loaded!"
-      end
+  class << self ;
 
-
-      def add_controller_paths c
-        c.controller_paths.push(
-          "#{RAILS_ROOT}/app/controllers/admin/",
-          "#{RAILS_ROOT}/app/controllers/admin/system",
-          "#{RAILS_ROOT}/app/controllers/admin/catalog",
-          "#{RAILS_ROOT}/app/controllers/admin/config"
-        )
-      end
-
-      def load_controller
-        ActionController::Routing.controller_paths.each do |dir|
-          Dir[ File.join( dir, "*_controller.rb" ) ].each { |file| load( file ) }
-        end
-      end
-    
+    def configuration
+      @@configuration
     end
     
-
-    def initialize( c )
-      @config = c
+    def log_level
+      @@log_level
     end
 
 
-    def _logger(args) ; self.class._logger( args ) ; end
-
-    
-    def process
-      require 'opensteam/version'
-      _logger"v#{Opensteam::VERSION::STRING} loading .."      
-      
-      require_libs
-      
-      
-      # extend ActiveRecord with the "opensteam" method
-      ActiveRecord::Base.send(:include, Opensteam::Base::Extension )
-
-      Rails::Initializer.class_eval do
-        def after_initialize_with_opensteam_initialize
-          after_initialize_without_opensteam_initialize
-          Opensteam::Initializer.require_opensteam_after_initialize
-        end
-        alias_method_chain :after_initialize, :opensteam_initialize
-      end
-      
+    def configuration=(configuration)
+      @@configuration = configuration
     end
-    
-    
-    def require_libs #:nodoc:
-      require 'opensteam/version'
-      require 'opensteam/config'
-      require 'opensteam/system'
-      require 'opensteam/finder'
-      require 'opensteam/helpers/filter'
-      require 'opensteam/helpers/grid'
-      require 'opensteam/product_base'
-      require 'opensteam/property_base'
-      require 'opensteam/base'
-      require 'opensteam/history'
-      require 'opensteam/state_machine'
-      require 'opensteam/shipment_base'
-      require 'opensteam/invoice_base'
-      require 'opensteam/container'
-      require 'opensteam/user_base'
-      require 'opensteam/system'
-      require 'opensteam/helpers/filter'
-      require 'opensteam/helpers/grid'
 
-
-      
-      require 'opensteam/security'
-      require 'opensteam/payment'
-
-      require 'opensteam/inventory_base'
-      require 'opensteam/order_base'
-            
-      require 'opensteam/state_logic'
-      require 'opensteam/extension_base'
-      require 'opensteam/models'
-
-      require 'opensteam/backend/base'
-      require 'opensteam/extension'
-      
-      # require all payment types
-      Dir.glob( File.join( File.dirname(__FILE__), "payment", "*.rb" ) ) { |f| 
-        require f
-      }
-      
-
-      require 'opensteam/shopping_cart'
-      #    require 'opensteam/cart_base'
-      require 'opensteam/checkout'
-      require 'opensteam/inventory_base'
-      
-
-      
-
-      #      require 'opensteam/order_container'
-   
-      #   require 'opensteam/tax'
-    
-      require 'opensteam/money'
-
-      Opensteam::ProductBase.extend_product Opensteam::Helpers::Grid
-    
+    def log_level=(lv)
+      @@log_level = lv
     end
-    
-  
-  end
-  
-  
-  
-  class Configuration #:nodoc:
 
-
-    
-    def say_something
-    
-      puts "....."
-    
+    def _log(args)
+      logger = ( defined? RAILS_DEFAULT_LOGGER ) ? RAILS_DEFAULT_LOGGER : Logger.new("#{RAILS_ROOT}/log/#{RAILS_ENV}.log")
+      logger.send( self.log_level, "** [openSteam] #{args}" )
     end
   end
-  
-  
-  
-  
-  
+
+
+  class Configuration < Rails::Configuration
+
+    attr_accessor :opensteam_init_libs
+    attr_accessor :payment_paths
+    attr_accessor :opensteam_product_extensions
+    attr_accessor :opensteam_active_record_extensions
+    attr_accessor :opensteam_extension_loader
+    attr_accessor :opensteam_model_paths
+    attr_accessor :opensteam_mailer_paths
+
+
+    def initialize
+      Opensteam.log_level = :info
+      super
+      Opensteam._log "initialize openSteam Configuration"
+
+      self.opensteam_init_libs = default_init_libs
+      require self.opensteam_init_libs
+      self.payment_paths = default_payment_paths
+      self.opensteam_active_record_extensions = [ Opensteam::Base::Extension ]
+      self.opensteam_product_extensions = []
+
+      self.opensteam_extension_loader = Opensteam::Extension
+      self.opensteam_model_paths = default_opensteam_model_paths
+      self.opensteam_mailer_paths = default_opensteam_mailer_paths
+
+    end
+
+    private
+    
+    def default_init_libs
+      "opensteam/init_libs"
+    end
+
+    def default_payment_paths
+      [ File.join( File.dirname(__FILE__), "payment" ) ]
+    end
+
+    def default_opensteam_model_paths
+      [ File.join( RAILS_ROOT, "app", "models" ) ]
+    end
+
+    def default_opensteam_mailer_paths
+      [ File.join( "#{RAILS_ROOT}", "app", "models", "mailer" ) ]
+    end
+
+
+
+  end
+
+
+  class Initializer < Rails::Initializer
+
+    def self.run( command = :process, configuration = Configuration.new )
+      Opensteam._log "run openSteam Initializer"
+
+      super
+
+      Opensteam.configuration = configuration
+      Opensteam._log( "loaded!")
+    end
+
+
+
+    def load_application_initializers
+      require_payment_classes
+      super
+    end
+
+    def after_initialize
+      super
+      extend_active_record
+      initialize_opensteam_extensions
+      initialize_opensteam_models
+      initialize_inventory_property_accessors
+      initialize_mailer_classes
+
+      register_payment_types
+      extend_stuff
+    end
+
+
+    def initialize_inventory_property_accessors
+      Opensteam::Models::Inventory.define_property_accessors
+    end
+
+    def register_payment_types
+      Opensteam::Payment::Types.register_payment_types!if ActiveRecord::Base.connection.table_exists?( Opensteam::Payment::Types.table_name )
+    end
+
+
+    def initialize_opensteam_models
+      configuration.opensteam_model_paths.each do |path|
+        Dir.glob( File.join( path, "*.rb" ) ).each { |f| require_dependency f }
+      end
+    end
+
+
+    # extend active record with configured modules
+    # used to inject the Opensteam::Base::Extension functionality (opensteam macro) into ActiveRecord::Base
+    #
+    def extend_active_record
+      configuration.opensteam_active_record_extensions.each do |ext|
+        ActiveRecord::Base.send( :include, ext )
+      end
+    end
+
+    def extend_opensteam_product
+      configuration.opensteam_product_extensions.each do |ext|
+        Opensteam::ProductBase.extend_product ext
+      end
+    end
+
+    def initialize_opensteam_extensions
+      configuration.opensteam_extension_loader.initialize_extensions( configuration)
+    end
+
+    def require_payment_classes
+      configuration.payment_paths.each do |p|
+        Dir.glob( File.join( p, "*.rb" ) ) { |f| require f }
+      end
+    end
+
+
+    def extend_stuff
+      require File.join( File.dirname(__FILE__), "helpers", "extend_stuff.rb" )
+    end
+
+    def initialize_mailer_classes
+      if ActiveRecord::Base.connection.tables.include?( Opensteam::System::Mailer.table_name )
+        configuration.opensteam_mailer_paths.each do |path|
+          Dir.glob( File.join( path, "*mailer*" ) ).each { |mp|
+            file = "Mailer::" + File.basename(mp, '.rb' ).classify
+            file.constantize.instance_methods(false).each { |m|
+              Opensteam::System::Mailer.find_or_create_by_mailer_class_and_mailer_method( :mailer_class => file, :mailer_method => m, :active => true )
+            }
+          }
+        end
+      end
+      
+    end
+
+  end
+
+
+
 end
-
-

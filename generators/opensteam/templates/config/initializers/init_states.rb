@@ -5,6 +5,13 @@ if defined? RAILS_ROOT
 end
 
 
+Invoice = Opensteam::Models::Invoice
+Shipment = Opensteam::Models::Shipment
+
+OrderStates = Opensteam::OrderBase::States
+InvoiceStates = Opensteam::InvoiceBase::States
+ShipmentStates = Opensteam::ShipmentBase::States
+
 
 Order.class_eval do
   include OrderStates::Finished

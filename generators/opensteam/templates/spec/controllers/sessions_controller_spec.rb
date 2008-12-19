@@ -10,6 +10,7 @@ describe SessionsController do
     @user  = mock_user
     @login_params = { :login => 'quentin', :password => 'test' }
     User.stub!(:authenticate).with(@login_params[:login], @login_params[:password]).and_return(@user)
+    @user.stub!(:has_role?).and_return(false)
   end
   def do_create
     post :create, @login_params

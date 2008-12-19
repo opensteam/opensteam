@@ -107,13 +107,13 @@ Included both in ProductBase and PropertyBase
         #   end
         #
         def opensteam(arg, *opt)
-          Opensteam._logger "including #{arg.to_s.humanize} Module in #{self.to_s} Model"
+          Opensteam._log "including #{arg.to_s.humanize} Module in #{self.to_s} Model"
           
           if arg == :product
             @opensteam_type = arg
             class_eval { include Opensteam::ProductBase }
           else
-            Opensteam._logger "opensteam-method #{arg.to_s} not suppored, in #{self.to_s}"
+            Opensteam._log "opensteam-method #{arg.to_s} not suppored, in #{self.to_s}"
           end
 
         end

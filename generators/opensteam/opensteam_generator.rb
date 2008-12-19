@@ -174,10 +174,6 @@ class OpensteamGenerator < Rails::Generator::NamedBase
 END_OPENSTEAM_ROUTES
 
 
-
-
-
-
       map_namespaceroutes( administration_routes )
 
       
@@ -192,21 +188,22 @@ END_OPENSTEAM_ROUTES
       
       ### Patch environment.rb ###
       sentinel = 'Rails::Initializer.run do |config|'
-      incl = "require 'opensteam'"
-      gsub_file 'config/environment.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
-        "#{incl}\n\n#{match}\n"
-      end
 
-      
-      incl = "
+      incl = <<END_INIT
+require 'opensteam'
+
+Opensteam::Initializer.run do |config|
+
   config.after_initialize do
-    Opensteam::Extension.initialize_extensions(config)
     ActiveMerchant::Billing::Base.mode = :test
-  end"
+  end
+
+
+END_INIT
+
       gsub_file 'config/environment.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
-        "#{match}\n\n#{incl}\n"
+        "#{incl}\n\n"
       end
-    
 
     end
   end
