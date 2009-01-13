@@ -53,7 +53,7 @@ class CartsController < ApplicationController
     @inventory = @cart[ params[:id] ].item
     @product = @inventory.product
     @product.selected_inventory = @inventory
-    @properties = @inventory.properties.to_h2 { |x| x.class.to_s.tableize }
+    @property_groups = @inventory.properties.collect { |p| PropertyGroup.new( :selector => "select", :selector_text => "Selected #{p.class}", :name => p.class, :properties => [ p ] ) }
     
     @inventory = [ @inventory ] # TODO: change webshop/show template ...
     

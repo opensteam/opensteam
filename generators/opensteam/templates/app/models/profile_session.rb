@@ -39,6 +39,16 @@ class ProfileSession
   end
   
   
+  def save_breadcrumb( req, c )
+    @session_[:breadcrumb] ||= []
+    @session_[:breadcrumb] << [req,c] unless @session_[:breadcrumb].include?( [req,c] )
+    @session_[:breadcrumb].delete_at(0) if @session_[:breadcrumb].size > 5
+  end
+  
+  def breadcrumbs ; @session_[:breadcrumb] || []; end
+  
+  def delete_breadcrumb ; @session_[:breadcrumb] = [] ; end
+  
   
   def save_filter( controller, ids)
 

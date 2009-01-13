@@ -1,0 +1,5 @@
+<% for property in properties %>
+	<%= check_box_tag "product[property_ids][]", property.id, @product.properties.include?( property ), :id => "property_#{property.id}"%> <%= label_tag "property_#{property.id}", "#{property.class} - #{property.value}"%><br />
+<% end %>
+
+<%= debug( @product.properties ) %>

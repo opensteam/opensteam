@@ -11,13 +11,30 @@ class AdminController < ApplicationController
   before_filter :set_locale
   before_filter :save_paging_and_sorting
   before_filter :get_quicksteams
-  
+  before_filter :save_breadcrumb
 
   def index
     @extensions = []
   end
 
-
+  def save_breadcrumb
+    profile_session.save_breadcrumb( request.request_uri, "#{self.controller_name} #{self.action_name}" ) unless request.xhr?
+  end
+  
+  def delete_breadcrumb
+    profile_session.delete_breadcrumb
+  end
+  
+  
+  
+  
+  def add_property_group
+    @product = Product.find( params[:product_id] )
+    @product.property_groups.build( :selector => 'select', :selector_text => 'Please select ..' )
+    @product.save
+    render :head => :ok, :text => ""
+  end
+  
 
   def delete_all_filter
     profile_session.delete_all_filter( self )

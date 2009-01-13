@@ -1,7 +1,7 @@
 class CreateCategoriesInventories < ActiveRecord::Migration
   def self.up
-    create_table :categories_inventories do |t|
-      t.references :inventory
+    create_table :categories_products do |t|
+      t.references :product
       t.references :category
       
       t.timestamps
@@ -10,6 +10,6 @@ class CreateCategoriesInventories < ActiveRecord::Migration
   end
     
   def self.down
-    drop_table :categories_inventories
+    drop_table :categories_products
   end
 end

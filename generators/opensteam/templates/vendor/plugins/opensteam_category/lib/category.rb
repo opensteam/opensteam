@@ -1,52 +1,10 @@
 class Category < ActiveRecord::Base
   self.include_root_in_json = false if Category.respond_to?(:include_root_in_json)
 
-  has_many :categories_inventories
-  has_many :inventories, :through => :categories_inventories
-  
-  # returns all assigned inventories with preloading associated products
-  def inventories_includes_products
-    returning( self.inventories ) do |i|
-      self.class.send( :preload_associations, i, :product )
-    end
-  end
-
-  # returns all assigned products through inventories (uniq)
-#  def products
-#    self.inventories_includes_products.collect(&:product).uniq
-#  end
-
-
-
-  # assign inventories of products to category. deletes existing first
-  # parameter must be a hash, like:
-  #
-  # { "ProductModel" => ["1","2","3"] }
-  #
-  def products= (p)
-    return nil unless p.is_a?( Hash )
-
-    self.inventories.delete_all
-    self.inventories << p.collect { |prod|
-      prod.first.classify.constantize.find( prod.last, :include => :inventories ).collect(&:inventories)
-    }.flatten.uniq
-  end
-
-  def push_products(p)
-    self.inventories << p.collect(&:inventories).flatten.uniq
-  end
-
-
-
-
-  ### nested-set specific methods ####
-  ###
-  #  acts_as_nested_set :parent_column => :parent_id,
-  #    :left_column => 'lft_id',
-  #    :right_column => 'rgt_id'
+  has_many :categories_products
+  has_many :products, :through => :categories_products
 
   acts_as_tree :order => "name"
-
   named_scope :root_nodes, { :conditions => 'parent_id IS NULL' }
 
   class << self ;
@@ -110,38 +68,4 @@ class Category < ActiveRecord::Base
 end
 
 
-
-
-
-module InventoryCategory
-  def self.included(base)
-    base.class_eval do
-      has_many :categories_inventories
-      has_many :categories, :through => :categories_inventories
-    end
-  end
-end
-
-
-module ProductCategory
-  def categories
-    self.inventories.collect(&:categories).flatten.uniq
-  end
-
-  def categories_ids
-    self.categories.collect(&:id).join(",")
-  end
-
-
-  def categories_ids=(i)
-    self.inventories.collect(&:categories).collect(&:delete_all)
-    i.split(',').each do |category_id|
-      Category.find( category_id ).inventories << self.inventories
-    end
-  end
-
-end
-
-Opensteam::ProductBase.extend_product( ProductCategory )
-Opensteam::Models::Inventory.send( :include, InventoryCategory )
 

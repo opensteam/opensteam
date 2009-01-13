@@ -1,4 +1,7 @@
 *EDGE*
+* implemented new Opensteam::Initializer (inherits from Rails::Initializer) -> moved old init-stuff and extensions into new Initializer and Configuration. 
+
+* changed the "require all models on startup" method to "require_dependency all models at startup" (used to determine the product and property classes) -> 'require_dependency doesnt cause the very strange "Stack Level too deep" bug on some systems.
 
 * added sort-method for symbols in initializers/_opensteam.rb (for ruby1.8.7)
 

@@ -1,4 +1,4 @@
-<%- if inventory_content.is_active? %>
+<%- if inventory_content.active %>
   <%= hidden_field_tag "id", inventory_content.id %>
   <b>Price</b>: <%=h inventory_content.price %><br />
   <b>Storage</b>: <%=h inventory_content.storage %><br />

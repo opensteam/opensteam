@@ -17,18 +17,20 @@ class Admin::CatalogController < AdminController
 
   # returns the product
   def context *finder_options
-    context_model.find( context_id, *finder_options )
+    Product.find( params[:product_id], *finder_options )
+#    context_model.find( context_id, *finder_options )
   end
 
   # set @product instance variable
   def set_product
-    @product = context( :include => :inventories )
+    @product = Product.find( params[:product_id], :include => :inventories )
+#    @product = context( :include => :inventories )
   end
   
   # check if controller has a product_context
   #  => checks if params[:product_type] and params[ "#{params[:product_type]}_id"] are set
   def product_context?
-    context_id && true
+    params[:product_id] && true
   end
   
   

@@ -1,27 +1,12 @@
 <% render_headline 'categories_icon', 'Property Classes', 'content-header/headline_icon.jpg' %>
-<% render_header_buttons %>
+<% render_header_buttons "New Property", :href => new_admin_catalog_property_path, :class => "add-button" %>
+
+<% xml_path = @product ? admin_catalog_product_properties_path( @product, :format => :xml ) : admin_catalog_properties_path( :format => :xml ) %>
+
+<div id="filter">
+  <%= render :partial => "admin/filters/filter", :locals => { :id => "properties_filter", :model => Property, :records => @properties } %>
+</div>
 
 <div id="grid-wrapper">
-  <div id="grid">
-    <% grid_table_static do %>
-      <thead>
-        <tr>
-          <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
-          <th><div>Name</div></th>
-          <th><div>Entries</div></th>
-          <th class="last"><div>Actions</div></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for property in @properties %>
-          <tr>
-            <td class="first"></td>
-            <td><%= property.classify %></td>
-            <td><%= property.classify.constantize.count %></td>
-            <td class="last"><%= link_to "Show Entries", property %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    <% end %>
-  </div>
+	<%= render :partial => "properties", :object => @properties, :locals => { :xml_path => xml_path } %>
 </div>

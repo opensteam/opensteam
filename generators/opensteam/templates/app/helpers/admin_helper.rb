@@ -22,20 +22,28 @@ module AdminHelper
     Opensteam::Extension.product_extensions.collect do |ext|
       disabled ?
         link_to_function( ext.to_s.humanize, "alert('Save your product first!'); return false; ", :id => ext.to_s, :class => nav_link_class( active, ext ) ) :
-        link_to( ext.to_s.humanize, [:admin, :catalog, product, ext ], :id => ext.to_s, :class => nav_link_class( active, ext ) )
+        link_to( ext.to_s.humanize, admin_catalog_product_ext_path( product, ext ), :id => ext.to_s, :class => nav_link_class( active, ext ) )
     end.join(" ")
   end
+
+  def product_path( product )
+    product.new_record? ? new_admin_catalog_product_path : admin_catalog_product_path( product )
+  end
+  
+
 
   # renders product navigation sidebar
   def product_navigation( product, opts = {} )
     active = opts[:active] || :general
     content_tag( :div, "Product Configuration", { :class => "dvEditorNaviHeadline" } ) +
       content_tag( :div, { :class => "dvEditorNaviItems" } ) do
-    	link_to( "General Information", [:admin, :catalog, product ], :id => "general", :class => nav_link_class(active, :general) ) +
+    	link_to( "General Information", product_path( product ), :id => "general", :class => nav_link_class(active, :general) ) +
         ( product.new_record? ?
+          link_to_function('Property Groups', "alert('Save your product first!'); return false;", :class => nav_link_class(active, :property_groups ) ) +
           link_to_function("Inventories", "alert('Save your product first!'); return false;", :class => nav_link_class(active, :inventories ) ) +
           product_extension_links( product, active, true ) :
-          link_to( "Inventories", [:admin, :catalog, product, :inventories ], :id => "inventories", :class => nav_link_class(active, :inventories ) ) +
+          link_to( "Property Groups", admin_catalog_product_property_groups_path( product ), :id => "property_groups", :class => nav_link_class( active, :property_groups ) ) +
+          link_to( "Inventories", admin_catalog_product_inventories_path( product ), :id => "inventories", :class => nav_link_class(active, :inventories ) ) +
           product_extension_links( product, active ) )
     end
   end
@@ -131,14 +139,18 @@ module AdminHelper
   #### PATH HELPER for polymorphic PRODUCTS ######
   
   # path helper for products
-  def admin_catalog_product_inventories_path( product, options = {} )
-    instance_eval( "admin_catalog_#{product.class.to_s.underscore.singularize}_inventories_path( product, options )" )
-  end
+  # def admin_catalog_product_inventories_path( product, options = {} )
+  #   instance_eval( "admin_catalog_#{product.class.to_s.underscore.singularize}_inventories_path( product, options )" )
+  # end
   
-  # another path helper for products
-  def admin_catalog_product_x_path( product, x, options = {} )
-    instance_eval( "admin_catalog_#{product.class.to_s.underscore.singularize}_#{x}_path( product, options ) " )
-  end
+   # another path helper for products
+   def admin_catalog_product_x_path( product, x, options = {} )
+     instance_eval( "admin_catalog_#{product.class.to_s.underscore.singularize}_#{x}_path( product, options ) " )
+   end
+   # another path helper for products
+   def admin_catalog_product_ext_path( product, x, options = {} )
+     instance_eval( "admin_catalog_product_#{x}_path( product, options ) " )
+   end
   
   
   
@@ -181,6 +193,14 @@ module AdminHelper
 
   
   ##### DIV #####
+  
+  
+  def render_breadcrumbs
+    profile_session.breadcrumbs.collect { |s|
+      link_to s.last, s.first 
+    }.join(" > ")
+  end
+  
   
   # renders a link to add new tax_rules
   def add_tax_rule_link(name)

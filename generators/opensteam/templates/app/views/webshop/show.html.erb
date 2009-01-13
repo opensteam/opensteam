@@ -1,42 +1,42 @@
 <div id="details">
+	<h1><%=h @product.type %> - <%=h @product.name %></h1>
+	<%= render :partial => "webshop/products/#{@product.class.to_s.demodulize.tableize}/show", :object => @product %>
+  <br />
+  
   <% form_remote_tag :url => { :action => 'create', :controller => 'carts' }, :html => { :id => "show" } do %>
-  
-  
     <% fields_for :product, @product do |f| %>
-      <%= render( :partial => existing_partial( "#{@product.class.to_s.demodulize.tableize}/details", "#{@product.class.superclass.to_s.demodulize.tableize}/details" ),
-        :object => @product,
-        :locals => { :f => f, :cart_details => @cart_details } ) %> 
-    <% end %>
-    
-    <br />
-  
-    <span id="indicator" style="margin-top:0px; display:none"><%= image_tag "indicator.gif" %>checking inventory...</span>
+		<%= f.hidden_field :id %>
+		  <% f.fields_for :selected_properties do |prop| %>
+			  <ul>
+				<% for property_group in @property_groups %>
+				  <li><%= prop.property_selector( property_group, :cart_details => @cart_details || false ) %></li>
+				<% end %>
+				</ul>
+			<% end %>
+		<% end %>
+		<span id="indicator" style="margin-top:0px; display:none"><%= image_tag "indicator.gif" %>checking inventory...</span>
     <div id="inventory">
-      <%- if @inventory.empty? -%>
+      <%- if @inventory.nil? -%>
         <b>Please select a configuration</b>
       <%- else -%>
         <%= render :partial => "common/inventory_content", :collection => @inventory %>
       <%- end -%>
     </div>
-    <br />
-    <br />
-  
-  
-  
-  
-    <%- unless @cart_details -%><%= submit_tag "add to cart" %><%- end -%>
-  
-  <% end %>
-  
-  <%= observe_form "show",
-    :url => { :action => :inventory },
-    :loading => "Element.show('indicator')",
-    :complete => "Element.hide('indicator')"
-%>
-  
-  
-  
-  <%= link_to 'Index', shop_index_path %>
+
+		<%= submit_tag "dostuff" %>
+	<% end %>
+	
+
+	    <br />
+	    <br />
+
+	  <%= observe_form "show",
+	    :url => { :action => :inventory },
+	    :loading => "Element.show('indicator')",
+	    :complete => "Element.hide('indicator')"
+	%>
+	
+	
 </div>
 
-
+<%= link_to "products", webshop_index_path %>

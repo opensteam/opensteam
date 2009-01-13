@@ -1,5 +1,5 @@
 <% render_headline 'categories_icon', 'Product Classes', 'content-header/headline_icon.jpg' %>
-<% render_header_buttons %>
+<% render_header_buttons "New Product", :href => new_admin_catalog_product_path, :class => "add-button" %>
 
 
 
@@ -9,8 +9,11 @@
       <thead>
         <tr>
           <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
-          <th><div>Name</div></th>
-          <th><div>Entries</div></th>
+					<th><div>#</div></th>
+					<th><div>Type</div></th>
+					<th><div>Name</div></th>
+					<th><div>Description</div></th>
+					<th><div>Properties</div></th>
           <th class="last"><div>&nbsp;</div></th>
         </tr>
       </thead>
@@ -18,9 +21,12 @@
         <% for product in @products %>
           <tr>
             <td class="first"></td>
-            <td><%= product.classify %></td>
-            <td><%= product.classify.constantize.count %></td>
-            <td class="last"><%= link_to "Show Entries", product %></td>
+						<td><%=h product.id %></td>
+						<td><%=h product.class %></td>
+						<td><%=h product.name %></td>
+						<td><%=h product.description %></td>
+						<td><%=h product.properties.size %></td>
+            <td class="last"><%= link_to "Show", admin_catalog_product_path( product ) %></td>
           </tr>
         <% end %>
       </tbody>

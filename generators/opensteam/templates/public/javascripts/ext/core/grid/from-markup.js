@@ -3,7 +3,7 @@ function actions(link) {
 } ;
 
 function bool_value(val) {
-	var img = ( val==1) ? 'tick.png' : 'cross.png' ;
+	var img = ( val ) ? 'tick.png' : 'cross.png' ;
 	return '<img src="/images/' + img + '" />' ;
 }
 

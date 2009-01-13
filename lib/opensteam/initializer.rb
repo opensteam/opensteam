@@ -35,6 +35,7 @@ module Opensteam
     attr_accessor :opensteam_extension_loader
     attr_accessor :opensteam_model_paths
     attr_accessor :opensteam_mailer_paths
+    attr_accessor :opensteam_catalog_models_path
 
 
     def initialize
@@ -51,6 +52,8 @@ module Opensteam
       self.opensteam_extension_loader = Opensteam::Extension
       self.opensteam_model_paths = default_opensteam_model_paths
       self.opensteam_mailer_paths = default_opensteam_mailer_paths
+      self.opensteam_catalog_models_path = default_opensteam_catalog_models_path
+      self.load_paths << self.opensteam_catalog_models_path
 
     end
 
@@ -60,12 +63,20 @@ module Opensteam
       "opensteam/init_libs"
     end
 
+    def default_opensteam_catalog_models_path
+      File.join( "#{RAILS_ROOT}", "app", "models", "catalog" )
+    end
+
     def default_payment_paths
       [ File.join( File.dirname(__FILE__), "payment" ) ]
     end
 
     def default_opensteam_model_paths
-      [ File.join( RAILS_ROOT, "app", "models" ) ]
+      return []
+      
+      [ File.join( RAILS_ROOT, "app", "models" ),
+        File.join( RAILS_ROOT, "app", "models", "catalog" )
+      ]
     end
 
     def default_opensteam_mailer_paths
@@ -81,7 +92,6 @@ module Opensteam
 
     def self.run( command = :process, configuration = Configuration.new )
       Opensteam._log "run openSteam Initializer"
-
       super
 
       Opensteam.configuration = configuration
@@ -100,7 +110,7 @@ module Opensteam
       extend_active_record
       initialize_opensteam_extensions
       initialize_opensteam_models
-      initialize_inventory_property_accessors
+      #initialize_inventory_property_accessors
       initialize_mailer_classes
 
       register_payment_types
@@ -118,6 +128,10 @@ module Opensteam
 
 
     def initialize_opensteam_models
+      configuration.opensteam_catalog_models_path.each do |path|
+        Dir.glob( File.join( path, "*.rb" ) ).each { |f| require_dependency f }
+      end
+
       configuration.opensteam_model_paths.each do |path|
         Dir.glob( File.join( path, "*.rb" ) ).each { |f| require_dependency f }
       end

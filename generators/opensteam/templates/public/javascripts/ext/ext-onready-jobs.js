@@ -26,7 +26,7 @@
 					remoteSort: true,
 					method:'GET',
 					record:'Item',
-					totalRecords: 'TotalResults',
+					totalRecords: 'TotalRecords',
 					readFields: fields, //['id','group', 'topic','dispatch_date','editor_url'],
 					callback: checkHeaders,
 					pageIndex: (Ext.get('paging_currentPage') ? Number(Ext.get('paging_currentPage').dom.value) : 1 ),

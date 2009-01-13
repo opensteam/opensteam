@@ -30,3 +30,15 @@ module <%= class_name %>Helper
 
   
 end
+
+
+
+class ActionView::Helpers::FormBuilder
+  def property_selector( group, opts = { :cart_details => false } )
+    property_array = group.properties.collect { |i| [i.value, i.id] }
+    select_options = {}
+    select_options[:disabled] = opts[:cart_details]
+    
+    "#{group.selector_text}: " + self.send( group.selector, group.name, property_array, {}, select_options )
+  end
+end

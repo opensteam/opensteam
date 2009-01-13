@@ -1,4 +1,19 @@
+module GridHelper
+end
+
 require 'opensteam/user_base'
+
+  Property.class_eval do
+    include Opensteam::Helpers::Grid
+    configure_grid(
+    :id => :id,
+    :type => :type,
+    :value => :value,
+    :unit => :unit,
+    :updated_at => :updated_at
+    )
+  end
+
 
 
 Order.class_eval do
@@ -89,22 +104,18 @@ User.class_eval do
   )
 end
 
-Opensteam::Models::Inventory.class_eval do
-  include Opensteam::Helpers::Grid
-  configure_grid(
-    :id => :id,
-    :storage => :storage,
-    :price => :price,
-    :configuration => { :properties => :name },
-    :active => :active,
-    :back_ordered => :back_ordered,
-    :tax_group => { :tax_group => :name }
-  )
-  
+Inventory.class_eval do
+include Opensteam::Helpers::Grid
+
+configure_grid(
+  :id => :id,
+  :storage => :storage,
+  :price => :price,
+  :active => :active,
+  :back_ordered => :back_ordered,
+  :tax_group => { :tax_group => :name }
+)
 end
-
-
-
 
   
   

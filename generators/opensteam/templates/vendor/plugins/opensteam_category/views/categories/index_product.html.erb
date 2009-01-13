@@ -12,7 +12,7 @@
 			</td>
 			<td width="20"><br /></td>
 			<td width="100%" id="editor_content">
-				<% form_for @product, :url => [ :admin, :catalog, @product ], :html => { :id => "product_categories_form", :method => :put } do |f| %>
+				<% form_for :product, @product, :url => admin_catalog_product_path( @product ), :html => { :id => "product_categories_form", :method => :put } do |f| %>
 				<div id="dvEditorTabContainer">
 					<div id="product_categories" class="x-hide-display" >
 						<%= f.hidden_field :categories_ids %>
@@ -28,14 +28,14 @@
 
 						<script>
 							var mytree = configureTree( { 
-								url: '<%= admin_catalog_product_x_path( @product, :categories, :format => :json ) %>',
+								url: '<%= admin_catalog_product_categories_path( @product, :format => :json ) %>',
 								baseAttrs:{checked:false}, 
 								renderTo:'product-category-tree',
 								baseParams:{format:'json',product_class:'<%= @product.class %>',product_id:<%= @product.id %> }
 								}, <%= @categories.to_json %>  ) ;
 
 								mytree.on('checkchange', function( node, checked) {
-									$('<%= @product.class.to_s.underscore %>_categories_ids').value = mytree.getChecked('id').join(',') ;
+									$('product_categories_ids').value = mytree.getChecked('id').join(',') ;
 								}) ;
 
 								Ext.onReady( function() {
@@ -61,7 +61,7 @@
 		build_tabs( 'dvEditorTabContainer', [
 		{ contentEl: 'product_categories', title: 'Categories', listeners: { activate: checkTab_setFooterButtons },
 		button: {
-			left: 	{ title: "cancel", url: '<%= url_for([:admin, :catalog, @product]) %>' },
+			left: 	{ title: "cancel", url: '<%= admin_catalog_product_path( @product ) %>' },
 			right: 	{ title: "Save", clickEvent: "$('product_categories_form').submit(); return false;" }
 		}
 	}

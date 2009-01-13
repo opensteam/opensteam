@@ -20,6 +20,10 @@ module Opensteam
           named_scope :order_by, lambda { |key, *dir|
             Opensteam::Helpers::Filter.orderby_hash( self, self.grid_column(key), dir.first )
           }
+
+          class_inheritable_accessor :conf_grid
+
+
         end
 
 
@@ -92,9 +96,13 @@ module Opensteam
         #     ... )
         #
         def configure_grid( opts )
-          @configured_grid = opts
-          class << self ; attr_accessor :configured_grid ; end
+          self.conf_grid = opts
         end
+
+        def configured_grid
+          self.conf_grid || self.superclass.conf_grid
+        end
+
 
         def grid_column( id = :id ) #:nodoc:
           self.configured_grid[ id.to_sym ]

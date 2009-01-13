@@ -23,8 +23,11 @@ class <%= class_name %>Controller < ApplicationController
   # index
   # show shop index (all products)
   def index
-    #todo: implement paginate for find_products
-    @products = Opensteam::Find.find_products
+    @products = Product.all
+    # 
+    # 
+    # #todo: implement paginate for find_products
+    # @products = Opensteam::Find.find_products
     
     respond_to do |format|
       format.html # index.html.erb
@@ -40,25 +43,25 @@ class <%= class_name %>Controller < ApplicationController
 
   # get inventory object for selected product and properties
   def inventory
-    params[:product]  = frmt params[:product]
-
-    
-    if params[:product][:properties].index("")
-      render :update do |page|
-        page.replace_html :inventory, '<span style="color:red;">Please select a ' + params[:product][:properties].index("").singularize.humanize + '</span>'
-      end
-      return 
-    else
-      product = Opensteam::Find.find_product_with_inventory( params[:product] )
-      @inventory = product.selected_inventories
-    end
-  
+    puts params[:product].inspect
+    @properties = Property.find( params[:product][:selected_properties].values )
+    @product = Product.find( params[:product][:id] )
+    @inventory = @product.inventories( @properties )
   end
   
   
+  def show
+    unless @cart_details
+      @product = Product.find( params[:id], :include => [ { :property_groups => :properties }, :properties ] )
+      @property_groups = @product.property_groups
+    end
+  end
+    
+    
+  
 
   # show product-details
-  def show
+  def show2
     unless @cart_details
       unless params[:id]
         @products = Opensteam::Find.find_product( params[:type] )

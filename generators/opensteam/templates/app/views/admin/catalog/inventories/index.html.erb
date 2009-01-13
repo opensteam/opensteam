@@ -1,5 +1,5 @@
 <% render_headline 'categories_icon', "Inventories for #{@product.class} '#{@product.name}'", 'content-header/headline_icon.jpg' %>
-<% render_header_buttons %>
+<% render_header_buttons "Create Inventories", :href => new_admin_catalog_product_inventory_path( @product ) , :class => "add-button" %>
 
 
 <div id="editor-wrapper">
@@ -11,10 +11,11 @@
 			<td width="20"><br /></td>
 			<td width="100%">
 				<div>
-					<%= render :partial => "inventories", :object => @inventories %>
+					<%= render :partial => "inventories", :object => @product.inventories %>
 				</div>
 			</td>
 		</tr>
 	</table>
 </div>	
 
+<%= debug( @product.inventories ) %>

@@ -1,4 +1,4 @@
-Inventory = Opensteam::Models::Inventory
+#Inventory = Opensteam::Models::Inventory
 Order = Opensteam::Models::Order
 Zone = Opensteam::System::Zone
 

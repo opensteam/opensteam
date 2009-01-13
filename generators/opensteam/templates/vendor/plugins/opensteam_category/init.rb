@@ -12,12 +12,8 @@ require 'opensteam'
 # #include views
 # ActionController::Base.append_view_path File.join( File.dirname(__FILE__), "views" )
 
-require File.join( File.dirname(__FILE__), 'lib', 'categories_inventory' )
-require File.join( File.dirname(__FILE__), 'lib', 'category' )
-
-require File.join( File.dirname(__FILE__), 'lib', 'category_plugin' )
-
-
+require_dependency 'opensteam_category'
+ActiveSupport::Dependencies.inject_dependency( Product, OpensteamCategory )
 Opensteam::Extension.register "Opensteam Categories" do
   
   # describe you plugin/extension

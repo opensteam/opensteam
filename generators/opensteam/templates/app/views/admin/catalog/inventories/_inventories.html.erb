@@ -1,12 +1,12 @@
 
 <div id="grid-wrapper">
 	<div id="grid">
-		<% grid_table "the-table", admin_catalog_product_inventories_path( @product, :format => :xml), Inventory.filtered_keys + [:editor_url] do %>
+		<% grid_table "the-table", admin_catalog_product_inventories_path( @product, :format => :xml), Inventory.filtered_keys + [:editor_url, :properties] do %>
 			<thead>
 				<tr>
 					<th class="first no-sort no-menu"><div>&nbsp;</div></th>
 					<th title="id"><div>#</div></th>
-					<th title="configuration"><div>Configuration</div></th>
+					<th title="properties"><div>Configuration</div></th>
 					<th title="active"><div>Active</div></th>
 					<th title="price"><div>Price</div></th>
 					<th title="storage"><div>Storage</div></th>
@@ -21,7 +21,7 @@
 				<tr class="<%= cycle('odd','even') %>">
 					<td class="first"></td>
 					<td><%=h inventory.id %></td>
-					<td><%=h inventory.properties.sort.collect(&:name) %></td>
+					<td><%=h inventory.properties.sort.collect(&:value) %></td>
 					<td><%=h inventory.active == 0 ? "false" : "true" %></td>
 					<td><%=h inventory.price %></td>
 					<td><%=h inventory.storage %></td>

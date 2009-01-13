@@ -6,11 +6,23 @@ require 'opensteam/security'
 
 require 'opensteam/finder'
 
+require 'opensteam/helpers/dependency_injection'
 require 'opensteam/helpers/filter'
 require 'opensteam/helpers/grid'
 
-require 'opensteam/product_base'
-require 'opensteam/property_base'
+#require 'opensteam/product'
+require 'opensteam/product/logic'
+require 'opensteam/product/base'
+require 'opensteam/product/products_property'
+
+require 'opensteam/property/logic'
+require 'opensteam/property/base'
+
+require 'opensteam/inventory/logic'
+require 'opensteam/inventory/base'
+require 'opensteam/inventory/inventories_property'
+
+
 require 'opensteam/base'
 
 require 'opensteam/state_machine'

@@ -1,0 +1,16 @@
+<table cellpadding="0" cellspacing="0" class="editor-form">
+	<% unless hide_klass %>
+	<tr>
+		<td class="label"><%= label_tag :klass, "Property Class" %>
+		<td class="content"><%= select_tag :klass, options_for_select( Property.property_classes ) %></td>
+	</tr>
+	<% end %>
+	<tr>
+    <td class="label"><%= f.label :value %></td>
+    <td class="content"><%= f.text_field :value, :class => "inputFields" %></td>
+  </tr>
+  <tr>
+    <td class="label"><%= f.label :unit %></td>
+    <td class="content"><%= f.select :unit, ['String', 'Integer', 'Float'] %> </td>
+  </tr>
+</table>

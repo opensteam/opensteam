@@ -6,9 +6,7 @@ class CreateCategories < ActiveRecord::Migration
       t.text :description
       
       t.integer :parent_id
-      t.integer :rgt_id
-      t.integer :lft_id
-      
+
       t.timestamps
     end
   end

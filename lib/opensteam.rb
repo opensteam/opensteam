@@ -31,31 +31,6 @@ platforms.
 
 module Opensteam #:nodoc:
 
-
-  class Product
-
-    class << self ;
-      def models
-        Opensteam::ProductBase.included_in_classes
-      end
-
-      def model_symbols
-        models.collect { |s| s.to_s.underscore.to_sym }
-      end
-
-
-      # check if type is a product class first!!
-      def find( type, id, *options )
-        type.to_s.classify.constantize.find( id, *options )
-      end
-
-    end
-
-
-
-  end
-
-
 end
 
 require 'opensteam/initializer'

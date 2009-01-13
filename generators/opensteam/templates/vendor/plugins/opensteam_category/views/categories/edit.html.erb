@@ -19,7 +19,7 @@
               <%= render :partial => "categories/attributes", :object => f %>
             </div>
             <div id="products_tag" class="x-hide-display" >
-              <%= render :partial => "categories/products", :object => @products, :locals => { :f => f } %>
+              <%= render :partial => "categories/products", :object => @category.products, :locals => { :f => f } %>
             </div>
           </div>
           <div id="dvEditorTabFooter">

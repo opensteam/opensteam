@@ -150,7 +150,7 @@ Included both in ProductBase and PropertyBase
     # TODO: movie this to Opensteam::Models
     #
     class PropertyBase < ActiveRecord::Base
-      include Opensteam::PropertyBase
+   #   include Opensteam::PropertyBase
     end
     
     

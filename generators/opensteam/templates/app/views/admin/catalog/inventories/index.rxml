@@ -3,5 +3,6 @@ for i in @inventories
   xml.Item do
     xml << render( :partial => "admin/_xml/grid_value", :object => i )
     xml.tag! :editor_url, edit_admin_catalog_inventory_path( i )
+    xml.tag! :properties, i.properties.collect { |p| "#{p.type}:#{p.value}" }.join(", ")
   end
 end

@@ -1,0 +1,8 @@
+<tr class="<%= cycle('odd','even') %>">
+  <td><%= check_box_tag "properties[#{property.id}]" %></td>
+  <td><%=h property.id %></td>
+  <td><%=h property.class %></td>
+  <td><%=h property.value %></td>
+  <td><%=h property.unit %></td>
+  <td><%=h ordinalized_time( property.updated_at ) %></td>
+</tr>
