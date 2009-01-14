@@ -2,7 +2,7 @@
 ## TEMPLATE ##
 module <%= class_name %>Helper
   
-  include Opensteam::Money::Helper
+  include Opensteam::Sales::Money::Helper
 
   # return first partial-file that exist in *a
   def existing_partial( *a )

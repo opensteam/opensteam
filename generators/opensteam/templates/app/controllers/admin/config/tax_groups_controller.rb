@@ -16,8 +16,8 @@ class Admin::Config::TaxGroupsController < Admin::ConfigController
   
   
   def new
-    @tax_group = Opensteam::Money::Tax::ProductTaxGroup.new
-    @tax_zones = Opensteam::Money::Tax::TaxZone.all
+    @tax_group = Opensteam::Sales::Money::Tax::ProductTaxGroup.new
+    @tax_zones = Opensteam::Sales::Money::Tax::TaxZone.all
   
     @tax_rules = @tax_group.tax_rules.build
   
@@ -28,8 +28,8 @@ class Admin::Config::TaxGroupsController < Admin::ConfigController
   
   
   def create
-    @tax_group = Opensteam::Money::Tax::ProductTaxGroup.new( params[:tax_group] )
-    @tax_zones = Opensteam::Money::Tax::TaxZone.all.to_h2 { |a| a.country }
+    @tax_group = Opensteam::Sales::Money::Tax::ProductTaxGroup.new( params[:tax_group] )
+    @tax_zones = Opensteam::Sales::Money::Tax::TaxZone.all.to_h2 { |a| a.country }
     
     respond_to do |format|
       if @tax_group.save
@@ -46,7 +46,7 @@ class Admin::Config::TaxGroupsController < Admin::ConfigController
 
   
   def show
-    @tax_group = Opensteam::Money::Tax::TaxGroup.find( params[:id], :include => :tax_rules )
+    @tax_group = Opensteam::Sales::Money::Tax::TaxGroup.find( params[:id], :include => :tax_rules )
     
     respond_to do |format|
       format.html
@@ -56,14 +56,14 @@ class Admin::Config::TaxGroupsController < Admin::ConfigController
   
   
   def edit
-    @tax_group = Opensteam::Money::Tax::TaxGroup.find( params[:id] )
-    @tax_zones = Opensteam::Money::Tax::TaxZone.all
+    @tax_group = Opensteam::Sales::Money::Tax::TaxGroup.find( params[:id] )
+    @tax_zones = Opensteam::Sales::Money::Tax::TaxZone.all
   end
   
   
   def update
-    @tax_group = Opensteam::Money::Tax::ProductTaxGroup.find( params[:id] )
-    @tax_zones = Opensteam::Money::Tax::TaxZone.all
+    @tax_group = Opensteam::Sales::Money::Tax::ProductTaxGroup.find( params[:id] )
+    @tax_zones = Opensteam::Sales::Money::Tax::TaxZone.all
     
     params[:tax_group][:existing_tax_rule_attributes] ||= {}
     
@@ -83,7 +83,7 @@ class Admin::Config::TaxGroupsController < Admin::ConfigController
   
 
   def destroy
-    @tax_group = Opensteam::Money::Tax::TaxGroup.find( params[:id] )
+    @tax_group = Opensteam::Sales::Money::Tax::TaxGroup.find( params[:id] )
     
     respond_to do |format|
       unless @tax_group.inventories.empty?

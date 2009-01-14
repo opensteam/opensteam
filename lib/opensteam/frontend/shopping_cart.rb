@@ -1,5 +1,5 @@
 #	openSteam - http://www.opensteam.net
-#  Copyright (C) 2008  DiamondDogs Webconsulting
+#  Copyright (C) 2009  DiamondDogs Webconsulting
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -17,12 +17,10 @@
 require 'opensteam/finder'
 
 
-module Opensteam
-	
-	
+module Opensteam::Frontend
+
   # Controller Actions for ShoppingCart( Opensteam::Container::Base, Opensteam::Cart ) manipulation
   module ShoppingCart
-		
 		
     def self.included(base)
       base.extend ClassMethods

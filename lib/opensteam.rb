@@ -1,5 +1,5 @@
 #	openSteam - http://www.opensteam.net
-#  Copyright (C) 2008  DiamondDogs Webconsulting
+#  Copyright (C) 2009  DiamondDogs Webconsulting
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -15,22 +15,15 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 require 'active_record'
-#require 'active_merchant'
-
 
 =begin rdoc
 opensteam
 
 The +opensteam+ core provides functionality for web-based shopping and e-commerce
 platforms.
-
-
-
 =end
 
-
 module Opensteam #:nodoc:
-
 end
 
 require 'opensteam/initializer'

@@ -163,15 +163,15 @@ describe Admin::Config::ShippingRateGroupsController do
   end
   
   it "should get index" do
-    @srgs = Opensteam::ShipmentBase::ShippingRateGroup.find( :all, :include => [ :shipping_rates, :payment_additions ] )
-    Opensteam::ShipmentBase::ShippingRateGroup.should_receive( :find ).and_return(@srgs )
+    @srgs = Opensteam::Sales::ShipmentBase::ShippingRateGroup.find( :all, :include => [ :shipping_rates, :payment_additions ] )
+    Opensteam::Sales::ShipmentBase::ShippingRateGroup.should_receive( :find ).and_return(@srgs )
     get :index
     response.should be_success
     assigns[:groups].should == @srgs
   end
   
   it "should get edit" do
-    Opensteam::ShipmentBase::ShippingRateGroup.stub!(:find).and_return( @g = mock_model( Opensteam::ShipmentBase::ShippingRateGroup ) )
+    Opensteam::Sales::ShipmentBase::ShippingRateGroup.stub!(:find).and_return( @g = mock_model( Opensteam::Sales::ShipmentBase::ShippingRateGroup ) )
     Opensteam::ShipmentBase::ShippingRateGroup.should_receive(:find).and_return( @g )
   
     get :edit, :id => 1

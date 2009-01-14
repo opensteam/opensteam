@@ -64,10 +64,10 @@ __END__
 
 if params[:user_id]
   @customer = Opensteam::UserBase::User.find( params[:user_id] )
-  @orders = ( @orders || Opensteam::OrderBase::Order ).by_user( params[:user_id ] )
+  @orders = ( @orders || Opensteam::Sales::OrderBase::Order ).by_user( params[:user_id ] )
 end
 
-@orders = ( @orders || Opensteam::OrderBase::Order ).paginate( :page => params[:page],
+@orders = ( @orders || Opensteam::Sales::OrderBase::Order ).paginate( :page => params[:page],
   :per_page => params[:per_page] || 20,
   :include => [ :customer, :shipping_address, :payment_address ],
   :order => "containers.id" )

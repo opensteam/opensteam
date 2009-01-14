@@ -1,4 +1,4 @@
-module Opensteam::OrderBase::States::Pending
+module Opensteam::Sales::OrderBase::States::Pending
   include Opensteam::StateLogic::Mod
 
 

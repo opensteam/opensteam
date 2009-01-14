@@ -1,6 +1,6 @@
 class Admin::Config::ShippingRateGroupsController < Admin::ConfigController
 
-  ShippingRateGroup = Opensteam::ShipmentBase::ShippingRateGroup
+  ShippingRateGroup = Opensteam::Sales::ShipmentBase::ShippingRateGroup
 
   def index
     @groups = ShippingRateGroup.find( :all, :include => [ :shipping_rates, :payment_additions ] )

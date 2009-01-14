@@ -9,8 +9,8 @@ require 'opensteam/checkout'
 
 class CheckoutController < ApplicationController
   layout "<%= file_name %>"
-  include Opensteam::Checkout
-  include Opensteam::ShoppingCart
+  include Opensteam::Frontend::Checkout
+  include Opensteam::Frontend::ShoppingCart
   
   before_filter :set_instance_vars
   
@@ -21,7 +21,7 @@ class CheckoutController < ApplicationController
 
     
     render :update do |page|
-      for st in Opensteam::ShipmentBase::RegionShippingRate.all.collect(&:shipping_method ).uniq
+      for st in Opensteam::Sales::ShipmentBase::RegionShippingRate.all.collect(&:shipping_method ).uniq
         page.replace_html "shipping_type_rate_#{st.underscore}", @cart.calculate_shipping_rate( 
           locals.update( :shipping_method => st ) )
       end

@@ -1,4 +1,4 @@
-module Opensteam::InvoiceBase::States::Pending
+module Opensteam::Sales::InvoiceBase::States::Pending
   include Opensteam::StateLogic::Mod
 
   

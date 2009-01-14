@@ -18,7 +18,6 @@ module Opensteam::Inventory
 
   module Logic
 
-
     class << self ;
 
       def included(base)
@@ -30,7 +29,7 @@ module Opensteam::Inventory
           has_many :inventories_properties, :class_name => "Opensteam::Inventory::InventoriesProperty"
           has_many :properties, :through => :inventories_properties
 
-          belongs_to :tax_group, :class_name => 'Opensteam::Money::Tax::ProductTaxGroup'
+          belongs_to :tax_group, :class_name => 'Opensteam::Sales::Money::Tax::ProductTaxGroup'
 
           validates_presence_of :price, :storage
 

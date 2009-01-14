@@ -16,7 +16,7 @@ describe Mailer::OrderMailer do
     @shipping_address = addresses( :address_00002 )
     @user = users( :quentin )
 
-    @new_order = Order.new do |o| #Opensteam::OrderBase::Order.new do |o|
+    @new_order = Order.new do |o| #Opensteam::Sales::OrderBase::Order.new do |o|
       o.customer = @user
       o.payment_type = "bogus"
       o.shipping_type = "Post"

@@ -1,3 +1,5 @@
+# borrowed from http://blog.evanweaver.com/articles/2007/03/28/dependency-injection-for-rails-models/
+
 module ActiveSupport::Dependencies
   mattr_accessor :injection_graph
   self.injection_graph = Hash.new([])

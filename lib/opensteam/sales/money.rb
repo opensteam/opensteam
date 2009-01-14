@@ -1,5 +1,5 @@
 #	openSteam - http://www.opensteam.net
-#  Copyright (C) 2008  DiamondDogs Webconsulting
+#  Copyright (C) 2009  DiamondDogs Webconsulting
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-module Opensteam
+module Opensteam::Sales
 
   # Module Module
   #
@@ -67,7 +67,7 @@ module Opensteam
       # Tax Calculation Module
       # included into order_items or inventory-items
       module Calculation
-        include Opensteam::Money::Rounding
+        include Opensteam::Sales::Money::Rounding
 
         # returns the calculated tax for given address and current item
         def calculate_tax( address )
@@ -100,7 +100,7 @@ module Opensteam
         self.table_name = "tax_zones"
         
 
-        has_many :tax_rules, :class_name => "Opensteam::Money::Tax::TaxRule"
+        has_many :tax_rules, :class_name => "Opensteam::Sales::Money::Tax::TaxRule"
       
         named_scope :order_by, lambda { |by| { :order => Array(by).join(",") } }
         named_scope :by_product_tax_group, lambda { |a| { :include => { :tax_rules => :product_tax_group },
@@ -126,8 +126,8 @@ module Opensteam
       
         has_many :customers, :class_name => "Opensteam::UserBase::User", :foreign_key => "tax_group_id" 
       
-        has_many :tax_rules, :foreign_key => "customer_tax_groupd_id", :class_name => "Opensteam::Money::Tax::TaxRule"
-        has_many :tax_zones, :through => :tax_rules, :class_name => "Opensteam::Money::Tax::TaxZone"
+        has_many :tax_rules, :foreign_key => "customer_tax_groupd_id", :class_name => "Opensteam::Sales::Money::Tax::TaxRule"
+        has_many :tax_zones, :through => :tax_rules, :class_name => "Opensteam::Sales::Money::Tax::TaxZone"
       end
 
 
@@ -138,8 +138,8 @@ module Opensteam
       
         has_many :inventories, :class_name => 'Opensteam::Models::Inventory', :foreign_key => "tax_group_id"
       
-        has_many :tax_rules, :foreign_key => "product_tax_group_id", :class_name => "Opensteam::Money::Tax::TaxRule"
-        has_many :tax_zones, :through => :tax_rules, :class_name => "Opensteam::Money::Tax::TaxZone"
+        has_many :tax_rules, :foreign_key => "product_tax_group_id", :class_name => "Opensteam::Sales::Money::Tax::TaxRule"
+        has_many :tax_zones, :through => :tax_rules, :class_name => "Opensteam::Sales::Money::Tax::TaxZone"
       
         validates_presence_of :name
         validates_uniqueness_of :name
@@ -187,8 +187,8 @@ module Opensteam
         self.table_name = "tax_rules"
      
       
-        belongs_to :customer_tax_group, :class_name => "Opensteam::Money::Tax::TaxGroup"
-        belongs_to :product_tax_group, :class_name => "Opensteam::Money::Tax::TaxGroup"
+        belongs_to :customer_tax_group, :class_name => "Opensteam::Sales::Money::Tax::TaxGroup"
+        belongs_to :product_tax_group, :class_name => "Opensteam::Sales::Money::Tax::TaxGroup"
       
         belongs_to :tax_zone
   
@@ -207,20 +207,20 @@ end
 
 
 ### Aliases ######
-TaxZone = Opensteam::Money::Tax::TaxZone
-TaxRule = Opensteam::Money::Tax::TaxRule
-TaxGroup = Opensteam::Money::Tax::TaxGroup
-ProductTaxGroup = Opensteam::Money::Tax::ProductTaxGroup
-CustomerTaxGroup = Opensteam::Money::Tax::CustomerTaxGroup
+TaxZone = Opensteam::Sales::Money::Tax::TaxZone
+TaxRule = Opensteam::Sales::Money::Tax::TaxRule
+TaxGroup = Opensteam::Sales::Money::Tax::TaxGroup
+ProductTaxGroup = Opensteam::Sales::Money::Tax::ProductTaxGroup
+CustomerTaxGroup = Opensteam::Sales::Money::Tax::CustomerTaxGroup
 
 
 # include TaxCalculation logic into Opensteam::Container::Item
-Opensteam::Container::Item.send( :include, Opensteam::Money::Tax::Calculation )
+Opensteam::Container::Item.send( :include, Opensteam::Sales::Money::Tax::Calculation )
 
 
 # set belongs_to assiocation for Inventory with tax_group
 Opensteam::Models::Inventory.class_eval do
-  belongs_to :tax_group, :class_name => 'Opensteam::Money::Tax::ProductTaxGroup'
+  belongs_to :tax_group, :class_name => 'Opensteam::Sales::Money::Tax::ProductTaxGroup'
 end
       
 

@@ -1,4 +1,4 @@
-module Opensteam::InvoiceBase::States::PaymentReceived
+module Opensteam::Sales::InvoiceBase::States::PaymentReceived
   include Opensteam::StateLogic::Mod
 
 

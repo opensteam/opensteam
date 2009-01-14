@@ -1,5 +1,5 @@
 #	openSteam - http://www.opensteam.net
-#  Copyright (C) 2008  DiamondDogs Webconsulting
+#  Copyright (C) 2009  DiamondDogs Webconsulting
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -28,9 +28,9 @@ module Opensteam
   module Models
 
     # Order Model
-    # see Opensteam::OrderBase for more information
+    # see Opensteam::Sales::OrderBase for more information
     class Order < Opensteam::Container::Base
-      include Opensteam::OrderBase
+      include Opensteam::Sales::OrderBase
      
       # get orders by given user
       named_scope :by_user, lambda { |user_id| { :include => [:customer ], :conditions => { :user_id => user_id } } }
@@ -38,23 +38,23 @@ module Opensteam
 
 
     # Inventory Model
-    # see Opensteam::InventoryBase for more information
+    # see Opensteam::Sales::InventoryBase for more information
     class Inventory < ActiveRecord::Base
-      include Opensteam::InventoryBase
+      include Opensteam::Sales::InventoryBase
 
     end
 
 
     # Shipment Model
-    # see Opensteam::ShipmentBase for more information
+    # see Opensteam::Sales::ShipmentBase for more information
     class Shipment < ActiveRecord::Base
-      include Opensteam::ShipmentBase
+      include Opensteam::Sales::ShipmentBase
       
     end
 
 
     class Invoice < ActiveRecord::Base
-      include Opensteam::InvoiceBase
+      include Opensteam::Sales::InvoiceBase
       
     end
 

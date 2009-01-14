@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   include AuthenticatedSystem
   
-  include Opensteam::ShoppingCart
+  include Opensteam::Frontend::ShoppingCart
 
   # render new.rhtml
   def new

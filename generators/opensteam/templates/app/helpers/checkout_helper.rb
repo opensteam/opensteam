@@ -1,7 +1,7 @@
 
 module CheckoutHelper
 
-  include Opensteam::Money::Helper
+  include Opensteam::Sales::Money::Helper
   
   def fill_address_link id, address
     fields = [:firstname, :lastname, :postal, :city, :street, :country ]

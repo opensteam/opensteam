@@ -8,7 +8,7 @@ describe Opensteam::Helpers::Grid do
       :val => 1,
       :op => ">"
     }
-    @model = Order # Opensteam::OrderBase::Order
+    @model = Order # Opensteam::Sales::OrderBase::Order
   end
 
   it "should create a new instance given valid attributes" do

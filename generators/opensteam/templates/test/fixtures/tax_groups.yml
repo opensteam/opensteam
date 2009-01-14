@@ -2,12 +2,12 @@
 tax_group_00001: 
   name: taxable (normal)
   updated_at: 2008-08-26 14:15:40 Z
-  type: Opensteam::Money::Tax::ProductTaxGroup
+  type: Opensteam::Sales::Money::Tax::ProductTaxGroup
   id: 1
   created_at: 2008-08-26 11:02:42 Z
 tax_group_00002: 
   name: taxable (reduced)
   updated_at: 2008-08-26 14:15:40 Z
-  type: Opensteam::Money::Tax::ProductTaxGroup
+  type: Opensteam::Sales::Money::Tax::ProductTaxGroup
   id: 2
   created_at: 2008-08-26 11:03:27 Z

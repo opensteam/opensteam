@@ -205,7 +205,7 @@ module AdminHelper
   # renders a link to add new tax_rules
   def add_tax_rule_link(name)
     link_to_function "<span>#{name}</span>", :class => 'green-button', :style => "float:left;" do |page|
-      page.insert_html :bottom, :tax_rules, :partial => 'tax_rule', :object => Opensteam::Money::Tax::TaxRule.new
+      page.insert_html :bottom, :tax_rules, :partial => 'tax_rule', :object => Opensteam::Sales::Money::Tax::TaxRule.new
     end
   end
 

@@ -1,5 +1,5 @@
 #	openSteam - http://www.opensteam.net
-#  Copyright (C) 2008  DiamondDogs Webconsulting
+#  Copyright (C) 2009  DiamondDogs Webconsulting
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -200,10 +200,6 @@ module Opensteam
       def amount_in_cents
         ( amount * 100 ).to_i
       end
-      
-      
-      
-      
       
       
     end

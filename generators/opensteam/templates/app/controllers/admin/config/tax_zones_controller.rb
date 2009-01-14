@@ -18,14 +18,14 @@ class Admin::Config::TaxZonesController < Admin::ConfigController
   
   
   def new
-    @tax_zone = Opensteam::Money::Tax::TaxZone.new
+    @tax_zone = Opensteam::Sales::Money::Tax::TaxZone.new
     @countries = Opensteam::System::Zone.all.collect(&:country_name)
     
   end
   
   
   def create
-    @tax_zone = Opensteam::Money::Tax::TaxZone.new( params[:tax_zone] )
+    @tax_zone = Opensteam::Sales::Money::Tax::TaxZone.new( params[:tax_zone] )
     
     respond_to do |format|
 
@@ -43,7 +43,7 @@ class Admin::Config::TaxZonesController < Admin::ConfigController
   
   
   def show
-    @tax_zone = Opensteam::Money::Tax::TaxZone.find( params[:id] )
+    @tax_zone = Opensteam::Sales::Money::Tax::TaxZone.find( params[:id] )
     @countries = Zone.all.collect(&:country_name)
     
     respond_to do |format|
@@ -55,14 +55,14 @@ class Admin::Config::TaxZonesController < Admin::ConfigController
   
   
   def edit
-    @tax_zone = Opensteam::Money::Tax::TaxZone.find( params[:id] )
+    @tax_zone = Opensteam::Sales::Money::Tax::TaxZone.find( params[:id] )
     @countries = Zone.all.collect(&:country_name)
   end
 
   
   
   def update
-    @tax_zone = Opensteam::Money::Tax::TaxZone.find( params[:id] )
+    @tax_zone = Opensteam::Sales::Money::Tax::TaxZone.find( params[:id] )
     
     respond_to do |format|
       if @tax_zone.update_attributes( params[:tax_zone] )

@@ -1,4 +1,4 @@
-module Opensteam::OrderBase::States::Processing
+module Opensteam::Sales::OrderBase::States::Processing
 
   include Opensteam::StateLogic::Mod
   

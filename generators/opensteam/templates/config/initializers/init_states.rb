@@ -8,8 +8,8 @@ end
 Invoice = Opensteam::Models::Invoice
 Shipment = Opensteam::Models::Shipment
 
-OrderStates = Opensteam::OrderBase::States
-InvoiceStates = Opensteam::InvoiceBase::States
+OrderStates = Opensteam::Sales::OrderBase::States
+InvoiceStates = Opensteam::Sales::InvoiceBase::States
 ShipmentStates = Opensteam::ShipmentBase::States
 
 
