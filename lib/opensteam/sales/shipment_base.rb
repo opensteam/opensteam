@@ -87,8 +87,7 @@ module Opensteam::Sales
         alias :order_items :items
             
         named_scope :by_order, lambda { |order_id| { :include => :order, :conditions => { :order_id => order_id } } }
-        named_scope :order_by, lambda { |by| { :include => Shipment.osteam_configtable.default_include, :order => Array(by).join(",") , :conditions => "addresses.id = addresses.id" } }
-      
+        
       end
     end
 
@@ -114,7 +113,7 @@ module Opensteam::Sales
     # Model for Shipping Rate Groups
     class ShippingRateGroup < ActiveRecord::Base
       has_many :shipping_rates,
-        :class_name => 'Opensteam::ShipmentBase::RegionShippingRate',
+        :class_name => 'Opensteam::Sales::ShipmentBase::RegionShippingRate',
         :dependent => :destroy
   
       has_many :zones,
@@ -122,7 +121,7 @@ module Opensteam::Sales
         :through => :shipping_rates
   
       has_many :payment_additions,
-        :class_name => 'Opensteam::ShipmentBase::ShippingPaymentAddition'
+        :class_name => 'Opensteam::Sales::ShipmentBase::ShippingPaymentAddition'
   
 
       validates_presence_of :name
@@ -239,7 +238,7 @@ module Opensteam::Sales
     class RegionShippingRate < ActiveRecord::Base
   
       belongs_to :group,
-        :class_name => 'Opensteam::ShipmentBase::ShippingRateGroup'
+        :class_name => 'Opensteam::Sales::ShipmentBase::ShippingRateGroup'
   
       belongs_to :zone,
         :class_name => 'Opensteam::System::Zone'
@@ -274,7 +273,7 @@ module Opensteam::Sales
       self.table_name = "shipping_payment_additions"
       
       belongs_to :shipping_rate_group,
-        :class_name => "Opensteam::ShipmentBase::ShippingRateGroup"
+        :class_name => "Opensteam::Sales::ShipmentBase::ShippingRateGroup"
       
       validates_uniqueness_of :payment_type, :scope => [ :shipping_rate_group_id ]
       

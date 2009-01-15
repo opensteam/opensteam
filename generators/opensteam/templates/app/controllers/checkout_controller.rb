@@ -3,9 +3,6 @@
 # Controller to handle the checkout-process
 #
 ## TEMPLATE ##
-require 'opensteam/shopping_cart'
-require 'opensteam/checkout'
-
 
 class CheckoutController < ApplicationController
   layout "<%= file_name %>"

@@ -1,4 +1,2 @@
-class <%= class_name %> < ActiveRecord::Base
-  opensteam :product
+class <%= class_name %> < Product
 end
-## TEMPLATE ##

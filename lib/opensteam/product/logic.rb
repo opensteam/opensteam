@@ -53,8 +53,6 @@ module Opensteam::Product
             group = proxy_owner.property_groups.find_by_name(klass) ||
               proxy_owner.property_groups.build( :name => klass, :selector => "select", :selector_text => "Please select ..." )
               
-              puts "new record" if group.new_record?
-            
             group.properties.delete_all
             group.properties << props
           else
@@ -120,8 +118,8 @@ module Opensteam::Product
         base.send( :extend, ClassMethods )
         base.send( :include, InstanceMethods )
 
-     #   ActiveSupport::Dependencies.inject_dependency( base, *self.product_extensions )
-#        self.product_extensions.each { |mod| base.send( :include, mod ) }
+        #   ActiveSupport::Dependencies.inject_dependency( base, *self.product_extensions )
+        #        self.product_extensions.each { |mod| base.send( :include, mod ) }
 
 
       end
@@ -184,6 +182,8 @@ module Opensteam::Product
 
 
       def build_inventory_for_properties props, opts = { :attributes => Inventory.default_attributes, :delete_all => false }
+        opts[:attributes] ||= Inventory.default_attributes
+        opts[:delete_all] ||= false
         props = Array(props) unless props.is_a?( Array )
         if props.empty?
           self.inventories.build( opts[:attributes] )

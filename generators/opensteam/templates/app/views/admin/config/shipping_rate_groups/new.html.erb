@@ -10,7 +10,7 @@
 	</div>
 	<div id="shipping_rate_tab" class="x-hide-display">
 		<%= link_to_function "<span>Add Rate</span>", :class => "green-button", :style => "float:left;" do |page|
-      page.insert_html :bottom, :rates, :partial => "rate", :object => Opensteam::ShipmentBase::RegionShippingRate.new, :locals => { :f => f }
+      page.insert_html :bottom, :rates, :partial => "rate", :object => Opensteam::Sales::ShipmentBase::RegionShippingRate.new, :locals => { :f => f }
     end %>
 		<br />
 		<br clear="all" />

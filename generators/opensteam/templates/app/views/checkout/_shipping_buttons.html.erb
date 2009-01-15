@@ -1,4 +1,4 @@
-<% for st in Opensteam::ShipmentBase::RegionShippingRate.all.collect(&:shipping_method ).uniq   %>
+<% for st in Opensteam::Sales::ShipmentBase::RegionShippingRate.all.collect(&:shipping_method ).uniq   %>
   <%= f.radio_button :shipping_type, st %>
   <%= label "order_shipping_type_#{st}", st %>
   <span id="shipping_type_rate_<%= st.underscore %>">

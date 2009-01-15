@@ -36,8 +36,7 @@ module Opensteam::Sales
         has_many :items, :class_name => 'Opensteam::Container::Item'
       
         named_scope :by_order, lambda { |order_id| { :include => :order, :conditions => { :order_id => order_id } } }
-        named_scope :order_by, lambda { |by| { :include => Invoice.osteam_configtable.default_include, :order => Array(by).join(",") , :conditions => "addresses.id = addresses.id" } }
-      
+       
       end
     end
 

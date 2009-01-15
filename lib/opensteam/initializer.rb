@@ -63,7 +63,7 @@ module Opensteam
       self.opensteam_init_libs = default_init_libs
       require self.opensteam_init_libs
       self.payment_paths = default_payment_paths
-      self.opensteam_active_record_extensions = [ Opensteam::Base::Extension ]
+      self.opensteam_active_record_extensions = [ ]
       self.opensteam_product_extensions = []
 
       self.opensteam_extension_loader = Opensteam::Extension
@@ -109,6 +109,7 @@ module Opensteam
 
     def self.run( command = :process, configuration = Configuration.new )
       Opensteam._log "run openSteam Initializer"
+            
       super
 
       Opensteam.configuration = configuration
@@ -123,6 +124,7 @@ module Opensteam
     end
 
     def after_initialize
+
       super
       extend_active_record
       initialize_opensteam_extensions
@@ -132,6 +134,7 @@ module Opensteam
 
       register_payment_types
       extend_stuff
+
     end
 
 
@@ -182,7 +185,8 @@ module Opensteam
 
 
     def extend_stuff
-      require File.join( File.dirname(__FILE__), "helpers", "extend_stuff.rb" )
+      require File.join( File.dirname(__FILE__), "rails_extensions", "core.rb" )
+      #require File.join( File.dirname(__FILE__), "rails_extensions", "dependency_injection.rb" )
     end
 
     def initialize_mailer_classes

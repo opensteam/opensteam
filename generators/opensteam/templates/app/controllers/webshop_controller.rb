@@ -4,7 +4,6 @@ class <%= class_name %>Controller < ApplicationController
   include Opensteam::Frontend::ShoppingCart
   include Authentication
   include AuthenticatedSystem
-  include Opensteam::Finder
   	
   helper :all
   

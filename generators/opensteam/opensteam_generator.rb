@@ -76,7 +76,11 @@ class OpensteamGenerator < Rails::Generator::NamedBase
   }
   
   ###
-  
+  map.start_checkout "petstore/start_checkout", :controller => 'petstore', :action => 'start_checkout'
+  map.show_product "#{file_name}/:id", :controller => '#{file_name}', :action => 'show'
+  map.inventory_product "#{file_name}/:id/inventory", :controller => '#{file_name}', :action => 'inventory'
+
+
   # webshop
   map.resources :searches
   map.resource  :cart
@@ -103,37 +107,53 @@ class OpensteamGenerator < Rails::Generator::NamedBase
 
   # /admin
   map.admin "admin", :controller => 'admin', :action => 'index'
+  map.add_property_group "admin/add_property_group_path/:product_id", :controller => 'admin', :action => 'add_property_group'
   map.namespace :admin do |admin|
 
     # /admin/catalog
     admin.namespace :catalog do |catalog|
-      catalog.resources :products,    :only => [ :index ]
-      catalog.resources :properties,  :only => [ :index ]
-      catalog.resources :inventories
+      catalog.resources :products do |product|
+        product.resources :inventories
+        product.resources :properties
+        product.resources :property_groups
+        Opensteam::Extension.product_extensions.each do |ext|
+          product.resources ext #, :requirements => { :product_type => "product", :product_id => :id }
+        end
+      end
+
+      catalog.resources :properties
+
+      catalog.resources :property_groups do |property_groups|
+        property_groups.resources :properties
+      end
+      
+      catalog.resources :inventories do |inventory|
+        inventory.resources :properties
+      end
       catalog.resources :categories
 
       # dynamic products/properties resources
-      Opensteam::Find.find_product_tables.collect(&:to_sym).each do |m|
-        p = m.to_s.classify.constantize
+#      Opensteam::Find.find_product_tables.collect(&:to_sym).each do |m|
+#        p = m.to_s.classify.constantize
+#
+#        if p.column_names.include? p.inheritance_column
+#          p.find(:all).collect(&:class).collect(&:to_s).collect(&:tableize).uniq.collect(&:to_sym).each do |mm|
+#            catalog.resources mm, :controller => m
+#          end
+#        end
+#
+#        catalog.resources m do |p|
+#          p.resources :inventories, :requirements => { :product_type => m, :product_id => :id }
+#          Opensteam::Extension.product_extensions.each do |ext|
+#            p.resources ext, :requirements => { :product_type => m, :product_id => :id }
+#          end
+##          :has_many => :inventories, :requirements => { :product_type => m }
+#        end
+#      end
 
-        if p.column_names.include? p.inheritance_column
-          p.find(:all).collect(&:class).collect(&:to_s).collect(&:tableize).uniq.collect(&:to_sym).each do |mm|
-            catalog.resources mm, :controller => m
-          end
-        end
-
-        catalog.resources m do |p|
-          p.resources :inventories, :requirements => { :product_type => m, :product_id => :id }
-          Opensteam::Extension.product_extensions.each do |ext|
-            p.resources ext, :requirements => { :product_type => m, :product_id => :id }
-          end
-#          :has_many => :inventories, :requirements => { :product_type => m }
-        end
-      end
-
-      Opensteam::Find.find_property_tables.collect(&:to_sym).each do |m|
-        catalog.resources m
-      end
+      # Opensteam::Find.find_property_tables.collect(&:to_sym).each do |m|
+      #   catalog.resources m
+      # end
 
     end
 

@@ -32,9 +32,6 @@ module Opensteam::Property
           has_and_belongs_to_many :products
           has_and_belongs_to_many :property_groups
 
-          cattr_accessor :property_classes
-          self.property_classes = [ self.to_s ]
-
           validates_uniqueness_of :value, :scope => :type
 
         end
@@ -53,8 +50,8 @@ module Opensteam::Property
 
       def inherited(sub)
         super
-        self.property_classes << sub.to_s
-        self.property_classes.uniq!
+        Opensteam::Property::Logic.property_klasses << sub.to_s
+        Opensteam::Property::Logic.property_klasses.uniq!
       end
     end
 

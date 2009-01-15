@@ -33,5 +33,5 @@ end
 
 
 Opensteam::Container::Base.class_eval do
-  include Opensteam::ShipmentBase::ShippingCalculation
+  include Opensteam::Sales::ShipmentBase::ShippingCalculation
 end

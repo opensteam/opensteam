@@ -1,9 +1,0 @@
-<%% f.fields_for :properties do |prop| %>
-  <%% @properties.each_pair do |k,v| %>
-    <%%= prop.label k.humanize %>: <%%= prop.select "#{k}", v.collect { |i| [i.name, i.id] },
-      @cart_details ? { } : { :include_blank => "please select a #{k}" }, @cart_details ? { :disabled => true } : {}   %>
-
-<br /><br />
-  <%% end %>
-<%% end %>
-<br />            

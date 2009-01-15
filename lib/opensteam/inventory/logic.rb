@@ -16,6 +16,9 @@
 
 module Opensteam::Inventory
 
+
+
+  # Logic Module for the Opensteam Inventory Model
   module Logic
 
     class << self ;

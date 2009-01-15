@@ -31,17 +31,9 @@ module Opensteam
     # see Opensteam::Sales::OrderBase for more information
     class Order < Opensteam::Container::Base
       include Opensteam::Sales::OrderBase
-     
+
       # get orders by given user
       named_scope :by_user, lambda { |user_id| { :include => [:customer ], :conditions => { :user_id => user_id } } }
-    end
-
-
-    # Inventory Model
-    # see Opensteam::Sales::InventoryBase for more information
-    class Inventory < ActiveRecord::Base
-      include Opensteam::Sales::InventoryBase
-
     end
 
 

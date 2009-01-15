@@ -41,7 +41,7 @@
 	<% for order_item in @order.items.select { |s| s.invoice == nil } %>
 		<li>
 			<%= check_box_tag "order_items[]", order_item.id %> | <%= order_item.product.class %> | <%= order_item.product.name %>
-		  | <%= order_item.product.properties.collect(&:name).join(", ") unless order_item.product.properties.empty? %>
+		  | <%= order_item.product.properties.collect(&:value).join(", ") unless order_item.product.properties.empty? %>
 			| <%= order_item.quantity %> | <%=h order_item.quantity * order_item.price %>
 		</li>
 	<% end %>

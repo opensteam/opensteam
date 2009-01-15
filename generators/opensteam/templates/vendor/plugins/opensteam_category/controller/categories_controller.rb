@@ -50,7 +50,7 @@ class CategoriesController < Admin::CatalogController
   # GET /admin/catalog/categories/:id/edit
   def edit
     @category = Category.find( params[:id] ) ;
-    @products = Opensteam::Find.find_products
+    @products = Product.all
     @categories = Category.root_nodes.collect(&:to_hash)
   end
 

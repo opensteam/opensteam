@@ -25,10 +25,11 @@ module Opensteam
   module UserBase
 		
     class Address < ActiveRecord::Base
-      
-      belongs_to :customer, :class_name => 'Opensteam::UserBase::Customer'
-      has_many :shipping_orders, :class_name => "Order", :foreign_key => "shipping_address_id"
-      has_many :payment_orders , :class_name => "Order", :foreign_key => "payment_address_id"
+
+
+      belongs_to :customer, :class_name => 'User'
+      has_many :shipping_orders, :class_name => "Opensteam::Models::Order", :foreign_key => "shipping_address_id"
+      has_many :payment_orders , :class_name => "Opensteam::Models::Order", :foreign_key => "payment_address_id"
 		
       has_many :shipments
       has_many :invoices
@@ -66,8 +67,10 @@ module Opensteam
 
         base.class_eval do
           # belongs_to :profile, :class_name => 'Opensteam::UserBase::Profile'
+          require_dependency 'opensteam/models'
+          
 
-          has_many :orders, :class_name => 'Admin::Sales::Order', :foreign_key => "user_id"
+          has_many :orders, :class_name => 'Opensteam::Models::Order', :foreign_key => "user_id"
           has_many :addresses, :class_name => 'Opensteam::UserBase::Address', :foreign_key => 'user_id'
 
           has_many :quick_steams, :class_name => "Opensteam::System::QuickSteam", :foreign_key => "user_id"

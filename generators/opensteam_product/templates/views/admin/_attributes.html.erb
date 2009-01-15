@@ -1,8 +1,0 @@
-<table cellpadding="0" cellspacing="0" class="editor-form">
-  <%- for attribute in attributes %>
-  <tr>
-    <td class="label"><%%= f.label :<%= attribute.name %> %></td>
-    <td class="content"><%%= f.<%= attribute.field_type %> :<%= attribute.name %>, :class => "inputFields" %></td>
-  </tr>
-  <%- end %>
-</table>

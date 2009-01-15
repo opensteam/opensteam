@@ -22,7 +22,7 @@ describe Admin::Catalog::ProductsController do
     @user = User.authenticate( "admin", "opensteam" )
     @user.stub!(:is_admin?).and_return(true)
     request.session[:user_id] = @user.id
-    @products = Opensteam::Find.find_product_tables
+    @products = Product.all
   end
   
   it "should set routing" do
@@ -44,7 +44,7 @@ describe Admin::Catalog::PropertiesController do
     @user = User.authenticate( "admin", "opensteam" )
     @user.stub!(:is_admin?).and_return(true)
     request.session[:user_id] = @user.id
-    @properties = Opensteam::Find.find_property_tables
+    @properties = Property.all
   end
   
   it "should set routing" do
@@ -172,7 +172,7 @@ describe Admin::Config::ShippingRateGroupsController do
   
   it "should get edit" do
     Opensteam::Sales::ShipmentBase::ShippingRateGroup.stub!(:find).and_return( @g = mock_model( Opensteam::Sales::ShipmentBase::ShippingRateGroup ) )
-    Opensteam::ShipmentBase::ShippingRateGroup.should_receive(:find).and_return( @g )
+    Opensteam::Sales::ShipmentBase::ShippingRateGroup.should_receive(:find).and_return( @g )
   
     get :edit, :id => 1
     response.should be_success

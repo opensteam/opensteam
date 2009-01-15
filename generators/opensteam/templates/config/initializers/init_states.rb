@@ -10,7 +10,7 @@ Shipment = Opensteam::Models::Shipment
 
 OrderStates = Opensteam::Sales::OrderBase::States
 InvoiceStates = Opensteam::Sales::InvoiceBase::States
-ShipmentStates = Opensteam::ShipmentBase::States
+ShipmentStates = Opensteam::Sales::ShipmentBase::States
 
 
 Order.class_eval do

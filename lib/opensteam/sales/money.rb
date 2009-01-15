@@ -218,12 +218,6 @@ CustomerTaxGroup = Opensteam::Sales::Money::Tax::CustomerTaxGroup
 Opensteam::Container::Item.send( :include, Opensteam::Sales::Money::Tax::Calculation )
 
 
-# set belongs_to assiocation for Inventory with tax_group
-Opensteam::Models::Inventory.class_eval do
-  belongs_to :tax_group, :class_name => 'Opensteam::Sales::Money::Tax::ProductTaxGroup'
-end
-      
-
 
 
 

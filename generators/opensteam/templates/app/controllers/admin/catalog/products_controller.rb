@@ -15,15 +15,16 @@ class Admin::Catalog::ProductsController < Admin::CatalogController
   
   def create
     @product = @product_klass.new( params[:product] )
-    @product.property_groups.build_for_properties
-    
+
     respond_to do |format|
       if @product.save
+        @product.property_groups.build_for_properties && @product.save
         format.html { 
           flash[:info] = "Successfully created new Product"
           redirect_to admin_catalog_products_path }
       else
         format.html {
+          @all_properties = Property.all
           flash[:error] = "Error: Could not create Product"
           render :action => :new }
       end

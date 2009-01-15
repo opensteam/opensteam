@@ -1,4 +1,2 @@
-class <%= class_name %> < Opensteam::Base::PropertyBase
-
+class <%= class_name %> < Property
 end
-## TEMPLATE ##

@@ -8,6 +8,7 @@ class CartsController < ApplicationController
   before_filter :check_availability, :only => [:create]
   before_filter :check_storage, :only => [:update]
   
+  Cart = Opensteam::Container::Cart
   
   
   def check_availability

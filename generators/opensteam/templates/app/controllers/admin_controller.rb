@@ -1,6 +1,5 @@
 class AdminController < ApplicationController
 
-  include Opensteam::Finder
   include Opensteam::Backend::Base
 
   layout 'admin'
