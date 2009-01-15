@@ -1,5 +1,4 @@
 require 'digest/sha1'
-require 'opensteam'
 
 class User < ActiveRecord::Base
   

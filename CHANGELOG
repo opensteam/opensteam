@@ -1,4 +1,27 @@
-*EDGE*
+* EDGE *
+
+* refactored the "product" implementation:
+  due to complications when using mutliple product-tables (no unique product id, problems with rest-routes, polymorphic rest-routes
+  doesn't work), we implemented one product base model (sti).
+
+* added a "property-groups" model, to group properties (default: based on sti_name)
+
+* refactored "inventory" implementation to work with unique product-id and property-groups
+
+* refactored admin-backend views + controller to work with new product-properties-inventories implementation
+
+* refactored opensteam_category plugin: now associating category with a product, rather than inventories
+
+* added a require_dependency 'opensteam/models' statement to Opensteam::UserBase::UserLogic
+
+* refactored the opensteam/lib directory structure
+
+* added a 'inject_dependencies' method to ActiveSupport::Dependencies ( borrowed from http://blog.evanweaver.com/articles/2007/03/28/dependency-injection-for-rails-models/ ),
+  to make plugins work, which extend the Opensteam Product model
+
+
+* 0.9.4 *
+
 * implemented new Opensteam::Initializer (inherits from Rails::Initializer) -> moved old init-stuff and extensions into new Initializer and Configuration. 
 
 * changed the "require all models on startup" method to "require_dependency all models at startup" (used to determine the product and property classes) -> 'require_dependency doesnt cause the very strange "Stack Level too deep" bug on some systems.

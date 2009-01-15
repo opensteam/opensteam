@@ -72,6 +72,11 @@ module Opensteam
         @information = {}
       end
 
+      
+      def product_inject_dependency *mod
+        ActiveSupport::Dependencies.inject_dependencies Product, *mod
+      end
+
 
       def plugin_routes &block
         return self.information[:plugin_routes] unless block_given?
