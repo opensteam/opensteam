@@ -20,7 +20,7 @@ module Mailer
     def setup_email(user)
       @recipients  = "#{user.email}"
       @from        = "ADMINEMAIL"
-      @subject     = "[YOURSITE] "
+      @subject     = "opensteam"
       @sent_on     = Time.now
       @body[:user] = user
     end

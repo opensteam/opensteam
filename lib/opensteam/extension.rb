@@ -74,7 +74,7 @@ module Opensteam
 
       
       def product_inject_dependency *mod
-        ActiveSupport::Dependencies.inject_dependencies Product, *mod
+        ActiveSupport::Dependencies.inject_dependency Product, *mod
       end
 
 

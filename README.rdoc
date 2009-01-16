@@ -1,4 +1,4 @@
-= opensteam v0.9.4 / v1.0.0 RC1
+= opensteam v0.9.5 / v1.0.0 RC2
 
 * http://www.opensteam.net
 * http://github.com/shm/opensteam
@@ -46,9 +46,9 @@ opensteam provides three new generators (script/generate):
 * create a new webshop:
   script/generate opensteam <webshop_name>
 * create a new product model (like scaffold):
-  script/generate opensteam_product ProductName [column:type]
+  script/generate opensteam_product ProductName
 * create a new property model for products (like 'Color' for a 'Shirt'):
-  script/generate opensteam_property PropertyName [column:type]
+  script/generate opensteam_property PropertyName
 
 
 === Flexibility in Products
@@ -67,10 +67,10 @@ Create the openSteam framework
 	script/generate opensteam WebshopName
 	
 Create product models
-	script/generate opensteam_product ProductName [column:type]
+	script/generate opensteam_product ProductName
 	
 Create property models
-	script/generate opensteam_property PropertyName [column:type]
+	script/generate opensteam_property PropertyName
 	
 Goto /admin and configure your products
 	usr: admin
