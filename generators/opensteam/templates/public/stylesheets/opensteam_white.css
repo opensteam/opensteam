@@ -1,204 +1,157 @@
+h1, h2, h3, p {
+	font-family:georgia,"times new roman",serif;
+}
+h1 {
+	font-size: 1.8em;
+}
+p {
+	font-size: 0.91em;
+	color: #333333;
+}
 body {
-    background-image:url(../images/bg.jpg) ;
-    background-repeat: repeat-x ;
-    background-color: #ffffff ;
-    
-    font-family:Verdana, Arial ;
-    font-size:9pt ;
-    color:#333;
+	font-family:verdana,arial,helvetica,sans-serif;
+	margin-top:0;
 }
-
-#menu {
-    float:right;
+a {
+	text-decoration: none;
 }
-
-#page {
-    margin-top:30px;
-    margin-left:50px;
-    margin-right:50px;
+a:hover {
+	text-decoration: underline;
 }
-
-
-
-#indicator_center_big {
-    position:absolute ;
-    z-index:9999;
-    top:50% ;
-    left:50% ;
-    border:1px solid #AAA ;
-    padding: 50px ;
+.dvBody
+{
+	width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }
-
-
-#header {
-    padding-left:30px;
-    padding-top:30px;
-    padding-bottom:10px;
-    
-    border-bottom:1px solid black;
+.dvHeader
+{
+	margin:0 5px 20px 0;
 }
-
-#content_box {
-    clear:both;
+.dvHeader .logo {
+	float: left;
 }
-
-.sub_content {
-    padding:10px;
-    float:left ;
+.dvUserData {
+	font-family:verdana,arial,helvetica,sans-serif;
+	font-size: 0.82em;
+	font-weight: normal;
+	color: #ffffff;
+	float: right;
+	padding: 0; margin: 0;
+	margin-right: 75px;
 }
-
-.addresses div {
-    border-left: 1px solid #ccc ;
-    padding:10px ;
+.dvUserData a {
+	color: #ffffff;
+	font-weight: bold;
 }
-
-
-#content_box div .fieldWithErrors {
-    clear:both;
-    padding:3px ;
+.dvUserData .dvLeftBar {
+	float: left;
+	width: 27px;
+	height: 27px;
+	background: url(../images/frontend/userdataleftbar.png);
 }
-
-
-
-#sidebar {
+.dvUserData .dvRightBar {
+	float: left;
+	width: 27px;
+	height: 27px;
+	background: url(../images/frontend/userdatarightbar.png);
 }
-
-#content {
-    border-left: 1px solid #aaa ;
+.dvUserData .dvMiddleBar {
+	float: left;
+	height: 27px;
+	padding-top: 3px;
+	background: url(../images/frontend/userdatabgbar.png) repeat-x;
 }
-
-#footer {
-    border-top: 1px solid black;
-    clear:both;
+.dvSearchBar
+{
+	border-top: 1px #cc4444 solid;
+	background-color: #eeeeee;
+	border-bottom: 1px #cc4444 solid;
+	margin: 10px 10px 0 0;
+	font-size: 0.82em;
+	padding-top: 5px;
+	height: 30px;
+	width: 100%;
 }
-
-#cart {
-    float:left ;
-    border-left: 1px solid #aaa;
-    padding:20px;
-    height:100%;
-    background-color:#eee;
-    width:40%;
-    font-size:11px ;
+.dvSearchBar p {
+	margin: 0;
 }
-
-.cart_item {
-    clear:both;
+.dvSearchBar .pLeft {
+	float:left;
+	padding: 4px 0 0 10px;
 }
-
-
-.order_show {
-    background-color: #eee ;
-    padding:10px ;
+.dvSearchBar .pRight {
+	float:right;
+	padding: 0 10px 0 0;
 }
-
-
-#cart table td,th {
-    border-right: 1px solid #aaa ;
-    padding-left: 2px ;
-    padding-right: 2px ;
-    
+.dvMain
+{
 }
-
-
-.configured_table table {
-    border-collapse: collapse ;
-    border-spacing: 1px;
-    font-size:8pt;
+.dvLeft
+{
+	float: left;
+	width: 200px;
 }
-
-.configured_table table th a {
-    width:100%;
-    color:black;
-    text-decoration:none;
+.dvContent
+{
+	float: left;
+	width: 600px;
 }
-
-.configured_table table th a:hover {
-    background-color:#eee;
+.dvRight
+{
+	float: left;
+	width: 200px;
 }
-
-.configured_table table td {
-    border-left:1px solid black ;
-    padding:2px ;
+/* Box for left and right column */
+.dvBox
+{
+	margin-bottom: 20px;
+	font-family:verdana,arial,helvetica,sans-serif;
+	color: #666666;
+	width: 200px;
 }
-
-.configured_table table th {
-    border-left:1px solid black ;
-    padding:s2px ;
+.dvBox a
+{
+	font-size: 0.82em;
+	color: #cc4444;
+	text-decoration: none;
 }
-
-
-.even { background-color: #eee; }
-.odd { background-color: #fff; }
-
-
-
-input { 
+.dvBox a:hover
+{
+	text-decoration: underline;
 }
-
-fieldset {
-    border:0px ;
+.dvBoxTop
+{
+	padding: 5px;
 }
-
-fieldset label {
-    float: left ;
-    width: 100px ;
+.dvBoxTop h3
+{
+	margin:0;
 }
-
-
-.fieldWithErrors {
-    padding: 2px;
-    background-color: red;
-    display: table;
+.dvBoxTop img
+{
+	vertical-align:middle;
 }
-
-#errorExplanation {
-    width: 400px;
-    border: 1px solid red;
-    padding: 7px;
-    padding-bottom: 12px;
-    margin-bottom: 20px;
-    background-color: #f0f0f0;
+.dvBoxContent
+{
+	padding: 0 5px 0 5px;
+	font-size: 0.82em;
 }
-
-#errorExplanation h2 {
-    text-align: left;
-    font-weight: bold;
-    padding: 5px 5px 5px 15px;
-    font-size: 12px;
-    margin: -7px;
-    background-color: #c00;
-    color: #fff;
+.dvBoxContent ul {
+	padding-left: 20px;
 }
-
-#errorExplanation p {
-    color: #333;
-    margin-bottom: 0;
-    padding: 5px;
+.dvBoxBottom {
+	padding: 10px 5px 0 5px;
 }
-
-#errorExplanation ul li {
-    font-size: 12px;
-    list-style: square;
+.dvFooter
+{
+	border-top: 1px #cc4444 solid;
+	padding: 5px 0 0 0;
+	margin: 5px 0 0 0;
+	font-size: 0.82em;
+	text-align: center;
 }
-
-div.uploadStatus {
-    margin: 5px;
+.clear
+{
+	clear: both;
 }
-
-div.progressBar {
-    margin: 5px;
-}
-
-div.progressBar div.border {
-    background-color: #fff;
-    border: 1px solid gray;
-    width: 100%;
-}
-
-div.progressBar div.background {
-    background-color: #333;
-    height: 18px;
-    width: 0%;
-}
-

@@ -41,7 +41,7 @@ class ProfileSession
   
   def save_breadcrumb( req, c )
     @session_[:breadcrumb] ||= []
-    @session_[:breadcrumb] << [req,c] unless @session_[:breadcrumb].include?( [req,c] )
+    @session_[:breadcrumb] << [req,c] unless @session_[:breadcrumb].last ==  [req, c] 
     @session_[:breadcrumb].delete_at(0) if @session_[:breadcrumb].size > 5
   end
   

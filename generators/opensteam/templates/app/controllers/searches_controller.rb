@@ -5,6 +5,10 @@ class SearchesController < ApplicationController
   end
   
   def create
+    
+    params[:search][:properties] = params[:properties].values if params[:properties]
+    
+    
     @search = Search.new(params[:search])
     if @search.save
       flash[:notice] = "Successfully created search."

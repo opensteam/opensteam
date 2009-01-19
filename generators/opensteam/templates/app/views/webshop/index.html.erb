@@ -2,8 +2,8 @@
 <div id="product_list">
 	<ul>
 	<% for product in @products %>
-		<li><b><%=h product.type %></b> <%=h product.name %><br /><%=truncate(product.description, :omission => "..", :length => 15) %><br />
-			<%= link_to "details", show_product_path( product ) %></li>
+		<li><b><%=h product.type %></b> <%=h product.name %> <%= link_to "details", show_product_path( product ) %><br />
+			</li>
 	<% end %>
 	</ul>
 </div>

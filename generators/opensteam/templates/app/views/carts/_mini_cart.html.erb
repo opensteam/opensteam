@@ -1,0 +1,15 @@
+<div class="dvBox">
+	<div class="dvBoxTop">
+		<h3><%= image_tag "frontend/cart.png" %>Shopping Cart!</h3>
+	</div>
+	<div class="dvBoxContent">
+		<ul>
+			<% @cart.items.each_with_index do |i,k| %>
+				<li id="cart_item_<%=h k %>"><b><%= i.product.class.to_s %></b> "<%= i.product.name %>" <%= link_to "show", :controller => 'carts', :action => :show, :id => k %></li>
+			<% end %>	
+		</ul>
+	</div>
+	<div class="dvBoxBottom">
+		<%= link_to "> More", :controller => "carts", :action => "index" %></a>
+	</div>
+</div>

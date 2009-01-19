@@ -13,7 +13,7 @@ require 'opensteam'
 # ActionController::Base.append_view_path File.join( File.dirname(__FILE__), "views" )
 
 require_dependency 'opensteam_category'
-ActiveSupport::Dependencies.inject_dependency( Product, OpensteamCategory )
+
 Opensteam::Extension.register "Opensteam Categories" do
   
   # describe you plugin/extension
@@ -34,9 +34,14 @@ Opensteam::Extension.register "Opensteam Categories" do
     end
   end
   
-  # extend product routes?
-  # created nested resources for products
-  product_extension :categories # => /admin/catalog/:product_type/:product_id/categories/:id
+  
+  # inject this dependency into the product class (used for deleveopment environment, since rails reloads our models on
+  # every request )
+  product_inject_dependency OpensteamCategory
+  
+  # mark this plugin as a product extension (sets routes, display links in admin backend, etc)
+  product_extension :categories
+  
   
   
 end

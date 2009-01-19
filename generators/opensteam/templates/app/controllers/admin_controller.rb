@@ -17,7 +17,7 @@ class AdminController < ApplicationController
   end
 
   def save_breadcrumb
-    profile_session.save_breadcrumb( request.request_uri, "#{self.controller_name} #{self.action_name}" ) unless request.xhr?
+    profile_session.save_breadcrumb( request.request_uri, "#{self.controller_name} #{self.action_name}" ) if( !request.xhr? && request.get? )
   end
   
   def delete_breadcrumb

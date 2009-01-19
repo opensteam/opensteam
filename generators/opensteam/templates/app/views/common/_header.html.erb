@@ -1,4 +1,26 @@
-<div id="logo_top">
-  <%= link_to( image_tag( "opensteam_store_logo.jpg", :border => "0", :align => "top" ), shop_index_path ) -%> &nbsp;
-  <br />
+<div class="dvHeader">
+	<%= link_to( image_tag( "frontend/logo.png", :class => "logo", :border => "0", :align => "top" ), shop_index_path ) -%>
+	<div class="dvUserData">
+		<div clasS="dvLeftBar"></div>
+		<div clasS="dvMiddleBar">
+			<%- if logged_in? %>
+				Logged in as <%= current_user.login %> (<%= current_user.user_roles.collect(&:name).join(",") %> ), <%= link_to "logout", logout_path %>
+			<%- else %>
+				<% form_tag session_path do -%>
+					<%= text_field_tag 'login', @login, :style => "height:10px;font-size:9px;"%> <%= password_field_tag 'password', nil, :style => "height:10px;font-size:9px;" %>
+					<%= link_to_function "login", "$(this).up('form').submit(); return false;"%>
+				<% end %>
+			<% end %>
+			</div>
+		<div clasS="dvRightBar">
+		</div>
+	</div>
+	<br class="clear" />
+		
+	<div class="dvSearchBar">
+		<p class="pLeft">
+			<%= link_to "Index", shop_index_path %> | <%= link_to "Search", new_search_path %> | <%= link_to "Login", login_path %> | <%= link_to "Signup", signup_path %>
+		</p>
+		<%- form_for Search.new do |s| -%><p class="pRight">Search <%= s.text_field :keywords, :cols => 50 %></p><%- end -%>
+	</div>
 </div>
