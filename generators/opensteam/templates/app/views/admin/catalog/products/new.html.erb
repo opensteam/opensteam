@@ -12,11 +12,11 @@
       </td>
       <td width="20"><br /></td>
       <td width="100%" id="editor_content">
-				<% form_for :product, @product, :url => admin_catalog_products_path, :html => { :id => "animal_form", :method => :post } do |f| %>
+        <% form_for :product, @product, :url => admin_catalog_products_path, :html => { :id => "animal_form", :method => :post } do |f| %>
           <div id="dvEditorTabContainer">
             <div id="general_tab" class="x-hide-display" >
-							<b><%= label_tag :klass, "Product Class" %></b> <%= select_tag :klass, options_for_select( Product.product_classes ) %>
-							<br />
+              <b><%= label_tag :klass, "Product Class" %></b> <%= select_tag :klass, options_for_select( Product.product_classes ) %>
+              <br />
               <%= render :partial => "admin/catalog/products/attributes", :locals => { :button_name => "Update", :f => f } %>
             </div>
             <div id="properties_tab" class="x-hide-display" >
@@ -36,14 +36,14 @@
 </div>
 
 <% javascript_tag do %>
-var cb=function(tab){ 
-	checkTab_setFooterButtons(tab);
-	/*if(!grid) {
-		createGrid('the-table',
-		'<%= admin_catalog_product_properties_path( @product, :format => :xml ) %>',
-		<%= ( Property.filtered_keys + [:editor_url] ).collect(&:to_s).to_json %> ) ;
-	}*/
-}
+  var cb=function(tab){
+  checkTab_setFooterButtons(tab);
+  /*if(!grid) {
+  createGrid('the-table',
+  '<%= admin_catalog_product_properties_path( @product, :format => :xml ) %>',
+  <%= ( Property.filtered_keys + [:editor_url] ).collect(&:to_s).to_json %> ) ;
+  }*/
+  }
 
 
   build_tabs( 'dvEditorTabContainer', [

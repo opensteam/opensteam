@@ -3,11 +3,11 @@
 <h3>Log In ...<h3>
 
 <% form_tag user_session_path do -%>
-<p><label for="login">Email</label><br/>
-<%= text_field_tag 'email', @email %></p>
-<p><label for="password">Password</label><br/>
-<%= password_field_tag 'password', nil %></p>
-<p><%= submit_tag 'Log in' %></p>
+  <p><label for="login">Email</label><br/>
+  <%= text_field_tag 'email', @email %></p>
+  <p><label for="password">Password</label><br/>
+  <%= password_field_tag 'password', nil %></p>
+  <p><%= submit_tag 'Log in' %></p>
 <% end -%>
 
 

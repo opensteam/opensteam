@@ -1,6 +1,5 @@
 ## TEMPLATE ##
 class CategoriesController < Admin::CatalogController
-  include Opensteam::Finder
 
   # GET /admin/catalog/categories
   # GET /admin/catalog/categories.xml

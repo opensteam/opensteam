@@ -12,15 +12,15 @@
       </td>
       <td width="20"><br /></td>
       <td width="100%" id="editor_content">
-				<% form_for :property_group, @property_group, :url => admin_catalog_property_group_path( @property_group ), :html => { :id => "property_group_form", :method => :put } do |f| %>
+        <% form_for :property_group, @property_group, :url => admin_catalog_property_group_path( @property_group ), :html => { :id => "property_group_form", :method => :put } do |f| %>
           <div id="dvEditorTabContainer">
             <div id="general_tab" class="x-hide-display" >
               <%= render :partial => "admin/catalog/property_groups/attributes", :locals => { :button_name => "Update", :f => f } %>
             </div>
             <div id="properties_tab" class="x-hide-display" >
-						<% grid_table_local do %>
-							<%= render :partial => "admin/catalog/properties/properties_table" %>
-						<% end %>
+              <% grid_table_local do %>
+                <%= render :partial => "admin/catalog/properties/properties_table" %>
+              <% end %>
             </div>
           </div>
           <div id="dvEditorTabFooter">
@@ -37,14 +37,14 @@
 
 
 <% javascript_tag do %>
-	var cb=function(tab){ 
-		checkTab_setFooterButtons(tab);
-		if(!grid) {
-			createGrid('the-table',
-			'<%= admin_catalog_property_group_properties_path( @property_group, :format => :xml ) %>',
-			<%= ( Property.filtered_keys + [:editor_url] ).collect(&:to_s).to_json %> ) ;
-		}
-	}
+  var cb=function(tab){
+  checkTab_setFooterButtons(tab);
+  if(!grid) {
+  createGrid('the-table',
+  '<%= admin_catalog_property_group_properties_path( @property_group, :format => :xml ) %>',
+  <%= ( Property.filtered_keys + [:editor_url] ).collect(&:to_s).to_json %> ) ;
+  }
+  }
 
 
 

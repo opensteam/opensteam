@@ -24,6 +24,9 @@ module Opensteam
     mattr_accessor :product_extensions
     self.product_extensions = []
 
+    mattr_accessor :product_dependency
+    self.product_dependency = []
+
     class << self ;
 
       # register an opensteam extension
@@ -43,6 +46,10 @@ module Opensteam
 
           # add view_paths
           ActionController::Base.append_view_path plugin.view_path
+
+          # inject product dependency modules
+          ActiveSupport::Dependencies.inject_dependency ::Product, *self.product_dependency.flatten
+
         end
       end
 
@@ -74,7 +81,8 @@ module Opensteam
 
       
       def product_inject_dependency *mod
-        ActiveSupport::Dependencies.inject_dependency Product, *mod
+        Opensteam::Extension.product_dependency << mod
+#        ActiveSupport::Dependencies.inject_dependency Product, *mod
       end
 
 

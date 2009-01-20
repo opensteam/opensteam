@@ -12,6 +12,7 @@ module ActiveSupport::Dependencies
   end
 
   def new_constants_in_with_injection(*descs, &block)
+    
     returning(new_constants_in_without_injection(*descs, &block)) do |found|
       found.each do |constant|
         injection_graph[constant].each {|req| req.constantize}

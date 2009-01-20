@@ -60,7 +60,7 @@ class CartsController < ApplicationController
     
     @cart_details = true
 
-    render :template => "<%= file_name %>/show" 
+    render :template => "<%= file_name %>/show"
 
   end
   
@@ -95,7 +95,7 @@ class CartsController < ApplicationController
     @cart.reload
     
     respond_to do |format|
-      format.html { redirect_to :action => 'index', :controller => '<%= file_name %>' }
+      format.html { redirect_to shop_index_path  }
       format.js
     end
     
@@ -111,7 +111,6 @@ class CartsController < ApplicationController
   def wipe_cart
     session[:cart] = nil
     get_cart
-      
   end
 
 

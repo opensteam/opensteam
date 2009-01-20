@@ -1,11 +1,19 @@
 class Admin::Catalog::ProductsController < Admin::CatalogController
   
   before_filter :validate_sti_klass, :only => [ :new, :create ]
+  before_filter :set_filter
   
   def index
-    @products = Product.all
+    @products = Product.filter( @filters ).order_by( _s.sort, _s.dir).paginate( :page => _s.page, :per_page => _s.per_page )
+    @total_entries = @products.total_entries
+        
+    respond_to do |format|
+      format.html
+      format.xml
+    end
   end
   
+
   
   def new
     @product = Product.new

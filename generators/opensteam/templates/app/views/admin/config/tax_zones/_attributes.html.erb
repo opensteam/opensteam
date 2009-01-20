@@ -1,16 +1,16 @@
 <table cellspacing="0" cellpadding="0" class="editor-form">
-	<tr>
-		<td class="label"><%= f.label :country %></td>
-		<td class="content"><%= f.select :country, Opensteam::System::Zone.for_select( :country_name ), :include_blank => "choose a country" %>
-			<%= javascript_tag("transform2ComboBox('tax_zone_country', {});") %>
-		</td>
-	</tr>
-	<tr>
-		<td class="label"><%= f.label :state %></td>
-		<td class="content"> <%= f.text_field :state, :class => "inputFields" %></td>
-	</tr>
-	<tr>
-		<td class="label"><%= f.label :rate %></td>
-		<td class="content"> <%= f.text_field :rate, :class => "inputFields" %></td>
-	</tr>
+  <tr>
+    <td class="label"><%= f.label :country %></td>
+    <td class="content"><%= f.select :country, Opensteam::System::Zone.for_select( :country_name ), :include_blank => "choose a country" %>
+      <%= javascript_tag("transform2ComboBox('tax_zone_country', {});") %>
+    </td>
+  </tr>
+  <tr>
+    <td class="label"><%= f.label :state %></td>
+    <td class="content"> <%= f.text_field :state, :class => "inputFields" %></td>
+  </tr>
+  <tr>
+    <td class="label"><%= f.label :rate %></td>
+    <td class="content"> <%= f.text_field :rate, :class => "inputFields" %></td>
+  </tr>
 </table>

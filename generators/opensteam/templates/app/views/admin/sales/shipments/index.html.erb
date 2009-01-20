@@ -3,7 +3,7 @@
 
 
 <div id="filter">
-	<%= render :partial => "admin/filters/filter", :locals => { :id => "users_filter", :model => Shipment, :records => @shipments } %>
+  <%= render :partial => "admin/filters/filter", :locals => { :id => "users_filter", :model => Shipment, :records => @shipments } %>
 </div>
 
 <%= render :partial => "admin/sales/shipments/shipments", :object => @shipments %>

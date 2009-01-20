@@ -23,4 +23,6 @@
 		</p>
 		<%- form_for Search.new do |s| -%><p class="pRight">Search <%= s.text_field :keywords, :cols => 50 %></p><%- end -%>
 	</div>
+	<p style="color:red;"><%= flash[:error] %></p>
+	<p style="color:green;"><%= flash[:notice] %></p>
 </div>

@@ -2,36 +2,36 @@
 <% render_header_buttons "Save", :form_id => 'quicksteam_form' %>
 
 <% form_for :quicksteam, :url => admin_system_quicksteam_path( @quicksteam ), :html => { :id => 'quicksteam_form', :method => :put } do |f| %>
-<div id="dvEditorTabContainer">
-	<div id="general_tab" class="x-hide-display" title="Tax Zone">
-		<table cellpadding="0" cellspacing="0" class="editor-form">
-			<tr>
-				<td class="label"><%= f.label :name %></td>
-				<td class="content"><%= f.text_field :name, :class => "inputFields" %></td>
-			</tr>
-			<tr>
-				<td class="label"><%= f.label :path %></td>
-				<td class="content"><%= f.text_field :path, :class => "inputFields" %></td>
-			</tr>
-		</table>
-	</div>
-</div>
-<div id="dvEditorTabFooter">
-	<div id="dvEditorTabFooter-inner">
-		<div id="dvEditorTabFooterLeft">&nbsp;</div>
-		<div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
-	</div>
-</div>
+  <div id="dvEditorTabContainer">
+    <div id="general_tab" class="x-hide-display" title="Tax Zone">
+      <table cellpadding="0" cellspacing="0" class="editor-form">
+        <tr>
+          <td class="label"><%= f.label :name %></td>
+          <td class="content"><%= f.text_field :name, :class => "inputFields" %></td>
+        </tr>
+        <tr>
+          <td class="label"><%= f.label :path %></td>
+          <td class="content"><%= f.text_field :path, :class => "inputFields" %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div id="dvEditorTabFooter">
+    <div id="dvEditorTabFooter-inner">
+      <div id="dvEditorTabFooterLeft">&nbsp;</div>
+      <div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+    </div>
+  </div>
 <% end %>
 
 <% javascript_tag do %>
 
-build_tabs( 'dvEditorTabContainer', [
-{ contentEl: 'general_tab', title: 'Information', listeners: { activate: checkTab_setFooterButtons },
-button: {
-	left: 	{ title: "index", url: '<%= admin_system_quicksteams_path %>' },
-	right: 	{ title: "save", clickEvent: "$('quicksteam_form').submit(); return false;" }
-}
-}
-] ) ;
+  build_tabs( 'dvEditorTabContainer', [
+  { contentEl: 'general_tab', title: 'Information', listeners: { activate: checkTab_setFooterButtons },
+  button: {
+  left: 	{ title: "index", url: '<%= admin_system_quicksteams_path %>' },
+  right: 	{ title: "save", clickEvent: "$('quicksteam_form').submit(); return false;" }
+  }
+  }
+  ] ) ;
 <% end %>

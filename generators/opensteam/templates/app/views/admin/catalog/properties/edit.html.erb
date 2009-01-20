@@ -7,7 +7,7 @@
   <table cellpadding="0" cellspacing="0">
     <tr>
       <td width="100%" id="editor_content">
-				<% form_for :property, @property, :url => admin_catalog_property_path( @property ), :html => { :id => "property_form", :method => :put } do |f| %>
+        <% form_for :property, @property, :url => admin_catalog_property_path( @property ), :html => { :id => "property_form", :method => :put } do |f| %>
           <div id="dvEditorTabContainer">
             <div id="general_tab" class="x-hide-display" >
               <%= render :partial => "admin/catalog/properties/attributes", :locals => { :hide_klass => true, :button_name => "Create", :f => f } %>
@@ -26,13 +26,13 @@
 </div>
 
 <% javascript_tag do %>
-build_tabs( 'dvEditorTabContainer', [
-{ contentEl: 'general_tab', title: 'Attributes', listeners: { activate: checkTab_setFooterButtons },
-button: {
-left: 	{ title: "cancel", url: '<%= admin_catalog_properties_path %>' },
-right: 	{ title: "next", clickEvent: '$("property_form").submit() ; return false' }
-}
-}
+  build_tabs( 'dvEditorTabContainer', [
+  { contentEl: 'general_tab', title: 'Attributes', listeners: { activate: checkTab_setFooterButtons },
+  button: {
+  left: 	{ title: "cancel", url: '<%= admin_catalog_properties_path %>' },
+  right: 	{ title: "next", clickEvent: '$("property_form").submit() ; return false' }
+  }
+  }
 
-] ) ;
+  ] ) ;
 <% end %>

@@ -7,79 +7,79 @@
 </style>
 
 <script>
-    function configureTree( options,data  ) {
+  function configureTree( options,data  ) {
 
-        var root = new Ext.tree.AsyncTreeNode( {
-            text: 'invisibleRoot',
-            id: '0',
-            loader: new Ext.tree.TreeLoader({
-                url:options.url,
-                baseParams:options.baseParams,
-                requestMethod:'GET'
-            }),
-            preloadChildren: false
-        }) ;
+    var root = new Ext.tree.AsyncTreeNode( {
+      text: 'invisibleRoot',
+      id: '0',
+      loader: new Ext.tree.TreeLoader({
+        url:options.url,
+        baseParams:options.baseParams,
+        requestMethod:'GET'
+      }),
+      preloadChildren: false
+    }) ;
 
-        var tree = new Ext.tree.TreePanel( {
-            loader: new Ext.tree.TreeLoader( options.treeLoaderOptions ),
-            renderTo: options.renderTo,
-            root: root,
-            rootVisible: false,
-            enableDD: true
-        }) ;
+    var tree = new Ext.tree.TreePanel( {
+      loader: new Ext.tree.TreeLoader( options.treeLoaderOptions ),
+      renderTo: options.renderTo,
+      root: root,
+      rootVisible: false,
+      enableDD: true
+    }) ;
 
-        return tree ;
+    return tree ;
+  }
+
+
+</script>
+
+<script>
+  var mytree = configureTree( {
+    url: '<%= admin_catalog_product_properties_path( @product ) %>',
+    baseAttrs:{},
+    renderTo:'properties_tree',
+    baseParams:{format:'json'}
+  }, <%= @properties.to_json %> ) ;
+
+  Ext.onReady( function() {
+    mytree.render() ;
+  }) ;
+</script>
+
+<script>
+
+  var position_old = null ;
+  var next_sibling_old = null ;
+
+  mytree.on('startdrag', function(tree, node, event) {
+    position_old = node.parentNode.indexOf( node ) ;
+    next_sibling_old = node.nextSibling ;
+  }) ;
+
+
+  mytree.on( 'movenode', function( tree, node, old_parent, new_parent, position ) {
+    if ( old_parent == new_parent ) {
+      return 0 ;
+    } else {
+      var params = { _method:'PUT', id: node.id, authenticity_token: AUTH_TOKEN,
+        'category[parent_id]': new_parent.id } ;
     }
 
+    tree.disable() ;
 
-</script>
-
-<script>
-    var mytree = configureTree( { 
-        url: '<%= admin_catalog_product_properties_path( @product ) %>',
-        baseAttrs:{}, 
-        renderTo:'properties_tree',
-        baseParams:{format:'json'}
-    }, <%= @properties.to_json %> ) ;
-    
-    Ext.onReady( function() {
-        mytree.render() ;
+    Ext.Ajax.request( {
+      url: '/admin/catalog/categories/' + node.id,
+      params: params,
+      method: 'PUT',
+      success: function(response,request) {
+        tree.enable() ;
+      },
+      failure: function(response, request) {
+        alert('error') ;
+        tree.enable() ;
+      }
     }) ;
-</script>
-
-<script>
-
-    var position_old = null ;
-    var next_sibling_old = null ;
-
-    mytree.on('startdrag', function(tree, node, event) {
-    	position_old = node.parentNode.indexOf( node ) ;
-    	next_sibling_old = node.nextSibling ;
-    }) ;
-
-
-    mytree.on( 'movenode', function( tree, node, old_parent, new_parent, position ) {
-    	if ( old_parent == new_parent ) {
-    		return 0 ;
-    	} else {
-    		var params = { _method:'PUT', id: node.id, authenticity_token: AUTH_TOKEN,
-    		'category[parent_id]': new_parent.id } ;
-    	}
-
-    	tree.disable() ;
-
-    	Ext.Ajax.request( {
-    		url: '/admin/catalog/categories/' + node.id,
-    		params: params,
-    		method: 'PUT',
-    		success: function(response,request) {
-        		tree.enable() ;
-    		},
-    		failure: function(response, request) {
-        		alert('error') ;
-        		tree.enable() ;
-    		}
-        }) ;
-		return 0 ;
-	}) ;
+    return 0 ;
+  }) ;
 </script>

@@ -13,7 +13,18 @@ require 'opensteam/user_base'
     :updated_at => :updated_at
     )
   end
-
+  
+  Product.class_eval do
+    include Opensteam::Helpers::Grid
+    configure_grid(
+      :id => :id,
+      :type => :type,
+      :name => :name,
+      :description => :description,
+      :updated_at => :updated_at
+    )
+  end
+  
 
 
 Order.class_eval do

@@ -1,17 +1,17 @@
 <table cellspacing="0" cellpadding="0" class="editor-form">
-	<tr>
-		<td class="label"><%= attributes.label :name, "Group Name" %></td>
-		<td class="content"><%= attributes.text_field :name, :class => "inputFields" %></td>
-	</tr>
-	<tr>
-		<td colspan="2"><br /><strong>Following options are used if no <a href="#" onclick="tabs.setActiveTab(1); return false">Shipping Rates</a> apply.</strong></td>
-	</tr>
-	<tr>
-		<td class="label"><%= attributes.label :master_rate %></td>
-		<td class="content"><%= attributes.text_field :master_rate, :size => 3, :class => "inputFields" %></td>
-	</tr>
-	<tr>
-		<td class="label"><%= attributes.label :shipping_disabled %>
-		<td class="content"><%= attributes.check_box :shipping_disabled, :class => "inputFields" %>
-	</tr>
+  <tr>
+    <td class="label"><%= attributes.label :name, "Group Name" %></td>
+    <td class="content"><%= attributes.text_field :name, :class => "inputFields" %></td>
+  </tr>
+  <tr>
+    <td colspan="2"><br /><strong>Following options are used if no <a href="#" onclick="tabs.setActiveTab(1); return false">Shipping Rates</a> apply.</strong></td>
+  </tr>
+  <tr>
+    <td class="label"><%= attributes.label :master_rate %></td>
+    <td class="content"><%= attributes.text_field :master_rate, :size => 3, :class => "inputFields" %></td>
+  </tr>
+  <tr>
+    <td class="label"><%= attributes.label :shipping_disabled %>
+    <td class="content"><%= attributes.check_box :shipping_disabled, :class => "inputFields" %>
+  </tr>
 </table>
