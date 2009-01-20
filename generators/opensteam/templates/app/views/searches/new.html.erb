@@ -1,22 +1,22 @@
 <h3>Search for ..</h3>
 
 <% form_for @search do |f| %>
-	<p>
-		<%= f.label :keywords %>
-		<%= f.text_field :keywords %>
-	</p>
-	<p>
-		<%= f.label :klass, "Product Class" %>
-		<%= f.select :klass, Product.product_classes, :include_blank => true %>
-	</p>
- 	<% field_set_tag "Properties", :id => "properties" do %>
-		<%= link_to_function "add" do |page| 
-			page.insert_html :bottom, :properties, :partial => "property_fields", :object => Search::Property.new
-		end %>
+  <p>
+    <%= f.label :keywords %>
+    <%= f.text_field :keywords %>
+  </p>
+  <p>
+    <%= f.label :klass, "Product Class" %>
+    <%= f.select :klass, Product.product_classes, :include_blank => true %>
+  </p>
+  <% field_set_tag "Properties", :id => "properties" do %>
+    <%= link_to_function "add" do |page|
+      page.insert_html :bottom, :properties, :partial => "property_fields", :object => Search::Property.new
+    end %>
 
-		<%= render :partial => "property_fields", :object => Search::Property.new %>
-	<% end %>
-	
-	
-	<%= submit_tag "Do Stuff"%>
+    <%= render :partial => "property_fields", :object => Search::Property.new %>
+  <% end %>
+
+
+  <%= submit_tag "Do Stuff"%>
 <% end %>

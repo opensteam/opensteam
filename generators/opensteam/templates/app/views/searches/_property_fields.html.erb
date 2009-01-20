@@ -1,7 +1,7 @@
 <p>
-	<% fields_for "properties[]", property_fields do |p| %>
-		<%= p.select :klass, Property.property_classes %>
-		<%= p.text_field :value %>
-	<% end %>
-	<%= link_to_function "remove", "$(this).up('p').remove(); return false; " %>
+  <% fields_for "properties[]", property_fields do |p| %>
+    <%= p.select :klass, Property.property_classes %>
+    <%= p.text_field :value %>
+  <% end %>
+  <%= link_to_function "remove", "$(this).up('p').remove(); return false; " %>
 </p>
