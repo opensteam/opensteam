@@ -1,6 +1,31 @@
 ## TEMPLATE ##
 class Admin::Catalog::PropertiesController < Admin::CatalogController
   before_filter :validate_sti_klass, :only => [ :new, :create ]
+  
+  def index_products
+    @context = Product.send( *( params[:product_id] ? [:find, params[:product_id] ] : [:all] ) )
+    index_with_context
+  end
+  
+  
+  def index_property_groups
+    @context = PropertyGroup.send( *(params[:property_group_id] ? [:find, params[:property_group_id] ] : [:all] ) )
+    index_with_context
+  end
+  
+  def index_with_context
+    @filters = parse_ext_filter
+    @properties = Property.filter( @filters ).order_by( _s.sort, _s.dir ).paginate( :page => _s.page, :per_page => _s.per_page )
+    
+    respond_to do |format|
+      format.xml { render :action => :index2 }
+    end
+  end
+
+  private :index_with_context
+  
+
+  
   def index
     if params[:product_id]
       @product = Product.find( params[:product_id], :include => [ { :property_groups => :properties }, :properties ] )
@@ -77,16 +102,7 @@ class Admin::Catalog::PropertiesController < Admin::CatalogController
   
   
   private
-  def build_tree_json
-    property_hash = lambda { |p| { :id => p.id, :expanded => true, :text => "Property: #{p.class} - #{p.value}", :children => [] } }
-    @property_groups = @product.property_groups
-    @property_groups.collect { |pg|
-      {:leaf => false,  :iconCls => 'tree-folder-icon', :id => "group_#{pg.id}", :checked => false, :expanded => true, :text => "GROUP: #{pg.name}",
-        :children => pg.properties.collect(&property_hash)
-      }
-    } + 
-    @product.properties.collect(&property_hash)
-  end
+
   
   
   def validate_sti_klass

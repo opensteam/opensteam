@@ -118,7 +118,7 @@ module Opensteam
 
 
         def grid_column( id = :id ) #:nodoc:
-          self.configured_grid[ id.to_sym ]
+          self.configured_grid[ id.to_sym ] || id
         end
 
         # returns the +configured_grid+.+keys+

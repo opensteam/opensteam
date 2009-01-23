@@ -1,5 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
+include OpensteamSpecHelper
+
 class PropertiesPropertyGroup < ActiveRecord::Base
 end
 
@@ -8,25 +10,16 @@ include OpensteamSpecHelper
 describe PropertyGroup do
 
   describe "product property-group association" do
-    it "should associate with a product" do
-      PropertyGroup.reflect_on_association(:product).should_not be_nil
-    end
-
-    it "should have a :belongs_to association with product" do
-      PropertyGroup.reflect_on_association(:product).macro.should == :belongs_to
+    it "should be valid" do
+      test_association( PropertyGroup.reflect_on_association(:product), :macro => :belongs_to )
     end
   end
 
 
   describe "properties property-group association" do
-    it "should have a properties association" do
-      PropertyGroup.reflect_on_association(:properties).should_not be_nil
+    it "should be valid" do
+      test_association( PropertyGroup.reflect_on_association(:properties), :macro => :has_and_belongs_to_many )
     end
-
-    it "should have a :has_and_belongs_to_many association with properties" do
-      PropertyGroup.reflect_on_association(:properties).macro.should == :has_and_belongs_to_many
-    end
-
     
     it "should raise an error, if added properties are not associated with the product and not add properties to group/product" do
       @product = create_product

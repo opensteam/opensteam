@@ -18,7 +18,7 @@
 		}
 		
 		
-		function createGrid(gridId, xmlUrl, fields) {
+		function createGrid(gridId, xmlUrl, fields, filter_fields) {
 			
 			Ext.onReady(function() {
 				createTable(gridId,'grid',{
@@ -32,7 +32,7 @@
 					pageIndex: (Ext.get('paging_currentPage') ? Number(Ext.get('paging_currentPage').dom.value) : 1 ),
 					itemsPerPage: (Ext.get('paging_itemsPerPage') ? Number(Ext.get('paging_itemsPerPage').dom.value) : 5 ),
 					defaultSort:{field: 'id',direction: 'ASC'}
-				});
+				}, filter_fields);
 				
 				if( $('paging_itemsPerPage') ) {
 					var converted = new Ext.form.ComboBox({typeAhead: true,triggerAction: 'all',transform:'paging_itemsPerPage',width:58,readOnly: true,forceSelection:true,listeners:{select:doResetPageItems}});
@@ -42,9 +42,10 @@
 		}
 
 	
-		function createTable(tblId,renderToId,tblXmlConf){
+		function createTable(tblId,renderToId,tblXmlConf, filters){
 			grid= new Ext.grid.TableGrid(tblId, {
       	stripeRows: true,
+				filters: filters,
 				frame: false,
 				width: "auto",
 				height:"auto",
@@ -123,7 +124,7 @@
 				var loadPosX=theGrid.getPosition()[0];
 				var loadPosY=theGrid.getPosition()[1];
 				
-				var loadW=theGrid.view.mainBody.dom.firstChild.offsetWidth;//theGrid.getSize().width;
+				var loadW=theGrid.view.mainHd.dom.firstChild.offsetWidth;//theGrid.getSize().width;
 				var loadH=theGrid.getSize().height;
 			
 				showGridLoadingStatus(loadPosX,loadPosY, loadW,loadH);

@@ -82,7 +82,7 @@ module Opensteam
       
       def product_inject_dependency *mod
         Opensteam::Extension.product_dependency << mod
-#        ActiveSupport::Dependencies.inject_dependency Product, *mod
+        #        ActiveSupport::Dependencies.inject_dependency Product, *mod
       end
 
 
@@ -96,25 +96,25 @@ module Opensteam
       end
 
     end
-  end
+  
 
 
-  # extend ActionController Routing to load plugin-routes
-  module Routing #:nodoc:
-    def self.included(base) #:nodoc:
-      base.class_eval { alias_method_chain :draw, :opensteam_extension_routes }
-    end
+    # extend ActionController Routing to load plugin-routes
+    module Routing #:nodoc:
+      def self.included(base) #:nodoc:
+        base.class_eval { alias_method_chain :draw, :opensteam_extension_routes }
+      end
 
-    def draw_with_opensteam_extension_routes #:nodoc:
-      draw_without_opensteam_extension_routes do |map|
-        Opensteam::Extension.plugins.each do |plugin|
-          plugin.plugin_routes.call( map )
+      def draw_with_opensteam_extension_routes #:nodoc:
+        draw_without_opensteam_extension_routes do |map|
+          Opensteam::Extension.plugins.each do |plugin|
+            plugin.plugin_routes.call( map )
+          end
+          yield map
         end
-        yield map
       end
     end
+
   end
-
-
 
 end

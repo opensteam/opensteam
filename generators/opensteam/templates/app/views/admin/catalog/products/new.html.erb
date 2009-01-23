@@ -37,12 +37,25 @@
 
 <% javascript_tag do %>
   var cb=function(tab){
+
+		var filter_fields = [
+			  {type: 'boolean', dataIndex: 'checked' },
+				{type: 'numeric',  dataIndex: 'id'},
+				{type: 'string',  dataIndex: 'type'},
+				{type: 'string', dataIndex: 'value'},
+				{type: 'string',  dataIndex: 'unit'},
+				{type: 'date', dataIndex: 'updated_at'}
+		] ;
+		
   checkTab_setFooterButtons(tab);
-  /*if(!grid) {
+
+  	if(!grid) {
   createGrid('the-table',
-  '<%= admin_catalog_product_properties_path( @product, :format => :xml ) %>',
-  <%= ( Property.filtered_keys + [:editor_url] ).collect(&:to_s).to_json %> ) ;
-  }*/
+  	'<%= index_products_admin_catalog_properties_path(:format => :xml ) %>',
+  	<%= ( Property.filtered_keys + [:editor_url, :checked] ).collect(&:to_s).to_json %>,
+filter_fields ) ;
+  }
+  
   }
 
 

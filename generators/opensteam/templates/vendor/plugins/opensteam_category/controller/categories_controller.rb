@@ -19,7 +19,23 @@ class CategoriesController < Admin::CatalogController
     end
     
   end
-
+  
+  
+  def products
+    if params[:category_id]
+      @context = @category = Category.find( params[:category_id], :include => :products )
+    else
+      @context = @category = Category.new
+    end
+  
+    @filters = parse_ext_filter
+    @products = Product.filter( @filters ).order_by( _s.sort, _s.dir ).paginate( :page => _s.page, :per_page => _s.per_page, :include => :categories )
+    
+    respond_to do |format|
+      format.xml
+    end
+  end
+  
 
   def new
     @category = Category.new
@@ -54,10 +70,16 @@ class CategoriesController < Admin::CatalogController
   end
 
 
+  def show
+    edit
+    render :action => :edit
+  end
+  
+
   # PUT /admin/catalog/categories/:id
   def update
     @category = Category.find( params[:id] ) ;
-    params[:category][:products] ||= {}
+    params[:category][:product_ids] ||= []
     params[:category][:parent_id] = nil if params[:category][:parent_id].to_i == 0
 
     respond_to do |format|

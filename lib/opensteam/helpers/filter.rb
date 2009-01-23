@@ -25,12 +25,27 @@ module Opensteam::Helpers
       # if not, raises an ArgumentError
       # if no operator is given, list of all allowed operators is returned
       def check_operator op = nil #:nodoc:
-        operators = ['LIKE', '>', '<', '>=', '<=', '!=', 'IN', 'BETWEEN' ] 
-        return operators unless op
-        raise ArgumentError, "operator #{op} not allowed!" unless operators.include?( op )
-        op
+        operators = {
+          'LIKE' => 'LIKE',
+          'lt' => '<',
+          'gt' => '>',
+          'eq' => '=',
+          '>'  => '>',
+          '>=' => '>=',
+          '<'  => '<',
+          '<=' => '<=',
+          '!=' => '!=',
+          '=' => '=',
+          'IN' => 'IN',
+          'BETWEEN' => 'BETWEEN'
+        }
+
+        return operators.keys unless op
+        raise ArgumentError, "operator #{op} not allowed!" unless operators.keys.include?( op )
+        return operators[op]
       end
 
+      
       def convert_value v, o
         o == "LIKE" ? "%#{v}%" : v
       end
@@ -67,6 +82,22 @@ module Opensteam::Helpers
         
           conditions = "#{qtable_name}.#{qcolumn_name}"
           group      = "#{sqtable_name}.#{qcolumn_name} HAVING COUNT( #{qtable_name}.#{qcolumn_name} ) #{qoperator} #{qvalue}"
+
+
+        elsif model.reflect_on_all_associations.collect(&:name).include?( keys.to_sym )
+          sqtable_name = ActiveRecord::Base.connection.quote_table_name( model.reflect_on_association( keys.to_sym ).options[:join_table] ||
+            model.reflect_on_association( keys.to_sym ).options[:through] )
+        
+          qcolumn_name = ActiveRecord::Base.connection.quote_column_name( keys.to_s.singularize.foreign_key )
+
+          conditions = [
+            [ "#{sqtable_name}.#{qcolumn_name} #{qoperator} :#{table_name}_#{keys}",
+              qoperator == "!=" ? "#{sqtable_name}.#{qcolumn_name} IS NULL" : nil ].compact.join(" OR "),
+            { :"#{table_name}_#{keys}" => qvalue }
+          ]
+
+          include << keys
+
         else
           conditions = [
             Array(keys).collect { |k|

@@ -50,6 +50,12 @@ class Category < ActiveRecord::Base
   end
 
 
+  def product_ids=(params)
+    self.products.delete_all
+    self.products << Product.find( params )
+  end
+  
+
   def self_and_ancestors
     [ self, self.ancestors ].flatten.reverse
   end

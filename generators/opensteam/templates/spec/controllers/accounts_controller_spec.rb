@@ -1,19 +1,16 @@
 require File.dirname(__FILE__) + '/../spec_helper'
   
-# Be sure to include AuthenticatedTestHelper in spec/spec_helper.rb instead
-# Then, you can remove it from this and the units test.
 include AuthenticatedTestHelper
 
 describe AccountsController do
   fixtures :users
-
 
   it "should redirect to account path if logged_in on signup" do
     @user = User.authenticate('quentin', 'monkey')
     request.session[:user_id] = @user.id
     get :new
     response.should be_redirect
-    response.should redirect_to account_path
+    response.should redirect_to( account_path )
 
     flash[:error ].should_not be_nil
   end
@@ -26,7 +23,7 @@ describe AccountsController do
       request.session[:user_id] = @user.id
       create_user
       response.should be_redirect
-      response.should redirect_to account_path
+      response.should redirect_to( account_path )
       flash[:error].should_not be_nil
     end.should_not change(User, :count)
   end

@@ -33,6 +33,20 @@ class Admin::CatalogController < AdminController
     params[:product_id] && true
   end
   
-  
+  def parse_ext_filter
+    if params[:ext_filter]
+      checked = params[:ext_filter].select { |s| s.last[:field].include?( "checked" ) }.flatten.last
+      unless checked.empty?
+        checked[:field] = @context.class.to_s.tableize
+        checked[:data][:comparison] = checked[:data][:value] == "true" ? "=" : "!="
+        checked[:data][:value] = @context.id.to_s
+      end
+
+      return params[:ext_filter].collect { |f| 
+        Opensteam::Helpers::Grid::FilterEntry.create( :key => f.last[:field], :val => f.last[:data][:value], :op => f.last[:data][:comparison] || "LIKE" ) 
+      }
+    end
+    return []
+  end
   
 end

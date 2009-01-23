@@ -1,5 +1,11 @@
 module OpensteamSpecHelper
 
+  def test_association reflection, opts = { :macro => :has_many }
+    reflection.should_not be_nil
+    reflection.macro.should equal(opts[:macro] )
+    lambda { reflection.class_name.constantize }.should_not raise_error
+  end
+
 
   def create_property( options = {} )
     record = Property.new( property_valid_attributes.merge( options ) )

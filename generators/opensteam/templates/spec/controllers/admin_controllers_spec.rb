@@ -148,6 +148,29 @@ describe Admin::Sales::ShipmentsController do
   
 end
 
+describe Admin::Config::TaxGroupsController do
+  before(:each) do
+    find_or_create_admin
+    @user = User.authenticate( "admin", "opensteam" )
+    @user.stub!(:is_admin?).and_return(true)
+    request.session[:user_id] = @user.id
+        
+  end
+  
+  it "should set routing" do
+    route_for( :action => :index, :controller => "admin/config/tax_groups").should == '/admin/config/tax_groups'
+    params_from( :get, '/admin/config/tax_groups' ).should == { :action => 'index', :controller => 'admin/config/tax_groups' }
+  end
+  
+  it "should get index" do
+    @tax_groups = ProductTaxGroup.paginate( :all, :page => params[:page], :per_page => params[:per_page] )
+    #ProductTaxGroup.should_receive( :find ).and_return( @tax_groups )
+    get :index
+    response.should be_success
+    assigns[:tax_groups].should == @tax_groups
+  end
+
+end
 describe Admin::Config::ShippingRateGroupsController do
   before(:each) do
     find_or_create_admin

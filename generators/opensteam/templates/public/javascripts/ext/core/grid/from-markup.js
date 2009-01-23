@@ -7,6 +7,9 @@ function bool_value(val) {
 	return '<img src="/images/' + img + '" />' ;
 }
 
+function check_box(val) {
+	return '<input type="checkbox" name="cb" />'
+}
 
 Ext.grid.TableGrid = function(table, config, remoteConfig) {
   config = config || {};
@@ -14,6 +17,14 @@ Ext.grid.TableGrid = function(table, config, remoteConfig) {
   var cf = config.fields || [], ch = config.columns || [];
   table = Ext.get(table);
 	Ext.grid.myTable=table;
+
+
+	if( config.filters ) {
+		var filters = new Ext.ux.grid.GridFilters({paramPrefix: "ext_filter", filters: config.filters}) ;
+	}
+	
+
+
 
   var ct = table.insertSibling();
 
@@ -54,6 +65,7 @@ Ext.grid.TableGrid = function(table, config, remoteConfig) {
   }
 
 
+
 	
  	if(remoteConfig){
  			gridStore = new Ext.data.Store({
@@ -63,15 +75,21 @@ Ext.grid.TableGrid = function(table, config, remoteConfig) {
 				reader: new Ext.data.XmlReader({record: remoteConfig.record || 'Item' ,totalRecords: remoteConfig.totalRecords || '@Total' }, remoteConfig.readFields),
 				storeId: 'gridStore',remoteSort: remoteConfig.remoteSort || true				
    		});
-	  gridStore.load({params:{_method: 'GET', page: remoteConfig.pageIndex || 0, per_page: remoteConfig.itemsPerPage || 20,sort: ((remoteConfig.defaultSort) ? remoteConfig.defaultSort.field || '' : ''),dir:((remoteConfig.defaultSort) ? remoteConfig.defaultSort.direction || '' : '' )}, callback: remoteConfig.callback || false});
+			var params = {_method: 'GET', page: remoteConfig.pageIndex || 0, per_page: remoteConfig.itemsPerPage || 20,sort: ((remoteConfig.defaultSort) ? remoteConfig.defaultSort.field || '' : ''),dir:((remoteConfig.defaultSort) ? remoteConfig.defaultSort.direction || '' : '' )} ;
+			
+	  //gridStore.load({params: params, callback: remoteConfig.callback || false});
 	}else{
 		gridStore  = new Ext.data.Store({
 			reader: new Ext.data.XmlReader({
       	record:'tbody tr'
    	 	}, fields)
   	});
-		gridStore.loadData(table.dom);
+		//gridStore.loadData(table.dom);
 	}
+
+	gridStore.on('beforeLoad', function() { prepareGridLoadingStatus(grid) } ) ;
+	gridStore.on('load', function() { hideGridLoadingStatus(grid) } ) ;
+
 
   var cm = new Ext.grid.ColumnModel(cols);
 
@@ -89,10 +107,12 @@ Ext.grid.TableGrid = function(table, config, remoteConfig) {
     'ds': gridStore,
     'cm': cm,
     'sm': new Ext.grid.RowSelectionModel(),
+		'plugins' : config.filters ? filters : null,
     autoHeight: true,
     autoWidth: true
   });
-  Ext.grid.TableGrid.superclass.constructor.call(this, ct, {});
+	Ext.grid.TableGrid.superclass.constructor.call(this, ct, {});
+	remoteConfig ? gridStore.load({params: params, callback: remoteConfig.callback || false}) : gridStore.loadData(table.dom) ;
 };
 
 Ext.extend(Ext.grid.TableGrid, Ext.grid.GridPanel);

@@ -11,29 +11,34 @@ class DummyProperty2 < Property
 end
 
 
-
 describe Product do
 
   before(:each) do
   end
 
+  describe "properties_through_inventories association" do
+    
+    before(:each) do
+      @reflection = Product.reflect_on_association( :properties_through_inventories )
+    end
+    
+    it "should be valid" do
+      test_association( @reflection )
+    end
 
-  
-  it "should associate with properties_through_inventories" do
-    Product.reflect_on_association(:properties_through_inventories).should_not be_nil
   end
 
-  it "should have a :has_many association with properties_through_inventories" do	
-	Product.reflect_on_association(:properties_through_inventories).macro.should equal(:has_many)
-  end
-  
-  it "should associate with properties" do
-    Product.reflect_on_association(:properties).should_not be_nil
-  end
+  describe "properties association" do
+    
+    before(:each) do
+      @reflection = Product.reflect_on_association( :properties )
+    end
+    
+    it "should be valid" do
+      test_association( @reflection )
+    end
 
-  it "should have a :has_many association with properties" do
-    Product.reflect_on_association(:properties).macro.should equal(:has_many)
-  end  
+  end
 
   
   describe "being created" do
@@ -373,5 +378,8 @@ describe Product do
       :description => "value for description"
     }
   end
+  
+
+  
   
 end

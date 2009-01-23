@@ -34,9 +34,28 @@
   </table>
 </div>
 
-
 <% javascript_tag do %>
-var cb=function(tab){checkTab_setFooterButtons(tab);createLocalGrid('the-table');}
+  var cb=function(tab){
+
+		var filter_fields = [
+			  {type: 'boolean', dataIndex: 'checked' },
+				{type: 'numeric',  dataIndex: 'id'},
+				{type: 'string',  dataIndex: 'type'},
+				{type: 'string', dataIndex: 'name'},
+				{type: 'string',  dataIndex: 'description'},
+				{type: 'date', dataIndex: 'updated_at'}
+		] ;
+		
+  checkTab_setFooterButtons(tab);
+
+  	if(!grid) {
+  createGrid('the-table',
+  	'<%= url_for( :controller => "admin/catalog/categories", :action => "products", :category_id => @category.id, :format => :xml ) %>',
+  	<%= ( Product.filtered_keys + [:editor_url, :checked] ).collect(&:to_s).to_json %>,
+filter_fields ) ;
+  }
+  
+  }
 
   build_tabs( 'dvEditorTabContainer', [
   { contentEl: 'general_tab', title: 'Attributes', listeners: { activate: checkTab_setFooterButtons },

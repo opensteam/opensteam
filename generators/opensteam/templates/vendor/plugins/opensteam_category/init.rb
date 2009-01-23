@@ -28,8 +28,8 @@ Opensteam::Extension.register "Opensteam Categories" do
   # custom routes for you plugin
   plugin_routes do |map|
     map.namespace :admin do |admin|
-      map.namespace :catalog do |catalog|
-        map.resource :categories
+      admin.namespace :catalog do |catalog|
+        catalog.resources :categories, :collection => { :products => :get }
       end
     end
   end

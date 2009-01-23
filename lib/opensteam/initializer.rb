@@ -124,7 +124,7 @@ module Opensteam
     end
 
     def after_initialize
-
+      ActionController::Routing::Routes.class_eval do ; send( :include, Opensteam::Extension::Routing ) ; end
       super
       extend_active_record
       initialize_opensteam_extensions

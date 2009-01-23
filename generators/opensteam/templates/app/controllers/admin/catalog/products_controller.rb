@@ -13,7 +13,6 @@ class Admin::Catalog::ProductsController < Admin::CatalogController
     end
   end
   
-
   
   def new
     @product = Product.new
@@ -54,6 +53,9 @@ class Admin::Catalog::ProductsController < Admin::CatalogController
   
   def update
     @product = Product.find( params[:id], :include => [ { :inventories => :properties }, { :property_groups  => :properties } ] )
+    
+    
+    params[:product][:property_ids] ||= []
     
     respond_to do |format|
       

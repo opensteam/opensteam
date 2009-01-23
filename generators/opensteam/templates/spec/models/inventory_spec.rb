@@ -8,25 +8,18 @@ describe Inventory do
 
   end
 
-
-  it "should associate with inventories_properties" do
-    Inventory.reflect_on_association(:inventories_properties).should_not be_nil
-  end
-
-  it "should have a :has_many association with inventories_properties" do	
-	Inventory.reflect_on_association(:inventories_properties).macro.should equal(:has_many)
-  end
-
-  it "should associate with properties" do
-    Inventory.reflect_on_association(:properties).should_not be_nil
-  end
-
-  it "should have a :has_many association with properties" do	
-	Inventory.reflect_on_association(:properties).macro.should equal(:has_many)
+  describe "inventories_properties association" do
+    it "should be valid" do
+      test_association( Inventory.reflect_on_association(:inventories_properties) )
+    end
   end
   
 
-  
+  describe "properties association" do
+    it "should be valid" do
+      test_association( Inventory.reflect_on_association(:properties) )
+    end
+  end
   
   describe "being created" do
   

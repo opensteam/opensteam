@@ -102,7 +102,7 @@ a#help-link{background:transparent url(../images/header/icon_help.gif) 0 0 no-re
 			
 	
 	.dv-filter-table{position:relative;margin-top:-3px;clear:both;background-color:#FFF;border:solid #cbcfd2;border-width:1px 1px 0px;}
-		.tblFilter{width:100%;border-collapse:collapse;}
+		.tblFilter{width:100%;border-collapse:collapse;table-layout:auto ! important;}
 		.tblFilter tr td{padding:2px 5px;border-bottom:1px solid #cbcfd2;}
 			.tblFilter tr td.rowCount{border-right:1px solid #cbcfd2;}
 			.tblFilter tr td.tdFilterLast{width:100%;}

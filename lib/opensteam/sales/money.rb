@@ -136,7 +136,7 @@ module Opensteam::Sales
       # associates products with a tax-group
       class ProductTaxGroup < TaxGroup
       
-        has_many :inventories, :class_name => 'Opensteam::Models::Inventory', :foreign_key => "tax_group_id"
+        has_many :inventories, :class_name => '::Inventory', :foreign_key => "tax_group_id"
       
         has_many :tax_rules, :foreign_key => "product_tax_group_id", :class_name => "Opensteam::Sales::Money::Tax::TaxRule"
         has_many :tax_zones, :through => :tax_rules, :class_name => "Opensteam::Sales::Money::Tax::TaxZone"

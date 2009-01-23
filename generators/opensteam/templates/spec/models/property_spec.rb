@@ -6,31 +6,25 @@ end
 class DummyProperty2 < Property
 end
 
-
+include OpensteamSpecHelper
 
 describe Property do
   before(:each) do
 
   end
 
-  it "should associate with inventories_properties" do
-    Property.reflect_on_association(:inventories_properties).should_not be_nil
-  end
-
-  it "should have a :has_many association with inventories_properties" do	
-	Property.reflect_on_association(:inventories_properties).macro.should equal(:has_many)
-  end
-
-  it "should associate with inventories" do
-    Property.reflect_on_association(:inventories).should_not be_nil
-  end
-
-  it "should have a :has_many association with inventories" do	
-	Property.reflect_on_association(:inventories).macro.should equal(:has_many)
+  describe "inventories_properties association" do
+    it "should be valid" do
+      test_association(Property.reflect_on_association(:inventories_properties) )
+    end
   end
   
-  
-  
+  describe "inventories association" do
+    it "should be valid" do
+      test_association(Property.reflect_on_association(:inventories) )
+    end
+  end
+
   describe "being created" do
   
     before(:each) do
