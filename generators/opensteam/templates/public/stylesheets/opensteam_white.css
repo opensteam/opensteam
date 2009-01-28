@@ -155,3 +155,11 @@ a:hover {
 {
 	clear: both;
 }
+
+a img { border: 0px; }
+
+.cart { font-size:12px; }
+	.cart td, .cart th { border-left: 1px solid #aaa; padding: 0 3px 0 3px ; }
+	.cart th { background-color: #eee;}
+
+

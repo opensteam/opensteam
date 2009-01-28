@@ -18,7 +18,7 @@
               <%= render :partial => "admin/catalog/property_groups/attributes", :locals => { :button_name => "Update", :f => f } %>
             </div>
             <div id="properties_tab" class="x-hide-display" >
-							<%= render :partial => "admin/catalog/products/properties", :object => @all_properties, :locals => { :f => f } %>
+              <%= render :partial => "admin/catalog/products/properties", :object => @all_properties, :locals => { :f => f } %>
             </div>
           </div>
           <div id="dvEditorTabFooter">
@@ -37,21 +37,21 @@
 <% javascript_tag do %>
 
   var cb=function(tab){
-		var filter_fields = [
-			  {type: 'boolean', dataIndex: 'checked' },
-				{type: 'numeric',  dataIndex: 'id'},
-				{type: 'string',  dataIndex: 'type'},
-				{type: 'string', dataIndex: 'value'},
-				{type: 'string',  dataIndex: 'unit'},
-				{type: 'date', dataIndex: 'updated_at'}
-		] ;
-	
+  var filter_fields = [
+  {type: 'boolean', dataIndex: 'checked' },
+  {type: 'numeric',  dataIndex: 'id'},
+  {type: 'string',  dataIndex: 'type'},
+  {type: 'string', dataIndex: 'value'},
+  {type: 'string',  dataIndex: 'unit'},
+  {type: 'date', dataIndex: 'updated_at'}
+  ] ;
+
   checkTab_setFooterButtons(tab);
   if(!grid) {
   createGrid('the-table',
   '<%= index_property_groups_admin_catalog_property_group_properties_path( @property_group, :format => :xml ) %>',
   <%= ( Property.filtered_keys + [:editor_url, :checked] ).collect(&:to_s).to_json %>,
-filter_fields ) ;
+  filter_fields ) ;
   }
   }
 

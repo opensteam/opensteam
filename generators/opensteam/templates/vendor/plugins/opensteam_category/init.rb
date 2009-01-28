@@ -25,6 +25,8 @@ Opensteam::Extension.register "Opensteam Categories" do
   # specify the controller path for the plugin
   controller_path File.join( File.dirname(__FILE__), "controller" )
   
+  helper_modules CategoryHelper
+  
   # custom routes for you plugin
   plugin_routes do |map|
     map.namespace :admin do |admin|
@@ -32,6 +34,8 @@ Opensteam::Extension.register "Opensteam Categories" do
         catalog.resources :categories, :collection => { :products => :get }
       end
     end
+    
+    map.resources :categories
   end
   
   
@@ -41,7 +45,5 @@ Opensteam::Extension.register "Opensteam Categories" do
   
   # mark this plugin as a product extension (sets routes, display links in admin backend, etc)
   product_extension :categories
-  
-  
   
 end

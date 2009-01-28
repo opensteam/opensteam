@@ -76,7 +76,7 @@ class OpensteamGenerator < Rails::Generator::NamedBase
   }
   
   ###
-  map.start_checkout "petstore/start_checkout", :controller => 'petstore', :action => 'start_checkout'
+  map.start_checkout "#{file_name}/checkout", :controller => '#{file_name}', :action => 'checkout', :conditions => { :method => :post }
   map.show_product "#{file_name}/:id", :controller => '#{file_name}', :action => 'show'
   map.inventory_product "#{file_name}/:id/inventory", :controller => '#{file_name}', :action => 'inventory'
 
@@ -132,29 +132,6 @@ class OpensteamGenerator < Rails::Generator::NamedBase
       end
       catalog.resources :categories
 
-      # dynamic products/properties resources
-#      Opensteam::Find.find_product_tables.collect(&:to_sym).each do |m|
-#        p = m.to_s.classify.constantize
-#
-#        if p.column_names.include? p.inheritance_column
-#          p.find(:all).collect(&:class).collect(&:to_s).collect(&:tableize).uniq.collect(&:to_sym).each do |mm|
-#            catalog.resources mm, :controller => m
-#          end
-#        end
-#
-#        catalog.resources m do |p|
-#          p.resources :inventories, :requirements => { :product_type => m, :product_id => :id }
-#          Opensteam::Extension.product_extensions.each do |ext|
-#            p.resources ext, :requirements => { :product_type => m, :product_id => :id }
-#          end
-##          :has_many => :inventories, :requirements => { :product_type => m }
-#        end
-#      end
-
-      # Opensteam::Find.find_property_tables.collect(&:to_sym).each do |m|
-      #   catalog.resources m
-      # end
-
     end
 
     # /admin/sales
@@ -200,7 +177,20 @@ END_OPENSTEAM_ROUTES
       ### Patch application.rb ###
       sentinel = 'class ApplicationController < ActionController::Base'
       app_contr = 'app/controllers/application.rb'
-      incl = "layout '#{file_name}'\n\n  public :render_to_string\n  include AuthenticatedSystem\n  include RoleRequirementSystem\n\n"
+      incl = <<END_APP_CONTR
+
+  class << self ; def opensteam_shop ; Opensteam.configuration.opensteam_shop_controller ; end ; end
+  def opensteam_shop ; self.class.opensteam_shop ; end
+  private :opensteam_shop
+
+  layout opensteam_shop
+
+  public :render_to_string
+  include AuthenticatedSystem
+  include RoleRequirementSystem
+
+END_APP_CONTR
+
       gsub_file app_contr, /(#{Regexp.escape(sentinel)})/mi do |match|
         "#{match}\n  #{incl}"
       end
@@ -213,6 +203,8 @@ END_OPENSTEAM_ROUTES
 require 'opensteam'
 
 Opensteam::Initializer.run do |config|
+
+  config.opensteam_shop_controller = '#{file_name}'
 
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test

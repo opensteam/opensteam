@@ -8,18 +8,18 @@
   <table cellpadding="0" cellspacing="0">
     <tr>
       <td width="200">
-				<div class="dvEditorNaviHeadline">Categories</div>
-				<div id="category-tree" style="float:left;width: 200px ;"></div>
+        <div class="dvEditorNaviHeadline">Categories</div>
+        <div id="category-tree" style="float:left;width: 200px ;"></div>
       </td>
       <td width="20"><br /></td>
       <td width="100%" id="editor_content">
-				<% form_for :category, @category, :url => { :action => :update }, :html => { :id => "update_category", :method => :put } do |f| %>
+        <% form_for :category, @category, :url => { :action => :update }, :html => { :id => "update_category", :method => :put } do |f| %>
           <div id="dvEditorTabContainer">
             <div id="general_tab" class="x-hide-display" >
-              <%= render :partial => "categories/attributes", :object => f %>
+              <%= render :partial => "admin/catalog/categories/attributes", :object => f %>
             </div>
             <div id="products_tag" class="x-hide-display" >
-              <%= render :partial => "categories/products", :object => @category.products, :locals => { :f => f } %>
+              <%= render :partial => "admin/catalog/categories/products", :object => @category.products, :locals => { :f => f } %>
             </div>
           </div>
           <div id="dvEditorTabFooter">
@@ -37,24 +37,24 @@
 <% javascript_tag do %>
   var cb=function(tab){
 
-		var filter_fields = [
-			  {type: 'boolean', dataIndex: 'checked' },
-				{type: 'numeric',  dataIndex: 'id'},
-				{type: 'string',  dataIndex: 'type'},
-				{type: 'string', dataIndex: 'name'},
-				{type: 'string',  dataIndex: 'description'},
-				{type: 'date', dataIndex: 'updated_at'}
-		] ;
-		
+  var filter_fields = [
+  {type: 'boolean', dataIndex: 'checked' },
+  {type: 'numeric',  dataIndex: 'id'},
+  {type: 'string',  dataIndex: 'type'},
+  {type: 'string', dataIndex: 'name'},
+  {type: 'string',  dataIndex: 'description'},
+  {type: 'date', dataIndex: 'updated_at'}
+  ] ;
+
   checkTab_setFooterButtons(tab);
 
-  	if(!grid) {
+  if(!grid) {
   createGrid('the-table',
-  	'<%= url_for( :controller => "admin/catalog/categories", :action => "products", :category_id => @category.id, :format => :xml ) %>',
-  	<%= ( Product.filtered_keys + [:editor_url, :checked] ).collect(&:to_s).to_json %>,
-filter_fields ) ;
+  '<%= url_for( :controller => "admin/catalog/categories", :action => "products", :category_id => @category.id, :format => :xml ) %>',
+  <%= ( Product.filtered_keys + [:editor_url, :checked] ).collect(&:to_s).to_json %>,
+  filter_fields ) ;
   }
-  
+
   }
 
   build_tabs( 'dvEditorTabContainer', [
@@ -75,26 +75,26 @@ filter_fields ) ;
 <% end %>
 
 <%= render :partial => "/admin/_tree/tree", :locals => { 
-  :model => "category", 
-  :render_to => "category-tree", 
+  :model => "category",
+  :render_to => "category-tree",
   :url => '/admin/catalog/categories/',
   :checkable => false,
   :expand_all => true } %>
 
 <script>
-    var mytree = configureTree( { 
-        url: '/admin/catalog/categories/',
-        baseAttrs:{}, 
-        renderTo:'category-tree',
-        baseParams:{format:'json'}
-    }, <%= @categories.to_json %>  ) ;
+  var mytree = configureTree( {
+    url: '/admin/catalog/categories/',
+    baseAttrs:{},
+    renderTo:'category-tree',
+    baseParams:{format:'json'}
+  }, <%= @categories.to_json %>  ) ;
 
-    Ext.onReady( function() {
-        //mytree.expandAll() ;
-        mytree.selectPath( '<%= @category.path %>') ;
-        mytree.render() ;
-				initTreeDD( mytree ) ;
-    } ) ;
+  Ext.onReady( function() {
+    //mytree.expandAll() ;
+    mytree.selectPath( '<%= @category.path %>') ;
+    mytree.render() ;
+    initTreeDD( mytree ) ;
+  } ) ;
 </script>
 
 

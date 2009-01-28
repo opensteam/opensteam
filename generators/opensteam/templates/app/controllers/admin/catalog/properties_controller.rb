@@ -3,7 +3,7 @@ class Admin::Catalog::PropertiesController < Admin::CatalogController
   before_filter :validate_sti_klass, :only => [ :new, :create ]
   
   def index_products
-    @context = Product.send( *( params[:product_id] ? [:find, params[:product_id] ] : [:all] ) )
+    @context = Product.send( *( params[:product_id] ? [:find, params[:product_id] ] : [:new] ) )
     index_with_context
   end
   
@@ -82,7 +82,7 @@ class Admin::Catalog::PropertiesController < Admin::CatalogController
   end
   
   def edit
-      @property = Property.find( params[:id] )
+    @property = Property.find( params[:id] )
   end
   
   

@@ -53,6 +53,7 @@ module Opensteam
     attr_accessor :opensteam_model_paths
     attr_accessor :opensteam_mailer_paths
     attr_accessor :opensteam_catalog_models_path
+    attr_accessor :opensteam_shop_controller
 
 
     def initialize

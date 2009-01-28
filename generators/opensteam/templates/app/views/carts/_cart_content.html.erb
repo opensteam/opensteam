@@ -1,4 +1,4 @@
-<% form_remote_tag :url => { :controller => 'carts', :action => :update }, :html => { :method => :put } do %>
+<% form_remote_tag :url => { :controller => 'carts', :action => :update }, :html => { :id => 'cart_form', :method => :put } do %>
   <table class="cart">
     <thead>
       <tr>
@@ -14,7 +14,6 @@
     <tbody>
       <% @cart.items.each_with_index do |i,k| %>
         <tr class="cart_item" id="cart_item_<%=h k %>">
-
           <td><%= i.product.class.to_s %><br /><%= link_to i.product.name, :controller => 'carts', :action => :show, :id => k %></td>
           <td><%= text_field_tag "quantity[#{k}]", i.quantity.to_s, :id => "quantity", :size => 1 %> : <%=h i.quantity %></td>
           <td><%= i.price %></td>
@@ -30,16 +29,13 @@
       <% end %>
     </tbody>
   </table>
-  <div id="cart_actions">
-    <%- if !@cart.items.empty? -%>
-      <%= submit_tag "Update" %>
-      <br /><br />
-      <b>Total Price:</b> <%= @cart.total_price %>
-    <% end %>
-
-  </div>
-
+  <%= image_submit_tag 'frontend/cart_reload.png' %>
+  <%= link_to( image_tag('frontend/cart_clear.png'), url_for( :controller => 'carts', :action => 'destroy' ), :method => :delete ) %>
 <% end %>
+
+
+<b>Total Price:</b> <%= @cart.total_price %>
+
 
 
 

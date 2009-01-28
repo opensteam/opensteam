@@ -1,0 +1,83 @@
+<% render_headline 'categories_icon', "Categories", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons 'New Category', :href => new_admin_catalog_category_path %>
+
+
+<div id="editor-wrapper">
+  <table cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="200">
+        <div class="dvEditorNaviHeadline">Categories</div>
+        <div id="category-tree" style="width: 200px ;"></div>
+      </td>
+      <td width="20"><br /></td>
+      <td width="100%">
+        <div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>	
+
+
+
+
+
+
+<%= render :partial => "/admin/_tree/tree", :locals => { 
+  :model => "category",
+  :render_to => "category-tree",
+  :url => '/admin/catalog/categories/',
+  :checkable => false,
+  :expand_all => true } %>
+
+<script>
+  var mytree = configureTree( {
+    url: '/admin/catalog/categories/',
+    baseAttrs:{},
+    renderTo:'category-tree',
+    baseParams:{format:'json'}
+  }, <%= @categories.to_json %> ) ;
+
+  Ext.onReady( function() {
+    mytree.render() ;
+  }) ;
+</script>
+
+<script>
+
+  var position_old = null ;
+  var next_sibling_old = null ;
+
+  mytree.on('startdrag', function(tree, node, event) {
+    position_old = node.parentNode.indexOf( node ) ;
+    next_sibling_old = node.nextSibling ;
+  }) ;
+
+
+  mytree.on( 'movenode', function( tree, node, old_parent, new_parent, position ) {
+    if ( old_parent == new_parent ) {
+      return 0 ;
+    } else {
+      var params = { _method:'PUT', id: node.id, authenticity_token: AUTH_TOKEN,
+        'category[parent_id]': new_parent.id } ;
+    }
+
+    tree.disable() ;
+
+    Ext.Ajax.request( {
+      url: '/admin/catalog/categories/' + node.id,
+      params: params,
+      method: 'PUT',
+      success: function(response,request) {
+        tree.enable() ;
+      },
+      failure: function(response, request) {
+        alert('error') ;
+        tree.enable() ;
+      }
+    }) ;
+    return 0 ;
+  }) ;
+</script>
+
+

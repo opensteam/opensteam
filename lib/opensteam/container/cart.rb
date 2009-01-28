@@ -44,7 +44,12 @@ module Opensteam::Container
     def update!
       update_tax( :country => "Austria" )
     end
-    
+
+
+    def empty?
+      items.empty?
+    end
+
     
     # access index of items
     def index(i)

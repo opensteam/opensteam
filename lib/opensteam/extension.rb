@@ -95,6 +95,13 @@ module Opensteam
         Opensteam::Extension.product_extensions << t
       end
 
+
+      def helper_modules *mod
+        mod.each do |m|
+          ActionView::Base.send :include, m
+        end
+      end
+
     end
   
 

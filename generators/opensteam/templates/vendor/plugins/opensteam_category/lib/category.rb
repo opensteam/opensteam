@@ -5,7 +5,8 @@ class Category < ActiveRecord::Base
   has_many :products, :through => :categories_products
 
   acts_as_tree :order => "name"
-  named_scope :root_nodes, { :conditions => 'parent_id IS NULL' }
+  named_scope :root_nodes, { :conditions => 'parent_id IS NULL', :include => :products }
+  named_scope :active, { :conditions => { :active => true } }
 
   class << self ;
     def find_children( id = nil )
@@ -64,7 +65,7 @@ class Category < ActiveRecord::Base
   def path(method = :id, str = "/" )
     "#{str}0#{str}" + self_and_ancestors.collect(&method).join(str)
   end
-
+  
   def to_json_with_leaf( options = {} )
     self.to_json_without_leaf( options.merge( :methods => [:leaf, :text, :href] ) )
   end

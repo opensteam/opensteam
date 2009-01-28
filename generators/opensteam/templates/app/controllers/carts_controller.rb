@@ -1,10 +1,9 @@
 ## TEMPLATE ##
 class CartsController < ApplicationController
   
-  layout "<%= file_name %>"
+  layout opensteam_shop
   
   before_filter :get_cart
-  
   before_filter :check_availability, :only => [:create]
   before_filter :check_storage, :only => [:update]
   
@@ -54,13 +53,13 @@ class CartsController < ApplicationController
     @inventory = @cart[ params[:id] ].item
     @product = @inventory.product
     @product.selected_inventory = @inventory
-    @property_groups = @inventory.properties.collect { |p| PropertyGroup.new( :selector => "select", :selector_text => "Selected #{p.class}", :name => p.class, :properties => [ p ] ) }
+    @property_groups = @inventory.properties.collect { |p| @product.property_groups.build( :product => @product, :selector => "select", :selector_text => "Selected #{p.class}", :name => p.class, :properties => [ p ] ) }
     
     @inventory = [ @inventory ] # TODO: change webshop/show template ...
     
     @cart_details = true
 
-    render :template => "<%= file_name %>/show"
+    render :template => "#{opensteam_shop}/show"
 
   end
   

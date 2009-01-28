@@ -1,5 +1,5 @@
 <div class="dvHeader">
-  <%= link_to( image_tag( "frontend/logo.png", :class => "logo", :border => "0", :align => "top" ), shop_index_path ) -%>
+  <%= link_to( image_tag( "frontend/logo_badge.png", :class => "logo", :border => "0", :align => "top" ), shop_index_path ) -%>
   <div class="dvUserData">
     <div clasS="dvLeftBar"></div>
     <div clasS="dvMiddleBar">
@@ -19,8 +19,9 @@
 
   <div class="dvSearchBar">
     <p class="pLeft">
-      <%= link_to "Index", shop_index_path %> | <%= link_to "Search", new_search_path %> | <%= link_to "Login", login_path %> | <%= link_to "Signup", signup_path %>
-    </p>
+      <%= link_to "Index", shop_index_path %> | <%= link_to "Search", new_search_path %> |
+<%- if logged_in? %> <%= link_to "Logout", logout_path %> <%- if current_user.has_role?('admin') %>|| <%= link_to "Admin", admin_path %><%- end -%><%- else -%> <%= link_to "Login", login_path %> | <%= link_to "Signup", signup_path %><%- end -%>
+</p>
     <%- form_for Search.new do |s| -%><p class="pRight">Search <%= s.text_field :keywords, :cols => 50 %></p><%- end -%>
   </div>
   <p style="color:red;"><%= flash[:error] %></p>

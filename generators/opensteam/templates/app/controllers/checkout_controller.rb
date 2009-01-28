@@ -9,6 +9,7 @@ class CheckoutController < ApplicationController
   include Opensteam::Frontend::Checkout
   include Opensteam::Frontend::ShoppingCart
   
+  before_filter :check_cart, :only => [:intro, :new, :create]
   before_filter :set_instance_vars
   
   
@@ -144,6 +145,16 @@ class CheckoutController < ApplicationController
 
   
   private
+  
+  
+  def check_cart
+    if @cart.empty?
+      flash[:error] = "Cannot check out .. Your Cart is empty!"
+      redirect_to shop_index_path
+      return false
+    end
+    return true
+  end
   
   
   def set_instance_vars
