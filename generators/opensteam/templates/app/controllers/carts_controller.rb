@@ -1,8 +1,5 @@
-## TEMPLATE ##
-class CartsController < ApplicationController
-  
-  layout opensteam_shop
-  
+class CartsController < OpensteamController
+
   before_filter :get_cart
   before_filter :check_availability, :only => [:create]
   before_filter :check_storage, :only => [:update]
@@ -14,7 +11,7 @@ class CartsController < ApplicationController
     if Inventory.find( params[:id] ).is_available?
       return true
     else
-      render :update do |page| page.alert( "This Item is current not available!" ) end
+      render :update do |page| page.alert( "This Item is currently not available!" ) end
       return false
     end
   end
@@ -59,7 +56,7 @@ class CartsController < ApplicationController
     
     @cart_details = true
 
-    render :template => "#{opensteam_shop}/show"
+    render :template => "products/show"
 
   end
   

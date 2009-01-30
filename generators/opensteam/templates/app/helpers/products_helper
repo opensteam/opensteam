@@ -1,6 +1,4 @@
-# Methods added to this helper will be available to all templates in the application.
-## TEMPLATE ##
-module <%= class_name %>Helper
+module ProductsHelper
   
   include Opensteam::Sales::Money::Helper
 
@@ -36,9 +34,10 @@ end
 class ActionView::Helpers::FormBuilder
   def property_selector( group, opts = { :cart_details => false } )
     property_array = group.properties.collect { |i| [i.value, i.id] }
-    select_options = {}
-    select_options[:disabled] = opts[:cart_details]
-    
-    "#{group.selector_text}: " + self.send( group.selector, group.name, property_array, {}, select_options )
+    sel_opts = sel_opts2 = {}
+    sel_opts[:include_blank] = !opts[:cart_details]
+    sel_opts2[:disabled] = opts[:cart_details]
+
+    "#{group.selector_text}: " + self.send( group.selector, group.name, property_array, sel_opts2, sel_opts )
   end
 end

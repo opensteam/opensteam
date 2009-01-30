@@ -65,7 +65,6 @@ Ext.grid.TableGrid = function(table, config, remoteConfig) {
   }
 
 
-
 	
  	if(remoteConfig){
  			gridStore = new Ext.data.Store({
@@ -84,8 +83,10 @@ Ext.grid.TableGrid = function(table, config, remoteConfig) {
       	record:'tbody tr'
    	 	}, fields)
   	});
-		//gridStore.loadData(table.dom);
+		gridStore.loadData(table.dom);
 	}
+	
+//	alert( gridStore ) ;
 
 	gridStore.on('beforeLoad', function() { prepareGridLoadingStatus(grid) } ) ;
 	gridStore.on('load', function() { hideGridLoadingStatus(grid) } ) ;
@@ -112,7 +113,8 @@ Ext.grid.TableGrid = function(table, config, remoteConfig) {
     autoWidth: true
   });
 	Ext.grid.TableGrid.superclass.constructor.call(this, ct, {});
-	remoteConfig ? gridStore.load({params: params, callback: remoteConfig.callback || false}) : gridStore.loadData(table.dom) ;
+	
+	if(remoteConfig) { gridStore.load({params: params, callback: remoteConfig.callback || false } ) }
 };
 
 Ext.extend(Ext.grid.TableGrid, Ext.grid.GridPanel);

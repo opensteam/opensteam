@@ -23,7 +23,7 @@ module Opensteam::Inventory
 
     class << self ;
 
-      def included(base)
+      def included(base) #:nodoc:
         base.send( :extend,  ClassMethods )
         base.send( :include, InstanceMethods )
 
@@ -48,7 +48,7 @@ module Opensteam::Inventory
     end
 
     module ClassMethods
-      def default_attributes
+      def default_attributes #:nodoc:
         { :price => 0.0,
           :storage => 0,
           :active => false,
@@ -59,6 +59,7 @@ module Opensteam::Inventory
 
     module InstanceMethods
 
+      # returns true if inventory is active and storage > 0
       def is_available?
         self.active && self.storage > 0
       end

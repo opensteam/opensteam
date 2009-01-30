@@ -15,18 +15,22 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 module Opensteam::Product
+
+
+  # Opensteam Logic for Product Model
   module Logic
 
+    # hold product extension modules (like categories)
     mattr_accessor :product_extensions
     self.product_extensions = []
 
-
+    # holds all product classes
     mattr_accessor :product_classes
     self.product_classes = []
 
 
+    
     module PropertyGroupsExtension
-      
       
       # build property groups for given properties
       # if :properties is empty, the properties of the associated product are used
@@ -66,7 +70,8 @@ module Opensteam::Product
     end
 
     class << self ;
-      
+
+      # save product extension modules
       def extend_product( *mods )
         self.product_extensions << mods
         self.product_extensions.flatten!
@@ -76,7 +81,7 @@ module Opensteam::Product
       
       
       
-      def included(base)
+      def included(base) #:nodoc:
         base.class_eval do
 
           # hmt properties association
@@ -114,13 +119,8 @@ module Opensteam::Product
 
         end
 
-
         base.send( :extend, ClassMethods )
         base.send( :include, InstanceMethods )
-
-        #   ActiveSupport::Dependencies.inject_dependency( base, *self.product_extensions )
-        #        self.product_extensions.each { |mod| base.send( :include, mod ) }
-
 
       end
 
@@ -128,12 +128,13 @@ module Opensteam::Product
 
 
     module ClassMethods
-      def inherited(sub)
+      def inherited(sub) #:nodoc:
         super
         Opensteam::Product::Logic.product_classes << sub.to_s
         Opensteam::Product::Logic.product_classes.uniq!
       end
 
+      # return all product classes # => String
       def product_classes
         Opensteam::Product::Logic.product_classes
       end
@@ -143,28 +144,34 @@ module Opensteam::Product
 
     module InstanceMethods
 
-      def property_ids
+      def property_ids #:nodoc:
         self.properties.collect(&:id)
       end
 
 
-      def property_ids= ids
+      def property_ids= ids #:nodoc:
         self.properties.delete_all
         self.properties << Property.find( ids )
       end
 
-      
+      # !! Deprecated !!
+      # !! properties of property_groups must be present in @product.properties, so this method doesnt make sense !!
       def all_properties
         ( self.properties + self.property_groups.collect(&:properties ) ).flatten
       end
 
 
+      # build properties for property_attributes
+      #   @product.new_properties = [ { :name => "red", :type => "Color" }, { :name => "blue", :type => "Color" } ]
+      #
       def new_properties= property_attributes
         property_attributes.each do |attributes|
           properties.build( attributes )
         end
       end
 
+
+      # update existing properties andor delete properties not present in +property_attributes+ array
       def existing_properties= property_attributes
         all_properties.reject(&:new_record?).each do |property|
           attributes = property_attributes[ property.id.to_s ]
@@ -176,11 +183,18 @@ module Opensteam::Product
         end
       end
 
+      # save all associated properties without validations
       def save_properties
         properties.each { |property| property.save(false) }
       end
 
 
+
+      # build inventories for given properties
+      # +props+ must be an array of properties
+      # if opts[:delete_all] = true, all associated properties are deleted, before building new ones
+      # if no properties are given (empty array), only one inventory object is built
+      #
       def build_inventory_for_properties props, opts = { :attributes => Inventory.default_attributes, :delete_all => false }
         opts[:attributes] ||= Inventory.default_attributes
         opts[:delete_all] ||= false

@@ -29,8 +29,8 @@ module Opensteam::Frontend
   The rest of the checkout-process (the intermediate steps) are handled by the controller-actions (steps)
   itself (like redirecting, errorhandling, etc)
 
-  TODO:
-  Implement an actual Checkout-Workflow Generator, with ErrorHandling etc
+  TODO: Implement an actual checkout workflow, error handling, etc
+  TODO: Implement checkout base class, for different checkout flows, like paypal, google-checkout, etc
 
 =end
   

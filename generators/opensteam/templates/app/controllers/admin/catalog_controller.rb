@@ -35,9 +35,10 @@ class Admin::CatalogController < AdminController
   
   def parse_ext_filter
     if params[:ext_filter]
-      checked = params[:ext_filter].select { |s| s.last[:field].include?( "checked" ) }.flatten.last
+      checked = params[:ext_filter].select { |s| s.last[:field].include?( "checked" ) }.flatten
       unless checked.empty?
-        checked[:field] = @context.class.to_s.tableize
+        checked = checked.last
+        checked[:field] = @context.is_a?( Product ) ? 'products' : @context.class.to_s.tableize
         checked[:data][:comparison] = checked[:data][:value] == "true" ? "=" : "!="
         checked[:data][:value] = @context.id.to_s
       end

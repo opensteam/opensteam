@@ -1,5 +1,17 @@
 var tabs="";
 
+
+function initLoadMask(id) {
+	Ext.ux.opensteam.mask = new Ext.LoadMask( Ext.get( id ), { msg:'', msgCls:'os-load-mask' } ) ;
+}
+
+function sendRequestTabEditor( id )  {
+	Ext.ux.opensteam.mask.show() ;
+	$(id).request( {
+		onComplete: function() { Ext.ux.opensteam.mask.hide() ; }
+	}) ;
+}
+
 function build_tabs( id, tabItems ) {
 	Ext.onReady(function(){
 

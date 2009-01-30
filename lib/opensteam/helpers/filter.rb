@@ -17,6 +17,8 @@
 
 module Opensteam::Helpers
 
+
+  # filter functionality for opensteam models (product, properties, order, shipments, etc)
   module Filter
 
     class << self ;
@@ -46,7 +48,7 @@ module Opensteam::Helpers
       end
 
       
-      def convert_value v, o
+      def convert_value v, o #:nodoc:
         o == "LIKE" ? "%#{v}%" : v
       end
 

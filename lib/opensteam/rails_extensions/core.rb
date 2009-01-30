@@ -15,12 +15,15 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 class Array
+
   # convert Array to Hash using a block for the key
   def to_h2() inject({}) { |h,o| h[yield(o)] ? h[yield(o)] << o : h[yield(o)] = [o] ; h } ; end
 
   # calculate permutations of an array, e.g. [[1,2], [3,4]].perm --> [[1,3], [1,4], [2,3], [2,4]]
   def perm(i=0, *h) return [h] if i == size ; self[i].map { |x| perm(i+1, *(h + [x])) }.inject([]) { |r,v| r + v } ; end
 
+
+  # converts array to xml suitable for ExtJS
   def to_ext_xml options = {}
     raise "Not all elements respond to to_xml" unless all? { |e| e.respond_to? :to_xml }
 

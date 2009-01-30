@@ -2,13 +2,10 @@
 #
 # Controller to handle the checkout-process
 #
-## TEMPLATE ##
 
-class CheckoutController < ApplicationController
-  layout "<%= file_name %>"
+class CheckoutController < OpensteamController
   include Opensteam::Frontend::Checkout
-  include Opensteam::Frontend::ShoppingCart
-  
+
   before_filter :check_cart, :only => [:intro, :new, :create]
   before_filter :set_instance_vars
   
@@ -33,7 +30,7 @@ class CheckoutController < ApplicationController
   def initialize
     create_checkout_flow do |c|
       c.on :start, :intro
-      c.on :finish, :controller => "<%= file_name %>", :action => "index"
+      c.on :finish, :action => 'index', :controller => 'products'
     end
   end
 	

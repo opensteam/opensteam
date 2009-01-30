@@ -7,7 +7,6 @@ class Admin::Catalog::PropertiesController < Admin::CatalogController
     index_with_context
   end
   
-  
   def index_property_groups
     @context = PropertyGroup.send( *(params[:property_group_id] ? [:find, params[:property_group_id] ] : [:all] ) )
     index_with_context

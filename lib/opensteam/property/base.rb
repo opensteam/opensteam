@@ -16,6 +16,11 @@
 
 module Opensteam::Property
 
+
+  # Base Product Model
+  # !! currently not used.
+  # !! Product Model lies in actual Rails Application: RAILS_ROOT/app/models/catalog/product.rb
+  #
   class Base < ActiveRecord::Base
     include Opensteam::Property::Logic
     

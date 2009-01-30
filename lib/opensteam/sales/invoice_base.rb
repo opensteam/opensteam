@@ -24,7 +24,7 @@ module Opensteam::Sales
     module States ; end
     
     
-    def self.included(base)
+    def self.included(base) #:nodoc:
       base.send( :extend, ClassMethods )
       base.send( :include, InstanceMethods )
       

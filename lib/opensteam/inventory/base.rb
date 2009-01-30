@@ -16,6 +16,11 @@
 
 module Opensteam::Inventory
 
+
+  # Base Inventory Model
+  # !! currently not used.
+  # !! Inventory Model lies in actual Rails Application: RAILS_ROOT/app/models/catalog/
+  #
   class Base < ActiveRecord::Base
     include Opensteam::Inventory::Logic
     

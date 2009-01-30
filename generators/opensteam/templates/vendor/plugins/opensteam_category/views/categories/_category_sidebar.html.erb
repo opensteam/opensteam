@@ -1,7 +1,10 @@
 <ul>
 	<% for category in category_sidebar %>
 		<li>
-			<%= link_to category.name, category_path( category ) %>
+			<%= link_to_remote category.name, :url => category_path( category ), :method => :get, 
+			:update => :yield_content,
+			:loading => "showLoadMask('yield_content') ;",
+			:complete => "hideLoadMask('yield_content') ; "%>
 			<%= render :partial => "categories/category_sidebar", :object => category.children.active %>
 		</li>
 	<% end %>

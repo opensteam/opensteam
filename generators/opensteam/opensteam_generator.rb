@@ -114,17 +114,17 @@ class OpensteamGenerator < Rails::Generator::NamedBase
     admin.namespace :catalog do |catalog|
       catalog.resources :products do |product|
         product.resources :inventories
-        product.resources :properties
+        product.resources :properties, :collection => { :index_products => :get }
         product.resources :property_groups
         Opensteam::Extension.product_extensions.each do |ext|
           product.resources ext #, :requirements => { :product_type => "product", :product_id => :id }
         end
       end
 
-      catalog.resources :properties
+      catalog.resources :properties, :collection => { :index_products => :get }
 
       catalog.resources :property_groups do |property_groups|
-        property_groups.resources :properties
+        property_groups.resources :properties, :collection => { :index_property_groups => :get }
       end
       
       catalog.resources :inventories do |inventory|
@@ -177,13 +177,10 @@ END_OPENSTEAM_ROUTES
       ### Patch application.rb ###
       sentinel = 'class ApplicationController < ActionController::Base'
       app_contr = 'app/controllers/application.rb'
+      app_contr = Rails::VERSION::STRING > "2.2.2" ? 'app/controllers/application_controller.rb' : app_contr
       incl = <<END_APP_CONTR
 
-  class << self ; def opensteam_shop ; Opensteam.configuration.opensteam_shop_controller ; end ; end
-  def opensteam_shop ; self.class.opensteam_shop ; end
-  private :opensteam_shop
-
-  layout opensteam_shop
+  layout '#{file_name}'
 
   public :render_to_string
   include AuthenticatedSystem

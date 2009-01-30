@@ -15,6 +15,13 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 module Opensteam
+
+
+
+
+  # module to register and load all controller in the admin backend
+  # !!! currently not used !!!
+  #
   module Backend
 
     mattr_accessor :controller_paths

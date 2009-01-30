@@ -63,8 +63,6 @@ module Opensteam::Frontend
       end
 		
       alias :clear_cart :wipe_cart
-      
-      
 			
       def redirect_to_index
         redirect_to opensteam_index_path

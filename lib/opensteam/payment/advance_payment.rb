@@ -15,10 +15,10 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 module Opensteam
-  module Payment
-    
 
-    class AdvancePayment < Base
+  module Payment
+
+    class AdvancePayment < Base #:nodoc:
       self.display_name = "Advance Payment"
       self.payment_id = :advance_payment
       

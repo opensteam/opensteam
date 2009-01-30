@@ -17,8 +17,11 @@
 module Opensteam
   module Helpers
 
-    module Grid
 
+
+    # grid functionality for opensteam models (product, properties, orders, shipments, etc )
+    # mainly used for ExtJS Grid integration
+    module Grid
 
       def self.included(base) #:nodoc:
         base.send( :extend,  ClassMethods )
@@ -43,7 +46,7 @@ module Opensteam
 
       end
 
-
+      # Filter Entry Model
       class FilterEntry < ActiveRecord::Base
         validates_inclusion_of :op, :in => Opensteam::Helpers::Filter.check_operator
       end
@@ -112,11 +115,12 @@ module Opensteam
           self.conf_grid = opts
         end
 
+        # returns the configured grid hash
         def configured_grid
           self.conf_grid || self.superclass.conf_grid
         end
 
-
+        # get the value of the configured_grid hash
         def grid_column( id = :id ) #:nodoc:
           self.configured_grid[ id.to_sym ] || id
         end

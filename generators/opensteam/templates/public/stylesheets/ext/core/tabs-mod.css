@@ -20,3 +20,16 @@
 	.x-tab-panel-body{border-color:#cbcfd2;padding:8px 5px 5px;background:transparent none;}
 					
 .x-tree-selected { background-color: #F2F8C4 ! important }
+
+
+.os-load-mask {
+	background: transparent;
+	border: 0px;
+}
+
+.os-load-mask div {
+   padding:30px 10px 10px 25px;
+   background: url( '../../../images/grid/ico_loading.gif' ) no-repeat 5px 5px ;
+	 line-height: 25px;
+	 border: 0px;
+}

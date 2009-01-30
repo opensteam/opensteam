@@ -16,6 +16,8 @@
 
 module Opensteam::Product
 
+
+  # Join Model for Products-Property association
   class ProductsProperty < ActiveRecord::Base
     belongs_to :product
     belongs_to :property

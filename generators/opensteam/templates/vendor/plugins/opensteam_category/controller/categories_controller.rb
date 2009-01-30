@@ -22,6 +22,12 @@ class CategoriesController < ApplicationController
 
   def show
     @category = Category.find( params[:id], :include => :products )
+    
+    respond_to do |format|
+      format.html
+      format.js { render :action => :show, :layout => false }
+    end
+    
   end
   
   

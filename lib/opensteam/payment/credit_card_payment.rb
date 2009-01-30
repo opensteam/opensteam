@@ -147,71 +147,8 @@ module Opensteam
       
     end
 
-    
-#    # CreditClass Model
-#    # persist CreditCards
-#    class CreditCard < ActiveRecord::Base
-#
-#      include ActiveMerchant::Billing::CreditCardMethods
-#      include Opensteam::Security::Encryption
-#  
-#      cattr_accessor :password
-#      attr_accessor :number
-#      
-#      def verification_value? ; false ; end
-#
-#      
-#      def to_xml options = {}
-#        super options.merge( :except => [ :data, :salt ] )
-#      end
-#
-#      
-#      def encrypt_number
-#        self.data = encrypt( number, password, salt )
-#      end
-#  
-#      
-#      def decrypt_number
-#        self.number = decrypt( data, password, salt )
-#      end
-#  
-#   
-#      private
-#  
-#      before_create :store_last_digits, :generate_salt, :encrypt_number
-#      validates_presence_of :first_name, :last_name, :brand
-#  
-#      def store_last_digits
-#        self.last_digits = self.class.last_digits( number )
-#      end
-#  
-#      def generate_salt
-#        self.salt = [ rand(2**64 - 1)].pack("Q")
-#      end
-#  
-#      def validate
-#        errors.add( :year, "is invalid") unless valid_expiry_year?( year )
-#        errors.add( :month, "is invalid") unless valid_month?( month )
-#        # errors.add( :number, "is invalid") unless self.class.valid_number?( number )
-#        if password.blank?
-#          errors.add_to_base( "Unable to encrypt or decrypt data without password")
-#        end
-#      end
-#
-#    end
-#    
-#    
-#    
-    
-    
-    
-
-    
-    
-    
+  
   end
   
-  
-  
-  
+
 end

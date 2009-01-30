@@ -86,6 +86,8 @@ a:hover {
 }
 .dvMain
 {
+	position:relative;
+	overflow:hidden;
 }
 .dvLeft
 {
@@ -163,3 +165,23 @@ a img { border: 0px; }
 	.cart th { background-color: #eee;}
 
 
+#mini_cart {
+	position:relative;
+	right:0px;
+	background-color:#ddd;
+	display:block;
+	right:-180px;
+	overflow:hidden;
+}
+
+.dvLoadMask {
+	background-color:white;
+	text-align:center;
+	padding-top:50px;
+	display:block;
+	position:absolute;
+	filter: alpha(opacity=80);
+	opacity: .8;
+	
+	
+}

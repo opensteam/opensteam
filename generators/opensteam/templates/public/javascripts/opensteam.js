@@ -37,6 +37,8 @@ function remove_filter(e) {
 */
 
 
+
+
 function showDivPath(e) {
 	var element = e.element ;
 	var path_div = $(element.identify() + "_path" )

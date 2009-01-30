@@ -14,7 +14,7 @@ class <%= class_name %>Controller < ApplicationController
   
   # start the checkout-process
   #
-  def start_checkout		
+  def checkout		
     redirect_to :controller => :checkout, :action => "invoke"
   end
 	

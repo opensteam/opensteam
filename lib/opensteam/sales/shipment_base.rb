@@ -25,14 +25,17 @@ module Opensteam::Sales
 
     end
 
-    
+    # Shipping rate calculation module
     module ShippingCalculation
-      
+
+      # calculate the shipping rate for the global settings (set through Opensteam::Config[:shipping_strategy]
       def calculate_shipping_rate attr = {} 
         send( "shipping_rate_#{Opensteam::Config[:shipping_strategy]}", attr )
       end
       
-      
+
+      # set shipping_rate and update total_price
+      # ! does not save the object !
       def set_shipping_rate!
         returning( self ) do |s|
           s.shipping_rate = ( r = calculate_shipping_rate ).is_a?( Array ) ? r.sum : r
@@ -72,7 +75,7 @@ module Opensteam::Sales
     end
     
 
-    def self.included(base)
+    def self.included(base) #:nodoc:
       base.send( :extend, ClassMethods )
       base.send( :include, InstanceMethods )
       

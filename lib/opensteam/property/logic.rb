@@ -16,15 +16,21 @@
 
 module Opensteam::Property
 
+
+
+
+  # Opensteam Logic for Property Model
   module Logic
 
+    # holds all property classes
     mattr_accessor :property_klasses
     self.property_klasses = []
 
 
 
     class << self ;
-      def included(base)
+      
+      def included(base) #:nodoc:
         base.class_eval do
           has_many :inventories_properties, :class_name => "Opensteam::Inventory::InventoriesProperty"
           has_many :inventories, :through => :inventories_properties
@@ -44,11 +50,12 @@ module Opensteam::Property
 
     module ClassMethods #:nodoc:
 
+      # returns all property klasses # => ["Color", "Size"]
       def property_classes
         Opensteam::Property::Logic.property_klasses
       end
 
-      def inherited(sub)
+      def inherited(sub) #:nodoc:
         super
         Opensteam::Property::Logic.property_klasses << sub.to_s
         Opensteam::Property::Logic.property_klasses.uniq!
@@ -56,6 +63,8 @@ module Opensteam::Property
     end
 
     module InstanceMethods
+
+      
       # sort properties
       def <=> (other) #:nodoc:
         self.id <=> other.id

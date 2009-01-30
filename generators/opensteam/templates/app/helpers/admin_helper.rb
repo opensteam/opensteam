@@ -26,7 +26,7 @@ module AdminHelper
     end.join(" ")
   end
 
-  def product_path( product )
+  def admin_product_path( product )
     product.new_record? ? new_admin_catalog_product_path : admin_catalog_product_path( product )
   end
   
@@ -37,7 +37,7 @@ module AdminHelper
     active = opts[:active] || :general
     content_tag( :div, "Product Configuration", { :class => "dvEditorNaviHeadline" } ) +
       content_tag( :div, { :class => "dvEditorNaviItems" } ) do
-    	link_to( "General Information", product_path( product ), :id => "general", :class => nav_link_class(active, :general) ) +
+    	link_to( "General Information", admin_product_path( product ), :id => "general", :class => nav_link_class(active, :general) ) +
         ( product.new_record? ?
           link_to_function('Property Groups', "alert('Save your product first!'); return false;", :class => nav_link_class(active, :property_groups ) ) +
           link_to_function("Inventories", "alert('Save your product first!'); return false;", :class => nav_link_class(active, :inventories ) ) +
@@ -125,6 +125,8 @@ module AdminHelper
         link_to( content_tag( :span, image_tag( 'content-header/icon_print.gif') + "Print page" ), '#' ) +
         if title.nil?
         ""
+      elsif options[:request_id]
+        link_to_function( content_tag( :span, title ), "sendRequestTabEditor('#{options[:request_id]}') ; return false; ", :class => options[:class] )
       elsif options[:href]
         link_to( content_tag( :span, title ), options[:href], :class => options[:class] )
       elsif options[:form_id]

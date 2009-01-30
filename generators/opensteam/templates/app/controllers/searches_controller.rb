@@ -1,4 +1,3 @@
-## TEMPLATE ##
 class SearchesController < ApplicationController
   def new
     @search = Search.new
@@ -7,7 +6,6 @@ class SearchesController < ApplicationController
   def create
     
     params[:search][:properties] = params[:properties].values if params[:properties]
-    
     
     @search = Search.new(params[:search])
     if @search.save
@@ -22,6 +20,6 @@ class SearchesController < ApplicationController
     @search = Search.find(params[:id])
     @products = ( @search.products || [] ) rescue []
     flash[:notice] = @products.empty? ? "No products found!!" : "Search results:"
-    render :template => "<%= file_name %>/index"
+    render :template => 'products/index'
   end
 end

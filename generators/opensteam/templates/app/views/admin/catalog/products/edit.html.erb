@@ -1,7 +1,8 @@
 <% render_headline 'categories_icon', 'Edit Animal', 'content-header/headline_icon.jpg' %>
-<% render_header_buttons 'Save', :form_id => 'animal_form', :class => 'save-button' %>
+<% render_header_buttons 'Save', :request_id => 'product_form', :class => 'save-button' %>
 
 <%= error_messages_for :animal %>
+
 
 
 <div id="editor-wrapper">
@@ -12,7 +13,7 @@
       </td>
       <td width="20"><br /></td>
       <td width="100%" id="editor_content">
-        <% form_for :product, @product, :url => admin_catalog_product_path( @product ), :html => { :id => "animal_form", :method => :put } do |f| %>
+        <% remote_form_for :product, @product, :url => admin_catalog_product_path( @product ), :html => { :id => "product_form", :method => :put }, :loading => "Ext.ux.mask = new Ext.LoadMask( Ext.getBody(), { msg:'', msgCls:'os-load-mask'}); Ext.ux.mask.show() ; ", :success => "alert('buh') ; Ext.ux.mask.hide();" do |f| %>
           <div id="dvEditorTabContainer">
             <div id="general_tab" class="x-hide-display" >
               <%= render :partial => "admin/catalog/products/attributes", :locals => { :button_name => "Update", :f => f } %>
@@ -34,6 +35,9 @@
 </div>
 <div id="product_properties">
 </div>
+
+
+
 
 <% javascript_tag do %>
   var cb=function(tab){
@@ -58,6 +62,8 @@
 
   }
 
+	initLoadMask('product_form') ;
+
 
   build_tabs( 'dvEditorTabContainer', [
   { contentEl: 'general_tab', title: 'Attributes', listeners: { activate: checkTab_setFooterButtons },
@@ -69,7 +75,7 @@
   { contentEl: 'properties_tab', title: 'Properties', listeners: { activate: cb },
   button: {
   left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(0); return false; ' },
-  right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(0); return false;' }
+  right: 	{ title: "save", clickEvent: 'sendRequestTabEditor("product_form") ; return false;' }
   }
   }
 
