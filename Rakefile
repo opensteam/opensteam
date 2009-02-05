@@ -1,17 +1,18 @@
-# Rakefile
 require 'rubygems'
 require 'rake'
 require 'echoe'
 require 'lib/opensteam/version'
 
-Echoe.new('opensteam', Opensteam::VERSION::STRING ) do |p|
-  p.description    = "Generate a unique token with Active Record."
-  p.description = "a web-based shopping and e-commerce framework for Ruby on Rails"
+
+PKG_NAME = "opensteam"
+PKG_VERSION = Opensteam::VERSION::STRING
+
+Echoe.new( PKG_NAME, PKG_VERSION) do |p|
+  p.description    = "e-commerce framework for ruby-on-rails"
   p.url            = "http://www.opensteam.net"
   p.author         = "Michael Schaerfer"
-  p.email          = "info@opensteam.net"
-  p.ignore_pattern = []
+  p.email          = "notyce@gmail.com"
+  p.ignore_pattern = ["test/*", ".svn"]
   p.need_zip       = true
   p.development_dependencies = []
 end
-
