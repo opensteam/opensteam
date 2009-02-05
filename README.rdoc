@@ -1,4 +1,4 @@
-= opensteam v0.9.5 / v1.0.0 RC2
+= opensteam v1.0.1
 
 * Homepage http://www.opensteam.net
 * Blog http://blog.opensteam.net
@@ -27,8 +27,9 @@ see CHANGELOG File
 
 == INSTALL:
 
-	sudo gem install opensteam
-
+	sudo gem sources -a http://gems.github.com (you only have to do this once)
+	
+	sudo gem install shm-opensteam
 
 == FEATURES
 
