@@ -2,6 +2,10 @@
 
 * updated README.rdoc
 
+* added some scriptaculous magic for the flash-message in the admin-backend
+
+* added a "comming_soon" action to the admin_controller
+
 * refactored admin/catalog/product form:
 - form_for -> remote_form_for
 - javascript linkt to save form using prototypes 'request()' method

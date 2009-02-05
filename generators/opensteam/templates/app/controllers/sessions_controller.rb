@@ -13,6 +13,7 @@ class SessionsController < ApplicationController
     logout_keeping_session!
     user = User.authenticate(params[:login], params[:password])
     if user
+      flash[:notice] = "Logged in successfully"
       # Protects against session fixation attacks, causes request forgery
       # protection if user resubmits an earlier form using back
       # button. Uncomment if you understand the tradeoffs.
@@ -21,7 +22,6 @@ class SessionsController < ApplicationController
       new_cookie_flag = (params[:remember_me] == "1")
       handle_remember_cookie! new_cookie_flag
       redirect_back_or_default('/')
-      flash[:info] = "Logged in successfully"
     else
       note_failed_signin
       @login       = params[:login]
