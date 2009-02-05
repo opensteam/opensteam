@@ -33,7 +33,7 @@ class Admin::Config::TaxGroupsController < Admin::ConfigController
     
     respond_to do |format|
       if @tax_group.save
-        flash[:notice] = "TaxGroup successfully created!"
+        flash[:info] = "TaxGroup successfully created!"
         format.html { redirect_to :action => :index }
         format.xml { render :xml => @tax_group.to_xml( :root => "tax_group" ), :status => :created, :location => @tax_zone }
       else
@@ -47,9 +47,9 @@ class Admin::Config::TaxGroupsController < Admin::ConfigController
   
   def show
     @tax_group = Opensteam::Sales::Money::Tax::TaxGroup.find( params[:id], :include => :tax_rules )
-    
+    @tax_zones = Opensteam::Sales::Money::Tax::TaxZone.all
     respond_to do |format|
-      format.html
+      format.html { render :action => :edit }
       format.xml { render :xml => @tax_group.to_xml( :root => "tax_group" ) }
     end
   end
@@ -69,8 +69,8 @@ class Admin::Config::TaxGroupsController < Admin::ConfigController
     
     respond_to do |format|
       if @tax_group.update_attributes( params[:tax_group] )
-        flash[:notice] = "TaxGroup successfully created!"
-        format.html { redirect_to admin_tax_group_path( @tax_group ) }
+        flash[:info] = "TaxGroup successfully saved!"
+        format.html { redirect_to admin_config_tax_group_path( @tax_group ) }
         format.xml { render :xml => @tax_group.to_xml( :root => "tax_group" ), :status => :created, :location => @tax_zone }
       else
         format.html { render :action => :edit }

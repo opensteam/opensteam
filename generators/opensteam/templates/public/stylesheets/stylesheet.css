@@ -146,7 +146,10 @@ a#help-link{background:transparent url(../images/header/icon_help.gif) 0 0 no-re
 	#content-footer-right{float:right;text-align:right;width:50%;}
 
 /** footer **/
-#footer{position:relative;background:transparent url(../images/footer/footer_line.gif) bottom left repeat-x;height:26px;}
+#footer{/*position:fixed; bottom:0px;*/ background:#ccc; text-align:center; width:100%; background:transparent url(../images/footer/footer_line.gif) bottom left repeat-x;height:26px; }
+	
+	
+	/*position:relative;background:transparent url(../images/footer/footer_line.gif) bottom left repeat-x;height:26px;}*/
 	#footer a{color:#fc3;text-decoration:underline;}
 	#footer div{color:#fff;height:22px;line-height:22px;text-align:center;}
 	#footer .outter{background:transparent url(../images/footer/footer_bg.gif) top left repeat-x;width:70px;margin:0 auto;}
@@ -166,7 +169,7 @@ a#help-link{background:transparent url(../images/header/icon_help.gif) 0 0 no-re
 #dvGridLoading{position:absolute;top:0;left:0;z-index:33000;background-color:#e5e5e5;opacity:0.85;filter:alpha(opacity=85);display:none;}
 #dvGridLoading_icon{position:absolute;top:0;left:0;z-index:33010;width:32px;height:32px;overflow:hidden;display:none;}
 
-
+#footer_container { position:fixed; bottom:0px; text-align:center; width:100%; }
 
 
 /** admin index // dashboard */
@@ -177,7 +180,13 @@ a#help-link{background:transparent url(../images/header/icon_help.gif) 0 0 no-re
 		#dashboard_buttons a.add-button span{background:transparent url(../images/content-header/addbtn_left.gif) top left no-repeat;padding-left:48px;}
 
 
+#flashbox { height:68px; /*position:fixed; bottom:0px; */background:#333; text-align:center; width:100%;
+	background: transparent url(../images/flashbox/background.png) ;
+	z-index:900;
+}
 
+#flashbox div { padding:10px; color:white; font-size:12pt; float:left; width:48%;}
+#flashbox div img { z-index:901; }
 		
 /*	#content-header-buttons a span{background:transparent url(../images/content-header/content_headerbtn_right.gif) top right no-repeat;display:block;padding:0 10px;}
 		#content-header-buttons a span img{display:block;float:left;padding-right:10px;padding-top:9px;}
@@ -185,3 +194,44 @@ a#help-link{background:transparent url(../images/header/icon_help.gif) 0 0 no-re
 		#content-header-buttons a.add-button span{background:transparent url(../images/content-header/addbtn_left.gif) top left no-repeat;padding-left:48px;}
 		#content-header-buttons a.save-button span{background:transparent url(../images/content-header/savebtn_left.gif) top left no-repeat;padding-left:48px;}
 */
+
+
+/* RAILS ERROR CLASSES */
+
+.fieldWithErrors {
+  padding: 2px;
+  background-color: red;
+border: 1px solid red ;
+  display: table;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+

@@ -7,9 +7,9 @@ function initLoadMask(id) {
 
 function sendRequestTabEditor( id )  {
 	Ext.ux.opensteam.mask.show() ;
-	$(id).request( {
+	$(id).request( /* {
 		onComplete: function() { Ext.ux.opensteam.mask.hide() ; }
-	}) ;
+	}*/ ) ;
 }
 
 function build_tabs( id, tabItems ) {

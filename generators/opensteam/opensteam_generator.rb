@@ -62,7 +62,7 @@ class OpensteamGenerator < Rails::Generator::NamedBase
 
       administration_routes = <<END_OPENSTEAM_ROUTES
 	  
- ## users / sessions (login/logout/register/signup)
+  ## users / sessions (login/logout/register/signup)
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'accounts', :action => 'create'
@@ -75,32 +75,28 @@ class OpensteamGenerator < Rails::Generator::NamedBase
     :activate => :get
   }
   
-  ###
-  map.start_checkout "#{file_name}/checkout", :controller => '#{file_name}', :action => 'checkout', :conditions => { :method => :post }
-  map.show_product "#{file_name}/:id", :controller => '#{file_name}', :action => 'show'
-  map.inventory_product "#{file_name}/:id/inventory", :controller => '#{file_name}', :action => 'inventory'
-
-
-  # webshop
+  #### WEBSHOP ####
+  
   map.resources :searches
   map.resource  :cart
+  map.resources :products, :member => { :inventory => :any }, :collection => { :checkout => :post }
+  
   map.cart "/cart/*quantity", :controller => 'cart', :action => 'update', :conditions => { :method => :post }
-  map.show_cart_item "/#{file_name}/show_cart_item/:id", :controller => '#{file_name}', :action => 'show_cart_item'
-  map.shop_index "shop", :controller => '#{file_name}', :action => 'index'
-  map.#{file_name} "#{file_name}", :controller => '#{file_name}', :action => 'index'
-  map.connect "#{file_name}/:action/:type/:id", :controller => '#{file_name}'
-  map.connect "#{file_name}/:action", :controller => '#{file_name}'
-  map.connect "checkout/:action", :controller => 'checkout'
-  map.connect "/store", :controller => '#{file_name}', :action => 'index'
-  map.show_opensteam_product "#{file_name}/show/:type/:id", :controller => '#{file_name}', :action => 'show'
-  map.opensteam_index "#{file_name}", :controller => '#{file_name}', :action => 'index'
-  map.#{file_name}_index "#{file_name}", :controller => '#{file_name}', :action => 'index'
+  map.start_checkout "products/checkout", :controller => "products"
+  
+  # shop alias
+  map.#{file_name} "#{file_name}", :controller => "opensteam", :action => 'index'
+  map.shop_index "shop", :controller => "products", :action => 'index'
+  map.store_index "store", :controller => "opensteam", :action => 'index'
+  map.opensteam_index "opensteam", :controller => "opensteam", :action => 'index'
+  map.resources :#{file_name}, :controller => "products"
+  
+  # admin top level
   map.administration "admin", :controller => 'admin', :action => 'index'
-  map.admin_products "/admin/products", :controller => "admin", :action => "products"
-  map.admin_properties "/admin/properties", :controller => "admin", :action => "properties"
+  
   map.admin_payment_types "/admin/payment_types", :controller => "admin", :action => "payment_types"
   map.toggle_admin_payment_type "/admin/toggle_payment_type/:id", :controller => "admin", :action => "toggle_payment_type"
-
+  map.comming_soon "/admin/comming_soon", :controller => 'admin', :action => 'comming_soon'
 
 
   ## namespaces

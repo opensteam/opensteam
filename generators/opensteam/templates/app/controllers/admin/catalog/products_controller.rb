@@ -62,12 +62,13 @@ class Admin::Catalog::ProductsController < Admin::CatalogController
       if @product.update_attributes( params[:product] )
         @product.property_groups.build_for_properties
         @product.save
-        flash[:info] = "Product successfully saved!"
+        flash.now[:info] = "Product successfully saved!"
         format.html { redirect_to admin_catalog_product_path( @product ) }
-        format.js  { render :update do |page| ; end }
+        format.js
       else
-        flash[:error] = "Error: Could not save Product!"
+        flash.now[:error] = "Error: Could not save Product!"
         format.html { render :action => :edit }
+        format.js
       end
     end
   

@@ -1,5 +1,5 @@
 ## TEMPLATE ##
-class <%= class_name %>Controller < ApplicationController
+class <%= class_name %>Controller < OpensteamController
   
   include Opensteam::Frontend::ShoppingCart
   include Authentication

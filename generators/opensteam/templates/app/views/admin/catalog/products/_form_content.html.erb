@@ -1,0 +1,62 @@
+<% form_for( :product, @product, :url => admin_catalog_product_path( @product ), :html => { :id => "product_form", :method => :put } ) do |f| %>
+
+  <div id="dvEditorTabContainer">
+    <div id="general_tab" class="x-hide-display" >
+      <%= render :partial => "admin/catalog/products/attributes", :locals => { :button_name => "Update", :f => f } %>
+    </div>
+    <div id="properties_tab" class="x-hide-display" >
+      <%= render :partial => "admin/catalog/products/properties", :object => @all_properties, :locals => { :f => f } %>
+    </div>
+  </div>
+  <div id="dvEditorTabFooter">
+    <div id="dvEditorTabFooter-inner">
+      <div id="dvEditorTabFooterLeft">&nbsp;</div>
+      <div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+    </div>
+  </div>
+<% end %>
+
+<% javascript_tag do %>
+
+    var cb=function(tab){
+
+      var filter_fields = [
+        {type: 'boolean', dataIndex: 'checked' },
+        {type: 'numeric',  dataIndex: 'id'},
+        {type: 'string',  dataIndex: 'type'},
+        {type: 'string', dataIndex: 'value'},
+        {type: 'string',  dataIndex: 'unit'},
+        {type: 'date', dataIndex: 'updated_at'}
+      ] ;
+
+      checkTab_setFooterButtons(tab);
+
+      if(!grid) {
+        createGrid('the-table',
+        '<%= index_products_admin_catalog_product_properties_path( @product, :format => :xml ) %>',
+  <%= ( Property.filtered_keys + [:editor_url, :checked] ).collect(&:to_s).to_json %>,
+        filter_fields ) ;
+      }
+
+    }
+
+    initLoadMask('editor_content') ;
+
+
+    build_tabs( 'dvEditorTabContainer', [
+      { contentEl: 'general_tab', title: 'Attributes', listeners: { activate: checkTab_setFooterButtons },
+        button: {
+          left: 	{ title: "cancel", url: '<%= admin_catalog_product_path( @product ) %>' },
+          right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(1); return false;' }
+        }
+      },
+      { contentEl: 'properties_tab', title: 'Properties', listeners: { activate: cb },
+        button: {
+          left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(0); return false; ' },
+          right: 	{ title: "save", clickEvent: 'sendRequestTabEditor("product_form") ; return false;' }
+        }
+      }
+
+    ] ) ;
+
+<% end %>

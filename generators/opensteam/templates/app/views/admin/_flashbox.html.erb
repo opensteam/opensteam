@@ -1,9 +1,0 @@
-<%- if flash[:error] -%>
-  <div class="flash_error">
-    <div id="flash_error_box" style="text-align:center;color:black;background:red;padding:10px;position:absolute;top:30%;left:30%;border:1px solid black;">
-      <%= flash[:error] %><br />
-      <%= link_to_function "Close", "$(this).up('.flash_error').remove()" %>
-    </div>
-    <%= draggable_element :flash_error_box %>
-  </div>
-<%- end -%>

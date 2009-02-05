@@ -30,9 +30,10 @@ class Admin::Config::ShippingRateGroupsController < Admin::ConfigController
     respond_to do |format|
       ret = @group.save
       if ret && @group.errors.empty?
+        flash[:info] = "Group of ShippingRates successfully created!"
         format.html { redirect_to :action => :index }
       else
-        flash[:error] = "Could not save Group of ShippingRates"
+        flash[:error] = "Could not create Group of ShippingRates"
         format.html { render :action => :new }
       end
       
@@ -47,7 +48,7 @@ class Admin::Config::ShippingRateGroupsController < Admin::ConfigController
     
     respond_to do |format|
       if @group.update_attributes( params[:group] )
-        flash[:notice] = "Successfully updated ShippingRateGroup ##{@group.id}"
+        flash[:info] = "Successfully updated ShippingRateGroup ##{@group.id}"
         format.html { redirect_to :action => :index }
       else
         flash[:error] = "Error: Could not update ShippingRateGroup ##{@group.id}"

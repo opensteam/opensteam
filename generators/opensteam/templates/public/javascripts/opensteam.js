@@ -53,6 +53,11 @@ function positionDivPath(e) {
 	Element.clonePosition( $(e.element.identify() + "_path"), e.element, { setWidth: false, setHeight: false,offsetLeft: 50, offsetTop:30}) ;
 }
 
+function showFlashbox(seconds) {
+	$('flashbox').blindDown() ; 
+	Effect.BlindUp.delay(seconds, 'flashbox') ;
+}
+
 function transform2ComboBox( el, options) {
 	stdOptions = {
 		typeAhead: true,

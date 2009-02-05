@@ -1,7 +1,7 @@
+
 <div id="filter">
   <%= render :partial => "admin/filters/grid_filter_pagination", :locals => { :id => "properties_filter", :model => properties.class, :records => properties } %>
 </div>
-
 <div id="grid">
   <% grid_table_local do %>
     <thead>

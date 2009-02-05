@@ -1,0 +1,6 @@
+page << "Ext.ux.opensteam.mask.hide() ;"
+
+#page.replace_html :editor_content, :partial => "form_content" unless @product.valid?
+
+page.replace_html :flashbox, :partial => "admin/flashbox_content"
+page << "showFlashbox(2);"

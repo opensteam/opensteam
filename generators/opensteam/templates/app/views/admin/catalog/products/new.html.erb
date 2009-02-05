@@ -1,5 +1,5 @@
 <% render_headline 'categories_icon', 'Edit Animal', 'content-header/headline_icon.jpg' %>
-<% render_header_buttons 'Save', :request_id => 'product_form', :class => 'save-button' %>
+<% render_header_buttons 'Save', :form_id => 'product_form', :class => 'save-button' %>
 
 <%= error_messages_for :product %>
 
@@ -58,9 +58,6 @@
 
   }
 
-
-	initLoadMask('product_form') ;
-
   build_tabs( 'dvEditorTabContainer', [
   { contentEl: 'general_tab', title: 'Attributes', listeners: { activate: checkTab_setFooterButtons },
   button: {
@@ -71,7 +68,7 @@
   { contentEl: 'properties_tab', title: 'Properties', listeners: { activate: cb },
   button: {
   left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(0); return false; ' },
-  right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(0); return false;' }
+  right: 	{ title: "save", clickEvent: '$("product_form").submit() ; return false ;' }
   }
   }
 

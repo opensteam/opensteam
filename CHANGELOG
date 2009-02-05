@@ -1,5 +1,24 @@
 * EDGE *
 
+* updated README.rdoc
+
+* refactored admin/catalog/product form:
+- form_for -> remote_form_for
+- javascript linkt to save form using prototypes 'request()' method
+- show LoadMask over form during ajax-call
+
+* bugfixes in 'parse_ext_params': support for sti-products
+
+* added stylesheet + images for Ext.GridFilter
+
+* added javascript-files for Ext.GridFilter
+
+* added products controller for frontend
+
+* added opensteam_controller for frontend (instead of a webshop controller)
+
+* added 'opensteam_shop_controller' to opensteam configuration, to hold the main-shop controller
+
 * refactored the "product" implementation:
   due to complications when using mutliple product-tables (no unique product id, problems with rest-routes, polymorphic rest-routes
   doesn't work), we implemented one product base model (sti).

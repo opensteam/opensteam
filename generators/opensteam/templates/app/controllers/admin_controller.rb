@@ -12,6 +12,13 @@ class AdminController < ApplicationController
   before_filter :get_quicksteams
   before_filter :save_breadcrumb
 
+  def comming_soon
+    flash[:warning] = "Comming Soon ...."
+    redirect_to :action => :index
+  end
+  
+
+
   def index
     @extensions = []
   end
@@ -55,7 +62,9 @@ class AdminController < ApplicationController
 
   
   def toggle_payment_type
-    Opensteam::Payment::Types.find( params[:id] ).toggle!
+    payment_type = Opensteam::Payment::Types.find( params[:id] )
+    payment_type.toggle!
+    flash[:info] = "PaymentType '#{payment_type.name}' successfully #{payment_type.active? ? 'activated' : 'deactivated'}!"
     redirect_to :action => :payment_types
   end
 

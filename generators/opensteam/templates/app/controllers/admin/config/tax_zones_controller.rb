@@ -30,7 +30,7 @@ class Admin::Config::TaxZonesController < Admin::ConfigController
     respond_to do |format|
 
       if @tax_zone.save
-        flash[:notice] = "TaxZone was successfully created!"
+        flash[:info] = "TaxZone was successfully created!"
         format.html { redirect_to :action => 'index' }
         format.xml { render :xml => @tax_zone.to_xml( :root => "tax_zone" ), :status => :creates, :location => @tax_zone }
       else
@@ -66,12 +66,15 @@ class Admin::Config::TaxZonesController < Admin::ConfigController
     
     respond_to do |format|
       if @tax_zone.update_attributes( params[:tax_zone] )
-        flash[:notice] = "TaxZone was sucessfully updated!"
+        flash.now[:info] = "TaxZone was sucessfully updated!"
         format.html { redirect_to( admin_config_tax_zone_path( @tax_zone ) ) }
         format.xml { head :ok }
+        format.js
       else
+        flash.now[:error] = "Error: Could not save TaxZone!"
         format.html { render :action => 'edit' }
         format.xml  { render :xml => @tax_zone.errors, :status => :unprocessable_entity }
+        format.js
       end
   
     end

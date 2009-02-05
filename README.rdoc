@@ -1,15 +1,18 @@
 = opensteam v0.9.5 / v1.0.0 RC2
 
-* http://www.opensteam.net
-* http://github.com/shm/opensteam
-* http://rubyforge.org/projects/opensteam
-* http://blog.opensteam.net
-* http://www.diamonddogs.cc
+* Homepage http://www.opensteam.net
+* Blog http://blog.opensteam.net
+
+* Github http://github.com/shm/opensteam
+* Rubyforge http://rubyforge.org/projects/opensteam
+
+* DiamondDogs Webconsulting http://www.diamonddogs.cc
 
 
 = AUTHOR:
 
-Michael Schaerfer @ DiamondDogs Webconsulting
+Michael Schaerfer (shm) @ DiamondDogs Webconsulting
+
 
 == DESCRIPTION:
 
@@ -19,6 +22,7 @@ An eCommerce Framework for Ruby on Rails
 == CHANGELOG
 
 see CHANGELOG File
+
 
 
 == INSTALL:
@@ -31,21 +35,22 @@ see CHANGELOG File
 === General Features
 
 * generate/implement product and property models
-* ShoppingCart
-* Checkout Process
-* Administration Backend
+* ShoppingCart + Checkout Process
+* Administration Backend:
+** Overview and process Orders, Shipments and Invoices
+** Configure your Products, Properties and Inventory-Items
+** Configure ShippingRates, Taxes and PaymentTypes
+
 * ActiveMerchant Integration
-* ShippingRates, Taxes, PaymentTypes
-* Overview and process Orders, Shipments and Invoices
 
 
 === Generators
 
 opensteam provides three new generators (script/generate):
 
-* create a new webshop:
+* create a new webshop (soon to be replaced by the new Rails Template feature!):
   script/generate opensteam <webshop_name>
-* create a new product model (like scaffold):
+* create a new product model:
   script/generate opensteam_product ProductName
 * create a new property model for products (like 'Color' for a 'Shirt'):
   script/generate opensteam_property PropertyName
@@ -98,13 +103,16 @@ The admin-backend uses the Ext-JS Framework http://extjs.com/ (Grid, Combobox, T
 
 Some of the icons by famfamfam http://www.famfamfam.com/lab/icons/silk/ .Licensed under a Creative Commons Attribution 2.5 License, http://creativecommons.org/licenses/by/2.5/
 
-
+Some of the other icons by http://www.starfishwebconsulting.co.uk/ecommerce-icons
 
 	
 == LICENSE:
 Copyright (C) DiamondDogs Webconsulting
+
 opensteam is licensed under the GNU General Public License (GPL) version 2
+
 see the LICENSE file for more information.
+
 
 
 

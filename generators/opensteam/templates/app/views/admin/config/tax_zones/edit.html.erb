@@ -1,5 +1,5 @@
 <% render_headline 'categories_icon', "Edit TaxZone ##{@tax_zone.id}", 'content-header/headline_icon.jpg' %>
-<% render_header_buttons 'Save', :form_id => 'tax_zone_form', :class => 'save-button' %>
+<% render_header_buttons 'Save', :request_id => 'tax_zone_form', :class => 'save-button' %>
 
 <%= error_messages_for :tax_zone %>
 
@@ -18,7 +18,7 @@
 </div>
 
 <% javascript_tag do %>
-
+	initLoadMask('dvEditorTabContainer') ;
   build_tabs( 'dvEditorTabContainer', [
   { contentEl: 'general_tab', title: Ext.get('general_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
   button: {

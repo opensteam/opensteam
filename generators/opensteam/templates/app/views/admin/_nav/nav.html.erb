@@ -1,30 +1,30 @@
 <div id="nav-bar">
   <div id="nav">
     <div class="dvNaviItem">
-      <div class="dvNaviItem_right"></div>      
-      <div class="clearer"></div>      
+      <div class="dvNaviItem_right"></div>
+      <div class="clearer"></div>
     </div>
-		<%= admin_nav_item Admin::CatalogController %>
-		<%= admin_nav_item Admin::SalesController %>
-		<%= admin_nav_item Admin::ConfigController %>
-		<%= admin_nav_item Admin::SystemController %>
-<div class="dvNaviItem_combined_right">
-      <div class="dvNaviItem_left"></div>      
+    <%= admin_nav_item Admin::CatalogController %>
+    <%= admin_nav_item Admin::SalesController %>
+    <%= admin_nav_item Admin::ConfigController %>
+    <%= admin_nav_item Admin::SystemController %>
+    <div class="dvNaviItem_combined_right">
+      <div class="dvNaviItem_left"></div>
       <div class="clearer"></div>
     </div>
     <div class="clearer"></div>
-  </div>	
+  </div>
   <div id="search">
-    <form action="#" method="post">
+    <% form_tag comming_soon_path do %>
       <input type="text" name="search_string" id="search-string" value="Global Record Search" onclick="this.value='';" />
-      <input type="image" name="search_submit" id="search-submit" src="/images/header/search_icon.gif" />			
-    </form>
+      <input type="image" name="search_submit" id="search-submit" src="/images/header/search_icon.gif" />
+    <% end %>
   </div>
   <div id="subnav">
-	<%= render_breadcrumbs %>
-   
-  </div>		
-  <a href="#" id="help-link">Get help for this page</a>
+    <%= render_breadcrumbs %>
+
+  </div>
+  <%= link_to "Get help for this page", comming_soon_path, :id => 'help-link' %>
 </div>
 
 <!-- sub menu items -->
