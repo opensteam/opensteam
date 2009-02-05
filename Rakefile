@@ -11,7 +11,7 @@ Echoe.new( PKG_NAME, PKG_VERSION) do |p|
   p.description    = "e-commerce framework for ruby-on-rails"
   p.url            = "http://www.opensteam.net"
   p.author         = "Michael Schaerfer"
-  p.email          = "notyce@gmail.com"
+  p.email          = "info@opensteam.net"
   p.ignore_pattern = ["test/*", ".svn"]
   p.need_zip       = true
   p.development_dependencies = []
