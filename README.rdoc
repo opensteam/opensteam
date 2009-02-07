@@ -3,7 +3,7 @@
 * Homepage http://www.opensteam.net
 * Blog http://blog.opensteam.net
 
-* Github http://github.com/shm/opensteam
+* Github http://github.com/dd/opensteam
 * Rubyforge http://rubyforge.org/projects/opensteam
 
 * DiamondDogs Webconsulting http://www.diamonddogs.cc
