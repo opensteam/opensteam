@@ -76,7 +76,7 @@
 					if(prevPage < 0 ){return;}
 					prepareGridLoadingStatus(grid);
 					if(tblHdrTimer){clearInterval(tblHdrTimer);}
-					Ext.get('paging_currentPage').dom.value=(prevPage + 1);
+					Ext.get('paging_currentPage').dom.value=(prevPage);
 					gridStore.load({params:{page:prevPage, per_page:Ext.get('paging_itemsPerPage').dom.value,sort: ((gridStore.sortInfo) ? gridStore.sortInfo.field || '' : '' ),dir:((gridStore.sortInfo) ? gridStore.sortInfo.direction || '' : '')},callback: checkHeaders});
 				}
 				
