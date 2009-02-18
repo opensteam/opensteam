@@ -23,7 +23,7 @@
             <td><%=h payment_type.klass.classify.constantize.display_name %></td>
             <td><%=h payment_type.klass %></td>
             <td>
-              <%= link_to image_submit_tag( payment_type.active? ? 'tick.png' : 'cross.png' ), toggle_admin_payment_type_path( payment_type ) , :method => :post %>
+              <%= link_to image_submit_tag( payment_type.active? ? 'backend/tick.png' : 'backend/cross.png' ), toggle_admin_payment_type_path( payment_type ) , :method => :post %>
             </td>
           </tr>
         <% end %>

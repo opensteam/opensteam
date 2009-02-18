@@ -19,20 +19,22 @@ module Opensteam
 
   class << self ;
 
+    # holds the opensteam configuration object
     def configuration
       @@configuration
     end
     
-    def log_level
+    
+    def log_level #:nodoc:
       @@log_level
     end
 
 
-    def configuration=(configuration)
+    def configuration=(configuration) #:nodoc:
       @@configuration = configuration
     end
 
-    def log_level=(lv)
+    def log_level=(lv) #:nodoc:
       @@log_level = lv
     end
 
@@ -43,20 +45,39 @@ module Opensteam
   end
 
 
+  # Configuration Class
+  #
   class Configuration < Rails::Configuration
 
+    # file of opensteam libraries to require on startup
     attr_accessor :opensteam_init_libs
+    
+    # path of payment classes
     attr_accessor :payment_paths
+    
+    # list of product extension modules
     attr_accessor :opensteam_product_extensions
+    
+    # list of active_record extension modules
     attr_accessor :opensteam_active_record_extensions
+
+    # opensteam extension loader class
     attr_accessor :opensteam_extension_loader
+    
+    # paths of opensteam models
     attr_accessor :opensteam_model_paths
+
+    # paths of mailer classes
     attr_accessor :opensteam_mailer_paths
+    
+    # path of opensteam catalog models (product, properties, inventories)
     attr_accessor :opensteam_catalog_models_path
+    
+    # main shop controller of opensteam rails-application
     attr_accessor :opensteam_shop_controller
 
 
-    def initialize
+    def initialize #:nodoc:
       Opensteam.log_level = :info
       super
       Opensteam._log "initialize openSteam Configuration"
@@ -77,18 +98,24 @@ module Opensteam
 
     private
     
+    # default opensteam libraries
+    #   "opensteam/init_libs.rb"
     def default_init_libs
       "opensteam/init_libs"
     end
 
+    # default path of opensteam catalog models
     def default_opensteam_catalog_models_path
       File.join( "#{RAILS_ROOT}", "app", "models", "catalog" )
     end
 
+    # default paths of payment classes
     def default_payment_paths
       [ File.join( File.dirname(__FILE__), "payment" ) ]
     end
 
+
+    # default paths of opensteam models
     def default_opensteam_model_paths
       return []
       
@@ -97,6 +124,7 @@ module Opensteam
       ]
     end
 
+    # default paths of opensteam mailer classes
     def default_opensteam_mailer_paths
       [ File.join( "#{RAILS_ROOT}", "app", "models", "mailer" ) ]
     end
@@ -105,10 +133,20 @@ module Opensteam
 
   end
 
-
+  # Opensteam Initializer class
+  # Based on Rails::Initializer
+  #
+  # Use like the regular Rails::Initializer in your environment.rb file
+  # Takes the same config arguments as the Rails::Initializer, plus the
+  # configuration parameters of the Opensteam::Configuration class.
+  #
+  #   Opensteam::Initializer.run do |config|
+  #   end
+  #
+  #
   class Initializer < Rails::Initializer
 
-    def self.run( command = :process, configuration = Configuration.new )
+    def self.run( command = :process, configuration = Configuration.new ) #:nodoc:
       Opensteam._log "run openSteam Initializer"
             
       super
@@ -118,7 +156,7 @@ module Opensteam
     end
 
 
-
+    
     def load_application_initializers
       require_payment_classes
       super
@@ -168,6 +206,8 @@ module Opensteam
       end
     end
 
+    # extend the opensteam product model
+    # inject every module, as configured in +opensteam_product_extensions+, into the Product Model
     def extend_opensteam_product
       configuration.opensteam_product_extensions.each do |ext|
         Opensteam::ProductBase.extend_product ext
@@ -190,6 +230,8 @@ module Opensteam
       #require File.join( File.dirname(__FILE__), "rails_extensions", "dependency_injection.rb" )
     end
 
+    # initialize the mailer classes
+    # register every mailer class (in +opensteam_mailer_paths+) into the database.
     def initialize_mailer_classes
       if ActiveRecord::Base.connection.tables.include?( Opensteam::System::Mailer.table_name )
         configuration.opensteam_mailer_paths.each do |path|

@@ -20,7 +20,7 @@ require 'active_record'
 opensteam
 
 The +opensteam+ core provides functionality for web-based shopping and e-commerce
-platforms.
+applications.
 =end
 
 module Opensteam #:nodoc:

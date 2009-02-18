@@ -1,5 +1,5 @@
 <%= link_to(
-  image_tag( AdminHelper.user_event_images[event_button] ),
+  backend_image_tag( AdminHelper.user_event_images[event_button] ),
   send_event_admin_system_user_path( user, :event => event_button.to_s ),
   :class => 'grid',
   :method => :put,

@@ -21,9 +21,9 @@
           <td><%= i.price - calculate_tax_for( i ) %>
           <td><%= i.total_price %></td>
           <td>
-            <%= link_to_remote image_tag( "/images/plus.png", :border => "0" ), :url => { :controller => 'carts', :action => :update, :id => k, :incr => 1 } -%>
-            <%= link_to_remote image_tag( "/images/minus.png", :border => "0"), :url => { :controller => 'carts', :action => :update, :id => k, :decr => 1 } -%>
-            <%= link_to_remote image_tag( "/images/cancel.png", :border => "0"), :url => { :controller => 'carts', :action => :destroy, :id => k } -%>
+            <%= link_to_remote image_tag( "frontend/plus.png", :border => "0" ), :url => { :controller => 'carts', :action => :update, :id => k, :incr => 1 } -%>
+            <%= link_to_remote image_tag( "frontend/minus.png", :border => "0"), :url => { :controller => 'carts', :action => :update, :id => k, :decr => 1 } -%>
+            <%= link_to_remote image_tag( "frontend/images/cancel.png", :border => "0"), :url => { :controller => 'carts', :action => :destroy, :id => k } -%>
           </td>
         </tr>
       <% end %>

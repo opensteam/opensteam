@@ -242,13 +242,13 @@ td.x-grid3-hd-over .x-grid3-hd-inner, td.sort-desc .x-grid3-hd-inner, td.sort-as
 }
 /* Column Reorder DD */
 .x-dd-drag-proxy .x-grid3-hd-inner{
-	background:url(/images/grid/th_active_right.gif) right top no-repeat;
+	background:url(/images/backend/grid/th_active_right.gif) right top no-repeat;
 	width:120px;
 	padding:0;
 	border:none;
 	overflow:hidden;
 }
-.x-dd-drag-proxy .x-grid3-hd-inner div{background:url(/images/grid/th_active_left.gif) left top no-repeat;padding:7px 3px 6px 5px;}
+.x-dd-drag-proxy .x-grid3-hd-inner div{background:url(/images/backend/grid/th_active_left.gif) left top no-repeat;padding:7px 3px 6px 5px;}
 
 
 .col-move-top, .col-move-bottom{

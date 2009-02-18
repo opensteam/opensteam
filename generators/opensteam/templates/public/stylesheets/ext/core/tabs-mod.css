@@ -2,9 +2,9 @@
 	.x-tab-strip-wrap{background-color:#FFF;}
 		ul.x-tab-strip-top{background:transparent none;border-bottom-color:#cbcfd2;}
 			ul.x-tab-strip li{margin-left:0;}
-				.x-tab-strip-top .x-tab-right{background:transparent url(/images/tabs/tabs-sprite.gif) no-repeat scroll 0pt -30px;}
-					.x-tab-strip-top .x-tab-left {background:transparent url(/images/tabs/tabs-sprite.gif) no-repeat scroll right -210px;}
-						.x-tab-strip-top .x-tab-strip-inner {background:transparent url(/images/tabs/tabs-sprite.gif) repeat-x scroll 0pt -120px;}
+				.x-tab-strip-top .x-tab-right{background:transparent url(/images/backend/tabs/tabs-sprite.gif) no-repeat scroll 0pt -30px;}
+					.x-tab-strip-top .x-tab-left {background:transparent url(/images/backend/tabs/tabs-sprite.gif) no-repeat scroll right -210px;}
+						.x-tab-strip-top .x-tab-strip-inner {background:transparent url(/images/backend/tabs/tabs-sprite.gif) repeat-x scroll 0pt -120px;}
 							.x-tab-strip span.x-tab-strip-text{color:#c5c7c8;}
 			ul.x-tab-strip li.x-tab-strip-active{margin-bottom:-1px !important;}
 				.x-tab-strip-top .x-tab-strip-active .x-tab-right{background-position:left 0;}
@@ -29,7 +29,7 @@
 
 .os-load-mask div {
    padding:30px 10px 10px 25px;
-   background: url( '../../../images/grid/ico_loading.gif' ) no-repeat 5px 5px ;
+   background: url(/images/backend/grid/ico_loading.gif) no-repeat 5px 5px ;
 	 line-height: 25px;
 	 border: 0px;
 }

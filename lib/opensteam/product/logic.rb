@@ -18,6 +18,11 @@ module Opensteam::Product
 
 
   # Opensteam Logic for Product Model
+  #
+  # This Module is meant to be included into the actual Opensteam Product Model.
+  # It provides the basic product functionality and associations.
+  #
+  # The Product Model defines the Base Class of a Product. Using SingleTableInheritance, more complicated product can be built.
   module Logic
 
     # hold product extension modules (like categories)
@@ -144,12 +149,13 @@ module Opensteam::Product
 
     module InstanceMethods
 
-      def property_ids #:nodoc:
+      # return all property ids
+      def property_ids
         self.properties.collect(&:id)
       end
 
-
-      def property_ids= ids #:nodoc:
+      # set property ids
+      def property_ids= ids 
         self.properties.delete_all
         self.properties << Property.find( ids )
       end

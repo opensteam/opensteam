@@ -20,6 +20,14 @@ module Opensteam::Property
 
 
   # Opensteam Logic for Property Model
+  # 
+  # This module is meant to be included into the actual Opensteam Property Model.
+  # It provides the basic Property functionality and associations.
+  #
+  # A property object is used to describe a Product. (Like "Color", "Size", ..).
+  # Based on the associated properties of a product, an inventory object can be built. This inventory object can
+  # have a price, a quantity, (or an association to a legacy system), thus defining the product-property configuration.
+  #
   module Logic
 
     # holds all property classes

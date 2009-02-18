@@ -86,7 +86,7 @@ module AdminHelper
   # renders the headline and an image (along with path information for quicksteam dragndrop)
   def render_headline id, title, img
     content_for( :headline ) do
-      image_tag( img, :alt => '', :id => id, :title => "buh") + content_tag(:span, title, :id => "#{id}_title" ) +
+      backend_image_tag( img, :alt => '', :id => id, :title => "buh") + content_tag(:span, title, :id => "#{id}_title" ) +
         content_tag(:div, request.request_uri, :class => "draggable_path", :style => "display:none;", :id => "#{id}_path") +
         draggable_element( id, :revert => true, :onDrag => "positionDivPath", :onStart => "showDivPath", :onEnd => "hideDivPath" )
     end
@@ -107,7 +107,7 @@ module AdminHelper
       opts[:with] ||= "'quicksteam[path]=' + $('#{opts[:context_id]}_icon_path').innerHTML + '&quicksteam[name]=' + $('#{opts[:context_id]}_icon_title').innerHTML"
     end
     
-    link_to_remote( content_tag( :span, image_tag( opts[:icon] ) + opts[:text] ),
+    link_to_remote( content_tag( :span, backend_image_tag( opts[:icon] ) + opts[:text] ),
       :url => opts[:url],
       :method => :post,
       :with => opts[:with] )
@@ -122,7 +122,7 @@ module AdminHelper
     options[:class] ||= 'add-button'
     content_for( :content_header_buttons ) do
       add_quicksteam_link +
-        link_to( content_tag( :span, image_tag( 'content-header/icon_print.gif') + "Print page" ), '#' ) +
+        link_to( content_tag( :span, backend_image_tag( 'content-header/icon_print.gif') + "Print page" ), '#' ) +
         if title.nil?
         ""
       elsif options[:request_id]

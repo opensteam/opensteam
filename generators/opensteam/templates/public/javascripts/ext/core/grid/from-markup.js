@@ -4,7 +4,7 @@ function actions(link) {
 
 function bool_value(val) {
 	var img = ( val ) ? 'tick.png' : 'cross.png' ;
-	return '<img src="/images/' + img + '" />' ;
+	return '<img src="/images/backend/' + img + '" />' ;
 }
 
 function check_box(val) {

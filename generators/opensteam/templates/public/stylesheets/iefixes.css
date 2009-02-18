@@ -1,7 +1,7 @@
 /* use transparent gifs for IE 6 instead of semi transparent pngs */
-* html #user-wrapper .outter{background-image:url(../images/header/user_bar_left.gif);}
-* html #user-wrapper .inner{background-image:url(../images/header/user_bar_bg.gif);}
-* html #user-wrapper .middle{background-image:url(../images/header/user_bar_right.gif);}
+* html #user-wrapper .outter{background-image:url(/images/backend/header/user_bar_left.gif);}
+* html #user-wrapper .inner{background-image:url(/images/backend/header/user_bar_bg.gif);}
+* html #user-wrapper .middle{background-image:url(/images/backend/header/user_bar_right.gif);}
 
 /*
 * html .dvSubNavBlock,

@@ -1,6 +1,6 @@
 def event_button( user, event )
   link_to(
-    image_tag( AdminHelper.user_event_images[event] ),
+    backend_image_tag( AdminHelper.user_event_images[event] ),
     send_event_admin_system_user_path( user, :event => event.to_s ),
     :class => 'grid',
     :method => :put,

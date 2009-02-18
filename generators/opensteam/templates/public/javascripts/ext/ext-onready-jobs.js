@@ -147,7 +147,7 @@
 			if(!Ext.get("dvGridLoading_icon")){
 				var iDiv=document.createElement("DIV");
 				iDiv.id="dvGridLoading_icon";
-				iDiv.innerHTML="<img src=\"/images/grid/ico_loading.gif\" width=\"32\" height=\"32\" alt=\"\" border=\"0\">";
+				iDiv.innerHTML="<img src=\"/images/backend/grid/ico_loading.gif\" width=\"32\" height=\"32\" alt=\"\" border=\"0\">";
 				document.getElementsByTagName("BODY")[0].appendChild(iDiv);
 			}
 			

@@ -19,6 +19,13 @@ module Opensteam::Inventory
 
 
   # Logic Module for the Opensteam Inventory Model
+  #
+  # This module is meant to be included into the actual Opensteam Inventory Model.
+  #
+  # An inventory object holds the price, quantity, etc .. for a product or product-property configuration,
+  # thus giving the product a unique id.
+  # Inventory objects are used inside the shopping-cart, the wishlish and the order, to identifying the product.
+  # (So the inventory-object can be used as the interface to a legacy system.)
   module Logic
 
     class << self ;

@@ -6,7 +6,7 @@
   <td>
     <% form_for :mailer, :url => admin_system_mailer_path( mailer ), :html => { :method => :put } do |f| %>
       <%= f.hidden_field :active, :value => mailer.active? ? 'false' : 'true' %>
-      <%= image_submit_tag( mailer.active? ? "tick.png" : "cross.png" ) %>
+      <%= image_submit_tag( mailer.active? ? "backend/tick.png" : "backend/cross.png" ) %>
     <% end %>
   </td>
   <td><%=h mailer.messages_sent %></td>
