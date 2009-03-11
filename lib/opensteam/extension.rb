@@ -39,14 +39,20 @@ module Opensteam
       # initialize all opensteam extensions
       def initialize_extensions(config)
         self.plugins.each do |plugin|
-          # add controller_paths
-          $LOAD_PATH << plugin.controller_path
-          ActiveSupport::Dependencies.load_paths << plugin.controller_path
-          config.controller_paths << plugin.controller_path
+
+          ##########
+          # NO LONGER NEEDER, due to Rails 2.3 ENGINES SUPPORT
+          ##
+          ## # add controller_paths
+          # $LOAD_PATH << plugin.controller_path
+          # ActiveSupport::Dependencies.load_paths << plugin.controller_path
+          # config.controller_paths << plugin.controller_path
 
           # add view_paths
-          ActionController::Base.append_view_path plugin.view_path
-
+          # ActionController::Base.append_view_path plugin.view_path
+          ##############
+          
+          
           # inject product dependency modules
           ActiveSupport::Dependencies.inject_dependency ::Product, *self.product_dependency.flatten
 

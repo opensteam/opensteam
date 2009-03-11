@@ -163,23 +163,20 @@ module Opensteam
     end
 
     def after_initialize
-      ActionController::Routing::Routes.class_eval do ; send( :include, Opensteam::Extension::Routing ) ; end
+      
+      # extension routing no longer needed => Rails 2.3 Engines Support
+      # ActionController::Routing::Routes.class_eval do ; send( :include, Opensteam::Extension::Routing ) ; end
       super
+      
       extend_active_record
       initialize_opensteam_extensions
       initialize_opensteam_models
-      #initialize_inventory_property_accessors
       initialize_mailer_classes
-
       register_payment_types
       extend_stuff
 
     end
 
-
-    def initialize_inventory_property_accessors
-      Opensteam::Models::Inventory.define_property_accessors
-    end
 
     def register_payment_types
       Opensteam::Payment::Types.register_payment_types!if ActiveRecord::Base.connection.table_exists?( Opensteam::Payment::Types.table_name )
@@ -188,7 +185,7 @@ module Opensteam
 
     def initialize_opensteam_models
       configuration.opensteam_catalog_models_path.each do |path|
-        Dir.glob( File.join( path, "*.rb" ) ).each { |f| require_dependency f }
+      Dir.glob( File.join( path, "*.rb" ) ).each { |f| require_dependency f }
       end
 
       configuration.opensteam_model_paths.each do |path|
