@@ -1,5 +1,5 @@
 <% render_headline 'categories_icon', "Edit Category ##{@category.id}", 'content-header/headline_icon.jpg' %>
-<% render_header_buttons 'Save', :form_id => "update_category", :class => 'save-button' %>
+<% render_header_buttons 'Create', :form_id => "update_category", :class => 'save-button' %>
 
 <%= error_messages_for :category %>
 
@@ -13,7 +13,7 @@
       </td>
       <td width="20"><br /></td>
       <td width="100%" id="editor_content">
-        <% form_for :category, @category, :url => { :action => :update }, :html => { :id => "update_category", :method => :put } do |f| %>
+        <% form_for :category, @category, :url => admin_catalog_categories_path, :html => { :id => "update_category", :method => :post } do |f| %>
           <div id="dvEditorTabContainer">
             <div id="general_tab" class="x-hide-display" >
               <%= render :partial => "admin/catalog/categories/attributes", :object => f %>
@@ -34,6 +34,7 @@
   </table>
 </div>
 
+
 <% javascript_tag do %>
   var cb=function(tab){
 
@@ -50,7 +51,7 @@
 
   if(!grid) {
   createGrid('the-table',
-  '<%= url_for( :controller => "admin/catalog/categories", :action => "products", :category_id => @category.id, :format => :xml ) %>',
+  '<%= products_admin_catalog_categories_path( :format => :xml ) %>',
   <%= ( Product.filtered_keys + [:editor_url, :checked] ).collect(&:to_s).to_json %>,
   filter_fields ) ;
   }
@@ -73,28 +74,5 @@
 
   ] ) ;
 <% end %>
-
-<%= render :partial => "/admin/_tree/tree", :locals => { 
-  :model => "category",
-  :render_to => "category-tree",
-  :url => '/admin/catalog/categories/',
-  :checkable => false,
-  :expand_all => true } %>
-
-<script>
-  var mytree = configureTree( {
-    url: '/admin/catalog/categories/',
-    baseAttrs:{},
-    renderTo:'category-tree',
-    baseParams:{format:'json'}
-  }, <%= @categories.to_json %>  ) ;
-
-  Ext.onReady( function() {
-    //mytree.expandAll() ;
-    mytree.selectPath( '<%= @category.path %>') ;
-    mytree.render() ;
-    initTreeDD( mytree ) ;
-  } ) ;
-</script>
-
+<%= render "category_tree" %>
 

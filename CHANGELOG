@@ -1,3 +1,10 @@
+* EDGE *
+
+* refactored the opensteam_category plugin as a Rails Engine (Rails.2.3 Engine Support)
+
+* removed old view templates
+
+
 * 1.0.1 *
 
 * updated README.rdoc

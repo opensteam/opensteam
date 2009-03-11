@@ -4,5 +4,9 @@ module CategoryHelper
     render :partial => "categories/category_sidebar", :object => @categories
   end
   
+  
+
+  
+  
 
 end

@@ -18,30 +18,7 @@
               <%= f.hidden_field :categories_ids %>
               <div id="product-category-tree"></div>
 
-              <%= render :partial => "/admin/_tree/tree", :locals => {
-                :model => "category",
-                :render_to => "category-tree",
-                :url => '/admin/catalog/categories/',
-                :checkable => false,
-                :expand_all => true }
-            %>
-            
-              <script>
-                var mytree = configureTree( {
-                  url: '<%= admin_catalog_product_categories_path( @product, :format => :json ) %>',
-                  baseAttrs:{checked:false},
-                  renderTo:'product-category-tree',
-                  baseParams:{format:'json',product_class:'<%= @product.class %>',product_id:<%= @product.id %> }
-                }, <%= @categories.to_json %>  ) ;
-
-                mytree.on('checkchange', function( node, checked) {
-                  $('product_categories_ids').value = mytree.getChecked('id').join(',') ;
-                }) ;
-
-                Ext.onReady( function() {
-                  mytree.render() ;
-                }) ;
-              </script>
+             <%= render "category_tree" %>
             </div>
           </div>
           <div id="dvEditorTabFooter">

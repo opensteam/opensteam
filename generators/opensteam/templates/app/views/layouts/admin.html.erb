@@ -9,6 +9,8 @@
     <%= render :partial => "admin/stylesheets" %>
 		<%= render :partial => "admin/flashboxjs"  %>
 
+		<%= yield(:head) || "" %>
+
 
   </head>
   <body>

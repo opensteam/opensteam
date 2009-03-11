@@ -1,5 +1,4 @@
 class Category < ActiveRecord::Base
-  self.include_root_in_json = false if Category.respond_to?(:include_root_in_json)
 
   has_many :categories_products
   has_many :products, :through => :categories_products
@@ -20,36 +19,7 @@ class Category < ActiveRecord::Base
 
   end
 
-  def leaf ; false ; end
-
-  def text ; "#{name} (#{children_count})"; end
-
-  def href ; "/admin/catalog/categories/#{self.id}/edit" ; end
-
-  def checked ; false ; end
-
   def children_count ; self.children.size ; end
-
-  def to_hash( product = nil )
-    h = { :text => "#{self.name} (#{self.children_count})",
-      :id => self.id,
-      :href => href,
-      :expanded => true,
-      :leaf => false,
-      :iconCls => 'tree-folder-icon'
-    }
-
-    unless product
-      return h.merge( :children => self.children.size > 0 ? children.collect(&:to_hash) : [] )
-    else
-      h.merge(
-        :children => self.children.size > 0 ? children.collect { |c| c.to_hash(product) } : [],
-        :checked => product.categories.include?( self )
-      ) ;
-    end
-
-  end
-
 
   def product_ids=(params)
     self.products.delete_all
@@ -66,12 +36,21 @@ class Category < ActiveRecord::Base
     "#{str}0#{str}" + self_and_ancestors.collect(&method).join(str)
   end
   
-  def to_json_with_leaf( options = {} )
-    self.to_json_without_leaf( options.merge( :methods => [:leaf, :text, :href] ) )
+  def to_hash( product = nil )
+    returning({}) do |h|
+      h[:text] = "#{self.name} (#{self.children_count})"
+      h[:id] = self.id
+      h[:href] = "/admin/catalog/categories/#{self.id}"
+      h[:expanded] = true,
+      h[:leaf] = false
+      h[:iconCls] = 'tree-folder-icon'
+      
+      h[:children] = self.children.size > 0 ? self.children.collect { |ch| ch.to_hash( product ) } : []
+      h[:checked] = product.categories.include?( self ) if product
+    end
   end
-
-  alias_method_chain :to_json, :leaf
-
+  
+  
 end
 
 
