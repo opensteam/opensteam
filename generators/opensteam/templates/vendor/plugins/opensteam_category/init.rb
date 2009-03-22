@@ -1,7 +1,7 @@
 ## INIT opensteam_categories PLUGIN
 
 require 'opensteam'
-require_dependency 'opensteam_category'
+#require_dependency 'opensteam_category'
 
 Opensteam::Extension.register "Opensteam Categories" do
   
@@ -13,7 +13,7 @@ Opensteam::Extension.register "Opensteam Categories" do
 
   # inject this dependency into the product class (used for deleveopment environment, since rails reloads our models on
   # every request )
-  product_inject_dependency OpensteamCategory
+  product_inject_dependency "OpensteamCategory"
   
   # mark this plugin as a product extension (sets routes, display links in admin backend, etc)
   product_extension :categories

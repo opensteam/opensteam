@@ -191,23 +191,14 @@ END_APP_CONTR
       
       ### Patch environment.rb ###
       sentinel = 'Rails::Initializer.run do |config|'
-
       incl = <<END_INIT
-require 'opensteam'
-
-Opensteam::Initializer.run do |config|
-
-  config.opensteam_shop_controller = '#{file_name}'
-
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
   end
-
-
 END_INIT
 
       gsub_file 'config/environment.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
-        "#{incl}\n\n"
+        "#{match}\n\n#{incl}\n\n"
       end
 
     end

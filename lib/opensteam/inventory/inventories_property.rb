@@ -19,8 +19,8 @@ module Opensteam::Inventory
 
   # Join Model for Inventory-Property association
   class InventoriesProperty < ActiveRecord::Base
-    belongs_to :property
-    belongs_to :inventory
+    belongs_to :property, :class_name => "Opensteam::Models::Property"
+    belongs_to :inventory, :class_name => "Opensteam::Models::Inventory"
   end
 
 end

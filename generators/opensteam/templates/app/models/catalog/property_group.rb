@@ -3,7 +3,7 @@ class PropertyGroup < ActiveRecord::Base
   has_and_belongs_to_many :properties, #:through => :properties_property_groups, 
     :before_add => :check_product_property_integrity
 
-  belongs_to :product
+  belongs_to :product, :class_name => "Opensteam::Models::Product"
 
   validates_presence_of :selector, :selector_text
   validates_inclusion_of :selector, :in => %w( radio_button select )

@@ -31,13 +31,21 @@ module Opensteam::Inventory
     class << self ;
 
       def included(base) #:nodoc:
+        
+        raise ArgumentError, "Can't include #{self} into more than one Inventory-Models. Use STI instead!" if
+          self.included_in_classes.reject { |s| s == Opensteam::Inventory::Base }.size > 1
+        
+        Opensteam::Dependencies.set_inventory_model( base )
+        
+        
+        
         base.send( :extend,  ClassMethods )
         base.send( :include, InstanceMethods )
 
         base.class_eval do
-          belongs_to :product #, :class_name => "::Product"
+          belongs_to :product, :class_name => "Opensteam::Models::Product"
           has_many :inventories_properties, :class_name => "Opensteam::Inventory::InventoriesProperty"
-          has_many :properties, :through => :inventories_properties
+          has_many :properties, :through => :inventories_properties, :class_name => "Opensteam::Models::Properties"
 
           belongs_to :tax_group, :class_name => 'Opensteam::Sales::Money::Tax::ProductTaxGroup'
 
