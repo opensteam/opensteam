@@ -1,0 +1,37 @@
+<% render_headline 'categories_icon', "Edit Configuration ##{@configuration.id}", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons "Save", :form_id => 'configuration_form' %>
+
+<% form_for :configuration, :url => admin_system_configuration_path( @configuration ), :html => { :id => 'configuration_form', :method => :put } do |f| %>
+  <div id="dvEditorTabContainer">
+    <div id="general_tab" class="x-hide-display" title="Tax Zone">
+      <table cellpadding="0" cellspacing="0" class="editor-form">
+        <tr>
+          <td class="label"><%= f.label :key %></td>
+          <td class="content"><%= f.text_field :key, :class => "inputFields" %></td>
+        </tr>
+        <tr>
+          <td class="label"><%= f.label :value %></td>
+          <td class="content"><%= f.text_field :value, :class => "inputFields" %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div id="dvEditorTabFooter">
+    <div id="dvEditorTabFooter-inner">
+      <div id="dvEditorTabFooterLeft">&nbsp;</div>
+      <div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+    </div>
+  </div>
+<% end %>
+
+<% javascript_tag do %>
+
+  build_tabs( 'dvEditorTabContainer', [
+  { contentEl: 'general_tab', title: 'Attributes', listeners: { activate: checkTab_setFooterButtons },
+  button: {
+  left: 	{ title: "index", url: '<%= admin_config_tax_groups_path %>' },
+  right: 	{ title: "save", clickEvent: "$('configuration_form').submit(); return false;" }
+  }
+  }
+  ] ) ;
+<% end %>

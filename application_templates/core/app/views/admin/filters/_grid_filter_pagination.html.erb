@@ -1,0 +1,41 @@
+<%= render :partial => "admin/filters/grid_filter_javascripts" %>
+
+<div class="dv-filter-menu">
+
+  <div class="dv-filter-menu-content">
+
+    <div class="dv-filter-menu-buttons">
+      <div class="dv-small-button">
+        <%= link_to_function 'RESET FILTER', 'grid.filters.clearFilters(); return false;', :onfocus => "blur();" %>
+      </div>
+      <div class="dv-small-button-green">
+        <%= link_to_function 'RELOAD', "grid.filters.reload(); return false;", :onfocus => "blur();" %>
+      </div>
+      <br clear="all" />
+    </div>
+
+    <div class="dv-filter-list-paging">
+      <table style="table-layout:auto;">
+        <tr>
+          <td>Total <strong id="pagingNumOfTotalResults">103</strong> records found</td>
+          <td>&nbsp;|&nbsp;</td>
+          <td>view&nbsp;</td>
+          <td>
+            <div class="dvStatic" >
+              <%= select_tag :paging_itemsPerPage, options_for_select([5, 10, 20, 30, 40, ['all', @total_entries ]], _s.per_page ), :name => "paging_itemsPerPage" %>
+            </div>
+          </td>
+          <td>&nbsp;per page</td>
+          <td>&nbsp;|&nbsp;</td>
+          <td>Page&nbsp;</td>
+          <td><a href="#" onfocus="blur();" onclick="doLeafToPreviousPage();return false;"><img src="/images/backend/filter-menu/ico-page-leaf-prev.gif" width="21" height="21" alt="" border="0" /></a></td>
+          <td><input type="text" value="<%= _s.page %>" name="paging_currentPage" id="paging_currentPage" class="inputFields" onchange="doLeafToThePage(this);" /><input type="hidden" name="paging_totalPages" id="paging_totalPages" value="#" /></td>
+          <td><a href="#" onfocus="blur();" onclick="doLeafToNextPage();return false;"><img src="/images/backend/filter-menu/ico-page-leaf-next.gif" width="21" height="21" alt="" border="0" /></a></td>
+          <td>&nbsp;of <span id="pagingNumOfTotalPages">#</span> pages</td>
+        </tr>
+      </table>
+    </div>
+    <div style="clear:both;"></div>
+  </div>
+</div>
+

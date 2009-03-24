@@ -87,10 +87,7 @@ module Opensteam::Product
       
       
       def included(base) #:nodoc:
-        
-        raise ArgumentError, "Can't include #{self} into more than one Product-Models. Use STI instead!" if
-          self.included_in_classes.reject { |s| s == Opensteam::Product::Base }.size > 1
-        
+
         Opensteam::Dependencies.set_product_model( base )
         
         
@@ -98,17 +95,17 @@ module Opensteam::Product
 
           # hmt properties association
           has_many :products_properties, :class_name => "Opensteam::Product::ProductsProperty"
-          has_many :properties, :through => :products_properties, :class_name => "Opensteam::Models::Properties"
+          has_many :properties, :through => :products_properties, :class_name => "Opensteam::Models::Property"
 
           # hmt property_groups association
           has_many :property_groups, :extend => PropertyGroupsExtension
-          has_many :properties_in_group, :through => :property_groups, :class_name => "Opensteam::Models::Properties"
+          has_many :properties_in_group, :through => :property_groups, :class_name => "Opensteam::Models::Property"
 
           # hm inventories association
           has_many :inventories, :class_name => "Opensteam::Models::Inventory"
 
           # hm properties_through_ivnentories association
-          has_many :properties_through_inventories, :class_name => "Opensteam::Models::Properties",
+          has_many :properties_through_inventories, :class_name => "Opensteam::Models::Property",
             :finder_sql => 'SELECT properties.* FROM properties ' +
             'INNER JOIN inventories_properties ON inventories_properties.property_id = properties.id ' +
             'INNER JOIN inventories ON inventories.id = inventories_properties.inventory_id ' +

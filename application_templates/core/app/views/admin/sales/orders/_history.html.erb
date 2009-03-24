@@ -1,0 +1,5 @@
+<ul>
+  <% for h in history %>
+    <li>- <strong><%=h ordinalized_time( h.created_at ) %></strong>: <%=h h.message %></li>
+  <% end %>
+</ul>

@@ -1,0 +1,26 @@
+.x-grid3-header{height:31px;padding:0;background:url(/images/backend/grid/th_bg_left.gif) left top no-repeat;}
+	.x-grid3-header-inner{height:31px;padding:0;background:url(/images/backend/grid/th_bg_right.gif) right no-repeat;}
+	
+.x-grid3-hd {height:31px;border:solid #d8d8d8;border-width:0 1px;}
+	.x-grid3-hd-inner{position:relative;height:29px;border:none;padding:0px;}
+	.ext-ie .x-grid3-hd-inner{padding-right:3px;}
+		.x-grid3-hd-inner div{float:left;padding:7px 3px 6px 5px;}
+		.ext-ie6 .x-grid3-hd-inner div {position:static;}
+			td.x-grid3-hd-over .x-grid3-hd-inner div, td.sort-desc .x-grid3-hd-inner div, td.sort-asc .x-grid3-hd-inner div, td.x-grid3-hd-menu-open .x-grid3-hd-inner div{background:url(/images/backend/grid/th_active_left.gif) left top no-repeat !important;}
+	td.x-grid3-hd-over, td.sort-desc, td.sort-asc, td.x-grid3-hd-menu-open {border-left:none;border-right:1px solid #d8d8d8;padding:0px;}
+	
+	td.x-grid3-hd-over .x-grid3-hd-inner, td.sort-desc .x-grid3-hd-inner, td.sort-asc .x-grid3-hd-inner, td.x-grid3-hd-menu-open .x-grid3-hd-inner {background:url(/images/backend/grid/th_active_right.gif) right top no-repeat !important;}
+	
+	.x-grid3-row{border-width:0 1px 1px 1px;border-color:#cbcfd2}
+	.x-grid3-row-selected{ background:#e4ef93 url(/images/backend/grid/tr_bdy_bg.gif) left center repeat-x !important;border:solid #cbcfd2;border-width:0 1px 1px 1px;}
+		.x-grid3-row td{padding:6px 1px;}
+			.x-grid3-row td.sort-cell{background-color:#f7fae0;}
+			.x-grid3-row-alt td.sort-cell{background-color:#f2f5db;}
+			.x-grid3-row-selected td.sort-cell{background-color:transparent;}
+			/*.ext-ie .x-grid3-row td{padding:4px 1px 1px;vertical-align:middle;}*/
+			.ext-ie .x-grid3-row td input{margin:0px;padding:0px;width:14px;height:14px;}
+
+.sort-asc .x-grid3-sort-icon {width:7px;height:29px;background: url(/images/backend/grid/sort_asc.gif) left center no-repeat;}
+.sort-desc .x-grid3-sort-icon {width:7px;height:29px;background: url(/images/backend/grid/sort_desc.gif) left center no-repeat;}
+	
+.x-grid3-hd-btn{background:url(/images/backend/grid/th_menu.gif) left center no-repeat;}

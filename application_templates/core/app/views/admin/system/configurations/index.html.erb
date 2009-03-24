@@ -1,0 +1,34 @@
+<% render_headline 'categories_icon', 'Config Index', 'content-header/headline_icon.jpg' %>
+<% render_header_buttons "Add Config", :href => new_admin_system_configuration_path %>
+
+
+<div id="grid-wrapper">
+  <div id="grid">
+    <% grid_table_static do %>
+      <thead>
+        <tr>
+          <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
+          <th><div>Key</div></th>
+          <th><div>Value</div></th>
+          <th><div>Created At</div></th>
+          <th><div>Updated At</div></th>
+          <th class="not-in-context no-menu"><div>&nbsp;</div></th>
+          <th class="last not-in-context no-menu"><div>&nbsp;</div></th>
+        </tr>
+      </thead>
+      <tbody id="orders_table_body">
+        <% for c in @configurations %>
+          <tr>
+            <td></td>
+            <td><%= c.key %></td>
+            <td><%= c.value %></td>
+            <td><%= c.created_at %></td>
+            <td><%= c.updated_at %></td>
+            <td><%= link_to 'Edit', edit_admin_system_configuration_path(c) %></td>
+            <td><%= link_to 'Destroy', admin_system_configuration_path( c ), :confirm => 'Are you sure?', :method => :delete %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    <% end %>
+  </div>
+</div>

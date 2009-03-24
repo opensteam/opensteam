@@ -1,0 +1,12 @@
+<tr class="<%= cycle('odd','even') %>">
+  <td class="first"><%= check_box_tag "buh" %></td>
+  <td><%=h order.id %></td>
+  <td><%=h order.items.size %></td>
+  <td><%=h order.customer.email %> (<%= link_to "show", admin_system_user_path( order.customer ) %>)</td>
+  <td><%=h order.shipping_address.to_s %></td>
+  <td><%=h order.shipping_address.to_s %></td>
+  <td><%=h order.state %></td>
+  <td><%=h ordinalized_time( order.created_at ) %></td>
+  <td><%=h ordinalized_time( order.updated_at ) %></td>
+  <td class="last"><%= link_to "show", admin_sales_order_path( order ) %></td>
+</tr>

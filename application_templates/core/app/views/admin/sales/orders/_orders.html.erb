@@ -1,0 +1,20 @@
+<% grid_table "the-table", admin_sales_orders_path( :format => :xml), Order.filtered_keys do %>
+  <thead>
+    <tr>
+      <th title="id||id"><div>ID</div></th>
+      <th class="active" title="order_items||order_items"><div>Items</div></th>
+      <th title="customer||customer"><div>Customer</div></th>
+      <th title="shipping_address||shipping_address"><div>Shipping Address</div></th>
+      <th title="payment_address||payment_address"><div>Payment Address</div></th>
+      <th title="state||state"><div>State</div></th>
+      <th title="created_at||created_at"><div>Created At</div></th>
+      <th title="updated_at||updated_at"><div>Updated At</div></th>
+      <th title="editor_url" class="last action no-sort no-menu"><div>Action</div></th>
+
+    </tr>
+  </thead>
+  <!--  <tbody id="orders_table_body">
+  <%= render :partial => "admin/sales/orders/order", :collection => orders %>
+  </tbody>
+  -->
+<% end %>

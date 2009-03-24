@@ -1,0 +1,14 @@
+
+<tr class="<%= cycle('odd','even') %>">
+  <td></td>
+  <td><%=h invoice.id %></td>
+  <td><%=h invoice.order_items.size %></td>
+  <td><%=h invoice.address.to_s %></td>
+  <td><%=h invoice.state %></td>
+  <td><%=h invoice.price %></td>
+  <td><%=h invoice.comment %></td>
+  <td><%=h ordinalized_time( invoice.created_at) %></td>
+  <td><%=h ordinalized_time( invoice.updated_at ) %></td>
+  <td><%= link_to "show", admin_sales_order_invoice_path( invoice.order, invoice ) %></td>
+  <td><%= link_to backend_image_tag("pdf.png", :border => 0), admin_sales_order_invoice_path( invoice.order, invoice, :format => :pdf ), :title => "Download Invoice as PDF" %>
+</tr>

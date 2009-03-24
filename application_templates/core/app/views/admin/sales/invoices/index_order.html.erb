@@ -1,0 +1,16 @@
+<% render_headline 'categories_icon', "Order ##{@order.id} - Invoices", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons 'New Invoice', :href => new_admin_sales_order_invoice_path( @order ) %>
+
+<div id="editor-wrapper">
+	<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="200">
+				<%= order_navigation( @order, :active => :invoices ) %>
+			</td>
+			<td width="20"><br /></td>
+			<td width="100%" id="editor_content">
+				<%= render :partial => "admin/sales/invoices/invoices", :object => @invoices %>
+			</td>
+		</tr>
+	</table>
+</div>

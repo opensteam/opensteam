@@ -1,0 +1,261 @@
+body { 
+    padding:1em ;
+    background-color: #f0f0f0; color: #333;
+}
+
+body, p, ol, ul, td {
+    
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size:   13px;
+    line-height: 18px;
+}
+
+
+#header {
+    background-color: #fff;
+    border: 1px solid black;
+    padding:1em ;
+    //  background-image: url("../images/opensteam_logo_web.jpg");
+    //  background-repeat: no-repeat;
+    //  background-position: 10px 10px;
+    height: 64px;
+    //  padding-left: 250px ;
+}
+
+
+div.box { 
+    background-color: #fff;
+    border:1px solid black;
+    float:left ;
+}
+
+div.sub_box {
+    background-color: #fff;
+    border:1px solid black;
+    margin-bottom: 20px ;
+    padding:1em ;
+}
+
+
+#page {
+    background-color: #fff;
+    border: 1px solid black;
+    padding:1em ;
+    margin-bottom:2em;
+}
+
+
+#page2 {
+    background-color: #fff;
+    border: 1px solid black;
+    padding:1em ;
+    float:left;
+    margin-left:2em;
+    
+}
+
+#catalog_sidebar {
+    background-color: #fff;
+    border: 1px solid black;
+    padding:1em;
+    float:left;
+    margin-top: 10px ;
+    
+}
+
+#catalog_content {         margin-top: 10px ;float:left; }
+
+
+#footer {
+    background-color: #fff;
+    border: 1px solid black;
+    padding:1em ;
+    clear:both;
+    
+}
+
+
+#cart {
+    padding:2em ;
+    border: 1px solid black ;
+    float:right;
+    width:25%;
+    right: 3em ;
+}
+
+
+#product_content {
+    padding:1em;
+    background-color: #fff;
+    border: 1px solid black;
+    float:right;
+}
+
+
+div.cart_item {
+    display:block;
+}
+
+#selquantity {
+    display:block;
+    width:10px;
+    overflow:hidden;
+    position:relative;
+}
+
+td.prodtd0 {
+    vertical-align:top;
+    background-color: #fff ;
+}
+td.prodtd1 {
+    vertical-align:top;
+    background-color: #eee ;
+}
+td.prodtd2 {
+    vertical-align:top;
+    background-color: #eee ;
+}
+td.prodtd3 {
+    vertical-align:top;
+    background-color: #fff ;
+}
+
+
+pre {
+    background-color: #eee;
+    padding: 10px;
+    font-size: 11px;
+}
+
+#header_info {
+    border:1px solid black ;
+    font-family: Arial;
+    font-size: 13px ;
+    padding: 3px;
+}
+
+
+div.sub_box input
+{
+    background-color:#fff;
+    border:1px solid;
+    padding-left:4px;
+    
+}
+
+
+#quantity
+{
+    color:#000;
+    //   font-family:'trebuchet ms',helvetica,sans-serif;
+    font-size:84%;
+    //   font-weight:bold;
+    background-color:#fff;
+    border:1px solid;
+    padding-left:4px;
+}
+#index {
+    margin-left:1em;
+    width:60%;
+}
+
+#details {
+    width: 50%;
+}
+
+#indicator_center {
+    position:absolute;
+    left:50%;
+    top:50%;
+}
+
+
+table.catalot_product_inventory {
+    border-collapse: collapse;
+}
+
+
+table.catalog_product_inventory td {
+    border-left:1px dotted #ccc  ;
+    border-right:1px dotted #ccc  ;
+    padding-left:5px ;
+}
+
+table.catalog_product_inventory input,select {
+    background-color:#fff ; 
+    border:1px solid black ;
+    padding-left:5px ;
+}
+
+table.catalog_product_inventory input#submit {
+    background-color:#ccc ; 
+    border:1px solid black ;
+}
+
+
+
+.even { background-color: #eee; }
+.odd { background-color: #fff; }
+
+
+
+a { color: #000; }
+a:visited { color: #666; }
+a:hover { color: #fff; background-color:#000; }
+
+.fieldWithErrors {
+    padding: 2px;
+    background-color: red;
+    display: table;
+}
+
+#errorExplanation {
+    width: 400px;
+    border: 2px solid red;
+    padding: 7px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    background-color: #c00;
+    color: #fff;
+}
+
+#errorExplanation p {
+    color: #333;
+    margin-bottom: 0;
+    padding: 5px;
+}
+
+#errorExplanation ul li {
+    font-size: 12px;
+    list-style: square;
+}
+
+div.uploadStatus {
+    margin: 5px;
+}
+
+div.progressBar {
+    margin: 5px;
+}
+
+div.progressBar div.border {
+    background-color: #fff;
+    border: 1px solid gray;
+    width: 100%;
+}
+
+div.progressBar div.background {
+    background-color: #333;
+    height: 18px;
+    width: 0%;
+}
+

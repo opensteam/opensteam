@@ -1,0 +1,52 @@
+<% fields_for :address, invoice_fields.address do |a| %>
+<table class="editor-form" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="label"><%= f.label :street %></td>
+		<td><%= a.text_field :street, :class => "inputFields"  %></td>
+	</tr>
+	<tr>
+		<td class="label"><%= f.label :postal %></td>
+		<td><%= a.text_field :postal, :class => "inputFields" %></td>
+	</tr>
+	<tr>
+		<td class="label"><%= f.label :city %></td>
+		<td><%= a.text_field :city, :class => "inputFields" %></td>
+	</tr>
+	<tr>
+		<td class="label"><%= f.label :country %></td>
+		<td>
+			<%= a.select :country, Opensteam::System::Zone.for_select( :country_name ) %>
+			<%= javascript_tag( "transform2ComboBox('address_country', {listWidth:200});")%>
+	</tr>
+</table>
+<% end %>
+<br />
+<%= f.hidden_field :order_id %>
+<table class="editor-form" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="label"><%= f.label :comment %></td>
+		<td><%= f.text_area :comment, :class => "inputFields", :rows => 8, :cols => 25 %></td>
+	</tr>
+	<tr>
+		<td class="label"><%= f.label :discount %></td>
+		<td><%= f.text_field :discount, :class => "inputFields" %></td>
+	</tr>
+	<tr>
+		<td class="label"><%= f.label :price %></td>
+		<td><%= f.text_field :price, :class => "inputFields" %></td>
+	</tr>
+</table>
+
+<ul>
+	<% for order_item in @order.items.select { |s| s.invoice == nil } %>
+		<li>
+			<%= check_box_tag "order_items[]", order_item.id %> | <%= order_item.product.class %> | <%= order_item.product.name %>
+		  | <%= order_item.product.properties.collect(&:value).join(", ") unless order_item.product.properties.empty? %>
+			| <%= order_item.quantity %> | <%=h order_item.quantity * order_item.price %>
+		</li>
+	<% end %>
+	<li><%= check_box_tag :shipping_rate, 1 %> | Shipping-Rate | <%= @order.shipping_rate %></li>
+</ul>
+			
+
+

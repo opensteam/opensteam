@@ -1,0 +1,7 @@
+for p in @products
+  xml.Item do 
+    xml << render( :partial => "admin/_xml/grid_value", :object => p )
+    xml.tag! :editor_url, edit_admin_catalog_product_path( p )
+    xml.tag! :checked, check_box_tag( "#{@context.class.to_s.underscore}[product_ids][]", p.id, @context.products.include?( p ) )
+  end
+end

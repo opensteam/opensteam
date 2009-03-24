@@ -39,7 +39,7 @@ module Opensteam
 
       def initialize(*args, &block )
         self.credit_card = ActiveMerchant::Billing::CreditCard.new
-        super( *args, &block )
+        super
       end
       
       

@@ -1,0 +1,47 @@
+<% render_headline 'categories_icon', 'New Invoice', 'content-header/headline_icon.jpg' %>
+<% render_header_buttons 'Save', :form_id => "invoice_form", :class => 'save-button' %>
+
+<%= error_messages_for :invoice %>
+<%= error_messages_for :address %>
+
+<div id="editor-wrapper">
+	<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="200">
+				<%= order_navigation( @order, :active => :invoices ) %>
+			</td>
+			<td width="20"><br /></td>
+			<td width="100%" id="editor_content">
+				<div id="dvEditorTabContainer">
+					<div id="general_tab" class="x-hide-display" title="Information">
+						<% form_for :invoice, :url => admin_sales_order_invoices_path( @order ), :html => { :id => :invoice_form, :method => :post } do |f| %>
+  						<%= render :partial => "admin/sales/invoices/invoice_fields", :object => @invoice, :locals => { :f => f } %>
+						<% end %>
+					</div>
+				</div>
+				<div id="dvEditorTabFooter">
+					<div id="dvEditorTabFooter-inner">
+						<div id="dvEditorTabFooterLeft">&nbsp;</div>
+						<div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+
+
+<%= observe_form :invoice_form, :url => { :action => :update_price } %>
+
+<% javascript_tag do %>
+
+build_tabs( 'dvEditorTabContainer', [
+{ contentEl: 'general_tab', title: Ext.get('general_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+button: {
+	left: 	{ title: "cancel", url: '<%= admin_sales_order_invoices_path( @order ) %>' },
+	right: 	{ title: "save", clickEvent: "$('invoice_form').submit(); return false;" }
+}
+}
+] ) ;
+<% end %>
+

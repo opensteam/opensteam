@@ -1,0 +1,5 @@
+<%- if flash[:error] || flash[:info] || flash[:warning] %>
+  <% javascript_tag do %>
+    Ext.onReady( function() { showFlashbox(3) ; } ) ;
+  <% end %>
+<%- end -%>

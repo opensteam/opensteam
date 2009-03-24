@@ -1,0 +1,67 @@
+<% render_headline 'categories_icon', "#{t :order} ##{@order.id}", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons %>
+
+<div id="editor-wrapper">
+  <table cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="200">
+        <%= order_navigation( @order, :active => :general ) %>
+      </td>
+      <td width="20"><br /></td>
+      <td width="100%" id="editor_content">
+        <div id="dvEditorTabContainer">
+          <div id="general_tab" class="x-hide-display" title="Information">
+            <%= render :partial => "admin/sales/orders/information", :object => @order %>
+          </div>
+          <div id="customer_tab" class="x-hide-display" title="Customer">
+            <%= render :partial => "admin/sales/orders/customer", :object => @order.customer %>
+          </div>
+          <div id="order_items_tab" class="x-hide-display" title="Order Items">
+            <%= render :partial => "admin/sales/order_items/items_table", :object => @order %>
+          </div>
+          <div id="history_tab" class="x-hide-display" title="History">
+            <%= render :partial => "admin/sales/orders/history", :object => @order.history %>
+          </div>
+        </div>
+        <div id="dvEditorTabFooter">
+          <div id="dvEditorTabFooter-inner">
+            <div id="dvEditorTabFooterLeft">&nbsp;</div>
+            <div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<% javascript_tag do %>
+  var cb=function(tab){checkTab_setFooterButtons(tab);createLocalGrid('the-table');}
+
+
+  build_tabs( 'dvEditorTabContainer', [
+  { contentEl: 'general_tab', title: Ext.get('general_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+  button: {
+  left: 	{ title: "cancel", url: '<%= admin_sales_order_path( @order ) %>' },
+  right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(1); return false;' }
+  }
+  },
+  { contentEl: 'customer_tab', title: Ext.get('customer_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+  button: {
+  left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(0); return false;' },
+  right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(2); return false;' }
+  }
+  },
+  { contentEl: 'order_items_tab', title: Ext.get('order_items_tab').dom.title, listeners: { activate: cb },
+  button: {
+  left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(1); return false;' },
+  right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(3); return false;' }
+  }
+  },
+  { contentEl: 'history_tab', title: Ext.get('history_tab').dom.title, listeners: { activate: checkTab_setFooterButtons },
+  button: {
+  left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(2); return false;' },
+  right: 	{ title: "index", url: '<%= admin_sales_order_path( @order ) %>' }
+  }
+  }
+  ] ) ;
+<% end %>

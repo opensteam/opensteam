@@ -45,7 +45,7 @@ module Opensteam::Inventory
         base.class_eval do
           belongs_to :product, :class_name => "Opensteam::Models::Product"
           has_many :inventories_properties, :class_name => "Opensteam::Inventory::InventoriesProperty"
-          has_many :properties, :through => :inventories_properties, :class_name => "Opensteam::Models::Properties"
+          has_many :properties, :through => :inventories_properties, :class_name => "Opensteam::Models::Property"
 
           belongs_to :tax_group, :class_name => 'Opensteam::Sales::Money::Tax::ProductTaxGroup'
 

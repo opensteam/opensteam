@@ -1,0 +1,17 @@
+def event_button( user, event )
+  link_to(
+    backend_image_tag( AdminHelper.user_event_images[event] ),
+    send_event_admin_system_user_path( user, :event => event.to_s ),
+    :class => 'grid',
+    :method => :put,
+    :title => "#{event.to_s.humanize} User"
+  )
+end
+
+for user in @users
+  xml.Item do
+    xml << render( :partial => "admin/_xml/grid_value", :object => user )
+    xml.tag! :editor_url, admin_system_user_path( user )
+    xml.tag! :events, user.aasm_events_for_current_state.reject { |r| r == :register }.sort.collect { |s| event_button(user,s) }.join(" ")
+  end
+end

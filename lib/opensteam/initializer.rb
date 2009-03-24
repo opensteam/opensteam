@@ -23,6 +23,7 @@ module Opensteam
     end
     
     
+    
     def log_level #:nodoc:
       @@log_level
     end
@@ -50,6 +51,7 @@ module Opensteam
     class << self ;
       def run(command  = :process, configuration = Configuration.new, &block )
         yield configuration if block_given?
+        Opensteam.configuration = configuration
         initializer = new configuration
         initializer.send(command)
         initializer
@@ -64,7 +66,7 @@ module Opensteam
     def process
       #require_user_model
 
-      require_payment_classes
+      
       extend_active_record
 
       initialize_opensteam_models
@@ -83,6 +85,7 @@ module Opensteam
     
     
     def register_payment_types
+      require_payment_classes
       Opensteam::Payment::Types.register_payment_types! if ActiveRecord::Base.connection.table_exists?( Opensteam::Payment::Types.table_name )
     end
 
@@ -190,6 +193,8 @@ module Opensteam
     # main shop controller of opensteam rails-application
     attr_accessor :opensteam_shop_controller
     
+    attr_accessor :backend_navigation_hash
+    
     def initialize #:nodoc:
       Opensteam.log_level = :info
       Opensteam._log "initialize openSteam Configuration"
@@ -210,6 +215,15 @@ module Opensteam
       self.opensteam_catalog_models_path = default_opensteam_catalog_models_path
       #self.load_paths << self.opensteam_catalog_models_path
     end
+    
+    
+    def backend_navigation
+      mapper = Opensteam::NavigationMapper.new
+      self.backend_navigation_hash = yield(mapper)
+    end
+    
+    
+    
     
       private
 
@@ -250,7 +264,45 @@ module Opensteam
       def default_opensteam_mailer_paths
         [ File.join( "#{RAILS_ROOT}", "app", "models", "mailer" ) ]
       end
+      
+      
+      
+      
+      
 
   end
+  
+  
+  class NavigationMapper
+    
+    attr_accessor :nav_array
+    attr_accessor :sub
+    
+    def initialize
+      self.nav_array = []
+      self.sub = []
+    end
+
+    def item(id, opts = {})
+      self.sub << { :"#{id}" => opts }
+    end
+    
+    def menu(name, &block)
+      m = self.nav_array.select { |s| s.keys.include?( name.to_s.humanize ) }
+      if m.empty?
+        m = { name.to_s.humanize => [] }
+        self.nav_array << m
+      else
+        m = m.first
+      end
+      
+      yield(self)
+      m[name.to_s.humanize] = self.sub if block_given?
+      self.sub = []
+      self.nav_array
+    end
+  end
+  
+  
 end
 

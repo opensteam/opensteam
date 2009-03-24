@@ -22,11 +22,6 @@ module Opensteam
   #
   module Config
     
-    # prefix for all product tables
-    PRODUCT_BASE_TABLE_PREFIX = :product
-
-    # initial state for orders
-    ORDER_INITIAL_STATE = :pending
     
     class << self ;
       
@@ -118,6 +113,4 @@ module Opensteam
   
 end
 
-# Alias for the Config::Base class
-Configuration = Opensteam::Config::Base
 

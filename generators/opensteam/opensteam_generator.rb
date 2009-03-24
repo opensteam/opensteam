@@ -176,8 +176,6 @@ END_OPENSTEAM_ROUTES
       app_contr = Rails::VERSION::STRING > "2.2.2" ? 'app/controllers/application_controller.rb' : app_contr
       incl = <<END_APP_CONTR
 
-  layout '#{file_name}'
-
   public :render_to_string
   include AuthenticatedSystem
   include RoleRequirementSystem
@@ -192,6 +190,7 @@ END_APP_CONTR
       ### Patch environment.rb ###
       sentinel = 'Rails::Initializer.run do |config|'
       incl = <<END_INIT
+  config.gem 'opensteam'
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
   end

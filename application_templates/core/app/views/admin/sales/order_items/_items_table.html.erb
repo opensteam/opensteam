@@ -1,0 +1,18 @@
+<div id="grid">
+  <% grid_table_local do %>
+    <thead>
+      <tr>
+        <th style="width:250px;"><div>ID#</div></th>
+        <th ><div>Name (Class)</div></th>
+        <th><div>Information</div></th>
+        <th><div>Price</div></th>
+        <th><div>Tax</div></th>
+        <th><div>Quantity</div></th>
+        <th><div>Total Price</div></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render :partial => "admin/sales/order_items/item_entry", :collection => items_table.items %>
+    </tbody>
+  <% end %>
+</div>

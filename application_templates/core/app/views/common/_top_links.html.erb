@@ -1,0 +1,10 @@
+<div id="top_links">
+  <%= render :partial => 'users/user_bar' -%> |
+  <%= link_to "index", opensteam_index_path %> | <%= link_to "search", new_search_path %>
+</div>
+<br />
+<div id="flash_messages" style="background-color:#fff; padding:5px;">
+  <div style="color:red"><%=h flash[:error] %></div>
+  <div style="color:green"><%=h flash[:notice] %></div>
+  <div style="color:orange"><%=h flash[:warning] %></div>
+</div>

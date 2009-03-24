@@ -141,7 +141,6 @@ module Opensteam
       
       
       cattr_accessor :payment_types
-      @@payment_types = []
       
       # the gateway class to use
       class_inheritable_accessor :gateway_class
@@ -166,6 +165,7 @@ module Opensteam
         
         def inherited(sub) #:nodoc:
           super
+          @@payment_types ||= []
           @@payment_types << sub
         end
         
@@ -184,13 +184,14 @@ module Opensteam
         
         
         def new_with_type( *attr, &block )
+          return new_without_type( *attr, &block ) if self < Opensteam::Payment::Base
           if( h = attr.first).is_a? Hash and (type = h["type"] || h[:type] ) and ( klass = type.constantize ) != self
             raise "#{klass} is not a subclass of #{self}" unless klass < self
             return klass.new( *attr, &block )
           end
           new_without_type( *attr, &block )
         end
-        alias_method_chain :new, :type
+      #alias_method_chain :new, :type
         
       end
       

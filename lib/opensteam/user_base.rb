@@ -66,18 +66,33 @@ module Opensteam
         base.send( :include, InstanceMethods )
 
         base.class_eval do
-          # belongs_to :profile, :class_name => 'Opensteam::UserBase::Profile'
           require_dependency 'opensteam/models'
           
-
+          # order association
           has_many :orders, :class_name => 'Opensteam::Models::Order', :foreign_key => "user_id"
+          
+          # address assocation
           has_many :addresses, :class_name => 'Opensteam::UserBase::Address', :foreign_key => 'user_id'
 
+          # quicksteam association for admin backend
           has_many :quick_steams, :class_name => "Opensteam::System::QuickSteam", :foreign_key => "user_id"
 
           def full_name ; [ firstname, lastname ] * " " ; end
           alias :to_s :full_name
 
+
+          ## named_scopes
+          named_scope :by_profile, lambda { |profile_name| { :include => :user_roles, :conditions => ["user_roles.name = ?", profile_name ] } }
+          named_scope :role, lambda { |role| { :include => :user_roles, :conditions => ["user_roles.name = ?", role.downcase ] } }
+
+          # attributes
+          attr_accessor :old_password, :firstname, :lastname
+          attr_accessible :old_password, :firstname, :lastname
+
+
+          ## callbacks
+          after_create :set_customer_role
+          protected :set_customer_role
 
         end
 
@@ -87,6 +102,28 @@ module Opensteam
       end
 
       module InstanceMethods
+        
+        def firstname ; self.name.split(" ").first ; end
+        def lastname ; self.name.split(" ").last ; end
+        
+        # marks the user as 'customer'
+        def set_customer_role
+          self.user_roles << UserRole.find_or_create_by_name( "customer" )
+        end
+        
+        # adds the UserRole +profile+ to users user_roles
+        def profile=(profile)
+          profile = UserRole.find_by_name( profile.to_s ) if ( profile.is_a?( String ) || profile.is_a?( Symbol ) )
+          self.user_role_ids << profile.id if profile
+        end
+        
+        # checks if user has the specific +role+ (without returning always true, if user is an admin)
+        def has_specific_role?( role )
+          @_list ||= self.user_roles.collect(&:name)
+          @_list.include?( role.to_s )
+        end
+        
+        
       end
 
     end

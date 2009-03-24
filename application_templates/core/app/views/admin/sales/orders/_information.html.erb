@@ -1,0 +1,30 @@
+<table cellspacing="0" cellpadding="0" id="order_information" class="order-editor">
+  <tr>
+    <td class="label"><u>Order #</u></td>
+    <td class="content"><%= information.id %></td>
+  </tr>
+  <tr>
+    <td class="label">State</td>
+    <td class="content"><%= information.state %></td>
+  </tr>
+  <tr>
+    <td class="label">Payment State</td>
+    <td class="content"><%= information.payments.first.state unless information.payments.empty? %></td>
+  </tr>
+  <tr>
+    <td class="label">Shipment States</td>
+    <td class="content"><%= information.shipments.collect(&:state).join(", ") %></td>
+  </tr>
+</table>
+<br />
+<%- if @order.state == "pending" -%>
+  <div class="editor-actions">
+    <div class="actions-left">
+      <%= link_to "<span>create payment</span>", new_admin_sales_order_invoice_path(@order), :class => "green-button"%>
+    </div>
+    <div class="actions-left">
+      <%= link_to "<span>create shipment</span>", new_admin_sales_order_shipment_path(@order), :class => "green-button" %>
+    </div>
+    <br clear="all">
+  <%- end -%>
+</div>

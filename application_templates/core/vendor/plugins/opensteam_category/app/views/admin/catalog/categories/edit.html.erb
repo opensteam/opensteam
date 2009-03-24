@@ -1,0 +1,81 @@
+<% render_headline 'categories_icon', "Edit Category ##{@category.id}", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons 'Save', :form_id => "update_category", :class => 'save-button' %>
+
+<%= error_messages_for :category %>
+
+
+<div id="editor-wrapper">
+  <table cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="200">
+        <div class="dvEditorNaviHeadline">Categories</div>
+        <div id="category-tree" style="float:left;width: 200px ;"></div>
+      </td>
+      <td width="20"><br /></td>
+      <td width="100%" id="editor_content">
+        <% form_for :category, @category, :url => { :action => :update }, :html => { :id => "update_category", :method => :put } do |f| %>
+          <div id="dvEditorTabContainer">
+            <div id="general_tab" class="x-hide-display" >
+              <%= render :partial => "admin/catalog/categories/attributes", :object => f %>
+            </div>
+            <div id="products_tag" class="x-hide-display" >
+              <%= render :partial => "admin/catalog/categories/products", :object => @category.products, :locals => { :f => f } %>
+            </div>
+          </div>
+          <div id="dvEditorTabFooter">
+            <div id="dvEditorTabFooter-inner">
+              <div id="dvEditorTabFooterLeft">&nbsp;</div>
+              <div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+            </div>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<%= render "category_tree" %>
+
+<% javascript_tag do %>
+  var cb=function(tab){
+
+  var filter_fields = [
+  {type: 'boolean', dataIndex: 'checked' },
+  {type: 'numeric',  dataIndex: 'id'},
+  {type: 'string',  dataIndex: 'type'},
+  {type: 'string', dataIndex: 'name'},
+  {type: 'string',  dataIndex: 'description'},
+  {type: 'date', dataIndex: 'updated_at'}
+  ] ;
+
+  checkTab_setFooterButtons(tab);
+
+  if(!grid) {
+  createGrid('the-table',
+  '<%= url_for( :controller => "admin/catalog/categories", :action => "products", :category_id => @category.id, :format => :xml ) %>',
+  <%= ( Product.filtered_keys + [:editor_url, :checked] ).collect(&:to_s).to_json %>,
+  filter_fields ) ;
+  }
+
+  }
+
+  build_tabs( 'dvEditorTabContainer', [
+  { contentEl: 'general_tab', title: 'Attributes', listeners: { activate: checkTab_setFooterButtons },
+  button: {
+  left: 	{ title: "cancel", url: '<%= admin_catalog_categories_path %>' },
+  right: 	{ title: "next", clickEvent: 'tabs.setActiveTab(1); return false;' }
+  }
+  },
+  { contentEl: 'products_tag', title: 'Associated Products', listeners: { activate: cb },
+  button: {
+  left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(0); return false; ' },
+  right: 	{ title: "save", clickEvent: "$('update_category').submit(); return false;" }
+  }
+  }
+
+  ] ) ;
+<% end %>
+
+
+
+

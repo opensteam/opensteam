@@ -1,0 +1,47 @@
+<% render_headline 'categories_icon', "Edit ShippingRateGroup ##{@group.id}", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons 'Save', :form_id => 'srgroup_form', :class => 'save-button' %>
+
+<%= error_messages_for :group %>
+<% form_for :group, @group, :url => { :action => :update }, :html => { :form => 'srgroup_form', :method => :put } do |f| %>
+  <div id="dvEditorTabContainer">
+
+    <div id="general_tab" class="x-hide-display">
+      <%= render :partial => "attributes", :object => f %>
+    </div>
+    <div id="shipping_rate_tab" class="x-hide-display">
+      <%= link_to_function "<span>Add Rate</span>", :class => "green-button", :style => "float:left;" do |page|
+        page.insert_html :bottom, :rates, :partial => "rate", :object => Opensteam::Sales::ShipmentBase::RegionShippingRate.new, :locals => { :f => f }
+      end %>
+      <br />
+      <br clear="all" />
+      <table id="rates" cellpadding="0" cellspacing="0" class="editor-form">
+        <%= render :partial => "rate", :collection => @group.shipping_rates, :locals => { :f => f } %>
+      </table>
+    </div>
+  </div>
+  <div id="dvEditorTabFooter">
+    <div id="dvEditorTabFooter-inner">
+      <div id="dvEditorTabFooterLeft">&nbsp;</div>
+      <div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+    </div>
+  </div>
+
+<% end %>
+
+<% javascript_tag do %>
+
+  build_tabs( 'dvEditorTabContainer', [
+  { contentEl: 'general_tab', title: 'General', listeners: { activate: checkTab_setFooterButtons },
+  button: {
+  left: 	{ title: "index", url: '<%= admin_config_shipping_rate_groups_path %>' },
+  right: 	{ title: "next", clickEvent: "tabs.setActiveTab(1); return false ;" }
+  }
+  },
+  { contentEl: 'shipping_rate_tab', title: 'Shipping Rates', listeners: { activate: checkTab_setFooterButtons },
+  button: {
+  left: 	{ title: "previous", clickEvent: "tabs.setActiveTab(0); return false;" },
+  right: 	{ title: "save", clickEvent: "$('srgroup_form').submit(); return false;" }
+  }
+  }
+  ] ) ;
+<% end %>

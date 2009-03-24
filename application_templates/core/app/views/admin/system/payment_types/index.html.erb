@@ -1,0 +1,34 @@
+<% render_headline 'categories_icon', 'Payment Types', 'content-header/headline_icon.jpg' %>
+<% render_header_buttons %>
+
+<div id="grid-wrapper">
+  <div id="grid">
+    <% grid_table_static do %>
+      <thead>
+        <tr>
+          <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>
+          <th><div>ID#</div></th>
+          <th><div>Name</div></th>
+          <th><div>Description</div></th>
+          <th><div>Class</div></th>
+          <th class="last"><div>Active?</div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for payment_type in @payment_types %>
+          <tr>
+            <td></td>
+            <td><%=h payment_type.id %></td>
+            <td><%=h payment_type.name %></td>
+            <td><%=h payment_type.klass.classify.constantize.display_name %></td>
+            <td><%=h payment_type.klass %></td>
+            <td>
+              <%= link_to image_submit_tag( payment_type.active? ? 'backend/tick.png' : 'backend/cross.png' ), toggle_admin_payment_type_path( payment_type ) , :method => :post %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    <% end %>
+  </div>
+</div>
+

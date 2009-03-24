@@ -1,0 +1,9 @@
+<tr>
+  <td><%= item_entry.item.id %></td>
+  <td><%= item_entry.item.product.name %> (<%= item_entry.item.product.class.to_s %>)</td>
+  <td><%= item_entry.item.properties.collect(&:value).join(", ") %></td>
+  <td><%= item_entry.price %></td>
+  <td><%= item_entry.tax %> (<%= get_rate_for( item_entry, @order.shipping_address.country ) %>)</td>
+  <td><%= item_entry.quantity %></td>
+  <td><%= item_entry.total_price %></td>
+</tr>

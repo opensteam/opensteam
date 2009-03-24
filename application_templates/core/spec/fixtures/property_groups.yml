@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  description: MyText
+  selector: MyString
+  selector_text: MyString
+
+two:
+  name: MyString
+  description: MyText
+  selector: MyString
+  selector_text: MyString

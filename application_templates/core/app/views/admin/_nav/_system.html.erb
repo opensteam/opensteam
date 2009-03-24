@@ -1,0 +1,10 @@
+<div id="dvSubNavCont_SYSTEM" class="dvSubNavBlock" onmouseover="try{DD.navi.doShowParents('SYSTEM');}catch(ex){/*nothing*/}" onmouseout="try{DD.navi.doHideParents('SYSTEM');}catch(ex){/*nothing*/}">
+  <div id="dvSubNavItemCont_SYSTEM" class="dvSubNav_itemsContainer">
+    <%= link_to "Users", admin_system_users_path %>
+    <%= link_to "UserRoles", admin_system_user_roles_path %>
+    <%= link_to "PaymentTypes", admin_payment_types_path  %>
+    <%= link_to "Mailer Config", admin_system_mailers_path %>
+		<%= link_to "Quicksteams", admin_system_quicksteams_path %>
+    <%= link_to "Configuration", admin_system_configurations_path %>
+  </div>
+</div>

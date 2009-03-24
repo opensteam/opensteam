@@ -29,7 +29,7 @@ module Opensteam::Sales
       # returns the tax raet for given item and country.
       # if country is given, the defualt_country is used (if defined in Opensteam::Config)
       def get_rate_for item, country = nil
-        item.get_rate( :country => country || Opensteam::Config[ :default_country ] )
+        item.get_rate( :country => ( country || Opensteam::Config[ :default_country ] ) )
       end
 
       # returns the calculated tax for given item and country
@@ -77,8 +77,8 @@ module Opensteam::Sales
         # returns rate for given address and current tax_group
         def get_rate( address )
           return 0.0 unless self.tax_group
-          
-          zones = self.tax_group.tax_zones.by_address( address ) 
+
+          zones = self.tax_group.tax_zones.find( :all, :conditions => address )
           
           if !zones || zones.empty?
             return 0.0

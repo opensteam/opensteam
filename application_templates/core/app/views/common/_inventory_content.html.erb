@@ -1,0 +1,13 @@
+<%- if inventory_content.active %>
+  <%= hidden_field_tag "id", inventory_content.id %>
+  <b>Price</b>: <%=h inventory_content.price %><br />
+  <b>Storage</b>: <%=h inventory_content.storage %><br />
+  <%- if inventory_content.storage <= 0 -%>
+    <b>Status:</b> <%= inventory_content.back_ordered ? "Back Ordered" : "Not Available" %><br />
+  <%- end -%>
+  <b>Description</b>: <%=h inventory_content.description %><br />
+<%- else -%>
+  <span style="color:red;">Sorry, this product is currently not available</span>
+<%- end -%>
+
+

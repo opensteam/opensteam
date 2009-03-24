@@ -1,0 +1,39 @@
+<!--<div>
+    <div class="actions-left">
+    -->
+<table cellspacing="0" cellpadding="0" id="customer_information" class="order-editor">
+  <tr>
+    <td class="label"><u>Customer #</u></td>
+    <td class="content"><%= customer.id %></td>
+  </tr>
+  <tr>
+    <td class="label"><u>Login</u></td>
+    <td class="content"><%= customer.login %></td>
+    <td><%= link_to "<span>show customer</span>", admin_system_user_path( customer ), :class => "green-button" %></td>
+  </tr>
+  <tr>
+    <td class="label">Email</td>
+    <td class="content"><%= customer.email %></td>
+    <td><%= link_to "<span>send mail</span>", "mailto:#{customer.email}", :class => "green-button" %></td>
+  </tr>
+  <tr>
+    <td class="label">Firstname</td>
+    <td class="content"><%= customer.firstname %></td>
+  </tr>
+  <tr>
+    <td class="label">Lastname</td>
+    <td class="content"><%= customer.lastname %></td>
+  </tr>
+  <tr>
+    <td class="label"></td>
+    <td class="content"></td>
+  </tr>
+</table>
+<!--
+</div>
+<div class="actions-right">
+<%= link_to "<span>show customer</span>", admin_system_user_path( customer ), :class => "green-button" %>
+</div>
+<br clear="all">
+</div>
+-->

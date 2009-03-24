@@ -1,0 +1,72 @@
+<% render_headline 'categories_icon', "Order ##{@order.id} Invoice ##{@invoice.id}", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons %>
+
+<div id="editor-wrapper">
+	<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="200">
+				<%= order_navigation( @order, :active => :invoices ) %>
+			</td>
+			<td width="20"><br /></td>
+			<td width="100%" id="editor_content">
+				<div id="dvEditorTabContainer">
+					<div id="general_tab" class="x-hide-display">
+						<div class="actions-left">
+						<table cellspacing="0" cellpadding="0" id="order_information" class="order-editor">
+							<tr>
+								<td class="label">Created At</td>
+								<td class="content"><%=h @invoice.created_at %></td>
+							</tr>
+							<tr>
+								<td class="label">Comment</td>
+								<td class="content"><%=h @invoice.comment %></td>
+							</tr>
+							<tr>
+								<td class="label">Price</td>
+								<td class="content"><%=h @invoice.price %></td>
+							</tr>
+							<tr>
+								<td class="label">Address</td>
+								<td class="content"><%= @invoice.address.firstname %> <%= @invoice.address.lastname %><br /><%= @invoice.address.postal %> <%= @invoice.address.city %><br /><%= @invoice.address.country %></td>
+							</tr>
+						</table>
+						</div>
+						<div class="actions-right">
+						  <%= link_to backend_image_tag("pdf.png", :border => 0), admin_sales_order_invoice_path( @order, @invoice, :format => :pdf ), :title => "Download Invoice as PDF" %>
+						</div>
+					</div>
+					<div id="order_items_tab" class="x-hide-display">
+						<%= render :partial => "admin/sales/order_items/items_table", :object => @invoice %>
+					</div>
+				</div>
+				<div id="dvEditorTabFooter">
+					<div id="dvEditorTabFooter-inner">
+						<div id="dvEditorTabFooterLeft">&nbsp;</div>
+						<div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+
+
+<% javascript_tag do %>
+build_tabs( 'dvEditorTabContainer', [
+	{ contentEl: 'general_tab', title: 'Invoice #<%=h @invoice.id %> Information', listeners: { activate: checkTab_setFooterButtons },
+		button: {
+			left: 	{ title: "index", url: '<%= admin_sales_order_invoices_path( @order ) %>' },
+			right: 	{ title: 'next', clickEvent: 'tabs.setActiveTab(1); return false; ' }
+		}
+	},
+	{ contentEl: 'order_items_tab', title: 'Invoice #<%=h @invoice.id %> Order Items', listeners: { activate: checkTab_setFooterButtons },
+		button: {
+			left: 	{ title: "previous", clickEvent: 'tabs.setActiveTab(0); return false;' },
+			right: 	false
+		}
+	}
+] ) ;
+<% end %>
+
+
+

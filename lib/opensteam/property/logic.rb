@@ -39,12 +39,8 @@ module Opensteam::Property
     class << self ;
       
       def included(base) #:nodoc:
-        
-        raise ArgumentError, "Can't include #{self} into more than one Property-Models. Use STI instead!" if
-          self.included_in_classes.reject { |s| s == Opensteam::Property::Base }.size > 1
-        
+
         Opensteam::Dependencies.set_property_model( base )
-        
         
         base.class_eval do
           has_many :inventories_properties, :class_name => "Opensteam::Inventory::InventoriesProperty"

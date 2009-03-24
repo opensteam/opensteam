@@ -1,0 +1,22 @@
+<% url = @order ? admin_sales_order_invoices_path( @order, :format => :xml ) : admin_sales_invoices_path( :format => :xml ) %>
+<div id="grid-wrapper">
+	<div id="grid">
+		<% grid_table "the-table", url, Opensteam::Models::Invoice.filtered_keys do %>
+		<thead>
+			<th title="id||id"><div>ID#</div></th>
+			<th title="address"><div>Address</div></th>
+			<th title="state"><div>State</div></th>
+			<th title="price"><div>Price</div></th>
+			<th title="comment"><div>Comment</div></th>
+			<th title="created_at"><div>Created At</div></th>
+			<th title="updated_at"><div>Updated At</div></th>
+			<th title="editor_url" style="width:30px;" class="not-in-context no-menu"><div>Actions</div></th>
+		</thead>
+<!--
+		<tbody id="orders_table_body">
+			<%= render :partial => "admin/sales/invoices/invoice", :collection => invoices %>
+		</tbody>
+-->
+	<% end %>
+	</div>
+</div>

@@ -1,0 +1,12 @@
+<% render_headline 'categories_icon', 'Invoices', 'content-header/headline_icon.jpg' %>
+<% render_header_buttons %>
+
+
+<div id="filter">
+	<%= render :partial => "admin/filters/filter", :locals => { :id => "users_filter", :model => Invoice, :records => @invoices } %>
+</div>
+
+<%= render :partial => "admin/sales/invoices/invoices", :object => @invoices %>
+
+
+
