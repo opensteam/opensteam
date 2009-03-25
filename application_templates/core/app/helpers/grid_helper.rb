@@ -3,6 +3,7 @@ end
 
 require 'opensteam/user_base'
 
+if defined? Opensteam::Models::Property
   Property.class_eval do
     include Opensteam::Helpers::Grid
     configure_grid(
@@ -13,7 +14,9 @@ require 'opensteam/user_base'
     :updated_at => :updated_at
     )
   end
-  
+end
+
+if defined? Opensteam::Models::Product
   Product.class_eval do
     include Opensteam::Helpers::Grid
     configure_grid(
@@ -24,7 +27,7 @@ require 'opensteam/user_base'
       :updated_at => :updated_at
     )
   end
-  
+end
 
 
 Order.class_eval do
@@ -115,19 +118,17 @@ User.class_eval do
   )
 end
 
-Inventory.class_eval do
-include Opensteam::Helpers::Grid
+if defined? Opensteam::Models::Inventory
+  Inventory.class_eval do
+    include Opensteam::Helpers::Grid
 
-configure_grid(
-  :id => :id,
-  :storage => :storage,
-  :price => :price,
-  :active => :active,
-  :back_ordered => :back_ordered,
-  :tax_group => { :tax_group => :name }
-)
+    configure_grid(
+      :id => :id,
+      :storage => :storage,
+      :price => :price,
+      :active => :active,
+      :back_ordered => :back_ordered,
+      :tax_group => { :tax_group => :name }
+    )
+  end
 end
-
-  
-  
-

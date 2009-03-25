@@ -15,6 +15,19 @@ module Opensteam
           File.join( application_directory, "core")
         end
         
+        def inventory_catalog_path
+          File.join( application_directory, "catalog/_inventory")
+        end
+        
+        def product_catalog_path
+          File.join( application_directory, "catalog/_product")
+        end
+        
+        def property_catalog_path
+          File.join( application_directory, "catalog/_property")
+        end
+        
+        
         def authentication_path( what = :authlogic )
           File.join( application_directory, "authentication", what.to_s )
         end
@@ -34,9 +47,18 @@ module Opensteam
 
       alias :r :rails_template_runner
       
+      def method_missing( method_name, *args, &block )
+        if r.respond_to?( method_name )
+          r.__send__( method_name, *args, &block )
+        else
+          super
+        end
+      end
+      
+      
       
       def write_opensteam_initializer
-        r.initializer "opensteam_initializer.rb" do
+        initializer "opensteam_initializer.rb" do
           "Opensteam::Initializer.run do |config|
              config.user_model = '#{self.user_model}'
            end"
@@ -56,6 +78,19 @@ module Opensteam
       
       
       end
+      
+      
+      def catalog process = :full, &block
+        c = Catalog.new( r )
+        if block_given?
+          c.instance_eval( &block )
+        else
+          c.product :base => "Product"
+          c.property :base => "Property"
+          c.inventory :base => "Inventory"
+        end
+      end
+      
       
 
       def core file_name
@@ -171,5 +206,57 @@ END_OPENSTEAM_ROUTES
         
       end
     end
+    
+    class Base
+      attr_accessor :rails_template_runner
+      
+      def initialize( rtr )
+        @rails_template_runner = rtr
+      end
+      
+      
+      def method_missing(method_name, *args, &block)
+        if r.respond_to?( method_name )
+          r.__send__( method_name, *args, &block )
+        else
+          super
+        end
+      end
+      
+      alias :r :rails_template_runner
+    end
+    
+    class Catalog < Base
+      
+      
+      
+      def product args = {}
+        Find.find( Opensteam::Template::Runner.product_catalog_path ) do |f|
+          ff = f.split("catalog/_product").last
+          r.file( ff, File.read( f ) ) unless File.directory?( f )
+        end
+      end
+      
+      def property args = {}
+        Find.find( Opensteam::Template::Runner.property_catalog_path ) do |f|
+          ff = f.split("catalog/_property").last
+          r.file( ff, File.read( f ) ) unless File.directory?( f )
+        end
+      end
+      
+      def inventory args = {}
+        Find.find( Opensteam::Template::Runner.inventory_catalog_path ) do |f|
+          ff = f.split("catalog/_inventory").last
+          r.file( ff, File.read( f ) ) unless File.directory?( f )
+        end
+      end
+      
+      private
+
+      
+    
+    end
+    
+    
   end
 end
