@@ -1,0 +1,48 @@
+<% render_headline 'categories_icon', "Property Groups for Product ##{@product.id} ", 'content-header/headline_icon.jpg' %>
+<% render_header_buttons 'Save', :href => new_admin_catalog_product_property_group_path( @product ), :class => 'add-button' %>
+
+
+<div id="editor-wrapper">
+  <table cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="200">
+        <%= product_navigation( @product, :active => :property_groups ) %>
+      </td>
+      <td width="20"><br /></td>
+      <td width="100%" id="editor_content">
+        <div id="grid-wrapper">
+          <div id="grid">
+            <% grid_table_static do %>
+              <thead>
+                <th><div>ID#</div></th>
+                <th><div>Name</div></th>
+                <th><div>Description</div></th>
+                <th><div>Selector</div></th>
+                <th><div>Selector Text</div></th>
+                <th><div>Properties</div></th>
+                <th title="updated_at"><div>Updated At</div></th>
+                <th style="width:30px;" class="not-in-context no-menu"><div>Actions</div></th>
+              </thead>
+              <tbody>
+                <% for group in @property_groups %>
+                  <tr>
+                    <td><%=h group.id %></td>
+                    <td><%=h group.name %></td>
+                    <td><%=h group.description %></td>
+                    <td><%=h group.selector %></td>
+                    <td><%=h group.selector_text %></td>
+                    <td><%=h group.properties.size %></td>
+                    <td><%=h group.updated_at %></td>
+                    <td><%= link_to "Edit", edit_admin_catalog_product_property_group_path( @product, group ) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            <% end %>
+          </div>
+        </div>
+
+
+      </td>
+    </tr>
+  </table>
+</div>

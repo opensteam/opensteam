@@ -28,27 +28,27 @@ module Opensteam
   module Models
 
     # Order Model
-    # see Opensteam::Sales::OrderBase for more information
-    class Order < Opensteam::Container::Base
-      include Opensteam::Sales::OrderBase
-
-      # get orders by given user
-      named_scope :by_user, lambda { |user_id| { :include => [:customer ], :conditions => { :user_id => user_id } } }
-    end
-
-
-    # Shipment Model
-    # see Opensteam::Sales::ShipmentBase for more information
-    class Shipment < ActiveRecord::Base
-      include Opensteam::Sales::ShipmentBase
-      
-    end
-
-
-    class Invoice < ActiveRecord::Base
-      include Opensteam::Sales::InvoiceBase
-      
-    end
+    # # see Opensteam::Sales::OrderBase for more information
+    # class Order < Opensteam::Container::Base
+    #   include Opensteam::Sales::OrderBase
+    # 
+    #   # get orders by given user
+    #   named_scope :by_user, lambda { |user_id| { :include => [:customer ], :conditions => { :user_id => user_id } } }
+    # end
+    # 
+    # 
+    # # Shipment Model
+    # # see Opensteam::Sales::ShipmentBase for more information
+    # class Shipment < ActiveRecord::Base
+    #   include Opensteam::Sales::ShipmentBase
+    #   
+    # end
+    # 
+    # 
+    # class Invoice < ActiveRecord::Base
+    #   include Opensteam::Sales::InvoiceBase
+    #   
+    # end
 
 
   end

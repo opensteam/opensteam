@@ -24,10 +24,15 @@ module Opensteam
     mattr_accessor :product_extensions
     self.product_extensions = []
 
-    mattr_accessor :product_dependency
-    self.product_dependency = []
+    mattr_accessor :product_dependency_array
+    
+    
 
     class << self ;
+
+      def product_dependency
+        self.product_dependency_array ||= []
+      end
 
       # register an opensteam extension
       def register name, &block
@@ -38,7 +43,7 @@ module Opensteam
 
       # initialize all opensteam extensions
       def initialize_extensions(config)
-        self.plugins.each do |plugin|
+        #self.plugins.each do |plugin|
 
           ##########
           # NO LONGER NEEDER, due to Rails 2.3 ENGINES SUPPORT
@@ -55,8 +60,8 @@ module Opensteam
           
           # inject product dependency modules
           ActiveSupport::Dependencies.inject_dependency ::Product, *self.product_dependency.flatten
-
-        end
+          self.product_dependency.flatten.each { |mod| mod.constantize }
+        #end
       end
 
 

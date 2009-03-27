@@ -1,0 +1,10 @@
+<table class="editor-form" cellspacing="0" cellpadding="0" width="100px">
+  <tr>
+    <td class="label"><%= f.label :tax_group_id %></td>
+    <td><%= f.select :tax_group_id, TaxGroup.all.collect { |t| [t.name, t.id] }, { :include_blank => true } %></td>
+  </tr>
+</table>
+<br />
+<% javascript_tag do %>
+  transform2ComboBox( 'inventory_tax_group_id', { listWidth: '100px' } ) ;
+<% end %>		

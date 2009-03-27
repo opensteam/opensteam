@@ -12,8 +12,10 @@ class AdminController < ApplicationController
   before_filter :get_quicksteams
   before_filter :save_breadcrumb
 
+  Time.zone = 'Vienna'
+
   def comming_soon
-    flash[:warning] = "Comming Soon ...."
+    flash[:warning] = "Coming Soon ...."
     redirect_to :action => :index
   end
   

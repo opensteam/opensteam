@@ -17,6 +17,8 @@
 module Opensteam::Product
 
 
+
+
   # Opensteam Logic for Product Model
   #
   # This Module is meant to be included into the actual Opensteam Product Model.
@@ -160,6 +162,8 @@ module Opensteam::Product
 
       # set property ids
       def property_ids= ids 
+        puts "BUHUHU" * 100
+
         self.properties.delete_all
         self.properties << Property.find( ids )
       end

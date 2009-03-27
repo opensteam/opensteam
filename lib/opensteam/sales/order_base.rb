@@ -46,6 +46,10 @@ module Opensteam::Sales
 
     
     def self.included(base)
+      
+      Opensteam::Dependencies.set_order_model( base )
+      
+      
       base.send(:extend , ClassMethods)
       base.send(:include, InstanceMethods)
 

@@ -1,0 +1,6 @@
+for p in @products
+  xml.Item do
+    xml << render( :partial => "admin/_xml/grid_value", :object => p )
+    xml.tag! :editor_url, admin_catalog_product_path( p )
+  end
+end

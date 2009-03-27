@@ -1,0 +1,22 @@
+
+<div id="grid-wrapper">
+  <div id="grid">
+    <% grid_table "the-table", admin_catalog_product_inventories_path( @product, :format => :xml), Inventory.filtered_keys + [:editor_url, :properties] do %>
+      <thead>
+        <tr>
+          <th class="first no-sort no-menu"><div>&nbsp;</div></th>
+          <th title="id"><div>#</div></th>
+          <th title="properties"><div>Configuration</div></th>
+          <th title="active"><div>Active</div></th>
+          <th title="price"><div>Price</div></th>
+          <th title="storage"><div>Storage</div></th>
+          <th title="back_ordered"><div>BackOrdered</div></th>
+          <th title="tax_group"><div>Tax Group</div></th>
+          <th title="editor_url" class="last no-sort no-menu"><div>Actions</div></th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    <% end %>
+  </div>
+</div>

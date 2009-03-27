@@ -30,10 +30,11 @@ if defined? Opensteam::Models::Product
 end
 
 
-Order.class_eval do
-  include Opensteam::Helpers::Grid
+if defined? Opensteam::Models::Order
+  Order.class_eval do
+    include Opensteam::Helpers::Grid
 
-  configure_grid(
+    configure_grid(
     :id => :id,
     :order_items => :items_count,
     :customer => { :customer => [:email,:login] },
@@ -43,15 +44,16 @@ Order.class_eval do
     :created_at => :created_at,
     :updated_at => :updated_at,
     :editor_url => :editor_url
-  )
-  
-  def editor_url ; "orders/#{self.id}" ; end
+    )
+
+    def editor_url ; "orders/#{self.id}" ; end
+  end
 end
 
-
-Opensteam::Models::Invoice.class_eval do
-  include Opensteam::Helpers::Grid
-  configure_grid(
+if defined? Opensteam::Models::Invoice
+  Opensteam::Models::Invoice.class_eval do
+    include Opensteam::Helpers::Grid
+    configure_grid(
     :id => :id,
     :address => { :address => [ :firstname, :lastname, :street, :postal, :city, :country ] },
     :state => :state,
@@ -59,13 +61,15 @@ Opensteam::Models::Invoice.class_eval do
     :created_at => :created_at,
     :updated_at => :updated_at,
     :editor_url => :editor_url
-  )
-  def editor_url ; "invoices/#{self.id}" ; end
+    )
+    def editor_url ; "invoices/#{self.id}" ; end
+  end
 end
 
-Opensteam::Models::Shipment.class_eval do
-  include Opensteam::Helpers::Grid
-  configure_grid(
+if defined? Opensteam::Models::Shipment
+  Opensteam::Models::Shipment.class_eval do
+    include Opensteam::Helpers::Grid
+    configure_grid(
     :id => :id,
     :address => { :address => [ :firstname, :lastname, :street, :postal, :city, :country ] },
     :state => :state,
@@ -74,10 +78,10 @@ Opensteam::Models::Shipment.class_eval do
     :created_at => :created_at,
     :updated_at => :updated_at,
     :editor_url => :editor_url
-  )
-  def editor_url ; "shipments/#{self.id}" ; end
+    )
+    def editor_url ; "shipments/#{self.id}" ; end
+  end
 end
-
 
 TaxZone.class_eval do
   include Opensteam::Helpers::Grid

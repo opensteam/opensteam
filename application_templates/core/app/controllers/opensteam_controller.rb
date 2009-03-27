@@ -1,6 +1,6 @@
 ## TEMPLATE ##
 class OpensteamController < ApplicationController
-  layout '<%= file_name %>'
+  layout 'webshop'
   
   # Shopping Cart manipulation
   include Opensteam::Frontend::ShoppingCart

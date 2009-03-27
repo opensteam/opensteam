@@ -76,6 +76,10 @@ module Opensteam::Sales
     
 
     def self.included(base) #:nodoc:
+      
+      Opensteam::Dependencies.set_shipment_model( base )
+      
+      
       base.send( :extend, ClassMethods )
       base.send( :include, InstanceMethods )
       
@@ -102,7 +106,7 @@ module Opensteam::Sales
     module InstanceMethods
       
       def initialize(*args)
-        super(*args)
+        super
 
         if order
           self.address = order.shipping_address

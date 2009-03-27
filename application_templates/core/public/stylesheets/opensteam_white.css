@@ -168,11 +168,11 @@ a img { border: 0px; }
 #mini_cart {
 	position:relative;
 	right:0px;
-	background-color:#ddd;
-	display:block;
-	right:-180px;
+/*	background-color:#ddd;
+*/	display:block;
+/*	right:-180px;
 	overflow:hidden;
-}
+*/}
 
 .dvLoadMask {
 	background-color:white;

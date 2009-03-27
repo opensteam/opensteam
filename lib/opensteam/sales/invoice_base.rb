@@ -25,6 +25,10 @@ module Opensteam::Sales
     
     
     def self.included(base) #:nodoc:
+      
+      Opensteam::Dependencies.set_invoice_model( base )
+      
+      
       base.send( :extend, ClassMethods )
       base.send( :include, InstanceMethods )
       

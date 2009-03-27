@@ -1,0 +1,41 @@
+<% form_remote_tag :url => { :controller => 'carts', :action => :update }, :html => { :id => 'cart_form', :method => :put } do %>
+  <table class="cart">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Qnty</th>
+        <th>Price</th>
+        <th>Tax (incl)</th>
+        <th>Price (netto)</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart.items.each_with_index do |i,k| %>
+        <tr class="cart_item" id="cart_item_<%=h k %>">
+          <td><%= i.product.class.to_s %><br /><%= link_to i.product.name, :controller => 'carts', :action => :show, :id => k %></td>
+          <td><%= text_field_tag "quantity[#{k}]", i.quantity.to_s, :id => "quantity", :size => 1 %> : <%=h i.quantity %></td>
+          <td><%= i.price %></td>
+          <td><%= calculate_tax_for i %> (<%= get_rate_for(i) %> %) <%= Opensteam::Config[:default_country] %>  </td>
+          <td><%= i.price - calculate_tax_for( i ) %>
+          <td><%= i.total_price %></td>
+          <td>
+            <%= link_to_remote image_tag( "frontend/plus.png", :border => "0" ), :url => { :controller => 'carts', :action => :update, :id => k, :incr => 1 } -%>
+            <%= link_to_remote image_tag( "frontend/minus.png", :border => "0"), :url => { :controller => 'carts', :action => :update, :id => k, :decr => 1 } -%>
+            <%= link_to_remote image_tag( "frontend/images/cancel.png", :border => "0"), :url => { :controller => 'carts', :action => :destroy, :id => k } -%>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= image_submit_tag 'frontend/cart_reload.png' %>
+  <%= link_to( image_tag('frontend/cart_clear.png'), url_for( :controller => 'carts', :action => 'destroy' ), :method => :delete ) %>
+<% end %>
+
+
+<b>Total Price:</b> <%= @cart.total_price %>
+
+
+
+

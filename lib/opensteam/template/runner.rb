@@ -32,6 +32,22 @@ module Opensteam
           File.join( application_directory, "authentication", what.to_s )
         end
         
+        def frontend_application_path
+          File.join( application_directory, "frontend" )
+        end
+        
+        def order_sales_path
+          File.join( application_directory, 'sales/_order' )
+        end
+
+        def invoice_sales_path
+          File.join( application_directory, 'sales/_invoice' )
+        end
+
+        def shipment_sales_path
+          File.join( application_directory, 'sales/_shipment' )
+        end
+
       end
       
       
@@ -75,8 +91,14 @@ module Opensteam
             "#{match}\n  include Opensteam::UserBase::UserLogic\n"
           end
         end
+      end
       
       
+      def frontend
+        Find.find( self.class.frontend_application_path ) do |f|
+          file = f.split("application_templates/frontend/").last
+          r.file( file, File.read( f ) ) unless File.directory?( f )
+        end
       end
       
       
@@ -91,9 +113,32 @@ module Opensteam
         end
       end
       
+      def sales process = :full, &block
+        s = Sales.new( r )
+        if block_given?
+          s.instance_eval( &block )
+        else
+          s.order
+          s.invoice
+          s.shipment
+        end
+      end
       
+      
+      
+      
+      def add_routes(routing_code)
+        log 'opensteam', 'routes'
+        sentinel = 'ActionController::Routing::Routes.draw do |map|'
 
-      def core file_name
+        r.in_root do
+          r.gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
+            "#{match}\n  #{routing_code}\n"
+          end
+        end
+      end
+
+      def core file_name, args = {}
         
         Find.find( self.class.core_application_path ) do |f|
           file = f.split("application_templates/core/").last
@@ -124,6 +169,12 @@ module Opensteam
     map.store_index "store", :controller => "opensteam", :action => 'index'
     map.opensteam_index "opensteam", :controller => "opensteam", :action => 'index'
     map.resources :#{file_name}, :controller => "products"
+
+    map.resources :webshop, :controller => "products"
+    map.resources :searches
+    map.resource :cart
+    map.resources :products, :member => { :inventory => :any }, :collection => { :checkout => :post }
+    map.start_checkout "products/checkout", :controller => "products"
 
     # admin top level
     map.administration "admin", :controller => 'admin', :action => 'index'
@@ -201,9 +252,10 @@ module Opensteam
 END_OPENSTEAM_ROUTES
         
         
-        r.route( administration_routes )
+        add_routes( administration_routes )
         r.gem 'opensteam'
-        
+        self.authentication args[:user] if args[:user]
+
       end
     end
     
@@ -226,9 +278,31 @@ END_OPENSTEAM_ROUTES
       alias :r :rails_template_runner
     end
     
+    class Sales < Base
+      def order args = {}
+        Find.find( Opensteam::Template::Runner.order_sales_path ) do |f|
+          ff = f.split("sales/_order").last
+          r.file( ff, File.read( f ) ) unless File.directory?( f )
+        end
+      end
+    
+      def invoice args = {}
+        Find.find( Opensteam::Template::Runner.invoice_sales_path ) do |f|
+          ff = f.split("sales/_invoice").last
+          r.file( ff, File.read( f ) ) unless File.directory?( f )
+        end
+      end
+      
+      def shipment args = {}
+        Find.find( Opensteam::Template::Runner.shipment_sales_path ) do |f|
+          ff = f.split("sales/_shipment").last
+          r.file( ff, File.read( f ) ) unless File.directory?( f )
+        end
+      end
+    end
+    
+    
     class Catalog < Base
-      
-      
       
       def product args = {}
         Find.find( Opensteam::Template::Runner.product_catalog_path ) do |f|

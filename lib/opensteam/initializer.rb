@@ -65,12 +65,9 @@ module Opensteam
     
     def process
       #require_user_model
-
       
       extend_active_record
-
       initialize_opensteam_models
-      
       initialize_opensteam_extensions
       initialize_mailer_classes
       register_payment_types
@@ -96,7 +93,6 @@ module Opensteam
         ActiveSupport::Dependencies.load_paths << path
         Dir.glob( File.join( path, "*.rb" ) ).each { |f| require_dependency f }
       end
-
       configuration.opensteam_model_paths.each do |path|
         $LOAD_PATH << path
         ActiveSupport::Dependencies.load_paths << path
@@ -125,7 +121,7 @@ module Opensteam
 
     def initialize_opensteam_extensions
       puts "initialize opensteam extensions"
-      configuration.opensteam_extension_loader.initialize_extensions( configuration)
+      configuration.opensteam_extension_loader.initialize_extensions( configuration )
     end
 
     def require_payment_classes
@@ -253,11 +249,11 @@ module Opensteam
 
       # default paths of opensteam models
       def default_opensteam_model_paths
-        return []
-
-        [ File.join( RAILS_ROOT, "app", "models" ),
-          File.join( RAILS_ROOT, "app", "models", "catalog" )
+        [ #File.join( RAILS_ROOT, "app", "models" ),
+          #File.join( RAILS_ROOT, "app", "models", "catalog" ),
+          File.join( RAILS_ROOT, "app", "models", "sales" )
         ]
+        
       end
 
       # default paths of opensteam mailer classes

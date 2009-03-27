@@ -1,5 +1,5 @@
 #Inventory = Opensteam::Models::Inventory
-Order = Opensteam::Models::Order
+
 Zone = Opensteam::System::Zone
 
 Opensteam::UserBase::User = User

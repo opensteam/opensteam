@@ -1,0 +1,63 @@
+<% form_for :payment, @payment, :url => { :action => :place_order }, :html => { :method => :post } do |f| %>
+
+  <h1>Order - #<%= @order.id %></h1>
+  <%= @order.state %>
+  <div>
+    <b>Created At:</b> <%= @order.created_at %>
+    <br />
+    <b>Updated At:</b> <%= @order.updated_at %>
+    <br />
+
+    <h2>Customer</h2>
+    <div class="order_show" id="customer">
+      <%= @order.customer.email %><br />
+      <%= @order.customer.full_name %>
+    </div>
+
+    <br />
+
+    <h2>Shipping Information</h2>
+    <div class="order_show">
+      <b>Shipping Type:</b> <%= @order.shipping_type %><br />
+      <b>Shipping Rate:</b> <%= @order.shipping_rate %><br />
+
+      <h3>Shipping Address</h3>
+      <%= @order.shipping_address.to_a.join("<br />") %>
+    </div>
+
+    <br />
+
+    <h2>Payment Information</h2>
+    <div class="order_show">
+      <b>Payment Type:</b> <%= Opensteam::Payment::Base[ @order.payment_type ].display_name %><br />
+      <%= render :partial => "payment/#{@order.payment_type}_payment_confirmation", :object => @payment, :locals => { :f => f } %>
+      <br />
+      <h3>Billing Address</h3>
+      <%= @order.payment_address.to_a.join("<br />") %>
+    </div>
+
+    <h2>Order Items</h2>
+    <div class="order_show" id="items">
+      <%= render :partial => "admin/sales/order_items/items_table", :object => @order %>
+    </div>
+
+    <h2> Total Price</h2>
+    <div class="order_show" id="price_info">
+      <% total_tax = @order.items.collect(&:tax).sum
+      total_price = @order.items.collect(&:total_price).sum %>
+      <table>
+        <tr><td style="font-weight:bold;">Items Netto Price</td><td><%= total_price - total_tax %></td></tr>
+        <tr><td style="font-weight:bold;">Items Tax</td><td><%= total_tax %></td></tr>
+        <tr><td style="font-weight:bold;">Shipping Rate</td><td><%= @order.shipping_rate %></td></tr>
+
+        <tr />
+        <tr style="font-weight:bold;"><td>Total Price</td><td><%= @order.total_price %></td></tr>
+      </table>
+    </div>
+
+  </div>
+
+  <%= submit_tag "Place Order", :disable_with => "Sending Order..." %>
+
+<% end %>
+<%= button_to "Edit Order Information", :action => :edit  %>

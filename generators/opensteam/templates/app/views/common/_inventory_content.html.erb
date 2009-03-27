@@ -1,3 +1,8 @@
+<%- if inventory_content.nil? %>
+	<i> Please select a configuration...</i>
+
+<%- else -%>
+
 <%- if inventory_content.active %>
   <%= hidden_field_tag "id", inventory_content.id %>
   <b>Price</b>: <%=h inventory_content.price %><br />
@@ -11,3 +16,4 @@
 <%- end -%>
 
 
+<%- end -%>
