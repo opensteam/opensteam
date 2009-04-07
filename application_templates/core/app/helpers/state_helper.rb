@@ -1,6 +1,7 @@
 module StateHelper
 end
 
+__END__
 if defined? RAILS_ROOT
   Dir.glob("#{RAILS_ROOT}/lib/states/**/*.rb").collect { |f|
     require f

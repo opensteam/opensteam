@@ -1,50 +1,81 @@
+#	openSteam - http://www.opensteam.net
+#  Copyright (C) 2009  DiamondDogs Webconsulting
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; version 2 of the License.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License along
+#  with this program; if not, write to the Free Software Foundation, Inc.,
+#  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 require 'opensteam/version'
 require 'find'
   
 module Opensteam
   module Template
+  
+    # Methods for application-template mechanism of rails 2.3
     class Runner
       
       class << self ;
-         
+        # return application_directory for the opensteam templates
         def application_directory
           File.join( File.dirname(__FILE__), "..", "..", "..", "application_templates" )
         end
-         
+        
+        # returns the path of the opensteams engines (orders, shipments, invoices)
+        def engines_path engine = nil
+          p = File.join( application_directory, "engines" )
+          return p unless engine
+          File.join( p, "opensteam_#{engine}")
+        end
+        
+        # returns the path of the core application templates
         def core_application_path
           File.join( application_directory, "core")
         end
         
+        # returns the path of the inventory templates
         def inventory_catalog_path
           File.join( application_directory, "catalog/_inventory")
         end
         
+        # returns the path of the product templates
         def product_catalog_path
           File.join( application_directory, "catalog/_product")
         end
         
+        # returns the path of the property templates
         def property_catalog_path
           File.join( application_directory, "catalog/_property")
         end
         
         
-        def authentication_path( what = :authlogic )
+        def authentication_path( what = :authlogic ) #:nodoc:
           File.join( application_directory, "authentication", what.to_s )
         end
         
+        # returns the path of the frontend templates
         def frontend_application_path
           File.join( application_directory, "frontend" )
         end
         
-        def order_sales_path
+        
+        def order_sales_path #:nodoc
           File.join( application_directory, 'sales/_order' )
         end
 
-        def invoice_sales_path
+        def invoice_sales_path #:nodoc
           File.join( application_directory, 'sales/_invoice' )
         end
 
-        def shipment_sales_path
+        def shipment_sales_path #:nodoc
           File.join( application_directory, 'sales/_shipment' )
         end
 
@@ -55,7 +86,9 @@ module Opensteam
       
       attr_accessor :rails_template_runner
       attr_accessor :user_model
+      attr_accessor :frontend_url
       
+      # initialize an opensteam template runner
       def initialize( rtr )
         @rails_template_runner = rtr
         r.log "opensteam", Opensteam::VERSION::STRING
@@ -63,6 +96,7 @@ module Opensteam
 
       alias :r :rails_template_runner
       
+      # delegate all missing methods to the rails application runner
       def method_missing( method_name, *args, &block )
         if r.respond_to?( method_name )
           r.__send__( method_name, *args, &block )
@@ -72,7 +106,7 @@ module Opensteam
       end
       
       
-      
+      # write an opensteam initializer to the generated rails application
       def write_opensteam_initializer
         initializer "opensteam_initializer.rb" do
           "Opensteam::Initializer.run do |config|
@@ -82,26 +116,56 @@ module Opensteam
       end
       
 
-      def authentication user_model_name
+      def authentication user_model_name #:nodoc:
         self.user_model = user_model_name.to_s.classify
         user_model_file = self.user_model.to_s.underscore
         sentinel = "class #{self.user_model} < ActiveRecord::Base"
         r.in_root do
           r.gsub_file "app/models/#{user_model_file}.rb", /(#{Regexp.escape(sentinel)})/mi do |match|
-            "#{match}\n  include Opensteam::UserBase::UserLogic\n"
+            "#{match}\n  include Opensteam::User::UserLogic\n"
           end
         end
       end
       
-      
-      def frontend
+      # generate the frontend files
+      def frontend args = {}
         Find.find( self.class.frontend_application_path ) do |f|
           file = f.split("application_templates/frontend/").last
           r.file( file, File.read( f ) ) unless File.directory?( f )
         end
+        
+        self.frontend_url = args[:url] if args[:url]
+        
+        
+        frontend_routes = <<FRONTEND_ROUTES
+
+        # shop alias
+        # map.#{self.frontend_url} "#{self.frontend_url}", :controller => "opensteam", :action => 'index'
+        map.shop_index "shop", :controller => "products", :action => 'index'
+        map.store_index "store", :controller => "opensteam", :action => 'index'
+        map.opensteam_index "opensteam", :controller => "opensteam", :action => 'index'
+        # map.resources :#{self.frontend_url}, :controller => "products"
+
+        map.resources :webshop, :controller => "products"
+        map.resources :searches
+        map.resource :cart
+        map.resources :products, :member => { :inventory => :any }, :collection => { :checkout => :post }
+        map.start_checkout "products/checkout", :controller => "products"
+FRONTEND_ROUTES
+
+        add_routes( frontend_routes )
+        
+        
       end
       
-      
+      # generate the catalog files (product, properties, inventories)
+      # if no block is given, all files are created
+      #
+      #   catalog do
+      #     product
+      #     properties
+      #     inventories
+      #   end
       def catalog process = :full, &block
         c = Catalog.new( r )
         if block_given?
@@ -113,6 +177,10 @@ module Opensteam
         end
       end
       
+      # generate the sales files (order, shipments and invoices)
+      # if no block is given, all files are created
+      #
+      # order, shipment and invoices are rails engines, and are generated into vendor/plugins
       def sales process = :full, &block
         s = Sales.new( r )
         if block_given?
@@ -125,8 +193,22 @@ module Opensteam
       end
       
       
+      # generate the config files (shipping_rates)
+      # if no block is given, all files are created
+      # 
+      # the 'shipping_rate' calculation functionality lies in a rails engine.
+      def config process = :full, &block
+        c = Config.new( r )
+        if block_given?
+          c.instance_eval( &block )
+        else
+          c.shipping_rates
+        end
+      end
       
       
+      
+      # add opensteam specific routes to the generate rails application
       def add_routes(routing_code)
         log 'opensteam', 'routes'
         sentinel = 'ActionController::Routing::Routes.draw do |map|'
@@ -138,6 +220,8 @@ module Opensteam
         end
       end
 
+
+      # generate the opensteam core files (admin-backend)
       def core file_name, args = {}
         
         Find.find( self.class.core_application_path ) do |f|
@@ -149,32 +233,19 @@ module Opensteam
         administration_routes = <<END_OPENSTEAM_ROUTES
 
     ## users / sessions (login/logout/register/signup)
-    map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-    map.login '/login', :controller => 'sessions', :action => 'new'
-    map.register '/register', :controller => 'accounts', :action => 'create'
-    map.signup '/signup', :controller => 'accounts', :action => 'new'
-    map.activate '/activate/:activation_code', :controller => 'accounts', :action => 'activate'
-    map.resource :session
+    #map.logout '/logout', :controller => 'sessions', :action => 'destroy'
+    #map.login '/login', :controller => 'sessions', :action => 'new'
+    #map.register '/register', :controller => 'accounts', :action => 'create'
+    #map.signup '/signup', :controller => 'accounts', :action => 'new'
+    #map.activate '/activate/:activation_code', :controller => 'accounts', :action => 'activate'
+    #map.resource :session
+    
     map.resource :account, :member => {
       :edit_password => :get,
       :update_password => :put,
       :activate => :get
     }
 
-    #### WEBSHOP ####
-
-    # shop alias
-    map.#{file_name} "#{file_name}", :controller => "opensteam", :action => 'index'
-    map.shop_index "shop", :controller => "products", :action => 'index'
-    map.store_index "store", :controller => "opensteam", :action => 'index'
-    map.opensteam_index "opensteam", :controller => "opensteam", :action => 'index'
-    map.resources :#{file_name}, :controller => "products"
-
-    map.resources :webshop, :controller => "products"
-    map.resources :searches
-    map.resource :cart
-    map.resources :products, :member => { :inventory => :any }, :collection => { :checkout => :post }
-    map.start_checkout "products/checkout", :controller => "products"
 
     # admin top level
     map.administration "admin", :controller => 'admin', :action => 'index'
@@ -259,7 +330,7 @@ END_OPENSTEAM_ROUTES
       end
     end
     
-    class Base
+    class Base #:nodoc:
       attr_accessor :rails_template_runner
       
       def initialize( rtr )
@@ -278,31 +349,41 @@ END_OPENSTEAM_ROUTES
       alias :r :rails_template_runner
     end
     
-    class Sales < Base
+    class Sales < Base #:nodoc:
       def order args = {}
-        Find.find( Opensteam::Template::Runner.order_sales_path ) do |f|
-          ff = f.split("sales/_order").last
+        Find.find( Opensteam::Template::Runner.engines_path( :orders ) ) do |f|
+          ff = File.join( "vendor/plugins", f.split("application_templates/engines").last )
           r.file( ff, File.read( f ) ) unless File.directory?( f )
         end
       end
     
-      def invoice args = {}
-        Find.find( Opensteam::Template::Runner.invoice_sales_path ) do |f|
-          ff = f.split("sales/_invoice").last
+      def invoice args = {} #:nodoc:
+        Find.find( Opensteam::Template::Runner.engines_path( :invoices ) ) do |f|
+          ff = File.join( "vendor/plugins", f.split("application_templates/engines").last )
           r.file( ff, File.read( f ) ) unless File.directory?( f )
         end
       end
       
-      def shipment args = {}
-        Find.find( Opensteam::Template::Runner.shipment_sales_path ) do |f|
-          ff = f.split("sales/_shipment").last
+      def shipment args = {} #:nodoc
+        Find.find( Opensteam::Template::Runner.engines_path( :shipments ) ) do |f|
+          ff = File.join( "vendor/plugins", f.split("application_templates/engines").last )
           r.file( ff, File.read( f ) ) unless File.directory?( f )
         end
       end
     end
     
     
-    class Catalog < Base
+    class Config < Base #:nodoc:
+      def shipping_rates
+        Find.find( Opensteam::Template::Runner.engines_path( :shipping_rates ) ) do |f|
+          ff = File.join( "vendor/plugins", f.split("application_templates/engines").last )
+          r.file( ff, File.read( f ) ) unless File.directory?( f )
+        end
+      end
+    end
+    
+    
+    class Catalog < Base #:nodoc:
       
       def product args = {}
         Find.find( Opensteam::Template::Runner.product_catalog_path ) do |f|

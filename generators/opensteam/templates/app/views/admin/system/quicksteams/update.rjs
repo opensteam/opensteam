@@ -1,5 +1,0 @@
-page["quicksteam_#{@quicksteam.id}"].replace_html "<span>#{@quicksteam.name}</span>"
-page.visual_effect :pulsate, "quicksteam_#{@quicksteam.id}"
-page["qs_#{@quicksteam.id}"].replace_html "#{@quicksteam.send( @field )}"
-page << "$('qs_#{@quicksteam.id}_#{@field}').fade( { duration: 0.5, afterFinish: function(e) { $('qs_#{@quicksteam.id}').show(); } }); "
-page << "grid.getStore().loadData( Ext.get('the-table').dom );"

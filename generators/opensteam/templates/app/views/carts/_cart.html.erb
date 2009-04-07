@@ -1,8 +1,0 @@
-<% if ! @cart.items.empty?  %>
-  <div id="cart_content">
-    <%= render :partial => "carts/cart_content" %>
-  </div>
-  <div style="text-align:center;width:100%;">
-    <%= link_to "CHECKOUT", start_checkout_path, :method => :post, :class => "checkout", :confirm => "Really?" %>
-  </div>
-<% end %>

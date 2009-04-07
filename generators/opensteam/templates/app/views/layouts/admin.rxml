@@ -1,8 +1,0 @@
-xml.instruct!
-xml.Items do
-  xml.tag! "TotalRecords", @total_entries
-  xml.Request do
-    xml.tag! "IsValid", "true"
-  end
-  xml << yield
-end

@@ -11,7 +11,7 @@
 
 = AUTHOR:
 
-Michael Schaerfer (shm) @ DiamondDogs Webconsulting
+DiamondDogs Webconsulting
 
 
 == DESCRIPTION:
@@ -29,12 +29,13 @@ see CHANGELOG File
 
 	sudo gem sources -a http://gems.github.com (you only have to do this once)
 	
-	sudo gem install shm-opensteam
+	sudo gem install dd-opensteam
 
 == FEATURES
 
 === General Features
 
+* generate a webshop plus administration-backend
 * generate/implement product and property models
 * ShoppingCart + Checkout Process
 * Administration Backend:
@@ -47,11 +48,35 @@ see CHANGELOG File
 
 === Generators
 
-opensteam provides three new generators (script/generate):
+opensteam provides methods for application templates (in Rails 2.3).
+You can create an opensteam webshop in your template using the following methods:
 
-* create a new webshop (soon to be replaced by the new Rails Template feature!):
+	opensteam do
+		core :webshop_name, :user => "UserModel"
+		
+		frontend # generate prototype frontend (products/categories/shopping_cart/checkout)
+		
+		catalog do # generate the catalog files (MVC for products, properties and inventories)
+		  product
+		  property
+		  inventory
+		end
+		
+		sales do #generate the sales files (MVC for orders, shipments and invoices as rails engine)
+		  order
+		  shipment
+		  invoice
+		end
+		
+		config do #generate the config files (shipping_rate calculation as rails engine)
+		  shipping_rate
+		end
+	end
+		
+			
+		
 
-  script/generate opensteam <webshop_name>
+opensteam provides two new generators (script/generate):
 
 * create a new product model:
 
@@ -72,10 +97,7 @@ Each product-property association (a blue-shirt, a green-shirt, etc) gets its ow
 == SYNOPSIS:
 
 Create an empty Rails application
-	rails name_of_rails_application
-	
-Create the openSteam framework
-	script/generate opensteam WebshopName
+	rails name_of_rails_application -m openteam_application_template.rb
 	
 Create product models
 	script/generate opensteam_product ProductName
@@ -91,7 +113,7 @@ Goto /admin and configure your products
 
 == REQUIREMENTS:
 
-* rails (..of course)
+* Rails 2.3
 
 * prawnto gem (used for pdf-export) http://www.cracklabs.com/prawnto
 	sudo gem install prawn

@@ -37,11 +37,8 @@ module Opensteam::Container
     belongs_to :container, :class_name => 'Opensteam::Container::Base',
       :counter_cache => "items_count"
   
-  
-
     belongs_to :item, :polymorphic => true
 
-  
     belongs_to :invoice, :class_name => 'Opensteam::Models::Invoice', :counter_cache => "items_count"
     belongs_to :shipment, :class_name => 'Opensteam::Models::Shipment', :counter_cache => "items_count"
   
@@ -73,12 +70,13 @@ module Opensteam::Container
     end
 
 
-  
+    # set price before saving
     def init_price
       self.price = self.item.price
     end
   
-
+  
+    # update the total price ( quantity * price)
     def update_total_price
       self.total_price = self.quantity * self.price
     end

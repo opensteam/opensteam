@@ -13,8 +13,11 @@
   </tr>
   <tr>
     <td class="label"><%= f.label :unit %></td>
-    <td class="content"><%= f.select :unit, ['String', 'Integer', 'Float'] %>
-      <% javascript_tag do %>transform2ComboBox("property_unit") <% end %>
-    </td>
+    <td class="content"><%= f.text_field :unit, :class => "inputFields" %></td>
   </tr>
+  <tr>
+    <td class="label"><%= f.label :presentation_value %></td>
+    <td class="content"><%= f.text_field :presentation_value, :class => "inputFields" %></td>
+  </tr>
+	
 </table>

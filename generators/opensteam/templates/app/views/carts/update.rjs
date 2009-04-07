@@ -1,9 +1,0 @@
-page.replace_html :cart_content, :partial => "carts/cart_content"
-if params[:quantity]
-  Hash[params[:quantity]].keys.each do |k|
-    page.select("#cart_item_#{k}").each { |e| e.visual_effect :highlight, :duration => 1, :startcolor => "#cccccc" }
-  end
-end
-if params[:id]
-  page.select("#cart_item_#{params[:id]}").each { |e| e.visual_effect :highlight, :duration => 1, :startcolor => '#cccccc' }
-end

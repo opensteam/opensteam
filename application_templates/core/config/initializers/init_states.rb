@@ -1,16 +1,13 @@
-__END__
-
 if defined? RAILS_ROOT
   Dir.glob("#{RAILS_ROOT}/lib/states/**/*.rb").collect { |f|
     require f
   }
 end
 
-OrderStates = Opensteam::Sales::OrderBase::States
-InvoiceStates = Opensteam::Sales::InvoiceBase::States
-ShipmentStates = Opensteam::Sales::ShipmentBase::States
 
 if defined? Opensteam::Models::Order
+  
+  OrderStates = Opensteam::Sales::OrderBase::States
   Opensteam::Models::Order.class_eval do
     include OrderStates::Finished
     include OrderStates::Pending
@@ -34,6 +31,7 @@ end
 
 # States for Opensteam::Models::Shipment
 if defined? Opensteam::Models::Shipment
+  ShipmentStates = Opensteam::Sales::ShipmentBase::States
   Opensteam::Models::Shipment.class_eval do
     include ShipmentStates::Pending
     include ShipmentStates::Finished

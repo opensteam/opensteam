@@ -25,8 +25,8 @@ module Opensteam::Property
   # It provides the basic Property functionality and associations.
   #
   # A property object is used to describe a Product. (Like "Color", "Size", ..).
-  # Based on the associated properties of a product, an inventory object can be built. This inventory object can
-  # have a price, a quantity, (or an association to a legacy system), thus defining the product-property configuration.
+  # Based on the associated properties of a product, an inventory object can be built.
+  # The inventory object is used to identify a product or a specific product-property configuration.
   #
   module Logic
 
@@ -49,7 +49,7 @@ module Opensteam::Property
           has_and_belongs_to_many :products
           has_and_belongs_to_many :property_groups
 
-          validates_uniqueness_of :value, :scope => :type
+          #validates_uniqueness_of :value, :scope => :type
 
         end
 
@@ -66,7 +66,8 @@ module Opensteam::Property
         Opensteam::Property::Logic.property_klasses
       end
 
-      def inherited(sub) #:nodoc:
+      # save all property-classes into class_variable +property_klasses+
+      def inherited(sub)
         super
         Opensteam::Property::Logic.property_klasses << sub.to_s
         Opensteam::Property::Logic.property_klasses.uniq!

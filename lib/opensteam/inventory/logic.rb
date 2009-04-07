@@ -22,16 +22,20 @@ module Opensteam::Inventory
   #
   # This module is meant to be included into the actual Opensteam Inventory Model.
   #
-  # An inventory object holds the price, quantity, etc .. for a product or product-property configuration,
-  # thus giving the product a unique id.
-  # Inventory objects are used inside the shopping-cart, the wishlish and the order, to identifying the product.
+  # An inventory object holds the price, quantity, etc .. for a product.
+  # It is also used to given a certain product-property configuration a specific price, storage, etc.
+  # When a customer buys a product, he actually buys an inventory-id.
+  #
+  # Inventory objects are used inside the shopping-cart, the wishlish and the order, to identify the product.
   # (So the inventory-object can be used as the interface to a legacy system.)
+  # 
+  # 
   module Logic
 
     class << self ;
 
-      def included(base) #:nodoc:
-        
+      def included(base)
+                
         raise ArgumentError, "Can't include #{self} into more than one Inventory-Models. Use STI instead!" if
           self.included_in_classes.reject { |s| s == Opensteam::Inventory::Base }.size > 1
         
@@ -43,14 +47,20 @@ module Opensteam::Inventory
         base.send( :include, InstanceMethods )
 
         base.class_eval do
+          
+          # product association
           belongs_to :product, :class_name => "Opensteam::Models::Product"
+          
+          # has_many :through association for properties
           has_many :inventories_properties, :class_name => "Opensteam::Inventory::InventoriesProperty"
           has_many :properties, :through => :inventories_properties, :class_name => "Opensteam::Models::Property"
 
+          # tax_group association, used for tax calculation
           belongs_to :tax_group, :class_name => 'Opensteam::Sales::Money::Tax::ProductTaxGroup'
 
           validates_presence_of :price, :storage
 
+          # find inventories based on given properties
           named_scope :by_properties, lambda { |properties|
             { :include => :properties,
               :conditions => { "properties.id" => properties.collect(&:id) },

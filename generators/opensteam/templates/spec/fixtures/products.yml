@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-shirt_one:
-  name: MyShirt
-  description: MyShirtDescription
-
-shirt_two:
-  name: AnotherShirt
-  description: AnotherShirtDescription

@@ -19,13 +19,14 @@ module Opensteam
 
   module System
 
-    # Zones (Country Codes)
+    # Zone Model (Country Codes)
     class Zone < ActiveRecord::Base
 
       named_scope :name_ordered, { :order => 'zones.country_name ASC' }
 
       class << self ;
 
+        # return data for a select box
         def for_select(*args)
           return [] unless args
           name_ordered.map do |m|
@@ -52,6 +53,8 @@ module Opensteam
     end
 
 
+    # All mailer classes and methods (in app/models/mailer) get registered in this model
+    # the admin can de/activate the class/method in the opensteam admin backend
     class Mailer < ActiveRecord::Base
       self.table_name = "config_mails"
       #include Opensteam::System::FilterEntry::Filter
@@ -60,22 +63,27 @@ module Opensteam
       named_scope :mailer_method, lambda { |mailer_method| { :conditions => { :mailer_method => mailer_method } } }
       named_scope :active, { :conditions => { :active => true } }
 
+      # check if mailer/method is active
       def active? ; self.active ; end
 
+      # activate mailer/method
       def activate!   ; self.update_attributes( :active => true )   ; end
+      # deactivate mailer/method
       def deactivate! ; self.update_attributes( :active => false )  ; end
 
 
-      def increment_messages ; self.increment!( :messages_sent ) ; end
+      def increment_messages #:nodoc:
+        self.increment!( :messages_sent )
+      end
 
       class << self ;
 
-        def activate( klass, meth )
+        def activate( klass, meth ) #:nodoc:
           mailer = mailer_class( klass.to_s ).mailer_method( meth.to_s )
           mailer.collect(&:activate!)
         end
 
-        def deactivate( klass, meth )
+        def deactivate( klass, meth ) #:nodoc:
           mailer = mailer_class( klass.to_s ).mailer_method( meth.to_s )
           mailer.collect(&:deactivate!)
         end

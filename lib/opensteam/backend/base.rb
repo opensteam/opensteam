@@ -17,8 +17,6 @@
 module Opensteam
 
 
-
-
   # module to register and load all controller in the admin backend
   # !!! currently not used !!!
   #

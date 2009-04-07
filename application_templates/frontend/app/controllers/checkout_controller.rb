@@ -16,7 +16,7 @@ class CheckoutController < OpensteamController
 
     
     render :update do |page|
-      for st in Opensteam::Sales::ShipmentBase::RegionShippingRate.all.collect(&:shipping_method ).uniq
+      for st in RegionShippingRate.all.collect(&:shipping_method ).uniq
         page.replace_html "shipping_type_rate_#{st.underscore}", @cart.calculate_shipping_rate( 
           locals.update( :shipping_method => st ) )
       end

@@ -147,7 +147,7 @@ module Opensteam::Sales
         after_update :save_tax_rules
 
 
-        def new_tax_rule_attributes=( rule_attributes )
+        def new_tax_rule_attributes=( rule_attributes ) #:nodoc:
           rules = []
           rule_attributes.each do |attributes|
             tax_rules.build( attributes ) unless rules.include?( attributes["tax_zone_id"] )
@@ -155,7 +155,7 @@ module Opensteam::Sales
           end
         end
       
-        def existing_tax_rule_attributes=( rule_attributes )
+        def existing_tax_rule_attributes=( rule_attributes ) #:nodoc:
           tax_rules.reject(&:new_record?).each do |tax_rule|
             attributes = rule_attributes[tax_rule.id.to_s]
             if attributes

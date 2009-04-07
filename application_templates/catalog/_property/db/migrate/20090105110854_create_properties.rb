@@ -4,6 +4,7 @@ class CreateProperties < ActiveRecord::Migration
       t.string :type
       t.string :value
       t.string :unit
+      t.string :presentation_value
 
       t.timestamps
     end

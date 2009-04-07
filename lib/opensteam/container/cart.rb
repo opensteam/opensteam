@@ -46,6 +46,7 @@ module Opensteam::Container
     end
 
 
+    # check if cart is empty (no items)
     def empty?
       items.empty?
     end
@@ -62,7 +63,8 @@ module Opensteam::Container
       Array(items).find { |i| i.item == item }
     end
 
-    
+    # calculate the total price of
+    # (sum up price of items)
     def total_price
       items.collect(&:total_price).sum
     end

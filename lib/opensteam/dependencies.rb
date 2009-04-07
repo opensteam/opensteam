@@ -95,9 +95,14 @@ module Opensteam
       
       def set_user_model( base )
         self.set_constant("Opensteam::Models", "User", base )
+        self.set_constant("Opensteam::UserBase", "User", base )
         set_constant(nil, "User", base ) unless base.to_s == "User"
       end
       
+      def set_address_model( base )
+        self.set_constant("Opensteam::Models", "Address", base )
+        self.set_constant( nil, "Address", base ) unless base.to_s == "Address"
+      end
       
       def method_missing( method_name, *args, &block )
         if method_name.to_s =~ /^set\_(.+)\_model$/
@@ -122,9 +127,6 @@ end
      # if found, returns the referenced constant. if not, calls the original ActiveSupport::Dependencies.load_missing_constant method
      def load_missing_constant_with_opensteam_constants( from_mod, const_name )
        from_mod_name = from_mod == Object ? "" : from_mod.to_s
-       puts from_mod_name
-       puts const_name
-       puts "--" * 10
        if real_const_name = Opensteam::Dependencies.opensteam_constants[ from_mod_name.to_s + const_name.to_s ]
          real_const_name.constantize
        else
@@ -132,7 +134,7 @@ end
        end
      end
    
-     alias_method_chain :load_missing_constant, :opensteam_constants
+   #  alias_method_chain :load_missing_constant, :opensteam_constants
    end
  
  end

@@ -18,8 +18,8 @@ module Opensteam
   
   
   # Config Module for Opensteam
-  #
-  #
+  # 
+  # Implements a simple way to set environment variables for Opensteam and the Opensteam Administration Backend
   module Config
     
     
@@ -39,9 +39,9 @@ module Opensteam
     
     # Model for Opensteam Configuration
     #
-    # simple key-value configuration model#
-    # used to store information like DEFUALT_COUNTRY, DEFAULT_TAX_GROUP, DEFUALT_SHUIPPING_RATE, etc
-    #
+    # key-value configuration model
+    # used to store environment variables for opensteam 
+    # like: 'default_country', 'default_shipping_rate'
     class Base < ActiveRecord::Base #:nodoc:
       self.table_name = "configurations"
     
@@ -91,9 +91,9 @@ module Opensteam
   
   # UUID Helper
   # used to generate uuids for primary keys
-  # DEPRECATED!
-  # TODO: fix UUID Helper!!
   #
+  # CURRENTLY NOT USED !
+  # need to resolve some issues with foreign_keys in associations
   module UUIDHelper
     require 'rubygems'
     require 'uuidtools'

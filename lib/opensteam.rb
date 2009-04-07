@@ -21,6 +21,25 @@ opensteam
 
 The +opensteam+ core provides functionality for web-based shopping and e-commerce
 applications.
+
+Opensteam can be created using application templates (rails 2.3)
+In your template:
+  
+  require 'opensteam/template'
+  
+  opensteam do
+    # generate the opensteam core (admin backend)
+    core
+    # generate all catalog files (mvc for products, properties and inventories)
+    catalog
+    # generate all sales files (mvc for orders, shipments and invoices)
+    sales
+    # generate an example frontend (shopping-cart, checkout process)
+    frontend
+  end
+  
+Make sure to provide a user-model (generate with restful_authentication). Default: "User"
+The module "Opensteam::User::UserLogic gets included into the user model
 =end
 
 module Opensteam #:nodoc:

@@ -18,7 +18,7 @@ module Opensteam
   module Payment
     
 
-    class DirectDebitPayment < Base
+    class DirectDebitPayment < Base #:nodoc:
       self.display_name = "DirectDebit Payment"
       self.payment_id = :direct_debit
       

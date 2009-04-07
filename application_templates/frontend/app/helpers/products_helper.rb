@@ -33,7 +33,7 @@ end
 
 class ActionView::Helpers::FormBuilder
   def property_selector( group, opts = { :cart_details => false } )
-    property_array = group.properties.collect { |i| [i.value, i.id] }
+    property_array = group.properties.collect { |i| [i.presentation_value, i.id] }
     sel_opts = sel_opts2 = {}
     sel_opts[:include_blank] = !opts[:cart_details]
     sel_opts2[:disabled] = opts[:cart_details]

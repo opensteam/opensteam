@@ -20,7 +20,7 @@ module Opensteam::Frontend
   # Controller Actions for ShoppingCart( Opensteam::Container::Base, Opensteam::Cart ) manipulation
   module ShoppingCart
 		
-    def self.included(base)
+    def self.included(base) #:nodoc:
       base.extend ClassMethods
       
       base.class_eval do
@@ -44,11 +44,12 @@ module Opensteam::Frontend
         returning(Hash.new) { |hash| h.each_pair { |k,v| k =~ /^products/ ? ( hash[:products] ||= [] ) << frmt(v) : hash[k] = v } }
       end
 			
-      
+      # returns the id of the current cart object (inside the session)
       def get_cart_id
         session[:cart] ||= Opensteam::Container::Cart.create.id
       end
       
+      # returns a cart object
       def get_cart
         @cart = Opensteam::Container::Cart.find( get_cart_id )
       rescue
@@ -56,7 +57,7 @@ module Opensteam::Frontend
         @cart = Opensteam::Container::Cart.find( session[:cart] )
       end
       
-		
+		  # destroy cart and create a new one
       def wipe_cart
         session[:cart] = nil
         get_cart
@@ -64,7 +65,7 @@ module Opensteam::Frontend
 		
       alias :clear_cart :wipe_cart
 			
-      def redirect_to_index
+      def redirect_to_index #:nodoc:
         redirect_to opensteam_index_path
       end
 			

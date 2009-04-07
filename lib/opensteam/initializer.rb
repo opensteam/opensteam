@@ -49,6 +49,9 @@ module Opensteam
     attr_reader :configuration
     
     class << self ;
+      
+      # run the opensteam initializer
+      # create a new Opensteam::Configuration Object and runs the +command+
       def run(command  = :process, configuration = Configuration.new, &block )
         yield configuration if block_given?
         Opensteam.configuration = configuration
@@ -58,11 +61,18 @@ module Opensteam
       end
     end
     
-    def initialize(config)
+    def initialize(config) #:nodoc:
       @configuration = config
     end
     
-    
+    # process opensteam initializer
+    # - extend active record
+    # - preload all opensteam models (defined in config.opensteam_models_path)
+    # - initialize all opensteam extensions
+    # - register mailer classes in Opensteam::System::Mailer
+    # - register payment types in Opensteam::Payment::Type
+    # - extend some rails classes
+    # 
     def process
       #require_user_model
       
@@ -75,18 +85,21 @@ module Opensteam
 
     end
     
+    # constantize the given user model (config.user_model)
     def require_user_model
       configuration.user_model.classify.constantize
     end
     
     
-    
+    # require and register all payment classes in Opensteam::Payment::Type, (if DB connection is present..)
     def register_payment_types
       require_payment_classes
       Opensteam::Payment::Types.register_payment_types! if ActiveRecord::Base.connection.table_exists?( Opensteam::Payment::Types.table_name )
     end
 
 
+    # initialize and require_dependency all opensteam models (set through config.opensteam_models_path and config.opensteam_catalog_models_path)
+    # add paths to $LOAD_PATHS and ActiveSupport::Dependencies
     def initialize_opensteam_models
       configuration.opensteam_catalog_models_path.each do |path|
         $LOAD_PATH << path
@@ -96,7 +109,7 @@ module Opensteam
       configuration.opensteam_model_paths.each do |path|
         $LOAD_PATH << path
         ActiveSupport::Dependencies.load_paths << path
-        puts path
+        # puts path
         Dir.glob( File.join( path, "*.rb" ) ).each { |f| require_dependency f }
       end
     end
@@ -119,18 +132,20 @@ module Opensteam
       end
     end
 
+    # initialize and load all openteam extensions
     def initialize_opensteam_extensions
-      puts "initialize opensteam extensions"
+      #puts "initialize opensteam extensions"
       configuration.opensteam_extension_loader.initialize_extensions( configuration )
     end
 
+    # require all payment classes (so that they are present in Opensteam::Payment::Base.payment_classes Array)
     def require_payment_classes
       configuration.payment_paths.each do |p|
         Dir.glob( File.join( p, "*.rb" ) ) { |f| require f }
       end
     end
 
-
+    # extend some rails classes, see file rails_extensions/core.rb for more information
     def extend_stuff
       require File.join( File.dirname(__FILE__), "rails_extensions", "core.rb" )
       #require File.join( File.dirname(__FILE__), "rails_extensions", "dependency_injection.rb" )
@@ -189,7 +204,9 @@ module Opensteam
     # main shop controller of opensteam rails-application
     attr_accessor :opensteam_shop_controller
     
-    attr_accessor :backend_navigation_hash
+    
+    attr_accessor :backend_namespaces
+    
     
     def initialize #:nodoc:
       Opensteam.log_level = :info
@@ -197,6 +214,7 @@ module Opensteam
       
       self.user_model = default_user_model
       
+      self.backend_namespaces = [:catalog, :sales, :config, :system]
 
       self.opensteam_init_libs = default_init_libs
       require self.opensteam_init_libs
@@ -213,18 +231,10 @@ module Opensteam
     end
     
     
-    def backend_navigation
-      mapper = Opensteam::NavigationMapper.new
-      self.backend_navigation_hash = yield(mapper)
-    end
-    
-    
-    
-    
       private
 
 
-      def default_user_model
+      def default_user_model #:nodoc:
         "User"
       end
       
@@ -260,45 +270,7 @@ module Opensteam
       def default_opensteam_mailer_paths
         [ File.join( "#{RAILS_ROOT}", "app", "models", "mailer" ) ]
       end
-      
-      
-      
-      
-      
 
   end
-  
-  
-  class NavigationMapper
-    
-    attr_accessor :nav_array
-    attr_accessor :sub
-    
-    def initialize
-      self.nav_array = []
-      self.sub = []
-    end
-
-    def item(id, opts = {})
-      self.sub << { :"#{id}" => opts }
-    end
-    
-    def menu(name, &block)
-      m = self.nav_array.select { |s| s.keys.include?( name.to_s.humanize ) }
-      if m.empty?
-        m = { name.to_s.humanize => [] }
-        self.nav_array << m
-      else
-        m = m.first
-      end
-      
-      yield(self)
-      m[name.to_s.humanize] = self.sub if block_given?
-      self.sub = []
-      self.nav_array
-    end
-  end
-  
-  
 end
 

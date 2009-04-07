@@ -22,14 +22,15 @@ module Opensteam
   # 
   module StateMachine
       
-
+    # raised if event is not defined
     class EventNotDefined < Opensteam::Config::Errors::OpensteamError
     end
 
     # raised when the event is not defined for current state
     class EventNotDefinedForCurrentState < Opensteam::Config::Errors::OpensteamError
     end
-      
+    
+    # raised if an error occured during event execution
     class EventExecutionError < Opensteam::Config::Errors::OpensteamError
     end
     
@@ -37,6 +38,8 @@ module Opensteam
 
      def get_observer ; @@observer ||= [] ; end
         
+      # set the initial state
+      # sets an after_create callback to set the initial state for the object
       def initial_state( state )
         self.initialstate = state
         after_create { |record| record.state = state }
@@ -59,7 +62,7 @@ module Opensteam
     
     
     
-    def self.included(base)
+    def self.included(base) #:nodoc:
       base.extend(ClassMethods)
       base.class_eval do
        include InstanceMethods
@@ -79,7 +82,7 @@ module Opensteam
     end
     
     
-    class Observer
+    class Observer #:nodoc:
       attr_accessor :receiver, :code
       
       def initialize( receiver, &block )
@@ -96,7 +99,7 @@ module Opensteam
     end
 
     
-    module ClassMethods
+    module ClassMethods #:nodoc:
     end
     
     

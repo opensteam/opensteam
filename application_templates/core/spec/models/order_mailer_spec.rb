@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Mailer::OrderMailer do
   
   fixtures :addresses, :users, :inventories
-  Address = Opensteam::UserBase::Address
+#  Address = Opensteam::UserBase::Address
  
   before(:each) do
 

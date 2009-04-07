@@ -2,6 +2,9 @@
  	<div id="dvSubNavItemCont_CONFIG" class="dvSubNav_itemsContainer">       
  		<%= link_to "Tax Zones", admin_config_tax_zones_path %>
     <%= link_to "Tax Groups", admin_config_tax_groups_path %>
-    <%= link_to "Shipping Rate Groups", admin_config_shipping_rate_groups_path %>
+		<% for ext in Opensteam::Extension.extensions_for_backend :config %>
+			<%= link_to ext.id.to_s.capitalize.humanize, :controller => "admin/config/#{ext.id}", :action => :index %>
+		<% end %>
+    <%#= link_to "Shipping Rate Groups", admin_config_shipping_rate_groups_path %>
 	</div>
 </div>

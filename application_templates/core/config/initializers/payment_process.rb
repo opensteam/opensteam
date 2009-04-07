@@ -31,7 +31,3 @@ Opensteam::Payment::CreditCardPayment.class_eval do
   
 end
 
-
-Opensteam::Container::Base.class_eval do
-  include Opensteam::Sales::ShipmentBase::ShippingCalculation
-end

@@ -67,6 +67,7 @@ end
 
 class ActionMailer::Base
 
+  # check of mailer-class and mailer-method are active in Opensteam::System::Mailer, before delivering them
   def deliver_with_active_mailer_check!(mail = @mail )
     active_mailer = Opensteam::System::Mailer.mailer_class( self.class.to_s ).mailer_method( @action_name ).active
     return nil if active_mailer.empty?

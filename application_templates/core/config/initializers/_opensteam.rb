@@ -2,9 +2,6 @@
 
 Zone = Opensteam::System::Zone
 
-Opensteam::UserBase::User = User
-
-
 module Prawnto
   module TemplateHandler
     class Base < ActionView::TemplateHandler

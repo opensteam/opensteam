@@ -1,3 +1,5 @@
+# defines all the library files to load on opensteam start (initializer)
+
 require 'opensteam/base'
 
 require 'opensteam/helpers/filter'
@@ -24,9 +26,9 @@ require 'opensteam/container/base'
 require 'opensteam/container/cart'
 require 'opensteam/container/item'
 
-require 'opensteam/sales/shipment_base'
-require 'opensteam/sales/invoice_base'
-require 'opensteam/sales/order_base'
+#require 'opensteam/sales/shipment_base'
+#require 'opensteam/sales/invoice_base'
+#require 'opensteam/sales/order_base'
 require 'opensteam/payment'
 
 require 'opensteam/models'

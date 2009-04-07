@@ -1,8 +1,0 @@
-for p in @properties
-  xml.Item do 
-    xml << render( :partial => "admin/_xml/grid_value", :object => p )
-    xml.tag! :editor_url, edit_admin_catalog_property_path( p )
-    
-    xml.tag! :checked, check_box_tag( "#{@context.class.to_s.underscore}[property_ids][]", p.id, @context.properties.include?( p ) )
-  end
-end

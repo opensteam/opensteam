@@ -1,6 +1,8 @@
 class Admin::System::ConfigurationsController < Admin::SystemController
   # GET /configurations
   # GET /configurations.xml
+  
+  Configuration = Opensteam::Config::Base
   def index
     @configurations = Configuration.find(:all)
 

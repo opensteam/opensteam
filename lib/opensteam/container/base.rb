@@ -27,20 +27,19 @@ module Opensteam::Container
   class Base < ActiveRecord::Base
     def self.table_name ; "containers" ; end
 
-  
+    # a container has many container-items (order-items, wishlist-items)
     has_many :items, :class_name => "Opensteam::Container::Item",
       :foreign_key => 'container_id',
       :dependent => :destroy
   
-    belongs_to :customer, :class_name => 'Opensteam::UserBase::User'
-  
+    # a container belongs to a customer
+    belongs_to :customer, :class_name => '::User', :foreign_key => "user_id"
   
     # move all items from container +c+ to current container +self+
     def move_items_from c
       c.items.each do |v|
         v.update_attribute( :container, self )
       end
-    
     end
   
     # copy all items from container +c+ to current container +self+

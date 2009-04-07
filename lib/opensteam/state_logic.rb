@@ -52,8 +52,6 @@ module Opensteam
         #
         # for each instance-method of the state-module, it creates an alias (in the receiver-klass) and delegates it
         # to the corresponding state-module (based on receiver.state -> StatePattern) through the fire_event method.
-        #
-        
         def included(receiver)
           self.instance_methods(false).each do |m|
             
@@ -89,132 +87,10 @@ module Opensteam
     
     require 'observer'
     
-#    
-#    class Base < ActiveRecord::Base
-#      self.table_name = "states"
-#
-#
-#      def self.state_type ; :state_base ; end
-#      def state_type ; self.class.state_type ; end
-#      
-#      Object.const_set "State", self
-#      
-#      @@sub_states = []
-#      class_inheritable_accessor :sub_states
-#      
-#
-#      def self.inherited(base)
-#        ( self.sub_states ||= [] ) << base
-#
-#      end
-#
-#
-#
-#
-#      def self.mod ; "#{self.to_s}Module".classify.constantize ; end
-#      def mod ; self.class.mod ; end
-#
-#      def self.state_name
-#        self.to_s =~ /^(.+)State$/
-#        $1 ? $1.underscore.to_sym : self.to_s.to_sym
-#      end
-#      
-#      def state_name ; self.class.state_name ; end
-#      
-#      def to_s ; self.state_name ; end
-#      
-#      
-#      def self.events
-#        ( ( self.instance_methods(false) - self.generated_methods.to_a ).collect { |x|
-#            x =~ /!$/ ? x : nil }.compact.collect(&:to_sym) )
-#      end
-#      
-#      
-#      def events ; self.events ; end
-#      
-#      
-#      def self.instance_for_event( sym )
-#        "#{sym}State".classify.constantize.create
-#      end
-#      
-#      
-#      
-#      
-#      
-#      
-#      
-#     
-#      
-#      def self.state(name, &block)
-#        klass_name = "#{name}State".classify
-#        begin
-#          klass = klass_name.constantize
-#          raise NameError if klass.superclass != self
-#          puts "#{klass} is defined!!"
-#        rescue NameError
-#          klass = Class.new( self )
-#          Object.const_set klass_name, klass
-#        end
-#        klass.class_eval(&block) if block_given?
-#      end
-#      
-#      
-#      def self.event(name, *args, &block)
-#        self.class_eval { define_method(name) { block.call } if block_given? }
-#        Opensteam::StateMachine.inject_state_queries( self )
-#        Opensteam::StateMachine.inject_event_methods( self )
-#      end
-#      
-#      
-#      def self.transition_observer(*args, &block)
-#        if args.first.is_a?( Hash )
-#          from, to = args.first.keys.first, args.first.values.first
-#        else
-#          from, to = self.state_name, args.first
-#        end##
-#
-#        if block_given?
-#          #      Opensteam::StateMachine.transitions[from] ||= {}
-#          #      ( Opensteam::StateMachine.transitions[from][to] ||= [] ) << block
-#        end
-#        
-#      end
-#      
-#    end
-#    
-#    
-
   
   end
   
 
 end
-
-
-
-#if defined? RAILS_ROOT
-#  
-#  Dir.glob("#{RAILS_ROOT}/app/states/**/*.rb").collect { |f|
-#    puts f
-#    require f
-#    klass_name = "#{File.basename(f,'.rb')}State".classify
-#    begin
-#      klass = klass_name.constantize
-#    rescue NameError
-#      klass = Class.new( Opensteam::StateLogic::Base )
-#      Object.const_set klass_name, klass
-#    end
-#  }
-#
-#end
-
-
-## if rails is runniny
-#if defined? RAILS_ROOT
-#  ## init all states and create event methods for the Order-Instance
-#  Dir.glob("#{RAILS_ROOT}/app/models/*_states.rb").collect { |f|
-#    require Opensteam::State::Machine.create_event_methods_for_order( File.basename(f, ".rb").classify.constantize )
-#  }
-#end
 
 

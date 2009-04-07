@@ -1,6 +1,0 @@
-<a style="<%= style %>" href="#" id="drop_me" class="new-tab"><span class="text">Add Quicksteam</span><span class="text-over">Drop here...</span></a>
-<%= drop_receiving_element :drop_me,
-  :hoverclass => 'new-tab-over',
-  :url => { :controller => "admin/system/quicksteams", :action => :create },
-  :with => "'quicksteam[path]=' + $(element.id + '_path').innerHTML + '&quicksteam[name]=' + $(element.id + '_title').innerHTML" %>
-

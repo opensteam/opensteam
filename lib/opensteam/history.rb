@@ -23,13 +23,14 @@ module Opensteam
   #
   module History
     
+    # History Base class, used to save history items
     class Base < ActiveRecord::Base
       self.table_name = "histories"
       belongs_to :receiver, :polymorphic => true
     end
     
    
-    def self.included(receiver)
+    def self.included(receiver) #:nodoc:
       receiver.class_eval do
         include InstanceMethods
       
@@ -42,6 +43,7 @@ module Opensteam
     
     module InstanceMethods
      
+      # add a new history message and save the object
       def add_history( message )
         save
         self.history.create( :message => message )

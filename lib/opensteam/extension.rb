@@ -16,27 +16,48 @@
 
 module Opensteam
 
+  # module to handle and register Opensteam Extensions
   module Extension
 
     mattr_accessor :plugins
-    self.plugins = []
 
     mattr_accessor :product_extensions
     self.product_extensions = []
+    
+    mattr_accessor :extensions
 
     mattr_accessor :product_dependency_array
     
     
 
     class << self ;
-
-      def product_dependency
+      
+      def extensions_for( sym ) #:nodoc:
+        self.extensions[ sym.to_sym ]
+      end
+      
+      # return extensions for backend +namespace+
+      def extensions_for_backend( namespace )
+        ( self.plugins  || [] ).select { |s| s.information[:backend] == namespace }
+      end
+      
+      
+      def product_dependency #:nodoc:
         self.product_dependency_array ||= []
       end
 
       # register an opensteam extension
-      def register name, &block
+      def register *name, &block
+        self.extensions ||= {}
+        self.plugins ||= []
         plugin = Base.new
+        if name.first.is_a?( Hash )
+          plugin.id = name.first.values.first
+          self.extensions[ name.first.keys.first.to_sym ] ||= []
+          self.extensions[ name.first.keys.first.to_sym ] << plugin
+        elsif name.first.is_a?( Symbol )
+          plugin.id = name.first
+        end
         plugin.instance_eval(&block)
         self.plugins << plugin
       end
@@ -81,32 +102,36 @@ module Opensteam
         end
       end
 
-      attr_accessor :information, :name
-      dsl_accessor  :description, :view_path, :controller_path
+      attr_accessor :information, :name, :id
+      dsl_accessor  :description, :view_path, :controller_path, :backend
 
 
-      def initialize( name = "" )
+      def initialize( name = "" ) #:nodoc:
         @name = name
         @information = {}
       end
 
-      
+      # register module as a product dependency (gets reloaded when the product model does)
       def product_inject_dependency *mod
         Opensteam::Extension.product_dependency << mod
         #        ActiveSupport::Dependencies.inject_dependency Product, *mod
       end
 
-
+      
+      # set routes in plugins
+      # NOT NEEDED due to Rails 2.3 Engine support
       def plugin_routes &block
         return self.information[:plugin_routes] unless block_given?
         self.information[:plugin_routes] = block
       end
 
+      # mark extension as a product extension (set links in admin backend, like 'categories', 'tags', etc)
       def product_extension t
         Opensteam::Extension.product_extensions << t
       end
 
-
+      # mark module as view helper
+      # NOT NEEDED due to RAils 2.3 Engine support
       def helper_modules *mod
         mod.each do |m|
           ActionView::Base.send :include, m
@@ -118,6 +143,7 @@ module Opensteam
 
 
     # extend ActionController Routing to load plugin-routes
+    # NOT NEEDED due to Rails 2.3 Engine support
     module Routing #:nodoc:
       def self.included(base) #:nodoc:
         base.class_eval { alias_method_chain :draw, :opensteam_extension_routes }

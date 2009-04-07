@@ -38,8 +38,6 @@ module Opensteam
           }
 
           class_inheritable_accessor :conf_grid
-
-
         end
 
 
@@ -52,6 +50,7 @@ module Opensteam
       end
 
 
+      # some instance methods for xml generation for ExtJS Grid
       module InstanceMethods
 
         def editor_url ; "#{self.class.to_s.demodulize.underscore.singularize}/#{self.id}" ; end

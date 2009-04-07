@@ -1,7 +1,0 @@
-<div class="tab" style="float:left;">
-  <%= link_to "<span id='quicksteam_#{quicksteam.id}'>#{quicksteam.name}</span>", quicksteam.path %>
-  <div class="edit_quicksteam" style="display:none;position:absolute;top:-5px;left:10px;">
-    <%= link_to_function( backend_image_tag("cross.png"), "delquicksteam($(this));", :class => "editquicksteamlink") %>
-  </div>
-</div>
-

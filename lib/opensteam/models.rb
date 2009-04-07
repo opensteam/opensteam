@@ -19,37 +19,11 @@ module Opensteam
 
 
   # Model Namespace
-  # contains openSteam specific models, like Order, Inventory, Invoice, Shipment, etc
+  # Holds constants for models of the actual rails applications
+  # The constants are set through the Opensteam::Dependencies.set_constant method.
   #
-  # The opensteam specific logic is included using modules, like Openteam::OrderBase
-  #
-  # This is meant to be replaced by actual models inside a Rails Application
-  #
+  # Using this technique, a programmer can include the product/property/inventory/order logic in his own
+  # models, and Openteam can reference them through the constants defined in this namespace
   module Models
-
-    # Order Model
-    # # see Opensteam::Sales::OrderBase for more information
-    # class Order < Opensteam::Container::Base
-    #   include Opensteam::Sales::OrderBase
-    # 
-    #   # get orders by given user
-    #   named_scope :by_user, lambda { |user_id| { :include => [:customer ], :conditions => { :user_id => user_id } } }
-    # end
-    # 
-    # 
-    # # Shipment Model
-    # # see Opensteam::Sales::ShipmentBase for more information
-    # class Shipment < ActiveRecord::Base
-    #   include Opensteam::Sales::ShipmentBase
-    #   
-    # end
-    # 
-    # 
-    # class Invoice < ActiveRecord::Base
-    #   include Opensteam::Sales::InvoiceBase
-    #   
-    # end
-
-
   end
 end

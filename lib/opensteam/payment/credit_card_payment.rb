@@ -18,8 +18,7 @@ module Opensteam
   module Payment
     
 
-    #require 'active_merchant'
-
+    # implements the Payment Class for paying via credit-card
     class CreditCardPayment < Base
       self.display_name = "CreditCard Payment"
       self.payment_id = :credit_card
@@ -42,12 +41,12 @@ module Opensteam
         super
       end
       
-      
+      # returns a new instance of the defined gateway class, using the provided gateway_user and gateway_password
       def gateway
         self.class.gateway_class.new( :login => self.class.gateway_user, :password => self.class.gateway_password )
       end
       
-      # inits a new credit card and assigns it to current payment object
+      # inits a new credit card (using ActiveMerchant) and assigns it to current payment object
       def set_credit_card=(fields)
         #self.credit_card = CreditCard.new( fields )
         fields.update( :type => fields.delete(:brand) ) if fields[:brand]
@@ -59,6 +58,8 @@ module Opensteam
       
       
       # authorize amount and credit_card at payment gateway
+      # wrapper for the actual +authorize+ method of a ActiveMerchant gateway.
+      # processes the 'authorize' action on the gateway using the +transactions.process+ method
       def authorize( amount = nil, options = {} )
         self.amount = amount || self.order.total_price
         #self.credit_card.decrypt_number
@@ -71,6 +72,8 @@ module Opensteam
       
       
       # capture amount from authorization
+      # wrapper for the actual +capture+ method of a ActiveMerchant gateway.
+      # processes the 'capture' action on the gateway using the +transactions.process+ method
       def capture( amount, authorization, options = {} )
         self.amount = amount || self.order.total_price
         
@@ -82,9 +85,10 @@ module Opensteam
       
       
       # purchase amount from credit_card
+      # wrapper for the actual +purchase+ method of a ActiveMerchant gateway.
+      # processes the 'purchase' action on the gateway using the +transactions.process+ method
       def purchase( amount = nil, options = {} )
         self.amount = amount || self.order.total_price
-        # self.credit_card.decrypt_number
 
         process :purchase, amount_in_cents, self.credit_card, options
       end
@@ -95,52 +99,43 @@ module Opensteam
       
       private
 
-      def process action, amount, credit_card,options
+      def process action, amount, credit_card,options #:nodoc:
         transactions.process( :action => action, :amount => amount ) do |gw|
           gw.__send__( action, amount, credit_card, options )
         end
       end
       
 
-      
+      # validate the credit-card
       def validate
         if credit_card
           errors.add( :credit_card, "not valid" ) unless credit_card.valid?
         end
       end
-        
-      # charge credit card transaction
-        
-      #                    
-      #        response = gateway.purchase( amount_in_cents, credit_card )
-      #            
-      #        self.test = response.test?
-      #        self.reference = response.authorization
-      #        self.message = response.message
-      #        self.receipt = response.receipt
-      #            
-      #        if !response.success?
-      #          errors.add_to_base( self.message )
-      #          return false
-      #        end
+
     end
       
       
   
+    # States for the Payment Object
     module States
       
+      # Payment is authorized by payment-gateway
       module PaymentAuthorized
         include Opensteam::StateLogic::Mod
       end
       
+      # payment is captured on payment-gateway
       module PaymentCaptured
         include Opensteam::StateLogic::Mod
       end
       
+      # payment was declined on payment-gateway
       module PaymentDeclined
         include Opensteam::StateLogic::Mod
       end
       
+      # payment failed on payment gateway
       module PaymentFailed
         include Opensteam::StateLogic::Mod
       end

@@ -92,22 +92,30 @@ module Opensteam
     end
     
     
-    
+    # Used to register all payment-classes (classes that descends from Opensteam::Payment::Base) in the database.
+    # The admin de/activate the payment-classes in the admin-backend
     class Types < ActiveRecord::Base
       self.table_name = "payment_types"
       
       named_scope :active, { :conditions => { :active => true } }
       validates_uniqueness_of :name
       
+      # enable payment-method
       def enable! ; self.update_attribute :active, true ; end
+      
+      # disable payment-method
       def disable! ; self.update_attribute :active, false ; end
+      
+      # check if payment-method is active
       def active? ; self.active ; end
+      
+      # toggle payment-method
       def toggle! ; self.active? ? self.disable! : self.enable! ; end
       
       
       class << self ;
         
-        def register_payment_types!
+        def register_payment_types! #:nodoc:
           
           Opensteam::Payment::Base.payment_types.each do |p|
             unless find_by_name( p.payment_id.to_s )
@@ -128,7 +136,8 @@ module Opensteam
       
       belongs_to :order, :class_name => 'Opensteam::Models::Order'
       
-      
+      # transaction association
+      # a transaction is used to process an action on the payment-gateway and save the response for persistence reasons
       has_many :transactions,
         :class_name => 'Opensteam::Payment::PaymentTransaction',
         :foreign_key => 'payment_id',
@@ -205,11 +214,12 @@ module Opensteam
       
     end
     
-
+    # a payment transaction is used to process an action on the payment-gateway and save the response for persistence reasons
     class PaymentTransaction < ActiveRecord::Base
       belongs_to :payment, :class_name => 'Opensteam::Payment::Base'
       serialize :params
       
+      # save the action_name
       def action= a
         self[:action] = a.to_s
       end

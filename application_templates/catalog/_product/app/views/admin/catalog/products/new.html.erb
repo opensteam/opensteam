@@ -16,7 +16,8 @@
           <div id="dvEditorTabContainer">
             <div id="general_tab" class="x-hide-display" >
               <b><%= label_tag :klass, "Product Class" %></b> <%= select_tag :klass, options_for_select( Product.product_classes ) %>
-              <br />
+              <%= javascript_tag "transform2ComboBox('klass') "%>              
+<br />
               <%= render :partial => "admin/catalog/products/attributes", :locals => { :button_name => "Update", :f => f } %>
             </div>
             <div id="properties_tab" class="x-hide-display" >

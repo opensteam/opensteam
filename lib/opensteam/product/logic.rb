@@ -24,7 +24,7 @@ module Opensteam::Product
   # This Module is meant to be included into the actual Opensteam Product Model.
   # It provides the basic product functionality and associations.
   #
-  # The Product Model defines the Base Class of a Product. Using SingleTableInheritance, more complicated product can be built.
+  # The Product Model defines the Base Class of a Product. Using SingleTableInheritance, more complicated product can be implemented.
   module Logic
 
     # hold product extension modules (like categories)
@@ -139,7 +139,9 @@ module Opensteam::Product
 
 
     module ClassMethods
-      def inherited(sub) #:nodoc:
+      
+      # save all product classes in class-variable
+      def inherited(sub)
         super
         Opensteam::Product::Logic.product_classes << sub.to_s
         Opensteam::Product::Logic.product_classes.uniq!

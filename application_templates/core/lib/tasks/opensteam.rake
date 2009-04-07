@@ -42,14 +42,12 @@ namespace :opensteam do
       Opensteam::Config[ :default_country ] = 'Austria'
 
       # init fixtures
-      ENV['FIXTURES'] = "region_shipping_rates,shipping_payment_additions,shipping_rate_groups,tax_groups,tax_rules,tax_zones,zones"
+      ENV['FIXTURES'] = "tax_groups,tax_rules,tax_zones,zones"
+      ENV['FIXTURES'] += ",region_shipping_rates,shipping_payment_additions,shipping_rate_groups" if defined?( ShippingRateGroup )
       ENV['FIXTURES'].split(/,/).each do |fixture_file|
         Fixtures.create_fixtures('test/fixtures', File.basename(fixture_file, '.*'))
       end
-  
-  
-  
-  
+
   end
   
   
