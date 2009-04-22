@@ -14,13 +14,22 @@ class CreateProperties < ActiveRecord::Migration
 	  t.references :property
 	end
 	
+	add_index :products_properties, :property_id
+  add_index :products_properties, :product_id
+  
+  
 
 	
 	
   end
 
   def self.down
-    drop_table :properties
+    
+    remove_index :products_properties, :property_id
+    remove_index :products_properties, :product_id
+    
     drop_table :products_properties
+    drop_table :properties
+
   end
 end

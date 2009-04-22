@@ -66,7 +66,7 @@ module Opensteam::Helpers
       #
       def filter_scope( model, keys, operator, value, opts = {} )
         table_name = opts[:table_name] || model.table_name
-        include = opts[:include] || []
+        includes = opts[:include] || []
 
         return self.filter_scope( model, keys.values.first, operator, value, {
             :table_name => model.reflect_on_association( keys.keys.first ).table_name,
@@ -87,18 +87,18 @@ module Opensteam::Helpers
 
 
         elsif model.reflect_on_all_associations.collect(&:name).include?( keys.to_sym )
+
           sqtable_name = ActiveRecord::Base.connection.quote_table_name( model.reflect_on_association( keys.to_sym ).options[:join_table] ||
             model.reflect_on_association( keys.to_sym ).options[:through] )
         
           qcolumn_name = ActiveRecord::Base.connection.quote_column_name( keys.to_s.singularize.foreign_key )
-
           conditions = [
             [ "#{sqtable_name}.#{qcolumn_name} #{qoperator} :#{table_name}_#{keys}",
               qoperator == "!=" ? "#{sqtable_name}.#{qcolumn_name} IS NULL" : nil ].compact.join(" OR "),
             { :"#{table_name}_#{keys}" => qvalue }
           ]
 
-          include << keys
+          includes << keys
 
         else
           conditions = [
@@ -116,7 +116,7 @@ module Opensteam::Helpers
 
         returning({}) do |scope_hash|
           scope_hash[:conditions] = conditions
-          scope_hash[:include]    = include
+          scope_hash[:include]    = includes
           scope_hash[:group]      = group if group
         end
 
@@ -128,7 +128,7 @@ module Opensteam::Helpers
       # returns an order by hash, used for scopes
       def orderby_hash( model, key, dir = 'ASC', opts = {} )
         table_name = opts[:table_name] || model.table_name
-        include = opts[:include] || []
+        includes = opts[:include] || []
         dir ||= 'asc'
         raise ArgumentError, "Direction'#{dir}' not allowed!" unless ['asc', 'desc'].include?( dir.downcase )
 
@@ -143,7 +143,7 @@ module Opensteam::Helpers
           qk = ActiveRecord::Base.connection.quote_column_name( k )
           "#{qtable_name}.#{qk} #{dir}" }.join(",")
 
-        return { :order => order, :include => include }
+        return { :order => order, :include => includes }
 
 
       end
