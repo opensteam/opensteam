@@ -40,7 +40,7 @@
   checkTab_setFooterButtons(tab);
   if(!grid) {
   createGrid('the-table',
-  '<%= admin_catalog_inventory_properties_path( @inventory, :format => :xml ) %>',
+  '<%= admin_catalog_inventory_properties_path( @inventory, :format => :extxml ) %>',
   <%= ( Property.filtered_keys + [:editor_url] ).collect(&:to_s).to_json %> ) ;
   }
   }

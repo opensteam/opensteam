@@ -1,4 +1,67 @@
 module AdminHelper
+  ####
+  def ext_build_tab_javascript tabs, before = ""
+		
+		params = "[ " + tabs.collect { |tab|
+			tab[:activate_listener] ||= "checkTab_setFooterButtons"
+			button = [:left, :right].inject({}) { |ret,button|
+			  ret[button] ||= {}
+				ret[button][:title] = tab[:button][button][:title]
+				ret[button][:url] = tab[:button][button][:url] if tab[:button][button][:url] 
+				ret[button][:clickEvent] = tab[:button][button][:clickEvent] if tab[:button][button][:clickEvent]
+				ret
+			}
+			"{
+				contentEl: '#{tab[:id]}', title: '#{tab[:title]}', listeners: { activate: #{tab[:activate_listener]} },
+				button: #{button.to_json}
+			}"
+		}.join(", ") + " ]"
+		
+		javascript_tag "
+		Ext.onReady( function() {
+		  #{before}
+		  
+			build_tabs( 'dvEditorTabContainer',
+				#{params}
+			)
+		} ) ;"
+	end
+	
+  
+  def control_button_title( title, options )
+    content_tag( :span, options[:icon] ? backend_image_tag( options[:icon] ) + title : title )
+  end
+  
+
+  def control_link_to( title, path, options = {} )
+    title = control_button_title( title, options )
+    options.delete(:icon) if options[:icon]
+    
+    link_to( title, path, options )
+  end
+  
+  def control_buttons buttons
+    content_for( :content_header_buttons ) do
+      buttons.join("") ;
+    end
+  end
+  
+  def control_remote_to( title, options )
+    title = control_button_title( title, options )
+    link_to_remote( title, options )
+  end
+  
+  def control_request_form( title, id, options = {} )
+    link_to_function( control_button_title( title, options ), "sendRequestTabEditor('#{id.to_s}') ; return false ; ", options ) 
+  end
+  
+  def control_submit_form( title, id, options = {} )
+    title = control_button_title( title, options )
+    link_to_function( title, "$('#{id.to_s}').submit() ; return false ; ", options )
+  end
+  
+  
+  ####
 
   ##### NAVIGATION #####
   

@@ -51,7 +51,7 @@
 
   if(!grid) {
   createGrid('the-table',
-  '<%= products_admin_catalog_categories_path( :format => :xml ) %>',
+  '<%= products_admin_catalog_categories_path( :format => :extxml ) %>',
   <%= ( Product.filtered_keys + [:editor_url, :checked] ).collect(&:to_s).to_json %>,
   filter_fields ) ;
   }

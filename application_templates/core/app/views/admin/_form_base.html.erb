@@ -1,0 +1,25 @@
+<div id="errors">
+	<%= error_messages_for object_symbol %>
+</div>
+
+<% http_method ||= object.new_record? ? :post : :put %>
+
+<% form_for( object_symbol, object, :url => url_for( url ), :html => { :id => "#{object_symbol}_form", :method => http_method } ) do |f| %>	
+	<div id="dvEditorTabContainer">
+		<% for tab_container in tab_containers %>
+			<div id="<%= tab_container[:id] %>" class="x-hide-display">
+				<% for tab_partial in Array(tab_container[:partials]) %>
+					<%= render tab_partial.call(f) %>
+				<% end %>
+			</div>
+		<% end %>
+	</div>
+  <div id="dvEditorTabFooter">
+    <div id="dvEditorTabFooter-inner">
+      <div id="dvEditorTabFooterLeft">&nbsp;</div>
+      <div id="dvEditorTabFooterRight">&nbsp;</div><br clear="all" />
+    </div>
+  </div>
+<% end %>
+
+<%= ext_build_tab_javascript tab_containers, before %>

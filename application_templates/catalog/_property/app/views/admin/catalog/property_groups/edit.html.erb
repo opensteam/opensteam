@@ -49,7 +49,7 @@
   checkTab_setFooterButtons(tab);
   if(!grid) {
   createGrid('the-table',
-  '<%= index_property_groups_admin_catalog_property_group_properties_path( @property_group, :format => :xml ) %>',
+  '<%= index_property_groups_admin_catalog_property_group_properties_path( @property_group, :format => :extxml ) %>',
   <%= ( Property.filtered_keys + [:editor_url, :checked] ).collect(&:to_s).to_json %>,
   filter_fields ) ;
   }

@@ -9,7 +9,7 @@ class Admin::Catalog::ProductsController < Admin::CatalogController
         
     respond_to do |format|
       format.html
-      format.xml
+      format.extxml
     end
   end
   

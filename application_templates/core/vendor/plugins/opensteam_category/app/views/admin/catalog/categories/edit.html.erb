@@ -52,7 +52,7 @@
 
   if(!grid) {
   createGrid('the-table',
-  '<%= url_for( :controller => "admin/catalog/categories", :action => "products", :category_id => @category.id, :format => :xml ) %>',
+  '<%= url_for( :controller => "admin/catalog/categories", :action => "products", :category_id => @category.id, :format => :extxml ) %>',
   <%= ( Product.filtered_keys + [:editor_url, :checked] ).collect(&:to_s).to_json %>,
   filter_fields ) ;
   }

@@ -15,7 +15,7 @@ class Admin::Catalog::InventoriesController < Admin::CatalogController
     respond_to do |format|
       format.html { }
       format.js   { render :partial => "inventories", :object => @inventories, :layout => false }
-      format.xml  
+      format.extxml  
     end
   end
 

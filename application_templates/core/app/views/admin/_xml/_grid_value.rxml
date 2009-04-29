@@ -1,4 +1,3 @@
-puts ":::" * 100 + grid_value.class.inspect
 
 grid_value.class.configured_grid.each do |key, columns|
   xml.tag! key, grid_value.configured_grid_value( grid_value, columns)

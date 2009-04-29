@@ -8,7 +8,7 @@
 
 <div id="grid-wrapper">
   <div id="grid">
-    <% grid_table "the-table", admin_system_users_path( :format => :xml ), User.filtered_keys + [ :editor_url, :events ] do %>
+    <% grid_table "the-table", admin_system_users_path( :format => :extxml ), User.filtered_keys + [ :editor_url, :events ] do %>
       <thead>
         <tr>
           <th class="first no-menu no-sort not-in-context no-resize"><div>&nbsp;</div></th>

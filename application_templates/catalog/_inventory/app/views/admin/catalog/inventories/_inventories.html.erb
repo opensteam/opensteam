@@ -1,7 +1,7 @@
 
 <div id="grid-wrapper">
   <div id="grid">
-    <% grid_table "the-table", admin_catalog_product_inventories_path( @product, :format => :xml), Inventory.filtered_keys + [:editor_url, :properties] do %>
+    <% grid_table "the-table", admin_catalog_product_inventories_path( @product, :format => :extxml), Inventory.filtered_keys + [:editor_url, :properties] do %>
       <thead>
         <tr>
           <th class="first no-sort no-menu"><div>&nbsp;</div></th>

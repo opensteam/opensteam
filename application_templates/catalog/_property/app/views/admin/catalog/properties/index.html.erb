@@ -1,7 +1,7 @@
 <% render_headline 'categories_icon', 'Properties', 'content-header/headline_icon.jpg' %>
 <% render_header_buttons "New Property", :href => new_admin_catalog_property_path, :class => "add-button" %>
 
-<% xml_path = @product ? admin_catalog_product_properties_path( @product, :format => :xml ) : admin_catalog_properties_path( :format => :xml ) %>
+<% xml_path = @product ? admin_catalog_product_properties_path( @product, :format => :extxml ) : admin_catalog_properties_path( :format => :extxml ) %>
 
 <div id="filter">
   <%= render :partial => "admin/filters/filter", :locals => { :id => "properties_filter", :model => Property, :records => @properties } %>

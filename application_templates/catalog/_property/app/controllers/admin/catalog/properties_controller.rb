@@ -17,7 +17,7 @@ class Admin::Catalog::PropertiesController < Admin::CatalogController
     @properties = Property.filter( @filters ).order_by( _s.sort, _s.dir ).paginate( :page => _s.page, :per_page => _s.per_page )
     
     respond_to do |format|
-      format.xml { render :action => :index2 }
+      format.extxml { render :action => :index2 }
     end
   end
 
@@ -43,7 +43,7 @@ class Admin::Catalog::PropertiesController < Admin::CatalogController
 
     respond_to do |format|
       format.html
-      format.xml
+      format.extxml
       format.json { 
         @property_json = build_tree_json
         render :json => @property_json.to_json

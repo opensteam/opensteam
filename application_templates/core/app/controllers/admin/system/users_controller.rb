@@ -9,7 +9,7 @@ class Admin::System::UsersController < Admin::SystemController
     
     respond_to do |format|
       format.html { }
-      format.xml # { render :action => :index, :layout => false }
+      format.extxml # { render :action => :index, :layout => false }
     end
   end
 

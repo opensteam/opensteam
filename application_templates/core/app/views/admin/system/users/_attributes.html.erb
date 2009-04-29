@@ -40,6 +40,8 @@
   </table>
 </div>
 <div style="float:right;">
-  <%= render :partial => "event_button", :collection => @user.aasm_events_for_current_state.reject { |s| s == :register }.sort, :locals => { :user => @user } %>
+	<% unless @user.new_record? %>
+  	<%= render :partial => "event_button", :collection => @user.aasm_events_for_current_state.reject { |s| s == :register }.sort, :locals => { :user => @user } %>
+	<% end %>
 </div>
 <br clear="all" />

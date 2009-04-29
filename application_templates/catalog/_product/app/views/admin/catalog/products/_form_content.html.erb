@@ -33,7 +33,7 @@
 
       if(!grid) {
         createGrid('the-table',
-        '<%= index_products_admin_catalog_product_properties_path( @product, :format => :xml ) %>',
+        '<%= index_products_admin_catalog_product_properties_path( @product, :format => :extxml ) %>',
   <%= ( Property.filtered_keys + [:editor_url, :checked] ).collect(&:to_s).to_json %>,
         filter_fields ) ;
       }
