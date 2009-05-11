@@ -350,35 +350,34 @@ END_OPENSTEAM_ROUTES
     end
     
     class Sales < Base #:nodoc:
+      
+      # install opensteam_order plugin from github
       def order args = {}
-        Find.find( Opensteam::Template::Runner.engines_path( :orders ) ) do |f|
-          ff = File.join( "vendor/plugins", f.split("application_templates/engines").last )
-          r.file( ff, File.read( f ) ) unless File.directory?( f )
-        end
-      end
-    
-      def invoice args = {} #:nodoc:
-        Find.find( Opensteam::Template::Runner.engines_path( :invoices ) ) do |f|
-          ff = File.join( "vendor/plugins", f.split("application_templates/engines").last )
-          r.file( ff, File.read( f ) ) unless File.directory?( f )
-        end
+        r.plugin 'opensteam_orders', 
+          :git => 'git://github.com/opensteam/opensteam_orders.git'
       end
       
-      def shipment args = {} #:nodoc
-        Find.find( Opensteam::Template::Runner.engines_path( :shipments ) ) do |f|
-          ff = File.join( "vendor/plugins", f.split("application_templates/engines").last )
-          r.file( ff, File.read( f ) ) unless File.directory?( f )
-        end
+      # install opensteam_invoice plugin from github
+      def invoice args = {}
+        r.plugin 'opensteam_invoice',
+          :git => 'git://github.com/opensteam/opensteam_invoice.git'
       end
+      
+      
+      # install opensteam_shipment plugin from github
+      def shipment args = {}
+        r.plugin 'opensteam_shipment',
+          :git => 'git://github.com/opensteam/opensteam_shipment.git'
+      end
+      
     end
     
-    
     class Config < Base #:nodoc:
+      
+      # install opensteam_shipping_rate plugin from github
       def shipping_rates
-        Find.find( Opensteam::Template::Runner.engines_path( :shipping_rates ) ) do |f|
-          ff = File.join( "vendor/plugins", f.split("application_templates/engines").last )
-          r.file( ff, File.read( f ) ) unless File.directory?( f )
-        end
+        r.plugin 'opensteam_shipping_rate',
+          :git => 'git://github.com/opensteam/opensteam_shipping_rate.git'
       end
     end
     
