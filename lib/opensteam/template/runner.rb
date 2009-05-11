@@ -361,6 +361,8 @@ END_OPENSTEAM_ROUTES
       def invoice args = {}
         r.plugin 'opensteam_invoice',
           :git => 'git://github.com/opensteam/opensteam_invoice.git'
+          
+        r.rake 'opensteam:plugins:invoice:install'
       end
       
       
@@ -368,6 +370,8 @@ END_OPENSTEAM_ROUTES
       def shipment args = {}
         r.plugin 'opensteam_shipment',
           :git => 'git://github.com/opensteam/opensteam_shipment.git'
+          
+        r.rake 'opensteam:plugins:shipment:install'
       end
       
     end
@@ -378,6 +382,8 @@ END_OPENSTEAM_ROUTES
       def shipping_rates
         r.plugin 'opensteam_shipping_rate',
           :git => 'git://github.com/opensteam/opensteam_shipping_rate.git'
+        
+        rake 'opensteam:plugins:shipping_rate:install'
       end
     end
     
