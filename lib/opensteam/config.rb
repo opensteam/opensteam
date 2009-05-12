@@ -89,27 +89,27 @@ module Opensteam
   
 
   
-  # UUID Helper
-  # used to generate uuids for primary keys
-  #
-  # CURRENTLY NOT USED !
-  # need to resolve some issues with foreign_keys in associations
-  module UUIDHelper
-    require 'rubygems'
-    require 'uuidtools'
-    
-    def self.included(base)
-      base.class_eval do
-        before_create :set_uuid
-        private :set_uuid
-      end
-    end
-    
-    def set_uuid
-      self.id = UUID.random_create.to_s
-    end
-    
-  end
+  # # UUID Helper
+  # # used to generate uuids for primary keys
+  # #
+  # # CURRENTLY NOT USED !
+  # # need to resolve some issues with foreign_keys in associations
+  # module UUIDHelper
+  #   require 'rubygems'
+  #   require 'uuidtools'
+  #   
+  #   def self.included(base)
+  #     base.class_eval do
+  #       before_create :set_uuid
+  #       private :set_uuid
+  #     end
+  #   end
+  #   
+  #   def set_uuid
+  #     self.id = UUID.random_create.to_s
+  #   end
+  #   
+  # end
   
 end
 
