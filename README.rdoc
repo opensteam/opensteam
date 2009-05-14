@@ -29,7 +29,7 @@ see CHANGELOG File
 
 	sudo gem sources -a http://gems.github.com (you only have to do this once)
 	
-	sudo gem install dd-opensteam
+	sudo gem install opensteam-opensteam
 
 == FEATURES
 
@@ -96,8 +96,9 @@ Each product-property association (a blue-shirt, a green-shirt, etc) gets its ow
 
 == SYNOPSIS:
 
-Create an empty Rails application
-	rails name_of_rails_application -m openteam_application_template.rb
+To learn how to quickly create a webshop with opensteam, you can look at the opensteam rails application-templates at http://github.com/opensteam/opensteam_templates
+
+	rails name_of_rails_app -m http://github.com/opensteam/opensteam_templates/raw/master/opensteam_sample.rb
 	
 Create product models
 	script/generate opensteam_product ProductName
@@ -113,15 +114,7 @@ Goto /admin and configure your products
 
 == REQUIREMENTS:
 
-* Rails 2.3
-
-* prawnto gem (used for pdf-export) http://www.cracklabs.com/prawnto
-	sudo gem install prawn
-
-* ActiveMerchant gem (used for credit_card payment) http://www.activemerchant.org/
-  sudo gem install activemerchant
-
-* plugins in 'vendor/plugins' or 'generators/opensteam/templates/vendor/plugins'
+For a list of all required gems and plugins, see the opensteam_sample.rb application template at http://github.com/opensteam/opensteam_templates
   
 
 == CREDITS:
@@ -135,7 +128,7 @@ Some of the other icons by http://www.starfishwebconsulting.co.uk/ecommerce-icon
 
 	
 == LICENSE:
-Copyright (C) DiamondDogs Webconsulting
+Copyright 2009 (C) DiamondDogs Webconsulting
 
 opensteam is licensed under the GNU General Public License (GPL) version 2
 
