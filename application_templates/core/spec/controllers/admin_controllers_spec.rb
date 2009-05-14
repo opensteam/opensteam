@@ -26,8 +26,8 @@ describe Admin::Catalog::ProductsController do
   end
   
   it "should set routing" do
-    route_for( :action => :index, :controller => "admin/catalog/products").should == '/admin/catalog/products'
-    params_from( :get, '/admin/catalog/products').should == { :action => 'index', :controller => 'admin/catalog/products' }
+    route_for( :action => "index", :controller => "admin/catalog/products").should == '/admin/catalog/products'
+    params_from( :get, '/admin/catalog/products').should == { :action => "index", :controller => 'admin/catalog/products' }
   end
   
   it "should get index" do
@@ -48,8 +48,8 @@ describe Admin::Catalog::PropertiesController do
   end
   
   it "should set routing" do
-    route_for( :action => :index, :controller => "admin/catalog/properties").should == '/admin/catalog/properties'
-    params_from( :get, '/admin/catalog/properties').should == { :action => 'index', :controller => 'admin/catalog/properties' }
+    route_for( :action => "index", :controller => "admin/catalog/properties").should == '/admin/catalog/properties'
+    params_from( :get, '/admin/catalog/properties').should == { :action => "index", :controller => 'admin/catalog/properties' }
   end
   
   it "should get index" do
@@ -69,8 +69,8 @@ describe Admin::Sales::InvoicesController do
   end
   
   it "should set routing" do
-    route_for( :action => :index, :controller => "admin/sales/invoices").should == '/admin/sales/invoices'
-    params_from( :get, '/admin/sales/invoices').should == { :action => 'index', :controller => 'admin/sales/invoices' }
+    route_for( :action => "index", :controller => "admin/sales/invoices").should == '/admin/sales/invoices'
+    params_from( :get, '/admin/sales/invoices').should == { :action => "index", :controller => 'admin/sales/invoices' }
   end
   
   it "should get index" do
@@ -115,8 +115,8 @@ describe Admin::Sales::ShipmentsController do
   end
   
   it "should set routing" do
-    route_for( :action => :index, :controller => "admin/sales/shipments").should == '/admin/sales/shipments'
-    params_from( :get, '/admin/sales/shipments').should == { :action => 'index', :controller => 'admin/sales/shipments' }
+    route_for( :action => "index", :controller => "admin/sales/shipments").should == '/admin/sales/shipments'
+    params_from( :get, '/admin/sales/shipments').should == { :action => "index", :controller => 'admin/sales/shipments' }
   end
   
   it "should get index" do
@@ -158,8 +158,8 @@ describe Admin::Config::TaxGroupsController do
   end
   
   it "should set routing" do
-    route_for( :action => :index, :controller => "admin/config/tax_groups").should == '/admin/config/tax_groups'
-    params_from( :get, '/admin/config/tax_groups' ).should == { :action => 'index', :controller => 'admin/config/tax_groups' }
+    route_for( :action => "index", :controller => "admin/config/tax_groups").should == '/admin/config/tax_groups'
+    params_from( :get, '/admin/config/tax_groups' ).should == { :action => "index", :controller => 'admin/config/tax_groups' }
   end
   
   it "should get index" do
@@ -181,21 +181,21 @@ describe Admin::Config::ShippingRateGroupsController do
   end
   
   it "should set routing" do
-    route_for( :action => :index, :controller => "admin/config/shipping_rate_groups").should == '/admin/config/shipping_rate_groups'
-    params_from( :get, '/admin/config/shipping_rate_groups').should == { :action => 'index', :controller => 'admin/config/shipping_rate_groups' }
+    route_for( :action => "index", :controller => "admin/config/shipping_rate_groups").should == '/admin/config/shipping_rate_groups'
+    params_from( :get, '/admin/config/shipping_rate_groups').should == { :action => "index", :controller => 'admin/config/shipping_rate_groups' }
   end
   
   it "should get index" do
-    @srgs = Opensteam::Sales::ShipmentBase::ShippingRateGroup.find( :all, :include => [ :shipping_rates, :payment_additions ] )
-    Opensteam::Sales::ShipmentBase::ShippingRateGroup.should_receive( :find ).and_return(@srgs )
+    @srgs = ShippingRateGroup.find( :all, :include => [ :shipping_rates, :payment_additions ] )
+    ShippingRateGroup.should_receive( :find ).and_return(@srgs )
     get :index
     response.should be_success
     assigns[:groups].should == @srgs
   end
   
   it "should get edit" do
-    Opensteam::Sales::ShipmentBase::ShippingRateGroup.stub!(:find).and_return( @g = mock_model( Opensteam::Sales::ShipmentBase::ShippingRateGroup ) )
-    Opensteam::Sales::ShipmentBase::ShippingRateGroup.should_receive(:find).and_return( @g )
+    ShippingRateGroup.stub!(:find).and_return( @g = mock_model( ShippingRateGroup ) )
+    ShippingRateGroup.should_receive(:find).and_return( @g )
   
     get :edit, :id => 1
     response.should be_success

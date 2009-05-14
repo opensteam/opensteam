@@ -9,7 +9,7 @@ describe Admin::Sales::OrdersController do
 
   describe "routing" do
     it "should route 'index' action correctly" do
-      route_for( :action => :index, :controller => "admin/sales/orders" ).should == '/admin/sales/orders'
+      route_for( :action => "index", :controller => "admin/sales/orders" ).should == '/admin/sales/orders'
     end
 
     it "should generate 'index' route correctly" do
