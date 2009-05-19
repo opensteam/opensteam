@@ -131,7 +131,7 @@ module Opensteam
       def frontend args = {}
         Find.find( self.class.frontend_application_path ) do |f|
           file = f.split("application_templates/frontend/").last
-          r.file( file, File.read( f ) ) unless File.directory?( f )
+          r.file( file, File.open(f,'rb'){|f| f.read} ) unless File.directory?( f )
         end
         
         self.frontend_url = args[:url] if args[:url]
