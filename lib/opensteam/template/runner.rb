@@ -226,7 +226,7 @@ FRONTEND_ROUTES
         
         Find.find( self.class.core_application_path ) do |f|
           file = f.split("application_templates/core/").last
-          r.file( file, File.read( f ) ) unless File.directory?( f )
+          r.file( file, File.open(f,'rb'){|f| f.read} ) unless File.directory?( f )
         end
         
         
