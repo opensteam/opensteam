@@ -61,7 +61,7 @@ module Opensteam
         def [](name)
           find_by_key( name.to_s.downcase ).value
         rescue
-          ""
+          nil
         end
       end
     
