@@ -114,9 +114,7 @@ module Opensteam::Product
             'WHERE ( inventories.product_id = #{id} )',
             :uniq => true
 
-          validates_presence_of :name, :description
-          validates_associated :property_groups
-
+          
           alias :inventories_assoc :inventories
 
           # override inventories association method
